@@ -1,8 +1,63 @@
 <html>
     <head>
         <title>Standard Library Documents</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A collection of standard library documents converted from markdown to HTML.">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
         <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                margin: 0;
+                padding: 20px;
+                background-color: #2e2e2e;
+                color: #f4f4f4;
+            }
+            h1, h2, h3 {
+                color: #f4f4f4;
+                margin-top: 20px;
+            }
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+            li {
+                margin: 5px 0;
+            }
+            a {
+                text-decoration: none;
+                color: #1e90ff;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            pre {
+                background: #3e3e3e;
+                padding: 10px;
+                border: 1px solid #555;
+                border-radius: 5px;
+                overflow-x: auto;
+                margin-top: 10px;
+            }
+            code {
+                font-family: Consolas, "Courier New", monospace;
+                color: #f4f4f4;
+            }
+            button {
+                display: inline-block;
+                margin-top: 10px;
+                padding: 10px 15px;
+                font-size: 14px;
+                background-color: #1e90ff;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #1c86ee;
+            }
             #scrollToTopBtn {
                 position: fixed;
                 bottom: 20px;
@@ -19,6 +74,28 @@
             }
             #scrollToTopBtn:hover {
                 background-color: #555;
+            }
+            @media (max-width: 600px) {
+                body {
+                    padding: 10px;
+                }
+                h1 {
+                    font-size: 24px;
+                }
+                h2 {
+                    font-size: 20px;
+                }
+                h3 {
+                    font-size: 18px;
+                }
+                button {
+                    font-size: 12px;
+                    padding: 8px 12px;
+                }
+                #scrollToTopBtn {
+                    font-size: 14px;
+                    padding: 8px 12px;
+                }
             }
         </style>
     </head>
