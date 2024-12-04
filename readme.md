@@ -14,6 +14,7 @@ This application generates code examples for Python's standard library modules u
 7. **Generate HTML Version:** Run the `create_html_version.py` script to convert the generated markdown files into a single HTML document. This HTML file will be saved in the `html_version` folder and will include categorized links and a scroll-to-top button for easy navigation.
    ![Screenshot categories](screenshots/screenshot1.png)
    ![Screenshot modules](screenshots/screenshot2.png)
+   ![Github markdown viewer](screenshots/screenshot3.png)
 
 ## Application Demo
 
