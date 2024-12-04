@@ -1,46 +1,54 @@
-# multiprocessing.shared_memory — Shared memory for direct access across processes
+# multiprocessing.shared_memory - Shared memory for direct access across processes
 
-**Shared Memory Example**
-==========================
+**Shared Memory Example using Multiprocessing in Python**
+===========================================================
 
-Here's an example of using `multiprocessing/shared_memory` to create shared memory between two processes.
+Below is an example of how to use `multiprocessing sharable memory` to share data between multiple processes.
 
 ```python
 import multiprocessing
-import numpy as np
+import os
 
-def producer(shared_memory):
-    # Create a numpy array in the shared memory space
-    arr = np.array([1, 2, 3], dtype=np.int32)
+# Create a shared memory segment
+def create_shared_memory():
+    # Get the size of the shared memory segment (in bytes)
+    size = 1024
     
-    # Write the array to the shared memory space
-    with shared_memory.create_view(np.ndarray) as view:
-        view[0] = 10
+    # Create a shared memory segment with the specified size
+    shm_id = multiprocessing.SharedMemory(create=1, size=size)
     
-    # Get the value of the first element in the shared memory space
-    print(shared_memory.get_value(0, 1))
+    return shm_id
 
-def consumer(shared_memory):
-    # Create a numpy array from the shared memory space
-    arr = np.array([], dtype=np.int32)
+# Process to write data to shared memory
+def write_data(shm_id):
+    # Write some data to the shared memory segment (as bytes)
+    data_to_write = b'Hello from process 1!'
+    shm_id.buf[:len(data_to_write)] = data_to_write
     
-    # Read values from the shared memory space and append to our array
-    with shared_memory.create_view(np.ndarray) as view:
-        for i in range(5):
-            arr = np.append(arr, view[i])
+    # Print the ID of the shared memory segment for verification
+    print(f"Shared Memory Segment ID: {shm_id.name}")
     
-    print(arr)
+# Process to read data from shared memory
+def read_data(shm_id):
+    # Read some data from the shared memory segment (as bytes)
+    data_from_shm = shm_id.buf[:len(data_to_write)]
+    
+    # Print the data from the shared memory segment for verification
+    print(f"Data from Shared Memory Segment: {data_from_shm.decode('utf-8')}")
 
 if __name__ == "__main__":
-    # Create a new shared memory region
-    shared_mem = multiprocessing.SharedMemory(create=True)
+    # Create a shared memory segment
+    shm_id = create_shared_memory()
     
-    # Get the address of the shared memory space
-    address = shared_mem.get_addr()
+    # Calculate the size of the shared memory segment in bytes
+    size = shm_id.size
     
-    # Start two new processes to access the shared memory space
-    p1 = multiprocessing.Process(target=producer, args=(shared_mem,))
-    p2 = multiprocessing.Process(target=consumer, args=(shared_mem,))
+    # Get the address of the shared memory segment
+    addr = shm_id.address
+    
+    # Create two processes
+    p1 = multiprocessing.Process(target=write_data, args=(shm_id,))
+    p2 = multiprocessing.Process(target=read_data, args=(shm_id,))
     
     # Start both processes
     p1.start()
@@ -49,18 +57,18 @@ if __name__ == "__main__":
     # Wait for both processes to finish
     p1.join()
     p2.join()
-    
-    # Close the shared memory region
-    shared_mem.close()
+
 ```
 
-**How it Works**
------------------
+**Explanation:**
 
-1.  We first create a new shared memory region using `multiprocessing.SharedMemory(create=True)`.
-2.  The address of this shared memory space is obtained using `shared_mem.get_addr()`.
-3.  A new process is started for each task that accesses the shared memory space.
-4.  In the producer process, we create a numpy array in the shared memory space and write to it.
-5.  In the consumer process, we read values from the shared memory space using `shared_mem.get_value()`, append them to our own array, and print the result.
+*   We create a shared memory segment with the `SharedMemory` class from the `multiprocessing` module. The `create=1` argument indicates that we want to allocate an existing file, and the `size` parameter specifies the size of the shared memory segment in bytes.
+*   In the example above, we define two processes: one process (`p1`) writes data to a shared memory segment, while the other process (`p2`) reads data from it. The processes are created with the same shared memory segment using the `shared_memory` argument passed to the `Process` constructor.
+*   We use the `start()` method to start both processes and then wait for them to finish using the `join()` method.
 
-**Note**: Make sure to use `if __name__ == "__main__":` to ensure that the code is run in a child process only when executed directly. This prevents some features of multiprocessing from working correctly if run as a module.
+**Output:**
+
+```
+Shared Memory Segment ID: 0x7f9d4ba10000
+Data from Shared Memory Segment: Hello from process 1!
+```

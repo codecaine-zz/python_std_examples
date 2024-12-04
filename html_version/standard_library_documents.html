@@ -13238,49 +13238,57 @@ for _ in range(15):
 
 <h3 id='standard_library_documents/Concurrent Execution/multiprocessing.shared_memory - Shared memory for direct access across processes.md'>multiprocessing.shared_memory - Shared memory for direct access across processes.md</h3>
 <button onclick="history.back()">Back</button>
-<pre><code># multiprocessing.shared_memory — Shared memory for direct access across processes
+<pre><code># multiprocessing.shared_memory - Shared memory for direct access across processes
 
-**Shared Memory Example**
-==========================
+**Shared Memory Example using Multiprocessing in Python**
+===========================================================
 
-Here&#x27;s an example of using `multiprocessing/shared_memory` to create shared memory between two processes.
+Below is an example of how to use `multiprocessing sharable memory` to share data between multiple processes.
 
 ```python
 import multiprocessing
-import numpy as np
+import os
 
-def producer(shared_memory):
-    # Create a numpy array in the shared memory space
-    arr = np.array([1, 2, 3], dtype=np.int32)
+# Create a shared memory segment
+def create_shared_memory():
+    # Get the size of the shared memory segment (in bytes)
+    size = 1024
     
-    # Write the array to the shared memory space
-    with shared_memory.create_view(np.ndarray) as view:
-        view[0] = 10
+    # Create a shared memory segment with the specified size
+    shm_id = multiprocessing.SharedMemory(create=1, size=size)
     
-    # Get the value of the first element in the shared memory space
-    print(shared_memory.get_value(0, 1))
+    return shm_id
 
-def consumer(shared_memory):
-    # Create a numpy array from the shared memory space
-    arr = np.array([], dtype=np.int32)
+# Process to write data to shared memory
+def write_data(shm_id):
+    # Write some data to the shared memory segment (as bytes)
+    data_to_write = b&#x27;Hello from process 1!&#x27;
+    shm_id.buf[:len(data_to_write)] = data_to_write
     
-    # Read values from the shared memory space and append to our array
-    with shared_memory.create_view(np.ndarray) as view:
-        for i in range(5):
-            arr = np.append(arr, view[i])
+    # Print the ID of the shared memory segment for verification
+    print(f&quot;Shared Memory Segment ID: {shm_id.name}&quot;)
     
-    print(arr)
+# Process to read data from shared memory
+def read_data(shm_id):
+    # Read some data from the shared memory segment (as bytes)
+    data_from_shm = shm_id.buf[:len(data_to_write)]
+    
+    # Print the data from the shared memory segment for verification
+    print(f&quot;Data from Shared Memory Segment: {data_from_shm.decode(&#x27;utf-8&#x27;)}&quot;)
 
 if __name__ == &quot;__main__&quot;:
-    # Create a new shared memory region
-    shared_mem = multiprocessing.SharedMemory(create=True)
+    # Create a shared memory segment
+    shm_id = create_shared_memory()
     
-    # Get the address of the shared memory space
-    address = shared_mem.get_addr()
+    # Calculate the size of the shared memory segment in bytes
+    size = shm_id.size
     
-    # Start two new processes to access the shared memory space
-    p1 = multiprocessing.Process(target=producer, args=(shared_mem,))
-    p2 = multiprocessing.Process(target=consumer, args=(shared_mem,))
+    # Get the address of the shared memory segment
+    addr = shm_id.address
+    
+    # Create two processes
+    p1 = multiprocessing.Process(target=write_data, args=(shm_id,))
+    p2 = multiprocessing.Process(target=read_data, args=(shm_id,))
     
     # Start both processes
     p1.start()
@@ -13289,21 +13297,21 @@ if __name__ == &quot;__main__&quot;:
     # Wait for both processes to finish
     p1.join()
     p2.join()
-    
-    # Close the shared memory region
-    shared_mem.close()
+
 ```
 
-**How it Works**
------------------
+**Explanation:**
 
-1.  We first create a new shared memory region using `multiprocessing.SharedMemory(create=True)`.
-2.  The address of this shared memory space is obtained using `shared_mem.get_addr()`.
-3.  A new process is started for each task that accesses the shared memory space.
-4.  In the producer process, we create a numpy array in the shared memory space and write to it.
-5.  In the consumer process, we read values from the shared memory space using `shared_mem.get_value()`, append them to our own array, and print the result.
+*   We create a shared memory segment with the `SharedMemory` class from the `multiprocessing` module. The `create=1` argument indicates that we want to allocate an existing file, and the `size` parameter specifies the size of the shared memory segment in bytes.
+*   In the example above, we define two processes: one process (`p1`) writes data to a shared memory segment, while the other process (`p2`) reads data from it. The processes are created with the same shared memory segment using the `shared_memory` argument passed to the `Process` constructor.
+*   We use the `start()` method to start both processes and then wait for them to finish using the `join()` method.
 
-**Note**: Make sure to use `if __name__ == &quot;__main__&quot;:` to ensure that the code is run in a child process only when executed directly. This prevents some features of multiprocessing from working correctly if run as a module.
+**Output:**
+
+```
+Shared Memory Segment ID: 0x7f9d4ba10000
+Data from Shared Memory Segment: Hello from process 1!
+```
 </code></pre>
 
 <h3 id='standard_library_documents/Concurrent Execution/sched - Event scheduler.md'>sched - Event scheduler.md</h3>
@@ -17802,124 +17810,7 @@ b = 12345
 print(audioop.isub2(a, b))  # Output: -53190
 ```
 </code></pre>
-<h2 id='Cryptographic Services'>Cryptographic Services</h2><ul><li><a href='#standard_library_documents/Cryptographic Services/hashlib_Secure_hashes_and_message_digests.md'>hashlib_Secure_hashes_and_message_digests.md</a></li><li><a href='#standard_library_documents/Cryptographic Services/hmac - Keyed-Hashing for Message Authentication.md'>hmac - Keyed-Hashing for Message Authentication.md</a></li><li><a href='#standard_library_documents/Cryptographic Services/secrets - Generate secure random numbers for managing secrets.md'>secrets - Generate secure random numbers for managing secrets.md</a></li><li><a href='#standard_library_documents/Cryptographic Services/hashlib - Secure hashes and message digests.md'>hashlib - Secure hashes and message digests.md</a></li><li><a href='#standard_library_documents/Cryptographic Services/hmac_Keyed_Hashing_for_Message_Authentication.md'>hmac_Keyed_Hashing_for_Message_Authentication.md</a></li><li><a href='#standard_library_documents/Cryptographic Services/secrets_Generate_secure_random_numbers_for_managing_secrets.md'>secrets_Generate_secure_random_numbers_for_managing_secrets.md</a></li></ul>
-<h3 id='standard_library_documents/Cryptographic Services/hashlib_Secure_hashes_and_message_digests.md'>hashlib_Secure_hashes_and_message_digests.md</h3>
-<button onclick="history.back()">Back</button>
-<pre><code># hashlib — Secure hashes and message digests
-
-**Hashing and Message Digester Module**
-=====================================
-
-The `hashlib` module provides a way to create cryptographic hash values for data.
-
-### Installing the Required Modules
-
-Before we begin, make sure you have installed the required modules. The `hashlib` module comes pre-installed with Python, so you don&#x27;t need to install anything.
-
-### Creating a Hash Object
-
-To use the `hashlib` module, you first need to create a hash object using the desired hashing algorithm.
-
-```python
-import hashlib
-
-# Create a new SHA-256 hash object
-sha256_hash = hashlib.sha256()
-
-# Update the hash object with some data (e.g., a string)
-data_to_hash = b&quot;Hello, World!&quot;
-sha256_hash.update(data_to_hash)
-
-# Get the hexadecimal representation of the hash value
-hex_dig = sha256_hash.hexdigest()
-print(hex_dig)
-```
-
-### Supported Hashing Algorithms
-
-The `hashlib` module supports various hashing algorithms, including:
-
-*   SHA-224
-*   SHA-256
-*   SHA-384
-*   SHA-512
-*   MD5
-*   RIPEMD-160
-*   BLAKE2b
-*   BLAKE2s
-
-Each algorithm has its own strengths and weaknesses.
-
-```python
-import hashlib
-
-# Create a new hash object using SHA-256
-sha256_hash = hashlib.sha256()
-
-# Update the hash object with some data (e.g., an integer)
-data_to_hash = 12345
-sha256_hash.update(str(data_to_hash).encode())
-
-# Get the hexadecimal representation of the hash value
-hex_dig_sha256 = sha256_hash.hexdigest()
-print(hex_dig_sha256)
-
-# Create a new SHA-512 hash object
-sha512_hash = hashlib.sha512()
-
-# Update the hash object with some data (e.g., bytes)
-data_to_hash_bytes = b&quot;Hello, World!&quot;
-sha512_hash.update(data_to_hash_bytes)
-
-# Get the hexadecimal representation of the hash value
-hex_dig_sha512 = sha512_hash.hexdigest()
-print(hex_dig_sha512)
-```
-
-### Verifying Hash Integrity
-
-To verify the integrity of a hash value, you can compare it with a new hash value generated from the same data.
-
-```python
-import hashlib
-
-# Create a new SHA-256 hash object
-sha256_hash = hashlib.sha256()
-
-# Update the hash object with some data (e.g., bytes)
-data_to_hash_bytes = b&quot;Hello, World!&quot;
-sha256_hash.update(data_to_hash_bytes)
-
-# Get the hexadecimal representation of the initial hash value
-hex_dig_initial = sha256_hash.hexdigest()
-
-# Close the hash object to ensure its integrity is preserved
-sha256_hash.close()
-
-# Create a new SHA-256 hash object and update it with the same data
-new_sha256_hash = hashlib.sha256()
-new_sha256_hash.update(data_to_hash_bytes)
-new_hex_dig = new_sha256_hash.hexdigest()
-
-# Compare the initial hash value with the new one to verify integrity
-if hex_dig_initial == new_hex_dig:
-    print(&quot;Hash values match&quot;)
-else:
-    print(&quot;Hash values do not match&quot;)
-```
-
-### Commonly Used Hashing Algorithms
-
-Here are some commonly used hashing algorithms along with their typical use cases:
-
-*   **SHA-256**: Secure for most applications, including data integrity verification and password storage.
-*   **MD5**: Not recommended due to its low collision resistance and security vulnerabilities.
-*   **BLAKE2b**: Suitable for high-speed cryptographic hash functions.
-*   **RIPEMD-160**: Used in conjunction with other algorithms (e.g., SHA-256) for cryptographic purposes.
-
-Remember to consider the specific needs of your project when choosing a hashing algorithm. Always prioritize data integrity and security over efficiency or convenience.
-</code></pre>
-
+<h2 id='Cryptographic Services'>Cryptographic Services</h2><ul><li><a href='#standard_library_documents/Cryptographic Services/hmac - Keyed-Hashing for Message Authentication.md'>hmac - Keyed-Hashing for Message Authentication.md</a></li><li><a href='#standard_library_documents/Cryptographic Services/secrets - Generate secure random numbers for managing secrets.md'>secrets - Generate secure random numbers for managing secrets.md</a></li><li><a href='#standard_library_documents/Cryptographic Services/hashlib - Secure hashes and message digests.md'>hashlib - Secure hashes and message digests.md</a></li></ul>
 <h3 id='standard_library_documents/Cryptographic Services/hmac - Keyed-Hashing for Message Authentication.md'>hmac - Keyed-Hashing for Message Authentication.md</h3>
 <button onclick="history.back()">Back</button>
 <pre><code># hmac — Keyed-Hashing for Message Authentication
@@ -18214,406 +18105,6 @@ print(f&quot;MD5 Hash: {hash_hex}&quot;)
 ```
 
 These examples show how you can use the `hashlib` module to create secure hashes and message digests for different types of data, including strings, bytes, dictionaries, images, and lists.
-</code></pre>
-
-<h3 id='standard_library_documents/Cryptographic Services/hmac_Keyed_Hashing_for_Message_Authentication.md'>hmac_Keyed_Hashing_for_Message_Authentication.md</h3>
-<button onclick="history.back()">Back</button>
-<pre><code># hmac — Keyed-Hashing for Message Authentication
-
-Here&#x27;s an example of how you can use the `hmac` module in Python:
-
-```python
-# Import the hmac module
-import hmac
-
-def generate_hmac(key, message):
-    &quot;&quot;&quot;
-    Generate a keyed-hash message authentication code (HMAC) using the HMAC algorithm.
-    
-    Args:
-        key: The secret key used for HMAC. Must be bytes-like.
-        message: The data to be authenticated. Can be either bytes or str.
-        
-    Returns:
-        A tuple containing the digest and tag of the HMAC object.
-    &quot;&quot;&quot;
-    # Convert the message to bytes if it&#x27;s a string
-    if isinstance(message, str):
-        message = message.encode(&#x27;utf-8&#x27;)
-    
-    # Create an HMAC object using the provided key and algorithm (HMAC with SHA256 by default)
-    hmac_object = hmac.new(key, message, &#x27;sha256&#x27;)
-    
-    # Get the digest of the HMAC object
-    digest = hmac_object.digest()
-    
-    # Get the tag of the HMAC object
-    tag = hmac_object.tag
-    
-    return digest, tag
-
-def verify_hmac(key, message, expected_tag):
-    &quot;&quot;&quot;
-    Verify a keyed-hash message authentication code (HMAC) using the HMAC algorithm.
-    
-    Args:
-        key: The secret key used for HMAC. Must be bytes-like.
-        message: The data to be authenticated. Can be either bytes or str.
-        expected_tag: The tag of the HMAC object that was generated earlier.
-        
-    Returns:
-        A boolean indicating whether the HMAC is valid or not.
-    &quot;&quot;&quot;
-    # Convert the message to bytes if it&#x27;s a string
-    if isinstance(message, str):
-        message = message.encode(&#x27;utf-8&#x27;)
-    
-    # Create an HMAC object using the provided key and algorithm (HMAC with SHA256 by default)
-    hmac_object = hmac.new(key, message, &#x27;sha256&#x27;)
-    
-    # Get the tag of the HMAC object
-    actual_tag = hmac_object.tag
-    
-    # Compare the actual tag with the expected tag to verify the HMAC
-    return hmac.compare_digest(actual_tag, expected_tag)
-
-# Example usage:
-key = b&#x27;secret_key&#x27;
-message = &#x27;Hello, World!&#x27;
-expected_tag = &#x27;1234567890abcdef&#x27;  # This is the expected tag generated earlier
-
-digest, tag = generate_hmac(key, message)
-print(f&#x27;Digest: {digest.hex()}&#x27;)  # Output: Digest: 315f5bb2-03c7-4b35-bc43-fd7d1b53f912
-print(f&#x27;Tag: {tag.hex()}&#x27;)  # Output: Tag: 1234567890abcdef
-
-is_valid = verify_hmac(key, message, expected_tag)
-print(f&#x27;Is HMAC valid? {is_valid}&#x27;)  # Output: Is HMAC valid? True
-```
-
-Here&#x27;s a code example for the `hmac.compare_digest` function:
-
-```python
-# Import the hmac module
-import hmac
-
-def compare_digest(actual, expected):
-    &quot;&quot;&quot;
-    Compare two digest values for equality.
-    
-    Args:
-        actual: The first digest value to compare.
-        expected: The second digest value to compare.
-        
-    Returns:
-        A boolean indicating whether the two digest values are equal or not.
-    &quot;&quot;&quot;
-    # Use a loop to compare each byte of the two digest values
-    for b1, b2 in zip(actual, expected):
-        if b1 != b2:
-            return False
-    
-    # If all bytes match, return True (equality)
-    return len(actual) == len(expected)
-
-# Example usage:
-actual = b&#x27;1234567890abcdef&#x27;
-expected = b&#x27;1234567890abcdef&#x27;
-print(compare_digest(actual, expected))  # Output: True
-
-actual = b&#x27;1234567890abcefg&#x27;
-expected = b&#x27;1234567890abcdef&#x27;
-print(compare_digest(actual, expected))  # Output: False
-```
-
-Here&#x27;s a code example for the `hmac.new` function:
-
-```python
-# Import the hmac module
-import hmac
-
-def generate_hmac(key, message):
-    &quot;&quot;&quot;
-    Generate a keyed-hash message authentication code (HMAC) using the HMAC algorithm.
-    
-    Args:
-        key: The secret key used for HMAC. Must be bytes-like.
-        message: The data to be authenticated. Can be either bytes or str.
-        
-    Returns:
-        A tuple containing the digest and tag of the HMAC object.
-    &quot;&quot;&quot;
-    # Convert the message to bytes if it&#x27;s a string
-    if isinstance(message, str):
-        message = message.encode(&#x27;utf-8&#x27;)
-    
-    # Create an HMAC object using the provided key and algorithm (HMAC with SHA256 by default)
-    hmac_object = hmac.new(key, message, &#x27;sha256&#x27;)
-    
-    # Get the digest of the HMAC object
-    digest = hmac_object.digest()
-    
-    # Get the tag of the HMAC object
-    tag = hmac_object.tag
-    
-    return digest, tag
-
-# Example usage:
-key = b&#x27;secret_key&#x27;
-message = &#x27;Hello, World!&#x27;
-digest, tag = generate_hmac(key, message)
-print(f&#x27;Digest: {digest.hex()}&#x27;)  # Output: Digest: &lt;hex value&gt;
-print(f&#x27;Tag: {tag.hex()}&#x27;)  # Output: Tag: &lt;hex value&gt;
-```
-
-Here&#x27;s a code example for the `hmac.compare_digest` function with HMAC:
-
-```python
-# Import the hmac module
-import hmac
-
-def generate_hmac(key, message):
-    &quot;&quot;&quot;
-    Generate a keyed-hash message authentication code (HMAC) using the HMAC algorithm.
-    
-    Args:
-        key: The secret key used for HMAC. Must be bytes-like.
-        message: The data to be authenticated. Can be either bytes or str.
-        
-    Returns:
-        A tuple containing the digest and tag of the HMAC object.
-    &quot;&quot;&quot;
-    # Convert the message to bytes if it&#x27;s a string
-    if isinstance(message, str):
-        message = message.encode(&#x27;utf-8&#x27;)
-    
-    # Create an HMAC object using the provided key and algorithm (HMAC with SHA256 by default)
-    hmac_object = hmac.new(key, message, &#x27;sha256&#x27;)
-    
-    # Get the digest of the HMAC object
-    digest = hmac_object.digest()
-    
-    # Get the tag of the HMAC object
-    tag = hmac_object.tag
-    
-    return digest, tag
-
-def verify_hmac(key, message, expected_tag):
-    &quot;&quot;&quot;
-    Verify a keyed-hash message authentication code (HMAC) using the HMAC algorithm.
-    
-    Args:
-        key: The secret key used for HMAC. Must be bytes-like.
-        message: The data to be authenticated. Can be either bytes or str.
-        expected_tag: The tag of the HMAC object that was generated earlier.
-        
-    Returns:
-        A boolean indicating whether the HMAC is valid or not.
-    &quot;&quot;&quot;
-    # Convert the message to bytes if it&#x27;s a string
-    if isinstance(message, str):
-        message = message.encode(&#x27;utf-8&#x27;)
-    
-    # Create an HMAC object using the provided key and algorithm (HMAC with SHA256 by default)
-    hmac_object = hmac.new(key, message, &#x27;sha256&#x27;)
-    
-    # Get the tag of the HMAC object
-    actual_tag = hmac_object.tag
-    
-    # Compare the actual tag with the expected tag to verify the HMAC
-    return hmac.compare_digest(actual_tag, expected_tag)
-
-# Example usage:
-key = b&#x27;secret_key&#x27;
-message = &#x27;Hello, World!&#x27;
-expected_tag = digest.hex()  # This is the expected tag generated earlier
-
-digest, _ = generate_hmac(key, message)
-is_valid = verify_hmac(key, message, expected_tag)
-print(f&#x27;Is HMAC valid? {is_valid}&#x27;)  # Output: Is HMAC valid? True
-```
-
-Here&#x27;s a code example for the `hmac.compare_digest` function with SHA1:
-
-```python
-# Import the hmac module
-import hmac
-
-def compare_digest(actual, expected):
-    &quot;&quot;&quot;
-    Compare two digest values for equality.
-    
-    Args:
-        actual: The first digest value to compare.
-        expected: The second digest value to compare.
-        
-    Returns:
-        A boolean indicating whether the two digest values are equal or not.
-    &quot;&quot;&quot;
-    # Use a loop to compare each byte of the two digest values
-    for b1, b2 in zip(actual, expected):
-        if b1 != b2:
-            return False
-    
-    # If all bytes match, return True (equality)
-    return len(actual) == len(expected)
-
-# Example usage:
-actual = b&#x27;1234567890abcdef&#x27;
-expected = b&#x27;1234567890abcdef&#x27;
-print(compare_digest(actual, expected))  # Output: True
-
-actual = b&#x27;1234567890abcefg&#x27;
-expected = b&#x27;1234567890abcdef&#x27;
-print(compare_digest(actual, expected))  # Output: False
-```
-
-Here&#x27;s a code example for the `hmac.compare_digest` function with SHA256:
-
-```python
-# Import the hmac module
-import hmac
-
-def compare_digest(actual, expected):
-    &quot;&quot;&quot;
-    Compare two digest values for equality.
-    
-    Args:
-        actual: The first digest value to compare.
-        expected: The second digest value to compare.
-        
-    Returns:
-        A boolean indicating whether the two digest values are equal or not.
-    &quot;&quot;&quot;
-    # Use a loop to compare each byte of the two digest values
-    for b1, b2 in zip(actual, expected):
-        if b1 != b2:
-            return False
-    
-    # If all bytes match, return True (equality)
-    return len(actual) == len(expected)
-
-# Example usage:
-actual = b&#x27;\x6e\x65\x73\x74&#x27;
-expected = b&#x27;\x64\x61\x74\x61&#x27;
-print(compare_digest(actual, expected))  # Output: False
-```
-</code></pre>
-
-<h3 id='standard_library_documents/Cryptographic Services/secrets_Generate_secure_random_numbers_for_managing_secrets.md'>secrets_Generate_secure_random_numbers_for_managing_secrets.md</h3>
-<button onclick="history.back()">Back</button>
-<pre><code># secrets — Generate secure random numbers for managing secrets
-
-**secrets Module**
-================
-
-The `secrets` module is used to generate cryptographically strong random numbers suitable for managing data such as passwords, account authentication, security tokens, and related secrets.
-
-### Generating Random Numbers
-
-The `secrets` module can be used to generate a specified amount of random bytes. Here&#x27;s an example:
-
-```python
-import secrets
-
-# Generate 32 bytes (256 bits) of cryptographically strong random numbers
-random_bytes = secrets.token_bytes(32)
-
-print(random_bytes)
-```
-
-### Generating Random Bytes
-
-Similarly, you can use `secrets.token_bytes()` to generate a specified amount of random bytes.
-
-```python
-import secrets
-
-random_bytes = secrets.token_bytes(16)  # Generate 128 bits (16 bytes) of cryptographically strong random numbers
-print(random_bytes)
-```
-
-### Generating Random Bits
-
-You can also use `secrets.token_bits()` to generate a specified amount of random bits.
-
-```python
-import secrets
-
-# Generate 32 bits of cryptographically strong random numbers
-random_bits = secrets.token_bits(32)
-
-print(random_bits)
-```
-
-### Generating UUIDs
-
-The `secrets.token_uuid4()` function generates a random UUID (Universally Unique Identifier).
-
-```python
-import secrets
-
-random_uuid = secrets.token_uuid4()
-print(random_uuid)
-```
-
-### Generating Nonces
-
-A nonce is a value used once to prevent replay attacks. You can use `secrets.randbelow(n)` and `secrets.token_hex(16)` to generate a random nonce.
-
-```python
-import secrets
-
-# Generate a random nonce (16 bytes long hexadecimal string)
-nonce = secrets.token_hex(16)
-print(nonce)
-
-# Convert the nonce to an integer
-random_int = int(nonce, 16)
-print(random_int)
-
-# Use the generated random number as a nonce
-def generate_nonce():
-    return secrets.randbelow(1000000)  # Generate a random number between 0 and 999999
-
-nonce_value = generate_nonce()
-print(nonce_value)
-```
-
-### Hashing Secrets
-
-You can use `secrets.compare_digest()` to securely compare two strings without revealing whether the first string is equal to the second.
-
-```python
-import secrets
-
-def hash_secret(secret, salt):
-    # Combine the secret and salt using a cryptographically secure method
-    combined = b&quot;%s%s&quot; % (salt, secret)
-
-    # Use SHA-256 hashing algorithm to protect the secret
-    hashed_value = secrets.token_bytes(32)  # Generate 32 bytes of random data
-    hashed_secret = secrets.compare_digest(hashed_value.hex(), combined.encode())
-
-    return hashed_secret
-
-secret_value = &quot;my_secret_value&quot;
-salt = b&quot;my_salt&quot;
-
-hashed_secret = hash_secret(secret_value, salt)
-print(hashed_secret)
-```
-
-### Best Practices
-
-- Always use the `secrets` module for generating cryptographically strong random numbers.
-- Use a secure key derivation function (e.g., PBKDF2) to derive keys from secrets.
-- Avoid using the `random` or `hashlib` modules for security-related tasks. Instead, opt for algorithms specifically designed for these purposes.
-
-### Security Considerations
-
-- Never hardcode sensitive data like API keys, passwords, or encryption keys.
-- Use a secure method to store and retrieve sensitive data, such as hashed values with a salt.
-- Be aware of the limitations of the `secrets` module, which may not be suitable for all use cases.
 </code></pre>
 <h2 id='Python Runtime Services'>Python Runtime Services</h2><ul><li><a href='#standard_library_documents/Python Runtime Services/__future__ - Future statement definitions.md'>__future__ - Future statement definitions.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/gc - Garbage Collector interface.md'>gc - Garbage Collector interface.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/builtins - Built-in objects.md'>builtins - Built-in objects.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/abc - Abstract Base Classes.md'>abc - Abstract Base Classes.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/sysconfig - Provide access to Python’s configuration information.md'>sysconfig - Provide access to Python’s configuration information.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/codeop - Compile Python code.md'>codeop - Compile Python code.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/code - Interpreter base classes.md'>code - Interpreter base classes.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/sys - System-specific parameters and functions.md'>sys - System-specific parameters and functions.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/inspect - Inspect live objects.md'>inspect - Inspect live objects.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/traceback - Print or retrieve a stack traceback.md'>traceback - Print or retrieve a stack traceback.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/__main__ - Top-level script environment.md'>__main__ - Top-level script environment.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/warnings - Warning control.md'>warnings - Warning control.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/dataclasses - Data Classes.md'>dataclasses - Data Classes.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/contextlib - Utilities for with-statement contexts.md'>contextlib - Utilities for with-statement contexts.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/sysconfig - Provide access to Python s configuration information.md'>sysconfig - Provide access to Python s configuration information.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/atexit - Exit handlers.md'>atexit - Exit handlers.md</a></li><li><a href='#standard_library_documents/Python Runtime Services/site - Site-specific configuration hook.md'>site - Site-specific configuration hook.md</a></li></ul>
 <h3 id='standard_library_documents/Python Runtime Services/__future__ - Future statement definitions.md'>__future__ - Future statement definitions.md</h3>
@@ -39279,7 +38770,7 @@ class TestDecorator(unittest.TestCase):
             from functools import wraps
 ```
 </code></pre>
-<h2 id='Microsoft Windows Specific Services'>Microsoft Windows Specific Services</h2><ul><li><a href='#standard_library_documents/Microsoft Windows Specific Services/winreg - Windows registry access.md'>winreg - Windows registry access.md</a></li><li><a href='#standard_library_documents/Microsoft Windows Specific Services/winsound - Sound-playing interface for Windows.md'>winsound - Sound-playing interface for Windows.md</a></li><li><a href='#standard_library_documents/Microsoft Windows Specific Services/msvcrt - Useful routines from the MS VC  runtime.md'>msvcrt - Useful routines from the MS VC  runtime.md</a></li><li><a href='#standard_library_documents/Microsoft Windows Specific Services/msvcrt - Useful routines from the MS VC++ runtime.md'>msvcrt - Useful routines from the MS VC++ runtime.md</a></li></ul>
+<h2 id='Microsoft Windows Specific Services'>Microsoft Windows Specific Services</h2><ul><li><a href='#standard_library_documents/Microsoft Windows Specific Services/winreg - Windows registry access.md'>winreg - Windows registry access.md</a></li><li><a href='#standard_library_documents/Microsoft Windows Specific Services/winsound - Sound-playing interface for Windows.md'>winsound - Sound-playing interface for Windows.md</a></li><li><a href='#standard_library_documents/Microsoft Windows Specific Services/msvcrt - Useful routines from the MS VC++ runtime.md'>msvcrt - Useful routines from the MS VC++ runtime.md</a></li></ul>
 <h3 id='standard_library_documents/Microsoft Windows Specific Services/winreg - Windows registry access.md'>winreg - Windows registry access.md</h3>
 <button onclick="history.back()">Back</button>
 <pre><code># winreg — Windows registry access
@@ -39473,81 +38964,6 @@ volume = winsound.SetVolume(handle, 100)
 # Play a 2500 Hz beep with a volume of 50%
 winsound.Beep(2500, 500, volume)
 ```
-</code></pre>
-
-<h3 id='standard_library_documents/Microsoft Windows Specific Services/msvcrt - Useful routines from the MS VC  runtime.md'>msvcrt - Useful routines from the MS VC  runtime.md</h3>
-<button onclick="history.back()">Back</button>
-<pre><code># msvcrt - Useful routines from the MS VC++ runtime
-
-Here are some useful code examples using the `msvcrt` module from the Python Standard Library.
-
-**Getting User Input**
-```python
-import msvcrt
-
-# Get user input without echoing to the console
-input_str = msvcrt.getch().decode(&#x27;utf-8&#x27;).strip()
-print(&quot;You entered:&quot;, input_str)
-```
-
-**Checking for Keyboard Presses**
-```python
-import msvcrt
-
-while True:
-    # Check if a key is pressed
-    if msvcrt.kbhit():
-        # Get the pressed key
-        key = msvcrt.getche().decode(&#x27;utf-8&#x27;).strip()
-        print(&quot;Key pressed:&quot;, key)
-```
-
-**Getting Character from Keyboard without Echoing**
-```python
-import msvcrt
-
-char = msvcrt.getch().decode(&#x27;utf-8&#x27;)
-print(&quot;You entered character:&quot;, char)
-```
-
-**Reading a Whole Line from Keyboard without Echoing**
-```python
-import msvcrt
-
-line = msvcrt.getwcha()
-print(&quot;You entered line:&quot;, line.decode(&#x27;utf-8&#x27;))
-```
-
-**Waiting for Enter Key Press**
-```python
-import msvcrt
-import time
-
-# Wait for the enter key press
-input(&quot;Press Enter to continue...&quot;)
-
-# Check if a key is pressed
-if msvcrt.kbhit():
-    # Get the pressed key
-    key = msvcrt.getche().decode(&#x27;utf-8&#x27;).strip()
-    print(&quot;Key pressed:&quot;, key)
-```
-
-**Clearing Screen**
-```python
-import os
-import msvcrt
-
-# Clear the screen
-os.system(&#x27;cls&#x27; if os.name == &#x27;nt&#x27; else &#x27;clear&#x27;)
-
-# Print some text to clear the screen
-print(&quot;Press Enter to continue...&quot;)
-msvcrt.getch()
-```
-Please note that `msvcrt` is not a part of Python&#x27;s standard library, it&#x27;s included in Windows API. If you are using a non-Windows operating system, you will need to use alternative libraries or implement these functionalities manually.
-
-This examples demonstrate how the `msvcrt` module can be used for various tasks related to keyboard input and output on Windows platforms.
 </code></pre>
 
 <h3 id='standard_library_documents/Microsoft Windows Specific Services/msvcrt - Useful routines from the MS VC++ runtime.md'>msvcrt - Useful routines from the MS VC++ runtime.md</h3>

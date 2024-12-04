@@ -304,9 +304,9 @@ standard_library = {
 }
 
 def safe_filename(name):
-    return re.sub(r'[^\w\s\-_().,]', ' ', name).strip().replace('  ', ' ')
+    return re.sub(r'[^\w\s\-_().,+]', ' ', name).strip().replace('  ', ' ')
 
-async def write_code_example(file_path, module, executor):
+async def write_code_example(file_path, category, module, executor):
     code_example = generate_code_example(module)
     loop = asyncio.get_event_loop()
     await loop.run_in_executor(executor, file_path.write_text, f"# {module}\n\n{code_example}\n")
@@ -321,7 +321,7 @@ async def process_module(category, module, executor):
         print(f"File {file_path} already exists. Skipping generation.")
         return
     print(f"Working on file: {file_path}")
-    await write_code_example(file_path, module, executor)
+    await write_code_example(file_path, category, module, executor)
 
 async def process_category(category, modules, executor):
     tasks = [process_module(category, module, executor) for module in modules]
