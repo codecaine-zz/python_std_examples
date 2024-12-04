@@ -7404,138 +7404,318 @@ print(db2['proto_4'])  # Output: {'key': 'value'}
 <h3 id='standard_library_documents/Data Persistence/sqlite3 - DB-API 2.0 interface for SQLite databases.md'>sqlite3 - DB-API 2.0 interface for SQLite databases.md</h3>
 <button onclick="history.back()">Back</button>
 <h1>sqlite3 - DB-API 2.0 interface for SQLite databases</h1>
-<p>The <code>sqlite3</code> module is a part of Python's standard library that provides a lightweight disk-based database that doesn't require a separate server process and allows accessing the database using a nonstandard variant of the SQL query language. This makes it particularly suitable for small applications or embedded systems where a full-fledged RDBMS might be overkill.</p>
-<p>Below are comprehensive code examples for various functionalities in the <code>sqlite3</code> module, including connection management, cursor creation, executing queries, handling results, and closing connections. These examples follow best practices and are designed to be clear and concise.</p>
-<h3>1. Establishing a Connection</h3>
+<p>Here are comprehensive code examples for using the <code>sqlite3</code> module in Python, which provides an interface to the SQLite database engine:
+1. Connecting to a SQLite database:</p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import sqlite3
 
-# Connect to an SQLite database (or create it if it doesn't exist)
-connection = sqlite3.connect('example.db')
-
-# Create a cursor object using the connection
-cursor = connection.cursor()
+# Connect to the SQLite database (or create it if it doesn't exist)
+conn = sqlite3.connect('my_database.db')
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- <code>sqlite3.connect('example.db')</code> creates a new connection to an SQLite database file named 'example.db'. If the file does not exist, it will be created.
-- The <code>cursor()</code> method is used to create a cursor object which is used to execute SQL commands.</p>
-<h3>2. Executing a Query</h3>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python"># Create a table
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        email TEXT UNIQUE NOT NULL
-    )
-''')
-
-# Insert data into the table
-cursor.execute(&quot;INSERT INTO users (name, email) VALUES (?, ?)&quot;, ('John Doe', 'john.doe@example.com'))
-
-# Commit the changes to the database
-connection.commit()
+<ol>
+<li>Creating a cursor object to execute SQL commands:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor = conn.cursor()
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- <code>CREATE TABLE IF NOT EXISTS users (...)</code> creates a new table named 'users' with columns for <code>id</code>, <code>name</code>, and <code>email</code>.
-- <code>INSERT INTO users (name, email) VALUES (?, ?)</code> inserts a new row into the 'users' table. The placeholders <code>?</code> are used to safely insert data from variables.
-- <code>connection.commit()</code> saves the changes made by the SQL commands.</p>
-<h3>3. Fetching Results</h3>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python"># Query all users
-cursor.execute(&quot;SELECT * FROM users&quot;)
+<ol>
+<li>Executing an SQL command to create a table:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute('''CREATE TABLE IF NOT EXISTS users
+             (id INTEGER PRIMARY KEY, name TEXT NOT NULL)''')
+</code></pre>
+
+<ol>
+<li>Inserting data into the table using parameterized queries:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;INSERT INTO users (name) VALUES (?)&quot;, ('John',))
+conn.commit()
+</code></pre>
+
+<ol>
+<li>Executing a SQL query to retrieve data from the table:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT * FROM users&quot;)
 rows = cursor.fetchall()
-
 for row in rows:
     print(row)
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- <code>SELECT * FROM users</code> retrieves all records from the 'users' table.
-- <code>fetchall()</code> returns all remaining rows of a query result as a list of tuples. Each tuple represents a row.</p>
-<h3>4. Handling Exceptions</h3>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">try:
-    # Attempt to execute a command that will fail due to missing column name
-    cursor.execute(&quot;INSERT INTO users (name) VALUES (?)&quot;, ('Jane Doe',))
-except sqlite3.Error as e:
-    print(f&quot;An error occurred: {e}&quot;)
+<ol>
+<li>Closing the database connection and cursor:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.close()
+conn.close()
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- <code>try-except</code> block is used to handle potential errors during database operations.
-- <code>sqlite3.Error</code> is a base class for all exceptions related to the SQLite library.</p>
-<h3>5. Closing the Connection</h3>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python"># Close the cursor and connection
-cursor.close()
-connection.close()
-</code></pre>
+<ol>
+<li>Handling exceptions using try-except blocks:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import sqlite3
 
-<p><strong>Explanation:</strong>
-- <code>cursor.close()</code> releases the resources associated with the cursor object.
-- <code>connection.close()</code> closes the database connection, freeing up system resources.</p>
-<h3>Additional Examples</h3>
-<h4>6. Executing Prepared Statements (Parameterized Queries)</h4>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python"># Prepare and execute a parameterized query
-name = 'Alice Smith'
-email = 'alice.smith@example.com'
-cursor.execute(&quot;INSERT INTO users (name, email) VALUES (?, ?)&quot;, (name, email))
-connection.commit()
-
-# Fetch the inserted user by name
-cursor.execute(&quot;SELECT * FROM users WHERE name=?&quot;, (name,))
-user = cursor.fetchone()
-print(user)
-</code></pre>
-
-<p><strong>Explanation:</strong>
-- <code>INSERT INTO users (name, email) VALUES (?, ?)</code> uses placeholders to safely insert data.
-- <code>fetchone()</code> retrieves the first row of a query result.</p>
-<h4>7. Querying Multiple Rows</h4>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python"># Execute a query that returns multiple rows
-cursor.execute(&quot;SELECT * FROM users&quot;)
-for user in cursor:
-    print(user)
-</code></pre>
-
-<p><strong>Explanation:</strong>
-- The loop iterates over the results and prints each row as a tuple.</p>
-<h4>8. Dropping a Table</h4>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python"># Drop an existing table if it exists
 try:
-    cursor.execute(&quot;DROP TABLE IF EXISTS users&quot;)
+    conn = sqlite3.connect('my_database.db')
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS users
+             (id INTEGER PRIMARY KEY, name TEXT NOT NULL)''')
+    cursor.execute(&quot;INSERT INTO users (name) VALUES (?)&quot;, ('John',))
+    conn.commit()
+    cursor.execute(&quot;SELECT * FROM users&quot;)
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+finally:
+    cursor.close()
+    conn.close()
+</code></pre>
+
+<ol>
+<li>Creating a connection using a context manager:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import sqlite3
+
+with sqlite3.connect('my_database.db') as conn:
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS users
+             (id INTEGER PRIMARY KEY, name TEXT NOT NULL)''')
+    cursor.execute(&quot;INSERT INTO users (name) VALUES (?)&quot;, ('John',))
+    cursor.execute(&quot;SELECT * FROM users&quot;)
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+</code></pre>
+
+<ol>
+<li>Executing an SQL command using a parameterized query with named placeholders:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;INSERT INTO users (name) VALUES (:name)&quot;, {'name': 'John'})
+conn.commit()
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to update data in the table:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;UPDATE users SET name = ? WHERE id = ?&quot;, ('Jane', 1))
+conn.commit()
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to delete data from the table:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;DELETE FROM users WHERE id = ?&quot;, (1,))
+conn.commit()
+</code></pre>
+
+<ol>
+<li>Executing an SQL command using a parameterized query with positional placeholders:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;INSERT INTO users (name) VALUES (?, ?)&quot;, ('John', 'Doe'))
+conn.commit()
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to select distinct values from a table:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT DISTINCT name FROM users&quot;)
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to count the number of rows in a table:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT COUNT(*) FROM users&quot;)
+row = cursor.fetchone()
+print(row[0])
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to order the results by a column:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT * FROM users ORDER BY name DESC&quot;)
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to join two tables:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT u.name, t.value FROM users u JOIN table2 t ON u.id = t.user_id&quot;)
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to perform a group by operation:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT name, COUNT(*) FROM users GROUP BY name&quot;)
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to calculate the average of a column:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT AVG(age) FROM users&quot;)
+row = cursor.fetchone()
+print(row[0])
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to calculate the sum of a column:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT SUM(salary) FROM employees&quot;)
+row = cursor.fetchone()
+print(row[0])
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to calculate the maximum value of a column:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT MAX(height) FROM people&quot;)
+row = cursor.fetchone()
+print(row[0])
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to calculate the minimum value of a column:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT MIN(weight) FROM people&quot;)
+row = cursor.fetchone()
+print(row[0])
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to select data from multiple tables using subqueries:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT * FROM (SELECT id, name FROM users WHERE age &gt; 30) AS u JOIN table2 t ON u.id = t.user_id&quot;)
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to select data from multiple tables using joins and conditions:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT u.name, t.value FROM users u JOIN table2 t ON u.id = t.user_id WHERE u.age &gt; 30&quot;)
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to select data from multiple tables using subqueries and conditions:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT * FROM (SELECT id, name FROM users WHERE age &gt; 30) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value &gt; 100&quot;)
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to select data from multiple tables using joins and conditions with parameters:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT * FROM (SELECT id, name FROM users WHERE age &gt; :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value &gt; :value&quot;, {'age': 30, 'value': 100})
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to select data from multiple tables using joins and conditions with parameters and placeholders:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">cursor.execute(&quot;SELECT * FROM (SELECT id, name FROM users WHERE age &gt; :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value &gt; ?&quot;, (100,))
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+</code></pre>
+
+<ol>
+<li>Executing an SQL command to select data from multiple tables using joins and conditions with parameters and placeholders, and handling exceptions:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import sqlite3
+
+try:
+    conn = sqlite3.connect('my_database.db')
+    cursor = conn.cursor()
+    cursor.execute(&quot;SELECT * FROM (SELECT id, name FROM users WHERE age &gt; :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value &gt; ?&quot;, (100,))
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
 except sqlite3.Error as e:
-    print(f&quot;An error occurred while dropping the table: {e}&quot;)
+    print(&quot;An error occurred:&quot;, e)
+finally:
+    cursor.close()
+    conn.close()
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- <code>DROP TABLE IF EXISTS users</code> removes the 'users' table if it exists, using a try-except block to handle potential errors.</p>
-<h4>9. Using Transactions</h4>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python"># Start a transaction and insert multiple records in one shot
-connection.execute(&quot;BEGIN TRANSACTION&quot;)
-cursor.executemany(
-    &quot;INSERT INTO users (name, email) VALUES (?, ?)&quot;,
-    [
-        ('Bob Brown', 'bob.brown@example.com'),
-        ('Charlie Green', 'charlie.green@example.com')
-    ]
-)
-connection.commit()
+<ol>
+<li>Executing an SQL command to select data from multiple tables using joins and conditions with parameters, placeholders, and handling exceptions and logging:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import sqlite3
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
+try:
+    conn = sqlite3.connect('my_database.db')
+    cursor = conn.cursor()
+    cursor.execute(&quot;SELECT * FROM (SELECT id, name FROM users WHERE age &gt; :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value &gt; ?&quot;, (100,))
+    rows = cursor.fetchall()
+    for row in rows:
+        logging.info(row)
+except sqlite3.Error as e:
+    logging.error(&quot;An error occurred:&quot;, e)
+finally:
+    cursor.close()
+    conn.close()
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- <code>BEGIN TRANSACTION</code> starts a new transaction.
-- <code>executemany()</code> is used to insert multiple records in one query, which can be more efficient than executing individual queries.</p>
-<h4>10. Retrieving the Last Inserted Row ID</h4>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python"># Get the last inserted row ID after inserting data
-cursor.execute(&quot;INSERT INTO users (name, email) VALUES (?, ?)&quot;, ('David Blue', 'david.blue@example.com'))
-connection.commit()
+<ol>
+<li>Executing an SQL command to select data from multiple tables using joins and conditions with parameters, placeholders, and handling exceptions and logging, and using context managers:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import sqlite3
+import logging
 
-last_insert_id = cursor.lastrowid
-print(f&quot;The last inserted row ID is: {last_insert_id}&quot;)
+logging.basicConfig(level=logging.INFO)
+
+try:
+    with sqlite3.connect('my_database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute(&quot;SELECT * FROM (SELECT id, name FROM users WHERE age &gt; :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value &gt; ?&quot;, (100,))
+        rows = cursor.fetchall()
+        for row in rows:
+            logging.info(row)
+except sqlite3.Error as e:
+    logging.error(&quot;An error occurred:&quot;, e)
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- <code>lastrowid</code> provides the ID of the last row that was successfully inserted into the table.</p>
-<p>These examples cover a range of common operations with SQLite using Python's <code>sqlite3</code> module. By following these examples, you should be able to efficiently manage and interact with SQLite databases in your Python applications.</p>
+<ol>
+<li>Executing an SQL command to select data from multiple tables using joins and conditions with parameters, placeholders, and handling exceptions and logging, and using context managers and exception handling:</li>
+</ol>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import sqlite3
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
+try:
+    with sqlite3.connect('my_database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute(&quot;SELECT * FROM (SELECT id, name FROM users WHERE age &gt; :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value &gt; ?&quot;, (100,))
+        rows = cursor.fetchall()
+except sqlite3.Error as e:
+    logging.error(&quot;An error occurred:&quot;, e)
+else:
+    for row in rows:
+        logging.info(row)
+finally:
+    cursor.close()
+    conn.close()
+</code></pre>
 <h2 id='Debugging and Profiling'>Debugging and Profiling</h2><ul><li><a href='#standard_library_documents/Debugging and Profiling/bdb - Debugger framework.md'>bdb - Debugger framework.md</a></li><li><a href='#standard_library_documents/Debugging and Profiling/faulthandler - Dump the Python traceback.md'>faulthandler - Dump the Python traceback.md</a></li><li><a href='#standard_library_documents/Debugging and Profiling/pdb - The Python Debugger.md'>pdb - The Python Debugger.md</a></li><li><a href='#standard_library_documents/Debugging and Profiling/timeit - Measure execution time of small code snippets.md'>timeit - Measure execution time of small code snippets.md</a></li><li><a href='#standard_library_documents/Debugging and Profiling/trace - Trace or track Python statement execution.md'>trace - Trace or track Python statement execution.md</a></li><li><a href='#standard_library_documents/Debugging and Profiling/tracemalloc - Trace memory allocations.md'>tracemalloc - Trace memory allocations.md</a></li></ul>
 <h3 id='standard_library_documents/Debugging and Profiling/bdb - Debugger framework.md'>bdb - Debugger framework.md</h3>
 <button onclick="history.back()">Back</button>
