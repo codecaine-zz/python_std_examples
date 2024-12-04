@@ -1,6 +1,31 @@
 import os
 from pathlib import Path
 from html import escape
+import markdown
+from markdown.extensions import Extension
+from markdown.preprocessors import Preprocessor
+from markdown.postprocessors import Postprocessor
+from markdown.extensions.codehilite import CodeHiliteExtension
+import re
+
+class EscapeHtml(Extension):
+    def extendMarkdown(self, md):
+        md.preprocessors.register(EscapeHtmlPreprocessor(md), 'escape_html', 25)
+
+class EscapeHtmlPreprocessor(Preprocessor):
+    def run(self, lines):
+        return [escape(line) for line in lines]
+
+class AddCopyButtonPostprocessor(Postprocessor):
+    def run(self, text):
+        # Insert copy button after opening <pre> tag and before <code> tag
+        pattern = r'(<pre[^>]*>)'
+        replacement = r'\1<button class="copy-btn">Copy</button>'
+        return re.sub(pattern, replacement, text)
+
+class CopyButtonExtension(Extension):
+    def extendMarkdown(self, md):
+        md.postprocessors.register(AddCopyButtonPostprocessor(), 'add_copy_button', 25)
 
 def convert_markdown_to_html(markdown_files_by_category):
     # Define the HTML structure
@@ -50,6 +75,7 @@ def convert_markdown_to_html(markdown_files_by_category):
                 border-radius: 5px;
                 overflow-x: auto;
                 margin-top: 10px;
+                position: relative;
             }}
             code {{
                 font-family: Consolas, "Courier New", monospace;
@@ -85,6 +111,21 @@ def convert_markdown_to_html(markdown_files_by_category):
             }}
             #scrollToTopBtn:hover {{
                 background-color: #555;
+            }}
+            .copy-btn {{
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                padding: 5px 10px;
+                font-size: 12px;
+                background-color: #1e90ff;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }}
+            .copy-btn:hover {{
+                background-color: #1c86ee;
             }}
             @media (max-width: 600px) {{
                 body {{
@@ -138,6 +179,21 @@ def convert_markdown_to_html(markdown_files_by_category):
             document.getElementById("scrollToTopBtn").onclick = function() {{
                 window.scrollTo({{ top: 0, behavior: 'smooth' }});
             }};
+            document.querySelectorAll('.copy-btn').forEach((button) => {{
+                button.onclick = function() {{
+                    var codeBlock = button.parentElement.querySelector('code');
+                    var textArea = document.createElement('textarea');
+                    textArea.value = codeBlock.innerText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    button.innerText = 'Copied!';
+                    setTimeout(() => {{
+                        button.innerText = 'Copy';
+                    }}, 2000);
+                }};
+            }});
         </script>
     </body>
     </html>
@@ -168,27 +224,17 @@ def convert_markdown_to_html(markdown_files_by_category):
             file_path = Path(file)
             with file_path.open('r') as f:
                 content = f.read()
+            # Convert markdown to HTML with code highlighting and copy buttons
+            file_html_content = markdown.markdown(content, extensions=[
+                'fenced_code', 'codehilite', CopyButtonExtension()
+            ])
             content_sections += f"""
 <h3 id='{safe_file}'>{escape(file_path.name)}</h3>
 <button onclick="history.back()">Back</button>
-<pre><code>{escape(content)}</code></pre>
+{file_html_content}
 """
 
     return html_content.format(category_links=category_links, content_sections=content_sections)
-
-import markdown
-from markdown.extensions import Extension
-from markdown.preprocessors import Preprocessor
-from markdown.extensions.codehilite import CodeHiliteExtension
-import re
-
-class EscapeHtml(Extension):
-    def extendMarkdown(self, md):
-        md.preprocessors.register(EscapeHtmlPreprocessor(md), 'escape_html', 25)
-
-class EscapeHtmlPreprocessor(Preprocessor):
-    def run(self, lines):
-        return [escape(line) for line in lines]
 
 def get_markdown_files_by_category(directory):
     markdown_files_by_category = {}
