@@ -7,7 +7,7 @@ def convert_markdown_to_html(markdown_files_by_category):
     html_content = """
     <html>
     <head>
-        <title>Python 3.12 Standard Library Example Bible</title>
+        <title>Python 3.12 Standard Library Bible</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="A collection of standard library documents converted from markdown to HTML.">
@@ -111,7 +111,7 @@ def convert_markdown_to_html(markdown_files_by_category):
         </style>
     </head>
     <body>
-        <h1>Python 3.12 Standard Library Example Bible</h1>
+        <h1>Python 3.12 Standard Library Bible</h1>
         <hr>
         <ul>
             {category_links}
