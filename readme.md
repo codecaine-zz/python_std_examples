@@ -15,6 +15,10 @@ This application generates code examples for Python's standard library modules u
    ![Screenshot categories](screenshots/screenshot1.png)
    ![Screenshot modules](screenshots/screenshot2.png)
 
+## Application Demo
+
+Check out the demo of this application [here](https://codefreelance.net/apps/python_std_bible/).
+
 ### Development Notes
 
 You can use Copilot edits to refactor the `standard_library_documents` to improve examples if needed.
