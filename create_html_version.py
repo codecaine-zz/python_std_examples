@@ -146,20 +146,24 @@ def convert_markdown_to_html(markdown_files_by_category):
     category_links = ""
     content_sections = ""
 
-    for category, files in markdown_files_by_category.items():
+    sorted_categories = sorted(markdown_files_by_category.keys(), key=lambda s: s.lower())
+    for category in sorted_categories:
+        files = markdown_files_by_category[category]
         safe_category = escape(category)
         category_links += f"<li><a href='#{safe_category}'>{safe_category}</a></li>"
 
-    for category, files in markdown_files_by_category.items():
+    for category in sorted_categories:
+        files = markdown_files_by_category[category]
         safe_category = escape(category)
+        sorted_files = sorted(files, key=lambda s: s.lower())  # Sort files by filename, case insensitive
         content_sections += f"<h2 id='{safe_category}'>{safe_category}</h2><ul>"
-        for file in files:
+        for file in sorted_files:
             safe_file = escape(file)
             file_path = Path(file)
             content_sections += f"<li><a href='#{safe_file}'>{escape(file_path.name)}</a></li>"
         content_sections += "</ul>"
 
-        for file in files:
+        for file in sorted_files:
             safe_file = escape(file)
             file_path = Path(file)
             with file_path.open('r') as f:
