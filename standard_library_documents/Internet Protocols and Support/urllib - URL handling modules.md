@@ -1,174 +1,236 @@
-# urllib — URL handling modules
+# urllib - URL handling modules
 
-**URllib Module Code Examples**
-=====================================
+The `urllib` module in Python provides a variety of functions to handle URLs. Below are comprehensive, well-documented code examples covering various functionalities within this module.
 
-The `urllib` module provides a way of accessing URLs in Python. Here are some examples of what can be done with this module:
+### 1. **urllib.request Module**
 
-### 1. Getting the Protocol and Authority from a URL
+This module contains functions to open and read from URLs, and to handle errors that may occur during the process.
+
+#### Example 1: Using `urlopen` to Retrieve a Web Page
+
+```python
+import urllib.request
+
+def fetch_web_page(url):
+    """
+    Fetches the content of a web page using urllib.request.urlopen.
+    
+    Args:
+    url (str): The URL of the web page to retrieve.
+    
+    Returns:
+    str: The content of the web page as a string.
+    """
+    try:
+        # Open the URL and read its contents
+        with urllib.request.urlopen(url) as response:
+            html_content = response.read()
+        
+        return html_content.decode('utf-8')  # Decode from bytes to string
+        
+    except urllib.error.URLError as e:
+        print(f"Error fetching {url}: {e.reason}")
+        return None
+
+# Example usage
+url = 'https://www.example.com'
+content = fetch_web_page(url)
+if content:
+    print(content[:100])  # Print the first 100 characters of the page
+```
+
+#### Example 2: Handling Redirects with `urlopen`
+
+```python
+import urllib.request
+
+def fetch_web_page_with_redirects(url):
+    """
+    Fetches a web page and handles redirects using urllib.request.urlopen.
+    
+    Args:
+    url (str): The URL of the web page to retrieve.
+    
+    Returns:
+    str: The content of the final destination page as a string.
+    """
+    try:
+        # Open the URL and handle redirects
+        with urllib.request.urlopen(url) as response:
+            html_content = response.read()
+        
+        return html_content.decode('utf-8')
+    
+    except urllib.error.HTTPError as e:
+        print(f"HTTP error occurred: {e.code} - {e.reason}")
+        return None
+    except urllib.error.URLError as e:
+        print(f"URL error occurred: {e.reason}")
+        return None
+
+# Example usage
+url = 'https://www.example.com/redirect-target'
+content = fetch_web_page_with_redirects(url)
+if content:
+    print(content[:100])
+```
+
+### 2. **urllib.parse Module**
+
+This module provides functions to parse URLs and manage query parameters.
+
+#### Example 3: Parsing a URL
 
 ```python
 import urllib.parse
 
-# Define a URL
-url = "https://www.example.com/path?query=param"
+def parse_url(url):
+    """
+    Parses a URL using urllib.parse.urlparse.
+    
+    Args:
+    url (str): The URL to be parsed.
+    
+    Returns:
+    tuple: A named tuple containing the components of the URL.
+    """
+    # Parse the URL into its components
+    parsed_url = urllib.parse.urlparse(url)
+    
+    return parsed_url
 
-# Parse the URL into its components
-parsed_url = urllib.parse.urlparse(url)
-
-# Print the protocol and authority
-print(f"Protocol: {parsed_url.scheme}")  # Output: https
-print(f"Authority: {parsed_url.netloc}")  # Output: www.example.com
+# Example usage
+url = 'https://www.example.com/path?query=param&another=2'
+parsed = parse_url(url)
+print(parsed)
 ```
 
-### 2. Parsing a URL without Authority
+#### Example 4: Encoding Query Parameters
 
 ```python
 import urllib.parse
 
-# Define a URL without authority (i.e., just the path and query)
-url = "/path/to/resource?query=param"
+def encode_query_params(params):
+    """
+    Encodes query parameters into a URL-encoded string using urllib.parse.urlencode.
+    
+    Args:
+    params (dict): A dictionary of key-value pairs to be encoded.
+    
+    Returns:
+    str: The URL-encoded query string.
+    """
+    # Encode the parameters
+    encoded_params = urllib.parse.urlencode(params)
+    
+    return encoded_params
 
-# Parse the URL into its components
-parsed_url = urllib.parse.urlparse(url)
-
-# Print the path and query
-print(f"Path: {parsed_url.path}")  # Output: /path/to/resource
-print(f"Query: {parsed_url.query}")  # Output: query=param
+# Example usage
+params = {'key': 'value', 'another_key': 2}
+encoded = encode_query_params(params)
+print(encoded)
 ```
 
-### 3. Unpacking a URL into its Components
+### 3. **urllib.error Module**
+
+This module provides exception classes for errors that may occur during URL operations.
+
+#### Example 5: Handling URLError and HTTPError
 
 ```python
-import urllib.parse
+import urllib.request
 
-# Define a URL
-url = "https://www.example.com/path?query=param"
+def handle_url_errors(url):
+    """
+    Handles potential URLError and HTTPError exceptions using urllib.request.urlopen.
+    
+    Args:
+    url (str): The URL to be retrieved.
+    
+    Returns:
+    str: The content of the web page as a string if successful, None otherwise.
+    """
+    try:
+        # Open the URL
+        with urllib.request.urlopen(url) as response:
+            html_content = response.read()
+        
+        return html_content.decode('utf-8')
+    
+    except urllib.error.HTTPError as e:
+        print(f"HTTP error occurred: {e.code} - {e.reason}")
+        return None
+    except urllib.error.URLError as e:
+        print(f"URL error occurred: {e.reason}")
+        return None
 
-# Parse the URL into its components and unpack them into variables
-scheme, netloc, path, params, query, fragment = urllib.parse.urlparse(url)
-
-print(f"Scheme: {scheme}")  # Output: https
-print(f"Netloc: {netloc}")  # Output: www.example.com
-print(f"path: {path}")    # Output: /path/to/resource
+# Example usage
+url = 'https://www.example.com/nonexistent-page'
+content = handle_url_errors(url)
+if content:
+    print(content[:100])
 ```
 
-### 4. Encoding and Decoding URLs
+### 4. **urllib.robotparser Module**
+
+This module provides functions to parse and understand the `robots.txt` files that specify which parts of a website can be accessed by web robots.
+
+#### Example 6: Parsing `robots.txt`
 
 ```python
-import urllib.parse
+import urllib.robotparser
 
-# Define a URL with query parameters
-url = "https://www.example.com/path?query=param"
+def parse_robots_file(url):
+    """
+    Parses a `robots.txt` file using urllib.robotparser.RobotFileParser.
+    
+    Args:
+    url (str): The URL to the `robots.txt` file.
+    
+    Returns:
+    RobotFileParser: An instance of RobotFileParser that can be queried.
+    """
+    # Parse the `robots.txt` file
+    rp = urllib.robotparser.RobotFileParser()
+    rp.set_url(url)
+    rp.read()
+    
+    return rp
 
-# Encode the query parameters
-encoded_query = urllib.parse.urlencode({"param": "value"})
-
-# Create a new URL with the encoded query parameters
-new_url = f"{url}?{encoded_query}"
-
-print(new_url)  # Output: https://www.example.com/path?query=param&param=value
-
-# Decode the query parameters
-decoded_query = urllib.parse.parse_qs(url)[0]
-
-print(decoded_query["param"])  # Output: value
+# Example usage
+url = 'https://www.example.com/robots.txt'
+rp = parse_robots_file(url)
+print(f"Allowed user agents: {rp.allowed_user_agents()}")
 ```
 
-### 5. Creating a New URL from Components
+### 5. **urllib.robotparser Module - Querying Permissions**
 
 ```python
-import urllib.parse
+import urllib.robotparser
 
-# Define components of a new URL
-scheme = "http"
-netloc = "example.com"
-path = "/new/path"
-query = "new=query"
-fragment = "#anchor"
+def check_robot_permission(rp, user_agent, path):
+    """
+    Checks if a specific user agent can access a given path based on the `robots.txt` file.
+    
+    Args:
+    rp (RobotFileParser): An instance of RobotFileParser.
+    user_agent (str): The user agent to query.
+    path (str): The URL path to check.
+    
+    Returns:
+    bool: True if the user agent is allowed to access the path, False otherwise.
+    """
+    # Check if the user agent can access the path
+    return rp.can_fetch(user_agent, path)
 
-# Create a new URL from its components
-new_url = f"{scheme}://{netloc}{path}?{query}{fragment}"
-
-print(new_url)  # Output: http://example.com/new/path?new=query#anchor
+# Example usage
+rp = parse_robots_file('https://www.example.com/robots.txt')
+user_agent = 'MyUserAgent'
+path = '/'
+if check_robot_permission(rp, user_agent, path):
+    print(f"User Agent {user_agent} is allowed to access {path}")
+else:
+    print(f"User Agent {user_agent} is not allowed to access {path}")
 ```
 
-### 6. Unpacking the Parse Result Object
-
-```python
-import urllib.parse
-
-# Define a URL
-url = "https://www.example.com/path?query=param"
-
-# Parse the URL into its components
-parsed_url = urllib.parse.urlparse(url)
-
-# Unpack the parsed result object into variables
-scheme, netloc, path, query, fragment = parsed_url
-
-print(f"Scheme: {scheme}")  # Output: https
-print(f"Netloc: {netloc}")  # Output: www.example.com
-print(f"path: {path}")    # Output: /path/to/resource
-```
-
-### 7. Creating a Parse Result Object from Components
-
-```python
-import urllib.parse
-
-# Define components of a new URL
-scheme = "https"
-netloc = "www.example.com"
-path = "/new/path"
-params = ""
-query = "new=query"
-fragment = "#anchor"
-
-# Create a parse result object from its components
-parsed_url = urllib.parse.urlparse(scheme, netloc, path, params, query, fragment)
-
-print(parsed_url)  # Output: ParseResult(scheme='https', netloc='www.example.com', path='/new/path', params='', query='new=query', fragment='#anchor')
-```
-
-### 8. Creating a URL from a String
-
-```python
-import urllib.parse
-
-# Define a string representation of a URL
-url_str = "https://www.example.com/path?query=param"
-
-# Create a parse result object from the string
-parsed_url = urllib.parse.urlparse(url_str)
-
-print(parsed_url)  # Output: ParseResult(scheme='https', netloc='www.example.com', path='/path/to/resource', params='', query='query=param', fragment='')
-```
-
-### 9. Creating a URL with a File Path
-
-```python
-import urllib.parse
-
-# Define a file path
-file_path = "/home/user/file.txt"
-
-# Create a parse result object from the file path
-parsed_url = urllib.parse.urlparse(file_path)
-
-print(parsed_url)  # Output: ParseResult(scheme='', netloc='', path='/home/user/file.txt', params='', query='', fragment='')
-```
-
-### 10. Creating a URL with a Path
-
-```python
-import urllib.parse
-
-# Define a file name
-file_name = "example.txt"
-
-# Create a parse result object from the file name
-parsed_url = urllib.parse.urlparse(f"/{file_name}")
-
-print(parsed_url)  # Output: ParseResult(scheme='', netloc='', path='/path/to/example.txt', params='', query='', fragment='')
-```
+These examples demonstrate how to use various functionalities within the `urllib` module to handle URL requests, parse URLs and query parameters, manage errors, and interact with `robots.txt` files.

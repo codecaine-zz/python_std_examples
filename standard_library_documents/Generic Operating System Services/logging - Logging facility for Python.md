@@ -1,147 +1,272 @@
-# logging — Logging facility for Python
+# logging - Logging facility for Python
 
-**Logging Facility**
-=====================
+The `logging` module in Python provides a flexible framework for emitting log messages from Python programs. It supports formatting, coloring, and redirection of output to various destinations. Below are comprehensive code examples that demonstrate various functionalities of the `logging` module.
 
-The `logging` module provides a flexible logging mechanism that allows you to log events at different levels of severity.
+### Example 1: Basic Configuration
 
-**Installation**
----------------
+This example shows how to configure basic logging settings.
 
-To use the `logging` module, import it in your Python script and enable logging:
-```python
-import logging
-```
-You can also set the logging level using the following constants:
-
-*   `logging.DEBUG`: Debug messages (usually turned off)
-*   `logging.INFO`: Informational messages
-*   `logging.WARNING`: Warning messages
-*   `logging.ERROR`: Error messages
-*   `logging.CRITICAL`: Critical error messages
-
-**Basic Usage**
------------------
-
-### Enable Logging
-
-To enable logging, create a logger object:
-```python
-logger = logging.getLogger(__name__)
-```
-`__name__` is the name of the current module.
-
-### Set the Logging Level
-
-Set the logging level for the logger:
-```python
-logging.basicConfig(level=logging.INFO)
-```
-This will set the logging level to `INFO`, which means that only messages with a severity of `INFO` or higher will be logged.
-
-### Log Messages
-
-Use the `logger` object to log messages at different levels:
-```python
-import time
-
-def main():
-    logger.debug("Debug message")
-    logger.info("Informational message")
-    logger.warning("Warning message")
-    logger.error("Error message")
-    logger.critical("Critical error message")
-
-if __name__ == "__main__":
-    main()
-```
-This will log the messages to the console.
-
-### Formatting Log Messages
-
-You can customize the format of log messages using the `basicConfig` method:
-```python
-logging.basicConfig(
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    level=logging.INFO,
-)
-```
-This will add a timestamp, logging level, and message to each logged message.
-
-### Logging to a File
-
-To log messages to a file instead of the console, you can use the `FileHandler` class:
 ```python
 import logging
 
-logger = logging.getLogger(__name__)
+# Create a logger object
+logger = logging.getLogger('my_logger')
+
+# Set the level of the logger
+logger.setLevel(logging.DEBUG)
+
+# Create a console handler and set its level
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+
+# Create a formatter and add it to the handler
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+
+# Add the handler to the logger
+logger.addHandler(ch)
+
+# Log messages at different levels
+logger.debug('This is a debug message.')
+logger.info('This is an info message.')
+logger.warning('This is a warning message.')
+logger.error('This is an error message.')
+logger.critical('This is a critical message.')
+```
+
+### Example 2: Logging to Files
+
+This example shows how to configure logging to write messages to a file.
+
+```python
+import logging
+
+# Create a logger object
+logger = logging.getLogger('file_logger')
+logger.setLevel(logging.DEBUG)
+
+# Create a file handler and set its level
+fh = logging.FileHandler('app.log')
+fh.setLevel(logging.ERROR)
+
+# Create a formatter and add it to the handler
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+
+# Add the handler to the logger
+logger.addHandler(fh)
+
+# Log messages at different levels
+logger.debug('This is a debug message.')
+logger.info('This is an info message.')
+logger.warning('This is a warning message.')
+logger.error('This is an error message.')
+logger.critical('This is a critical message.')
+```
+
+### Example 3: Logging with Custom Handlers
+
+This example shows how to create a custom logging handler.
+
+```python
+import logging
+
+class MyHandler(logging.Handler):
+    def emit(self, record):
+        # Custom logic for handling log records
+        print(f"Custom Handler - {record.levelname}: {record.getMessage()}")
+
+# Create a logger object
+logger = logging.getLogger('my_handler_logger')
+logger.setLevel(logging.DEBUG)
+
+# Create an instance of the custom handler and set its level
+ch = MyHandler()
+ch.setLevel(logging.ERROR)
+
+# Add the custom handler to the logger
+logger.addHandler(ch)
+
+# Log messages at different levels
+logger.debug('This is a debug message.')
+logger.info('This is an info message.')
+logger.warning('This is a warning message.')
+logger.error('This is an error message.')
+logger.critical('This is a critical message.')
+```
+
+### Example 4: Logging with Formatters
+
+This example shows how to create and use different log record formats.
+
+```python
+import logging
+
+# Create a logger object
+logger = logging.getLogger('formatter_logger')
+logger.setLevel(logging.DEBUG)
+
+# Create a console handler and set its level
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+
+# Define different formatters for different levels
+formatter1 = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter2 = logging.Formatter('%(name)s: %(message)s')
+
+# Add each formatter to the handler based on the log level
+if logger.level == logging.DEBUG:
+    ch.setFormatter(formatter1)
+else:
+    ch.setFormatter(formatter2)
+
+# Add the handler to the logger
+logger.addHandler(ch)
+
+# Log messages at different levels
+logger.debug('This is a debug message.')
+logger.info('This is an info message.')
+logger.warning('This is a warning message.')
+logger.error('This is an error message.')
+logger.critical('This is a critical message.')
+```
+
+### Example 5: Logging with Rotating Files
+
+This example shows how to configure logging to rotate log files.
+
+```python
+import logging.handlers
+
+# Create a logger object
+logger = logging.getLogger('rotating_file_logger')
+logger.setLevel(logging.DEBUG)
+
+# Create a rotating file handler and set its level
+rh = logging.handlers.RotatingFileHandler('app.log', maxBytes=1024, backupCount=5)
+rh.setLevel(logging.INFO)
+
+# Set the formatter for the handler
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+rh.setFormatter(formatter)
+
+# Add the handler to the logger
+logger.addHandler(rh)
+
+# Log messages at different levels
+for i in range(10):
+    logger.debug(f'This is a debug message {i+1}.')
+```
+
+### Example 6: Logging with Timestamps
+
+This example shows how to customize the timestamp format in log records.
+
+```python
+import logging
+
+# Create a logger object
+logger = logging.getLogger('timestamp_logger')
+logger.setLevel(logging.DEBUG)
+
+# Create a console handler and set its level
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+
+# Set a custom date format for timestamps
+formatter = logging.Formatter('%Y-%m-%d %H:%M:%S - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+
+# Add the handler to the logger
+logger.addHandler(ch)
+
+# Log messages at different levels
+logger.debug('This is a debug message.')
+```
+
+### Example 7: Logging with Levels and Filters
+
+This example shows how to set different log levels and apply filters to log records.
+
+```python
+import logging
+
+# Create a logger object
+logger = logging.getLogger('level_and_filter_logger')
+logger.setLevel(logging.DEBUG)
+
+# Create a console handler and set its level
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+
+# Define a filter that only allows warning and error messages
+class WarningFilter(logging.Filter):
+    def filter(self, record):
+        return record.levelno >= logging.WARNING
+
+# Add the filter to the handler
+ch.addFilter(WarningFilter())
+
+# Set the formatter for the handler
+formatter = logging.Formatter('%(name)s: %(message)s')
+ch.setFormatter(formatter)
+
+# Add the handler to the logger
+logger.addHandler(ch)
+
+# Log messages at different levels
+logger.debug('This is a debug message.')
+logger.info('This is an info message.')
+logger.warning('This is a warning message.')
+logger.error('This is an error message.')
+logger.critical('This is a critical message.')
+```
+
+### Example 8: Logging with Handlers and Filters
+
+This example demonstrates how to configure multiple handlers and apply filters.
+
+```python
+import logging
+
+# Create a logger object
+logger = logging.getLogger('multiple_handlers_logger')
+logger.setLevel(logging.DEBUG)
+
+# Create console handlers for different levels
+ch_info = logging.StreamHandler()
+ch_info.setLevel(logging.INFO)
+ch_info.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+
+ch_error = logging.StreamHandler()
+ch_error.setLevel(logging.ERROR)
+ch_error.setFormatter(logging.Formatter('%(name)s: %(message)s'))
 
 # Create a file handler
-file_handler = logging.FileHandler("log_file.log")
+fh = logging.FileHandler('app.log')
+fh.setLevel(logging.DEBUG)
+fh.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
 
-# Set the logging level for the file handler
-file_handler.setLevel(logging.INFO)
+# Define a filter that only allows warning and error messages
+class WarningFilter(logging.Filter):
+    def filter(self, record):
+        return record.levelno >= logging.WARNING
 
-# Create a formatter and attach it to the file handler
-formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-file_handler.setFormatter(formatter)
+# Add filters to the handlers
+ch_info.addFilter(WarningFilter())
+ch_error.addFilter(WarningFilter())
 
-# Add the file handler to the logger
-logger.addHandler(file_handler)
+# Add handlers to the logger
+logger.addHandler(ch_info)
+logger.addHandler(ch_error)
+logger.addHandler(fh)
+
+# Log messages at different levels
+logger.debug('This is a debug message.')
+logger.info('This is an info message.')
+logger.warning('This is a warning message.')
+logger.error('This is an error message.')
+logger.critical('This is a critical message.')
 ```
-This will log messages to `log_file.log` instead of the console.
 
-**Advanced Topics**
---------------------
-
-### Log Levels
-
-The following are the predefined log levels:
-
-*   `logging.DEBUG`: Debug messages
-*   `logging.INFO`: Informational messages
-*   `logging.WARNING`: Warning messages
-*   `logging.ERROR`: Error messages
-*   `logging.CRITICAL`: Critical error messages
-
-You can use these constants to set the logging level.
-
-### Log Messages in Different Formats
-
-You can customize the format of log messages using a `Formatter` object. The formatter can be created with different attributes, such as:
-
-*   `%s`: Timestamp
-*   `%d`: Date and time in UTC
-*   `%r`: Message (default formatting)
-*   `%p`: Process ID
-*   `%h`: Hostname
-*   `%e`: Exception type and value
-
-You can use these attributes to format log messages.
-
-### Logging Multiple Loggers
-
-You can create multiple logger objects and add them to the `logging.root` logger. This allows you to control the logging behavior for each logger individually.
-
-```python
-import logging
-
-logger1 = logging.getLogger("logger1")
-logger2 = logging.getLogger("logger2")
-
-# Set the logging level for each logger
-logger1.setLevel(logging.INFO)
-logger2.setLevel(logging.ERROR)
-
-# Add a handler to each logger
-handler1 = logging.StreamHandler()
-handler2 = logging.FileHandler("log_file2.log")
-
-formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-handler1.setFormatter(formatter)
-handler2.setFormatter(formatter)
-
-logger1.addHandler(handler1)
-logger2.addHandler(handler2)
-```
-This will create two separate loggers, `logger1` and `logger2`, each with its own logging level and handler.
+These examples cover various aspects of the `logging` module, including basic configuration, logging to files, custom handlers and formatters, rotating logs, timestamp customization, levels and filters, and handling multiple handlers and filters. Each example is designed to be clear and self-contained, suitable for integration into larger projects or documentation.

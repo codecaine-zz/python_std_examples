@@ -1,161 +1,180 @@
-# socket — Low-level networking interface
+# socket - Low-level networking interface
 
-**Socket Module**
-================
+The `socket` module in Python provides a low-level interface for network communication. It allows you to create sockets and use them to connect to other servers, send and receive data over various protocols such as TCP and UDP. Below are comprehensive code examples demonstrating various functionalities of the `socket` module.
 
-The `socket` module provides an interface to create network sockets, which can be used for communication between processes or threads.
-
-### Creating a Socket
-
-To create a socket, you need to import the `socket` module and use the `socket()`, `.AF_INET`, and `SOCK_STREAM` constants.
+### 1. Creating a TCP Socket
 
 ```python
 import socket
 
-# Create a new socket object
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Create a new TCP/IP socket
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-print("Socket created:", sock)
-```
-
-### Socket Methods
-
-Here are some common methods used with sockets:
-
-#### 1. Bind()
-
-Bind the socket to a specific address and port.
-
-```python
-sock.bind(("localhost", 8080))
-print("Socket bound to localhost:8080")
-```
-
-#### 2. Listen()
-
-Set up the socket to listen for incoming connections.
-
-```python
-sock.listen(5)
-print("Socket listening on port 8080")
-```
-
-#### 3. Accept()
-
-Accept an incoming connection and return a new socket object.
-
-```python
-conn, addr = sock.accept()
-print("Connected by:", addr)
-```
-
-#### 4. Send() and Receive()
-
-Send and receive data over the socket.
-
-```python
-sock.sendall(b"Hello, client!")
-data = conn.recv(1024)
-print(data.decode())
-```
-
-### Socket Constants
-
-Here are some common constants used with sockets:
-
-#### 1. AF_INET (Address Family)
-
-Used to specify the address family for the socket. For IPv4, use `AF_INET`. For IPv6, use `AF_INET6`.
-
-```python
-import socket
-
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-```
-
-#### 2. SOCK_STREAM (Socket Type)
-
-Used to specify the type of socket. For TCP sockets, use `SOCK_STREAM`. For UDP sockets, use `SOCK_DGRAM`.
-
-```python
-import socket
-
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-```
-
-### Socket Exception Handling
-
-Use try-except blocks to handle exceptions that may occur while using the socket.
-
-```python
-try:
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-except socket.error as e:
-    print("Error creating socket:", e)
-```
-
-### Closing the Socket
-
-Use `close()` to close the socket and free up system resources.
-
-```python
-sock.close()
-print("Socket closed")
-```
-
-Example Use Case: Creating a Server-Client Communication System
--------------------------------------------------------------
-
-Here's an example of how you can create a simple server-client communication system using sockets:
-
-**server.py**
-```python
-import socket
-
-# Create a new socket object
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Bind the socket to a specific address and port
-sock.bind(("localhost", 8080))
+# Bind the socket to an address and port
+server_address = ('localhost', 10000)
+print(f'Starting up on {server_address[0]} port {server_address[1]}')
+server_socket.bind(server_address)
 
 # Listen for incoming connections
-sock.listen(5)
+server_socket.listen()
+print('Waiting for a connection...')
 
-print("Server listening on port 8080")
+# Accept a connection
+connection, client_address = server_socket.accept()
+try:
+    print(f'Connection from {client_address}')
+    
+    # Receive data in small chunks and echo it back to the client
+    while True:
+        data = connection.recv(16)
+        if data:
+            print(f"Received: '{data.decode()}'")
+            connection.sendall(data)  # Echo the received data
+        else:
+            print('No more data from', client_address)
+            break
 
-while True:
-    conn, addr = sock.accept()
-    print("Connected by:", addr)
-    
-    # Receive data from client
-    data = conn.recv(1024)
-    print(data.decode())
-    
-    # Send response back to client
-    conn.sendall(b"Hello, client!")
+finally:
+    # Clean up the connection
+    connection.close()
 ```
 
-**client.py**
+### Explanation:
+- **`socket.socket(socket.AF_INET, socket.SOCK_STREAM)`**: Creates a new TCP/IP socket.
+- **`server_socket.bind(server_address)`**: Binds the socket to an IP address and port.
+- **`server_socket.listen()`**: Starts listening for incoming connections.
+- **`connection, client_address = server_socket.accept()`**: Accepts a connection from a client.
+
+### 2. Creating a UDP Socket
+
 ```python
 import socket
 
-# Create a new socket object
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Create a new UDP/IP socket
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-# Connect to the server
-sock.connect(("localhost", 8080))
+# Define the server address and port
+server_address = ('localhost', 10000)
+print(f'Sending to {server_address[0]} port {server_address[1]}')
 
-print("Connected to server")
+# Message to send
+message = b'Hello from UDP client'
 
-# Send data to server
-sock.sendall(b"Hello, server!")
+try:
+    # Send data
+    print('Sending message: "%s"' % message)
+    client_socket.sendto(message, server_address)
 
-# Receive response from server
-data = sock.recv(1024)
-print(data.decode())
+    # Receive a response from the server (assuming it echoes back)
+    received_data, server_address = client_socket.recvfrom(4096)
+    print(f'Received "{received_data.decode()}" from {server_address}')
 
-# Close the socket
-sock.close()
+finally:
+    # Close the socket
+    client_socket.close()
 ```
 
-Run `server.py` in one terminal and `client.py` in another to see a simple client-server communication system in action.
+### Explanation:
+- **`socket.socket(socket.AF_INET, socket.SOCK_DGRAM)`**: Creates a new UDP/IP socket.
+- **`client_socket.sendto(message, server_address)`**: Sends data to the specified server address and port.
+- **`received_data, server_address = client_socket.recvfrom(4096)`**: Receives data from the server.
+
+### 3. Connecting to a Remote Server
+
+```python
+import socket
+
+# Create a new TCP/IP socket
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Define the server address and port
+server_address = ('example.com', 80)
+
+try:
+    # Connect to the server
+    print('Connecting to %s port %d' % server_address)
+    client_socket.connect(server_address)
+
+    # Send data
+    message = b"GET / HTTP/1.0\r\nHost: example.com\r\n\r\n"
+    print("Sending message:", message.decode())
+    client_socket.sendall(message)
+
+    # Receive the response from the server
+    amount_received = 0
+    amount_expected = len(message)
+    
+    while True:
+        data = client_socket.recv(16)
+        if not data:
+            break
+        amount_received += len(data)
+        print(f"Received {amount_received} bytes of data")
+    
+    print('Received', amount_received, 'bytes from', server_address)
+
+finally:
+    # Close the socket
+    client_socket.close()
+```
+
+### Explanation:
+- **`client_socket.connect(server_address)`**: Connects to a remote server at the specified IP address and port.
+- **Sending data** using `client_socket.sendall()`.
+- **Receiving data** in chunks using `client_socket.recv()`.
+
+### 4. Using Sockets with Multithreading
+
+```python
+import socket
+import threading
+
+def handle_client(client_socket, client_address):
+    print('Handling client', client_address)
+    
+    try:
+        while True:
+            data = client_socket.recv(16)
+            if not data:
+                break
+            print(f"Received: '{data.decode()}' from {client_address}")
+            client_socket.sendall(data)  # Echo the received data
+
+    finally:
+        # Close the connection
+        client_socket.close()
+        print('Closed connection with', client_address)
+
+# Create a TCP/IP socket
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Bind the socket to an address and port
+server_address = ('localhost', 10000)
+print(f'Starting up on {server_address[0]} port {server_address[1]}')
+server_socket.bind(server_address)
+
+# Listen for incoming connections
+server_socket.listen()
+
+try:
+    while True:
+        print('Waiting for a connection...')
+        client_socket, client_address = server_socket.accept()
+        
+        # Handle the new connection in a separate thread
+        client_thread = threading.Thread(target=handle_client, args=(client_socket, client_address))
+        client_thread.start()
+
+except KeyboardInterrupt:
+    print('Server shutting down.')
+
+finally:
+    # Clean up the listening socket
+    server_socket.close()
+```
+
+### Explanation:
+- **Using `threading` to handle multiple clients**: Each new connection is handled by a separate thread.
+- The `handle_client` function processes data received from and sends back data to each client.
+
+These examples cover basic functionalities of the `socket` module, including creating sockets, binding and listening, connecting to remote servers, and handling multiple connections with threading.

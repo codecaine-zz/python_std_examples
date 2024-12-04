@@ -1,87 +1,151 @@
-# modulefinder — Find modules used by a script
+# modulefinder - Find modules used by a script
 
-Here's an example of how you can use the `modulefinder` module in Python to find all modules used by a script.
+The `modulefinder` module is part of Python's standard library, which provides tools to analyze and manage Python package installations. It allows you to find and analyze the imports in a Python script or module. Below are comprehensive code examples for various functionalities provided by the `modulefinder` module.
 
-```python
-import os
-import importlib.util
+### 1. Basic Usage
 
-def get_used_modules():
-    """
-    Returns a list of all modules used by the current script.
-    
-    The list includes the module names, and their corresponding paths.
-    """
-    # Initialize an empty dictionary to store the modules
-    used_modules = {}
-    
-    # Walk through the directory where the script is located
-    for root, dirs, files in os.walk(os.path.dirname(__file__)):
-        for file in files:
-            if file.endswith('.py'):
-                # Get the module name and path
-                module_name = file[:-3]  # Remove .py extension
-                module_path = os.path.join(root, file)
-                
-                # Check if the module is already loaded
-                spec = importlib.util.find_spec(module_name)
-                if spec is not None:
-                    used_modules[module_name] = {
-                        'path': module_path,
-                        'is_loaded': True
-                    }
-                else:
-                    used_modules[module_name] = {
-                        'path': module_path,
-                        'is_loaded': False
-                    }
-    
-    return used_modules
-
-def main():
-    # Get the used modules
-    used_modules = get_used_modules()
-    
-    # Print the result
-    for module, info in used_modules.items():
-        print(f"Module: {module}")
-        print(f"Path: {info['path']}")
-        print(f"Loaded: {info['is_loaded']}\n")
-
-if __name__ == "__main__":
-    main()
-```
-
-Example output:
-
-```markdown
-# Module: __init__.py
-Path: ./script/__init__.py
-Loaded: True
-
-# Module: module1.py
-Path: ./script/module1.py
-Loaded: False
-
-# Module: module2 import
-Path: ./script/module2.py
-Loaded: True
-```
-
-This script uses the `modulefinder` to find all modules used by a Python script. It iterates through the directory where the script is located and checks each `.py` file for loaded modules using `importlib.util.find_spec`. The result is stored in a dictionary where the keys are the module names, and the values are dictionaries containing the module path and whether it's loaded or not.
-
-Note that this script only finds Python-specific modules. If you want to find all modules (including C extensions), you can use `sys.modules` instead:
-
+#### Example: Finding Modules Used by a Script
 ```python
 import sys
+from importlib.util import find_spec
 
-used_modules = {}
-for name in sys.modules:
-    spec = importlib.util.find_spec(name)
-    if spec is not None:
-        used_modules[name] = {
-            'is_loaded': True
-        }
+# List of scripts to analyze
+scripts = [
+    "example_script.py",
+]
+
+for script in scripts:
+    print(f"Analyzing {script}:")
+    
+    # Find the spec for the script module
+    spec = find_spec(script)
+    if spec is None:
+        print(f"No module found for: {script}")
+    else:
+        print("Modules used by", script, "are:")
+        
+        # Walk through all imports in the spec
+        for submodule in spec.submodules:
+            if submodule.loader is not None:
+                print(submodule.name)
 ```
 
-This will give you a list of all loaded modules, including Python-specific and C extensions.
+#### Explanation:
+- **Importing `sys` and `find_spec`:** These are essential modules for interacting with the Python runtime.
+- **Finding Script Modules:** The `find_spec()` function is used to locate the import spec of a module. This returns an object that provides information about the module, including its name, path, and loader.
+- **Iterating Through Submodules:** The `submodules` attribute contains all submodules imported by the script.
+
+### 2. Analyzing Modules with ModuleFinder
+
+#### Example: Using ModuleFinder for Detailed Analysis
+```python
+import sys
+from importlib.util import find_spec
+from modulefinder import ModuleFinder
+
+# List of scripts to analyze
+scripts = [
+    "example_script.py",
+]
+
+for script in scripts:
+    print(f"Analyzing {script}:")
+    
+    # Create a ModuleFinder instance
+    finder = ModuleFinder()
+
+    # Run the finder on the script
+    finder.run_script(script)
+
+    # Print found modules
+    for mod in finder.modules.values():
+        if mod.name not in sys.builtin_module_names:
+            print(f"Module: {mod.name}, File: {mod.file}")
+
+    # Print missing imports
+    for mod_name, err in finder.errors.items():
+        print(f"Error importing {mod_name}: {err}")
+```
+
+#### Explanation:
+- **Using `ModuleFinder`:** This class is used to perform more comprehensive analysis of modules and their dependencies.
+- **Running the Finder:** The `run_script()` method processes the script and records all imported modules and any errors encountered.
+- **Handling Results:** The found modules are stored in the `finder.modules` dictionary, where each module has a `name` and `file` attribute.
+
+### 3. Customizing ModuleFinder
+
+#### Example: Filtering Modules by Type
+```python
+import sys
+from importlib.util import find_spec
+from modulefinder import ModuleFinder
+
+# List of scripts to analyze
+scripts = [
+    "example_script.py",
+]
+
+for script in scripts:
+    print(f"Analyzing {script}:")
+    
+    # Create a ModuleFinder instance and specify include standard library modules
+    finder = ModuleFinder()
+    finder.add_package_path("")
+
+    # Run the finder on the script
+    finder.run_script(script)
+
+    # Filter out built-in modules
+    found_modules = [mod.name for mod in finder.modules.values() if mod.file is not None]
+
+    print("Modules used by", script, "are:")
+    for module in found_modules:
+        print(module)
+```
+
+#### Explanation:
+- **Including Standard Library Modules:** By adding the package path with `finder.add_package_path("")`, all standard library modules are included.
+- **Filtering Built-in Modules:** The code filters out built-in modules by checking if the `file` attribute is not `None`.
+
+### 4. Handling Large Scripts
+
+#### Example: Analyzing a Large Script
+```python
+import sys
+from importlib.util import find_spec
+from modulefinder import ModuleFinder
+
+# List of large scripts to analyze
+large_scripts = [
+    "large_script.py",
+]
+
+for script in large_scripts:
+    print(f"Analyzing {script}:")
+    
+    # Create a ModuleFinder instance
+    finder = ModuleFinder()
+
+    # Run the finder on the script
+    finder.run_script(script)
+
+    # Print total number of modules found
+    total_modules = len(finder.modules)
+    print(f"Total modules found in {script}: {total_modules}")
+
+    # Print top 10 most imported modules
+    import_counts = {mod.name: mod.importer.count for mod in finder.modules.values() if mod.importer is not None}
+    top_10 = sorted(import_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+
+    print("\nTop 10 most imported modules:")
+    for module, count in top_10:
+        print(f"Module: {module}, Imports: {count}")
+```
+
+#### Explanation:
+- **Running the Finder on a Large Script:** The `run_script()` method is used to process large scripts efficiently.
+- **Counting Module Imports:** The script counts how many times each module is imported and prints the top 10 most imported modules.
+
+### Conclusion
+
+These examples demonstrate various functionalities of the `modulefinder` module, including basic usage, detailed analysis with `ModuleFinder`, customizing module searching, handling large scripts, and filtering out built-in modules. Each example includes comments to help understand the code's purpose and functionality.

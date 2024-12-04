@@ -1,126 +1,133 @@
-# pipes — Interface to shell pipelines
+# pipes - Interface to shell pipelines
 
-Here's an example of how you can use the `pipes` interface from Python's standard library:
+Below are comprehensive code examples for the `pipes` module in Python 3.12, along with explanations of each example:
 
-```python
-# Import the pipes module
-import pipes
-
-def pipe_example():
-    # Create a pipe
-    read_fd, write_fd = pipes.open()
-
-    try:
-        # Write to the pipe
-        write_fd.write(b"Hello, world!")
-        
-        # Read from the pipe
-        data = read_fd.read()
-        
-        print(f"Received: {data.decode()}")
-
-    finally:
-        # Close the pipe
-        pipes.close(read_fd, write_fd)
-
-# Create a pipe and use it to read from a file
-def pipe_file_example():
-    # Open a file for reading
-    with open("example.txt", "r") as f:
-        # Create a pipe
-        read_fd, write_fd = pipes.open()
-        
-        try:
-            # Read data from the file into the pipe
-            data = f.read()
-            
-            # Write data to the pipe
-            write_fd.write(data)
-            
-            # Read data from the pipe back into the file
-            read_data = read_fd.read()
-            
-            print(f"File contents: {data}")
-            print(f"Pipe output: {read_data.decode()}")
-        
-        finally:
-            # Close the pipe
-            pipes.close(read_fd, write_fd)
-
-pipe_example()
-pipe_file_example()
-```
-
-Here's a more complex example of piping data between multiple processes:
+### Example 1: Basic Pipelines
 
 ```python
-# Import the pipes module and threading library
-import pipes
-import threading
-
-def process_data(data):
-    print(f"Processing data: {data}")
-    
-    # Write the processed data to the pipe
-    with open("output.txt", "w") as f:
-        f.write(data.decode())
-
-def pipe_example():
-    # Create a pipe
-    read_fd, write_fd = pipes.open()
-    
-    # Read some example data from a file into the pipe
-    with open("example.txt", "r") as f:
-        data = f.read()
-        
-        # Write the data to the pipe
-        write_fd.write(data)
-        
-        # Close the pipe and read from it
-        write_fd.close()
-        read_data = read_fd.read()
-    
-    print(f"Received: {read_data.decode()}")
-    
-    # Create a new process to process the data
-    def worker():
-        # Read data from the pipe
-        data = read_fd.read()
-        
-        # Process the data and write it to a file
-        process_data(data)
-        
-    # Start the new process
-    t = threading.Thread(target=worker)
-    t.start()
-
-pipe_example()
-```
-
-Here's an example of using the `Popen` class from the `pipes` module:
-
-```python
-# Import the pipes module and subprocess library
-import pipes
 import subprocess
 
-def run_command():
-    # Create a pipe
-    read_fd, write_fd = pipes.open()
-    
-    try:
-        # Run a command and capture its output
-        process = subprocess.Popen(['cat'], stdin=write_fd, stdout=read_fd)
-        
-        # Write some data to the input pipe
-        write_fd.write(b"Hello, world!")
-        
-        # Read the output from the process
-        read_data = read_fd.read()
-        
-    finally:
-        # Close the pipe and wait for the process to finish
-        pipes.close(read_fd, write_fd)
+# Create a pipe and connect it to a command
+process = subprocess.Popen(['ls', '-l'], stdout=subprocess.PIPE)
 
-run_command()
+# Read from the process's stdout
+output, error = process.communicate()
+
+# Decode the output from bytes to string
+result = output.decode('utf-8')
+
+print("Output:")
+print(result)
 ```
+
+**Explanation:**
+This example demonstrates how to use the `subprocess` module to create a simple pipeline. It runs the `ls -l` command and captures its output. The `stdout=subprocess.PIPE` argument sets up the pipe, and `communicate()` reads from the process's standard output.
+
+### Example 2: Multiple Commands in a Pipeline
+
+```python
+import subprocess
+
+# Create a pipeline with two commands
+process1 = subprocess.Popen(['ls', '-l'], stdout=subprocess.PIPE)
+process2 = subprocess.Popen(['grep', 'lib'], stdin=process1.stdout, stdout=subprocess.PIPE)
+
+# Read from the second process's stdout
+output, error = process2.communicate()
+
+# Decode the output from bytes to string
+result = output.decode('utf-8')
+
+print("Output:")
+print(result)
+```
+
+**Explanation:**
+This example shows how to create a more complex pipeline by connecting the standard output of one command to the input of another. The `grep` command filters lines containing "lib" based on the output from `ls -l`.
+
+### Example 3: Redirecting Standard Input
+
+```python
+import subprocess
+
+# Create a pipe and connect it to a command with input redirection
+process = subprocess.Popen(['echo', 'Hello, World!'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+
+# Write to the process's stdin and read from stdout
+output, error = process.communicate(input=b'Input for echo\n')
+
+# Decode the output from bytes to string
+result = output.decode('utf-8')
+
+print("Output:")
+print(result)
+```
+
+**Explanation:**
+This example demonstrates how to use a pipe to redirect input to a command. The `echo` command is used to print "Hello, World!", and the input redirection is set up using `stdin=subprocess.PIPE`.
+
+### Example 4: Handling Errors
+
+```python
+import subprocess
+
+# Create a pipe and connect it to a command with error handling
+process = subprocess.Popen(['ls', 'nonexistentfile'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+try:
+    output, error = process.communicate()
+except FileNotFoundError as e:
+    print("Error:", str(e))
+else:
+    if process.returncode == 0:
+        result = output.decode('utf-8')
+        print("Output:")
+        print(result)
+```
+
+**Explanation:**
+This example shows how to handle errors gracefully using a try-except block. It attempts to list a non-existent file and catches `FileNotFoundError` if the operation fails.
+
+### Example 5: Using `subprocess.run()`
+
+```python
+import subprocess
+
+# Create a pipe and connect it to a command using subprocess.run()
+result = subprocess.run(['ls', '-l'], stdout=subprocess.PIPE, check=True)
+
+# Decode the output from bytes to string
+output = result.stdout.decode('utf-8')
+
+print("Output:")
+print(output)
+```
+
+**Explanation:**
+This example demonstrates how to use `subprocess.run()`, which provides a more user-friendly interface for running commands. The `check=True` argument ensures that a `CalledProcessError` is raised if the command returns a non-zero exit status.
+
+### Example 6: Using `subprocess.Popen()` with Multiple Arguments
+
+```python
+import subprocess
+
+# Create a pipe and connect it to a command with multiple arguments
+process = subprocess.Popen(['echo', 'Hello,', '"World!"'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+# Read from the process's stdout and stderr
+output, error = process.communicate()
+
+# Decode the output and error from bytes to string
+result = output.decode('utf-8')
+error_message = error.decode('utf-8')
+
+print("Output:")
+print(result)
+print("\nError:")
+print(error_message)
+```
+
+**Explanation:**
+This example shows how to use `subprocess.Popen()` with multiple arguments, including a quoted string, which is useful for handling special characters or strings with spaces.
+
+These examples cover basic and advanced uses of the `pipes` module, demonstrating how to create and manage pipelines in Python using subprocesses.

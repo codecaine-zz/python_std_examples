@@ -1,184 +1,215 @@
-# http.cookiejar — Cookie handling for HTTP clients
+# http.cookiejar - Cookie handling for HTTP clients
 
-**HttpCookieJar Class**
+The `http.cookiejar` module is part of Python's standard library and provides a way to handle cookies in HTTP requests. Cookies are used by websites to store user data, such as session IDs or preferences, between visits. This module allows you to manage cookie storage, parsing responses, and sending cookies with HTTP requests.
+
+Below are comprehensive code examples for various functionalities provided by the `http.cookiejar` module:
+
+### 1. Basic Cookie Management
+
 ```python
-import http.client
-from urllib.parse import ParseResult, urlunparse
+import http.cookiejar
 
-class HttpCookieJar:
-    """
-    Cookie handling for HTTP clients.
+# Create a CookieJar object
+cookie_jar = http.cookiejar.CookieJar()
 
-    Attributes:
-        cookies (list): List of cookie objects.
-    """
+# Example of adding a cookie manually
+cookie = http.cookiejar.Cookie(
+    version=0,
+    name='session_id',
+    value='1234567890',
+    domain='example.com',
+    path='/',
+    secure=True,
+    expires=1632400000  # Unix timestamp for January 1, 2021
+)
 
-    def __init__(self):
-        # Initialize an empty list to store cookie objects
-        self.cookies = []
+cookie_jar.set_cookie(cookie)
 
-    def add_cookie(self, cookie):
-        """
-        Add a new cookie object to the jar.
+# Print all cookies in the CookieJar
+for cookie in cookie_jar:
+    print(f"Name: {cookie.name}, Value: {cookie.value}")
 
-        Args:
-            cookie: A cookie object with 'domain', 'name', and 'value' attributes.
-        """
-        # Check if the cookie is valid (i.e., it has all required attributes)
-        if not hasattr(cookie, ('domain', 'name', 'value')):
-            raise ValueError("Invalid cookie object")
+# Save cookies to a file
+with open('cookies.txt', 'wb') as f:
+    cookie_jar.save(file=f, ignore_discard=True, ignore_expires=False)
 
-        # Add the cookie to the jar
-        self.cookies.append(cookie)
+# Load cookies from a file
+cookie_jar.clear()
+cookie_jar.load('cookies.txt')
 
-    def get_cookie(self, name):
-        """
-        Get a cookie object by its name.
+# Add another cookie from the loaded data
+another_cookie = http.cookiejar.Cookie.from_string(
+    "anotherCookieName=9876543210; expires=1635000000"
+)
+cookie_jar.set_cookie(another_cookie)
 
-        Args:
-            name: The name of the cookie to retrieve.
-
-        Returns:
-            A cookie object if found; otherwise, None.
-        """
-        for cookie in self.cookies:
-            if cookie.name == name:
-                return cookie
-        return None
-
-    def remove_cookie(self, name):
-        """
-        Remove a cookie object from the jar by its name.
-
-        Args:
-            name: The name of the cookie to remove.
-        """
-        # Use list comprehension to filter out cookies with matching names
-        self.cookies = [cookie for cookie in self.cookies if cookie.name != name]
-
-    def extract_cookies(self, response):
-        """
-        Extract cookies from an HTTP response object.
-
-        Args:
-            response: An HTTP response object.
-
-        Returns:
-            A dictionary of extracted cookies.
-        """
-        # Initialize an empty dictionary to store extracted cookies
-        cookies = {}
-
-        # Iterate over each cookie in the jar
-        for cookie in self.cookies:
-            # Parse the Set-Cookie header value to extract cookie attributes
-            headers = response.headers.get('Set-Cookie')
-            if headers:
-                for parsed_header in headers:
-                    cookie_name, cookie_value, domain, path, expires, secure, httponly = \
-                        parse_header(parsed_header)
-                    cookies[cookie_name] = (cookie_value, domain, path, expires, secure, httponly)
-
-        return cookies
-
-
-def parse_header(header):
-    """
-    Parse a Set-Cookie header value to extract cookie attributes.
-
-    Args:
-        header: The parsed header value.
-
-    Returns:
-        A tuple of (name, value, domain, path, expires, secure, httponly) if successful;
-        otherwise, None.
-    """
-    # Split the header into individual cookies
-    cookies = header.split(';')
-
-    # Iterate over each cookie and parse its attributes
-    for cookie in cookies:
-        name, value = cookie.split('=')
-        yield name.strip(), value.strip()
-
-# Example usage:
-
-jar = HttpCookieJar()
-jar.add_cookie(cookie=ParseResult(domain='example.com', name='session_id', value='1234567890'))
-jar.add_cookie(cookie=ParseResult(domain='example.com', name='username', value='john_doe'))
-
-response = http.client.HTTPResponse()
-response.headers['Set-Cookie'] = 'session_id=1234567890; expires=Wed, 21-Jan-2026 01:23:45 GMT'
-
-cookies = jar.extract_cookies(response)
-print(cookies)  # Output: {'session_id': ('1234567890', 'example.com', None, 'Wed, 21-Jan-2026 01:23:45 GMT', False, False)}
+print("\nCookies after loading and adding another:")
+for cookie in cookie_jar:
+    print(f"Name: {cookie.name}, Value: {cookie.value}")
 ```
-**Cookie Class**
+
+### 2. Parsing HTTP Responses for Cookies
+
 ```python
-class Cookie:
-    """
-    A cookie object with attributes for domain, name, value, path, expires, secure, and httponly.
-    """
+import http.cookiejar
+import urllib.request
 
-    def __init__(self, domain=None, name=None, value=None, path=None, expires=None, secure=False, httponly=False):
-        # Initialize the cookie attributes
-        self.domain = domain
-        self.name = name
-        self.value = value
-        self.path = path
-        self.expires = expires
-        self.secure = secure
-        self.httponly = httponly
+# Create a CookieJar object
+cookie_jar = http.cookiejar.CookieJar()
 
-    def __str__(self):
-        # Return a string representation of the cookie object
-        return f"{self.name}={self.value}; Domain={self.domain}; Path={self.path}; Expires={self.expires}"
+# Open a URL and handle cookies
+with urllib.request.urlopen('https://example.com') as response:
+    # Parse the response headers to extract cookies
+    cookie_jar.extract_cookies(response, 'https://example.com')
 
-# Example usage:
-
-cookie = Cookie(domain='example.com', name='session_id', value='1234567890')
-print(cookie)  # Output: session_id=1234567890; Domain=example.com; Path=None; Expires=None
+# Print all cookies extracted from the response
+for cookie in cookie_jar:
+    print(f"Name: {cookie.name}, Value: {cookie.value}")
 ```
-**CookieJarTestCase Class**
+
+### 3. Sending Cookies with HTTP Requests
+
 ```python
-import unittest
+import http.cookiejar
+import urllib.request
 
-class CookieJarTestCase(unittest.TestCase):
-    def test_add_cookie(self):
-        # Create a new HttpCookieJar object
-        jar = HttpCookieJar()
-        jar.add_cookie(cookie=Cookie(domain='example.com', name='session_id', value='1234567890'))
-        self.assertEqual(len(jar.cookies), 1)
+# Create a CookieJar object
+cookie_jar = http.cookiejar.CookieJar()
 
-    def test_get_cookie(self):
-        # Create a new HttpCookieJar object and add a cookie
-        jar = HttpCookieJar()
-        jar.add_cookie(cookie=Cookie(domain='example.com', name='session_id', value='1234567890'))
-        self.assertEqual(jar.get_cookie('session_id'), jar.cookies[0])
+# Open a URL and handle cookies
+with urllib.request.urlopen('https://example.com') as response:
+    # Parse the response headers to extract cookies
+    cookie_jar.extract_cookies(response, 'https://example.com')
 
-    def test_remove_cookie(self):
-        # Create a new HttpCookieJar object and add two cookies
-        jar = HttpCookieJar()
-        jar.add_cookie(cookie=Cookie(domain='example.com', name='session_id', value='1234567890'))
-        jar.add_cookie(cookie=Cookie(domain='example.com', name='username', value='john_doe'))
-        jar.remove_cookie('session_id')
-        self.assertEqual(len(jar.cookies), 1)
+# Create an opener that uses our CookieJar
+opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie_jar))
 
-    def test_extract_cookies(self):
-        # Create a new HttpCookieJar object and add two cookies
-        jar = HttpCookieJar()
-        jar.add_cookie(cookie=Cookie(domain='example.com', name='session_id', value='1234567890'))
-        jar.add_cookie(cookie=Cookie(domain='example.com', name='username', value='john_doe'))
+# Make a request using the custom opener
+with opener.open('https://example.com/some_page') as response:
+    print("Response from secured page:")
+    print(response.read().decode())
 
-        # Create an HTTP response object with Set-Cookie headers
-        response = http.client.HTTPResponse()
-        response.headers['Set-Cookie'] = 'session_id=1234567890; username=john_doe; expires=Wed, 21-Jan-2026 01:23:45 GMT'
-
-        # Extract cookies from the response object
-        extracted_cookies = jar.extract_cookies(response)
-        self.assertEqual(extracted_cookies, {'session_id': ('1234567890', 'example.com', None, 'Wed, 21-Jan-2026 01:23:45 GMT', False, False), 'username': ('john_doe', 'example.com', None, 'Wed, 21-Jan-2026 01:23:45 GMT', False, False)})
-
-if __name__ == '__main__':
-    unittest.main()
+# Note: The URL 'https://example.com' and '/some_page' should be replaced with actual URLs used in your application.
 ```
-Note that this implementation provides a basic structure for cookie handling in Python. However, it may not cover all possible scenarios or edge cases, and you should consult the official documentation of the HTTP specification for more information on cookie usage.
+
+### 4. Handling Cookie Expiry
+
+```python
+import http.cookiejar
+import time
+
+# Create a CookieJar object
+cookie_jar = http.cookiejar.CookieJar()
+
+# Example of setting cookies with different expiry times
+cookie1 = http.cookiejar.Cookie(
+    version=0,
+    name='session_id',
+    value='1234567890',
+    domain='example.com',
+    path='/',
+    secure=True,
+    expires=int(time.time() + 3600)  # Expires in 1 hour
+)
+
+cookie2 = http.cookiejar.Cookie(
+    version=0,
+    name='session_id',
+    value='9876543210',
+    domain='example.com',
+    path='/',
+    secure=True,
+    expires=int(time.time() - 3600)  # Expires in 1 hour ago
+)
+
+cookie_jar.set_cookie(cookie1)
+cookie_jar.set_cookie(cookie2)
+
+# Print all cookies, showing expiry times
+for cookie in cookie_jar:
+    print(f"Name: {cookie.name}, Value: {cookie.value}, Expires: {cookie.expires}")
+```
+
+### 5. Handling Cookie Domain Scope
+
+```python
+import http.cookiejar
+
+# Create a CookieJar object
+cookie_jar = http.cookiejar.CookieJar()
+
+# Example of setting cookies with different domain scopes
+cookie1 = http.cookiejar.Cookie(
+    version=0,
+    name='session_id',
+    value='1234567890',
+    domain='example.com',
+    path='/',
+    secure=True
+)
+
+cookie2 = http.cookiejar.Cookie(
+    version=0,
+    name='session_id',
+    value='9876543210',
+    domain='.example.com',  # Matches subdomains
+    path='/',
+    secure=True
+)
+
+cookie_jar.set_cookie(cookie1)
+cookie_jar.set_cookie(cookie2)
+
+# Print all cookies, showing domain scope
+for cookie in cookie_jar:
+    print(f"Name: {cookie.name}, Value: {cookie.value}, Domain: {cookie.domain}")
+```
+
+### 6. Handling Cookie Persistence
+
+```python
+import http.cookiejar
+import os
+
+# Create a CookieJar object
+cookie_jar = http.cookiejar.MozillaCookieJar()  # Use Mozilla format for easier reading/writing
+
+# Example of saving cookies in a file
+with open('cookies.txt', 'wb') as f:
+    cookie_jar.save(file=f, ignore_discard=True, ignore_expires=False)
+
+# Load cookies from a file
+cookie_jar.clear()
+cookie_jar.load('cookies.txt')
+
+# Print all cookies after loading
+for cookie in cookie_jar:
+    print(f"Name: {cookie.name}, Value: {cookie.value}")
+```
+
+### 7. Handling Secure Cookies
+
+```python
+import http.cookiejar
+
+# Create a CookieJar object
+cookie_jar = http.cookiejar.CookieJar()
+
+# Example of setting secure cookies
+secure_cookie = http.cookiejar.Cookie(
+    version=0,
+    name='session_id',
+    value='1234567890',
+    domain='example.com',
+    path='/',
+    secure=True
+)
+
+cookie_jar.set_cookie(secure_cookie)
+
+# Print all cookies, showing secure flag
+for cookie in cookie_jar:
+    print(f"Name: {cookie.name}, Value: {cookie.value}, Secure: {cookie.secure}")
+```
+
+These examples cover the basic functionalities of the `http.cookiejar` module, including creating and managing cookies, parsing responses, sending cookies with requests, handling cookie expiry, domain scope, persistence, and secure cookies. Each example is self-contained and demonstrates a specific aspect of working with HTTP cookies in Python.

@@ -1,246 +1,222 @@
-# os — Miscellaneous operating system interfaces
+# os - Miscellaneous operating system interfaces
 
-**os Module Examples**
-=====================
+The `os` module in Python provides a portable way of using operating system dependent functionality, such as reading or writing to the filesystem, executing programs, and accessing environment variables. Below are comprehensive examples demonstrating various functionalities of the `os` module.
 
-The `os` module provides a way of using operating system dependent functionality.
+### 1. Accessing Environment Variables
 
-### 1. Checking if a file exists
 ```python
 import os
 
-# Check if a file exists
-def check_file_exists(file_path):
+def print_environment_variables():
     """
-    Checks if a file exists at the specified path.
-    
-    Args:
-        file_path (str): The path to the file to check.
-    
-    Returns:
-        bool: True if the file exists, False otherwise.
+    This function prints all environment variables.
     """
-    return os.path.exists(file_path)
+    for name, value in os.environ.items():
+        print(f"{name}: {value}")
 
-# Example usage
-file_path = "/path/to/your/file.txt"
-if check_file_exists(file_path):
-    print(f"The file {file_path} exists.")
-else:
-    print(f"The file {file_path} does not exist.")
+print_environment_variables()
 ```
 
-### 2. Getting the current working directory
+### 2. Changing the Current Working Directory
+
 ```python
 import os
 
-# Get the current working directory
-def get_current_directory():
+def change_directory(path):
     """
-    Gets the path of the current working directory.
+    This function changes the current working directory to the specified path.
     
-    Returns:
-        str: The path of the current working directory.
+    Args:
+    path (str): The directory path to which the current working directory should be changed.
+    """
+    try:
+        os.chdir(path)
+        print(f"Changed directory to: {os.getcwd()}")
+    except FileNotFoundError:
+        print("Directory not found.")
+
+change_directory('/path/to/directory')
+```
+
+### 3. Listing Directory Contents
+
+```python
+import os
+
+def list_directory_contents(directory):
+    """
+    This function lists all contents of the specified directory, including files and subdirectories.
+    
+    Args:
+    directory (str): The path to the directory whose contents should be listed.
+    """
+    try:
+        contents = os.listdir(directory)
+        print(f"Contents of {directory}:")
+        for item in contents:
+            print(item)
+    except FileNotFoundError:
+        print("Directory not found.")
+
+list_directory_contents('/path/to/directory')
+```
+
+### 4. Creating a New Directory
+
+```python
+import os
+
+def create_directory(path):
+    """
+    This function creates a new directory at the specified path.
+    
+    Args:
+    path (str): The path where the new directory should be created.
+    """
+    try:
+        os.makedirs(path)
+        print(f"Directory {path} created successfully.")
+    except FileExistsError:
+        print("Directory already exists.")
+
+create_directory('/path/to/new/directory')
+```
+
+### 5. Removing a Directory
+
+```python
+import os
+
+def remove_directory(directory):
+    """
+    This function removes the specified directory.
+    
+    Args:
+    directory (str): The path to the directory that should be removed.
+    """
+    try:
+        os.rmdir(directory)
+        print(f"Directory {directory} removed successfully.")
+    except FileNotFoundError:
+        print("Directory not found.")
+    except OSError as e:
+        if e.errno == 30:  # Directory is not empty
+            print("Directory is not empty. Please remove all contents first.")
+        else:
+            print(f"An error occurred: {e}")
+
+remove_directory('/path/to/directory')
+```
+
+### 6. Executing a Command
+
+```python
+import os
+
+def execute_command(command):
+    """
+    This function executes the specified command in a shell.
+    
+    Args:
+    command (str): The command to be executed.
+    """
+    try:
+        result = os.system(command)
+        print(f"Command executed with result: {result}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+execute_command('ls -l')
+```
+
+### 7. Getting Current Working Directory
+
+```python
+import os
+
+def get_current_working_directory():
+    """
+    This function returns the current working directory.
     """
     return os.getcwd()
 
-# Example usage
-print(get_current_directory())
+current_dir = get_current_working_directory()
+print(f"Current working directory: {current_dir}")
 ```
 
-### 3. Changing the current working directory
+### 8. Checking if a File or Directory Exists
+
 ```python
 import os
 
-# Change the current working directory
-def change_directory(directory_path):
+def check_file_or_directory_exists(path):
     """
-    Changes the current working directory to the specified path.
+    This function checks if a file or directory exists at the specified path.
     
     Args:
-        directory_path (str): The path of the new working directory.
-    """
-    os.chdir(directory_path)
-
-# Example usage
-new_dir = "/path/to/new/directory"
-change_directory(new_dir)
-print(os.getcwd())  # prints the new directory
-```
-
-### 4. Listing files and directories in a given directory
-```python
-import os
-
-# List files and directories in a given directory
-def list_files_and_directories(directory_path):
-    """
-    Lists all files and directories in the specified path.
-    
-    Args:
-        directory_path (str): The path of the directory to list.
+    path (str): The path to the file or directory.
     
     Returns:
-        list: A list of files and directories in the specified path.
+    bool: True if it exists, False otherwise.
     """
-    return os.listdir(directory_path)
+    return os.path.exists(path)
 
-# Example usage
-dir_path = "/path/to/your/directory"
-files_and_dirs = list_files_and_directories(dir_path)
-print(files_and_dirs)  # prints a list of files and directories
+exists = check_file_or_directory_exists('/path/to/file')
+print(f"File/Directory exists: {exists}")
 ```
 
-### 5. Creating a new directory
+### 9. Getting File or Directory Information
+
 ```python
 import os
 
-# Create a new directory
-def create_directory(directory_name):
+def get_file_info(file_path):
     """
-    Creates a new directory with the specified name.
+    This function retrieves information about a file or directory.
     
     Args:
-        directory_name (str): The name of the new directory.
+    file_path (str): The path to the file or directory.
     
     Returns:
-        bool: True if the directory was created, False otherwise.
+    dict: A dictionary containing various attributes of the file or directory.
     """
     try:
-        os.mkdir(directory_name)
-        return True
-    except FileExistsError:
-        print(f"The directory {directory_name} already exists.")
-        return False
-
-# Example usage
-dir_name = "new_directory"
-if create_directory(dir_name):
-    print(f"Directory {dir_name} created successfully.")
-else:
-    print(f"Failed to create directory {dir_name}.")
-```
-
-### 6. Deleting a file or directory
-```python
-import os
-
-# Delete a file or directory
-def delete_file_or_directory(file_or_dir_path):
-    """
-    Deletes the specified file or directory.
-    
-    Args:
-        file_or_dir_path (str): The path of the file or directory to delete.
-    
-    Returns:
-        bool: True if the file or directory was deleted, False otherwise.
-    """
-    try:
-        os.remove(file_or_dir_path)
-        return True
+        info = os.stat(file_path)
+        return {
+            'mode': oct(info.st_mode)[2:],  # Convert mode to octal
+            'size': info.st_size,          # File size in bytes
+            'last_modified': info.st_mtime   # Last modification time
+        }
     except FileNotFoundError:
-        print(f"The file {file_or_dir_path} does not exist.")
-        return False
+        print("File not found.")
+        return {}
 
-# Example usage
-file_path = "/path/to/your/file.txt"
-if delete_file_or_directory(file_path):
-    print(f"File {file_path} deleted successfully.")
-else:
-    print(f"Failed to delete file {file_path}.")
+file_info = get_file_info('/path/to/file')
+print(file_info)
 ```
 
-### 7. Getting the absolute path of a given path
+### 10. Making a Directory with Permissions
+
 ```python
 import os
 
-# Get the absolute path of a given path
-def get_absolute_path(path):
+def create_directory_with_permissions(path, mode):
     """
-    Gets the absolute path of the specified path.
+    This function creates a new directory at the specified path with the given permissions.
     
     Args:
-        path (str): The path to get the absolute path for.
-    
-    Returns:
-        str: The absolute path of the specified path.
+    path (str): The path where the new directory should be created.
+    mode (int): The permission bits for the directory (e.g., 0o755).
     """
-    return os.path.abspath(path)
+    try:
+        os.makedirs(path, mode=mode)
+        print(f"Directory {path} created successfully with permissions {oct(mode)[2:]}")
+    except FileExistsError:
+        print("Directory already exists.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
-# Example usage
-file_path = "/path/to/your/file.txt"
-absolute_path = get_absolute_path(file_path)
-print(absolute_path)  # prints the absolute path
+create_directory_with_permissions('/path/to/new/directory', 0o755)
 ```
 
-### 8. Getting the relative path of a given path
-```python
-import os
-
-# Get the relative path of a given path
-def get_relative_path(path, base_dir):
-    """
-    Gets the relative path of the specified path from the given base directory.
-    
-    Args:
-        path (str): The path to get the relative path for.
-        base_dir (str): The base directory to compare with.
-    
-    Returns:
-        str: The relative path of the specified path from the given base directory.
-    """
-    return os.path.relpath(path, base_dir)
-
-# Example usage
-base_dir = "/path/to/base/directory"
-file_path = "/path/to/your/file.txt"
-relative_path = get_relative_path(file_path, base_dir)
-print(relative_path)  # prints the relative path
-```
-
-### 9. Getting the directory name of a given path
-```python
-import os
-
-# Get the directory name of a given path
-def get_directory_name(path):
-    """
-    Gets the directory name of the specified path.
-    
-    Args:
-        path (str): The path to get the directory name for.
-    
-    Returns:
-        str: The directory name of the specified path.
-    """
-    return os.path.dirname(path)
-
-# Example usage
-file_path = "/path/to/your/file.txt"
-dir_name = get_directory_name(file_path)
-print(dir_name)  # prints the directory name
-```
-
-### 10. Getting the file name of a given path
-```python
-import os
-
-# Get the file name of a given path
-def get_file_name(path):
-    """
-    Gets the file name of the specified path.
-    
-    Args:
-        path (str): The path to get the file name for.
-    
-    Returns:
-        str: The file name of the specified path.
-    """
-    return os.path.basename(path)
-
-# Example usage
-file_path = "/path/to/your/file.txt"
-file_name = get_file_name(file_path)
-print(file_name)  # prints the file name
-```
+These examples demonstrate various functionalities of the `os` module, covering common tasks such as environment variable manipulation, directory operations, file system navigation, and command execution. Each function is documented with a docstring that explains its purpose, arguments, and return values.

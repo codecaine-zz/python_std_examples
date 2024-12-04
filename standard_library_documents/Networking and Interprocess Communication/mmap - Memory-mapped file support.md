@@ -1,116 +1,156 @@
-# mmap — Memory-mapped file support
+# mmap - Memory-mapped file support
 
-**Memory-Mapped File Support Module: mmap**
-====================================================
+The `mmap` module in Python allows you to memory-map files, which means that it creates a view of a file as if it were an array of bytes in memory. This can be useful for working with large files efficiently without loading the entire file into memory at once.
 
-### Overview
+Here are some code examples demonstrating various functionalities of the `mmap` module:
 
-The `mmap` module provides an interface for mapping files into memory, allowing for efficient and flexible access to file contents.
-
-### Functions
-
-#### `mmap.mmap(file descriptor, length, offset, access, device=None)`
-
-*   **file descriptor**: The file descriptor to be mapped.
-*   **length**: The size of the area to be mapped (in bytes).
-*   **offset**: The offset into the file where mapping begins.
-*   **access**: A string specifying the access mode:
-    *   'r' for read-only
-    *   'w' for write-only
-    *   'rw' for read-write
-*   **device**: Optional device identifier (for Unix-based systems only)
-
-**Example Usage:**
-```python
-import mmap
-
-# Open a file in binary mode
-with open('example.bin', 'rb') as file:
-    # Create an mmap object mapping the entire file into memory
-    mapped_file = mmap.mmap(file.fileno(), 0, access='r')
-
-    # Map a specific region of the file into memory
-    mapped_region = mmap.mmap(file.fileno(), 1024, offset=512, access='rw')
-
-    # Access and manipulate the mapped data
-    print(mapped_file.read(10))  # Read from the entire file
-    print(mapped_region.readline())  # Read a line from the specified region
-
-# Close the mmap object to release system resources
-mapped_file.close()
-```
-
-#### `mmap.mmap.mmap(file descriptor, length, offset, access)`
-
-*   This constructor is deprecated and should not be used directly.
-
-### Classes
-
-#### `mmap.MappedFile`
-
-This class represents a mapped file in memory. It provides methods for accessing the mapped data.
-
-**Example Usage:**
-```python
-import mmap
-
-# Open a file in binary mode
-with open('example.bin', 'rb') as file:
-    # Create an MappedFile object mapping the entire file into memory
-    with mmap.mmap(file.fileno(), 0, access='r') as mapped_file:
-        print(mapped_file.read(10))  # Read from the entire file
-
-# Access and manipulate the mapped data using methods provided by MappedFile
-with open('example.bin', 'rb') as file:
-    with mmap.MappedFile(file.fileno()) as mapped_file:
-        mapped_data = mapped_file.read()
-        print(mapped_data)  # Print the contents of the mapped file
-```
-
-### Constants
-
-#### `mmap.ACCESS_READ` and `mmap.ACCESS_WRITE`
-
-*   Define the access modes for `read-only` (0x0004) and `write-only` (0x0010), respectively.
+### Example 1: Basic Memory Mapping
 
 ```python
 import mmap
+import os
 
-ACCESS_READ = 0x0004  # Read-only access
-ACCESS_WRITE = 0x0010  # Write-only access
+# Path to a sample file
+file_path = 'example.txt'
 
-# Usage:
-with open('example.bin', 'rb') as file:
-    with mmap.mmap(file.fileno(), 0, access=ACCESS_READ) as mapped_file:
-        print(mapped_file.read(10))  # Read from the entire file
+# Create or open the file in binary mode for reading and writing
+with open(file_path, 'r+b') as f:
+    # Create a memory-mapped file object
+    mm = mmap.mmap(f.fileno(), 0)
+
+    # Write some data to the memory-mapped area
+    mm.write(b'Hello, world!')
+
+    # Move the cursor to the beginning of the mapped region
+    mm.seek(0)
+
+    # Read the data from the memory-mapped area
+    print(mm.read().decode('utf-8'))
+
+    # Close the memory mapping
+    mm.close()
 ```
 
-### Error Handling
-
-#### `mmap.MAP_FAILED` and `mmap.ENOTFOUND`
-
-*   Define error codes for mapping failures (0x12) and non-existent files (2).
+### Example 2: Synchronization with File
 
 ```python
 import mmap
+import os
 
-MAP_FAILED = -12  # Mapping failed
-ENOTFOUND = 2     # Non-existent file
+# Path to a sample file
+file_path = 'example.txt'
 
-# Usage:
-try:
-    with open('nonexistent_file.bin', 'rb') as file:
-        with mmap.mmap(file.fileno(), 0, access='r') as mapped_file:
-            print(mapped_file.read(10))
-except OSError as e:
-    if e.errno == ENOTFOUND:
-        print("File not found:", e)
+# Create or open the file in binary mode for reading and writing
+with open(file_path, 'r+b') as f:
+    # Create a memory-mapped file object
+    mm = mmap.mmap(f.fileno(), 0)
+
+    # Write some data to the memory-mapped area
+    mm.write(b'Hello, synchronization!')
+
+    # Sync the memory-mapped area with the file's contents
+    mm.flush()
+
+    # Seek back to the beginning of the mapped region
+    mm.seek(0)
+
+    # Read the data from the memory-mapped area
+    print(mm.read().decode('utf-8'))
+
+    # Close the memory mapping
+    mm.close()
 ```
 
-### Example Use Cases
+### Example 3: Writing and Reading Large Files
 
-*   **Binary Data Processing**: Map files into memory and process binary data using NumPy or Pandas.
-*   **Large File Access**: Use `mmap` to access large files without loading the entire file into memory, reducing memory usage.
-*   **Data Compression**: Compress data stored in a mapped file using libraries like gzip or zlib.
+```python
+import mmap
+import os
 
-By leveraging the `mmap` module, developers can optimize memory usage and improve performance when working with files that contain large amounts of data.
+# Path to a large sample file
+file_path = 'large_file.txt'
+
+# Create or open the file in binary mode for reading and writing
+with open(file_path, 'r+b') as f:
+    # Create a memory-mapped file object
+    mm = mmap.mmap(f.fileno(), 0)
+
+    # Write some large data to the memory-mapped area
+    mm.write(b'Large data repeated many times')
+
+    # Sync the memory-mapped area with the file's contents
+    mm.flush()
+
+    # Seek back to the beginning of the mapped region
+    mm.seek(0)
+
+    # Read the entire content of the memory-mapped area
+    large_data = mm.read()
+
+    # Close the memory mapping
+    mm.close()
+```
+
+### Example 4: Memory-Mapping Multiple Regions
+
+```python
+import mmap
+import os
+
+# Path to a sample file
+file_path = 'example.txt'
+
+# Create or open the file in binary mode for reading and writing
+with open(file_path, 'r+b') as f:
+    # Create a memory-mapped file object
+    mm = mmap.mmap(f.fileno(), 0)
+
+    # Write some data to the first region
+    mm.write(b'First region: Hello, ')
+
+    # Seek back to the beginning of the mapped region
+    mm.seek(0)
+
+    # Read and print the first region
+    print(mm.read(13).decode('utf-8'))
+
+    # Seek to the second position in the file
+    f.seek(14)
+
+    # Create a new memory-mapped object for the remaining data
+    mm2 = mmap.mmap(f.fileno(), os.path.getsize(file_path) - 14, offset=14)
+
+    # Read and print the second region
+    print(mm2.read().decode('utf-8'))
+
+    # Close both memory mappings
+    mm.close()
+    mm2.close()
+```
+
+### Example 5: Using Memory-Mapped Files with Multiple Processes
+
+```python
+import mmap
+import os
+import multiprocessing
+
+def process_data(data):
+    with open('data.txt', 'r+b') as f:
+        mm = mmap.mmap(f.fileno(), 0)
+        mm.write(data)
+        mm.flush()
+        mm.seek(0)
+        print(mm.read().decode('utf-8'))
+        mm.close()
+
+# Data to be processed
+data_to_process = b'Process data example'
+
+# Create a process and pass the data to it
+process = multiprocessing.Process(target=process_data, args=(data_to_process,))
+process.start()
+process.join()
+```
+
+These examples demonstrate how to use the `mmap` module for various operations such as writing to, reading from, and synchronizing memory-mapped files. Each example includes comments explaining the steps involved.

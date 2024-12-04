@@ -1,104 +1,194 @@
-# grp — The group database
+# grp - The group database
 
-**Group Database Module**
-==========================
-
-The `grp` module provides a way to store and retrieve Unix-style groups, which are used to manage access control.
-
-### Functions
-
-#### `getgrnam(name)`
-
-Returns the group with the specified name. If no group is found, returns None.
+Below are comprehensive code examples for the `grp` module in Python, which provides access to the system's group database. Each example is well-documented and follows best practices.
 
 ```python
 import grp
 
-def get_group_name(name):
+# 1. Retrieve all groups
+def list_all_groups():
     """
-    Returns the group with the specified name.
-    
-    Args:
-        name (str): The name of the group to retrieve.
+    List all groups available on the system.
     
     Returns:
-        grp.Groupl: The group object if found, otherwise None.
+        list: A list of group entries.
     """
-    return grp.getgrnam(name)
-```
+    try:
+        # Use grp.getgrall() to get a list of all groups
+        all_groups = grp.getgrall()
+        
+        for group in all_groups:
+            print(f"Group Name: {group.gr_name}")
+            print(f"Group ID: {group.gr_gid}")
+            print(f"Password: {group.gr_passwd}")
+            print(f"Members: {group.gr_mem}")
+            print("-" * 40)
+    
+    except Exception as e:
+        print(f"Error retrieving groups: {e}")
 
-#### `getgrgid(gid)`
-
-Returns the primary group of the user with the specified GID. If no group is found, returns None.
-
-```python
-import grp
-
-def get_primary_group(gid):
+# 2. Retrieve information about a specific group by name
+def get_group_by_name(group_name):
     """
-    Returns the primary group of the user with the specified GID.
+    Get information about a group by its name.
     
     Args:
-        gid (int): The GID of the user to retrieve.
-    
+        group_name (str): The name of the group.
+        
     Returns:
-        grp.Groupl: The group object if found, otherwise None.
+        grp.struct_group or None: Group entry if found, otherwise None.
     """
-    return grp.getgrgid(gid)
-```
+    try:
+        # Use grp.getgrnam() to get the group by name
+        group = grp.getgrnam(group_name)
+        print(f"Group Name: {group.gr_name}")
+        print(f"Group ID: {group.gr_gid}")
+        print(f"Password: {group.gr_passwd}")
+        print(f"Members: {group.gr_mem}")
+        
+    except KeyError:
+        print(f"Group '{group_name}' not found.")
+    
+    except Exception as e:
+        print(f"Error retrieving group by name: {e}")
 
-#### `getgrouplist(name)`
-
-Returns a list of groups with the specified name. If no groups are found, returns an empty list.
-
-```python
-import grp
-
-def get_groups_with_name(name):
+# 3. Retrieve information about a specific group by ID
+def get_group_by_gid(group_id):
     """
-    Returns a list of groups with the specified name.
+    Get information about a group by its ID.
     
     Args:
-        name (str): The name of the group to retrieve.
-    
+        group_id (int): The ID of the group.
+        
     Returns:
-        list[grp.Groupl]: A list of group objects if found, otherwise an empty list.
+        grp.struct_group or None: Group entry if found, otherwise None.
     """
-    return grp.getgrouplist(name)
+    try:
+        # Use grp.getgrgid() to get the group by ID
+        group = grp.getgrgid(group_id)
+        print(f"Group Name: {group.gr_name}")
+        print(f"Group ID: {group.gr_gid}")
+        print(f"Password: {group.gr_passwd}")
+        print(f"Members: {group.gr_mem}")
+        
+    except KeyError:
+        print(f"Group with ID '{group_id}' not found.")
+    
+    except Exception as e:
+        print(f"Error retrieving group by ID: {e}")
+
+# 4. Add a new group (requires superuser privileges)
+def add_group(group_name, password, gid=None):
+    """
+    Add a new group to the system.
+    
+    Args:
+        group_name (str): The name of the group to add.
+        password (str): The password for the group (usually set to None).
+        gid (int, optional): The GID for the group. Defaults to the next available GID.
+        
+    Returns:
+        str: A message indicating success or failure.
+    """
+    try:
+        # Use grp.addgrpg() to add a new group
+        if gid is None:
+            # Automatically allocate a new GID
+            gid = grp.getgrent().gr_gid + 1
+        
+        grp.addgroup(group_name, password, gid)
+        print(f"Group '{group_name}' added with GID {gid}.")
+        
+    except KeyError:
+        print("Failed to add group due to permission issues.")
+    
+    except Exception as e:
+        print(f"Error adding group: {e}")
+
+# 5. Modify an existing group
+def modify_group(group_name, new_members):
+    """
+    Modify an existing group by updating its members.
+    
+    Args:
+        group_name (str): The name of the group to modify.
+        new_members (list): A list of new member usernames.
+        
+    Returns:
+        str: A message indicating success or failure.
+    """
+    try:
+        # Get the group entry
+        group = grp.getgrnam(group_name)
+        
+        # Update the members
+        new_group = grp.struct_group(
+            gr_name=group.gr_name,
+            gr_gid=group.gr_gid,
+            gr_passwd=group.gr_passwd,
+            gr_mem=new_members
+        )
+        
+        # Use grp.setgrnam() to update the group entry
+        grp.setgrent()
+        grp.putgr(new_group)
+        grp.endgrent()
+        
+        print(f"Group '{group_name}' members updated.")
+    
+    except KeyError:
+        print("Failed to modify group due to permission issues.")
+    
+    except Exception as e:
+        print(f"Error modifying group: {e}")
+
+# 6. Remove a group
+def remove_group(group_name):
+    """
+    Remove an existing group from the system.
+    
+    Args:
+        group_name (str): The name of the group to remove.
+        
+    Returns:
+        str: A message indicating success or failure.
+    """
+    try:
+        # Get the group entry
+        group = grp.getgrnam(group_name)
+        
+        # Use grp.removename() to delete the group
+        grp.removename(group.gr_name, group.gr_gid)
+        
+        print(f"Group '{group_name}' removed.")
+    
+    except KeyError:
+        print("Failed to remove group due to permission issues.")
+    
+    except Exception as e:
+        print(f"Error removing group: {e}")
+
+# Example usage
+if __name__ == "__main__":
+    list_all_groups()
+    
+    get_group_by_name("root")
+    get_group_by_gid(0)
+    
+    add_group("newgroup", "password", gid=1000)
+    
+    modify_group("newgroup", ["user1", "user2"])
+    
+    remove_group("newgroup")
 ```
 
-### Examples
+### Explanation:
 
-```python
-# Get a specific group by name
-group_name = "admin"
-group = get_group_name(group_name)
+- **`list_all_groups()`**: Lists all groups on the system.
+- **`get_group_by_name(group_name)`**: Retrieves information about a group by its name.
+- **`get_group_by_gid(group_id)`**: Retrieves information about a group by its ID.
+- **`add_group(group_name, password, gid=None)`**: Adds a new group to the system. Requires superuser privileges.
+- **`modify_group(group_name, new_members)`**: Modifies an existing group by updating its members.
+- **`remove_group(group_name)`**: Removes an existing group from the system. Requires superuser privileges.
 
-if group:
-    print(f"Group {group_name} exists")
-else:
-    print(f"Group {group_name} does not exist")
-
-# Get the primary group of a user with a GID
-gid = 1000
-primary_group = get_primary_group(gid)
-
-if primary_group:
-    print(f"Primary group for user {gid} is {primary_group.groupl_name}")
-else:
-    print(f"No primary group found for user {gid}")
-
-# Get groups with a specific name
-group_names = ["admin", "moderator"]
-groups_with_name = get_groups_with_name(group_names)
-
-if groups_with_name:
-    print(f"Groups with name '{group_names[0]}' and '{group_names[1]}' exist")
-else:
-    print(f"No groups found with name '{group_names[0]}' or '{group_names[1]}'")
-```
-
-### Notes
-
-* The `grp` module is available in Python 3.2 and later versions.
-* This code generates the basic functions for interacting with the group database, but you may need to consult additional documentation for more advanced features or error handling.
+These examples demonstrate how to interact with the `grp` module effectively, covering various operations such as listing groups, retrieving group information, adding and modifying groups, and removing them.

@@ -1,65 +1,89 @@
-# calendar — General calendar-related functions
+# calendar - General calendar-related functions
 
-Here's an example of how you can use some general calendar-related functions from the `calendar` module:
+The `calendar` module in Python provides a set of functions that facilitate the display, generation, and manipulation of calendars. Here are comprehensive code examples demonstrating various functionalities within this module:
+
 ```python
 import calendar
 
-# Print the current month and year
-def print_current_month():
-    """Prints the current month and year."""
-    year = 2024  # Replace with the desired year
-    month = 12  # Replace with the desired month (1-12)
-    print(calendar.month(year, month))
+# Example 1: Display the current month's calendar with weekday names at the top
+print("Current Month Calendar:")
+print(calendar.month(2023, 9))
 
-print_current_month()
+# Example 2: Display a specific month and year's calendar with day numbers centered
+print("\nSpecific Month Calendar (Centered Day Numbers):")
+calendar.setfirstweekday(calendar.MONDAY)  # Set Monday as the first day of the week
+print(calendar.month(2023, 10))
 
-# Get the number of days in a month
-def get_days_in_month():
-    """Gets the number of days in a given month."""
-    month = 2  # February, which has 28 days
-    year = 2024  # Replace with the desired year
-    print(calendar.monthrange(year, month)[1])  # [1] returns the number of days
+# Example 3: Format a date in the ISO 8601 format
+formatted_date = calendar.formatdate(2023, 9, 5)
+print("\nFormatted Date (ISO 8601):", formatted_date)
 
-get_days_in_month()
+# Example 4: Determine if a given year is a leap year
+year = 2024
+if calendar.isleap(year):
+    print(f"{year} is a leap year.")
+else:
+    print(f"{year} is not a leap year.")
 
-# Get the first day of a week (0 for Monday, 6 for Sunday)
-def get_first_day_of_week():
-    """Gets the first day of a given week."""
-    year = 2024  # Replace with the desired year
-    month = 12  # Replace with the desired month (1-12)
-    print(calendar.weekday(year, month, 1))  # [1] returns the day of the week (0-6)
+# Example 5: Generate the day of the week for a specific date in a month and year
+day_of_week = calendar.weekday(2023, 9, 1)
+weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+print(f"\nDay of Week (Monday=0): {weekdays[day_of_week]}")
 
-get_first_day_of_week()
+# Example 6: Display the full calendar for a year
+print("\nFull Calendar for Year 2023:")
+full_calendar = calendar.calendar(2023)
+print(full_calendar)
 
-# Get the number of weeks in a given month
-def get_weeks_in_month():
-    """Gets the number of weeks in a given month."""
-    year = 2024  # Replace with the desired year
-    month = 12  # Replace with the desired month (1-12)
-    print(calendar.monthcalendar(year, month))  # Returns a matrix representing a month’s calendar
-    # The index [i][j] represents the day of the week (0-6) and date (1-31)
-    # We need to subtract 1 from the index because Python uses zero-based indexing
+# Example 7: Generate a range of dates
+start_date = (2023, 9, 1)
+end_date = (2023, 9, 30)
+cal_range = calendar.monthrange(start_date[0], start_date[1])
+first_weekday_of_month = cal_range[0]
+num_days_in_month = cal_range[1]
 
-get_weeks_in_month()
+print(f"\nNumber of days in the month: {num_days_in_month}")
+for day in range(first_weekday_of_month, first_weekday_of_month + num_days_in_month):
+    print(calendar.day_name[day])
 
-# Print all holidays in a given year
-def print_holidays():
-    """Prints all holidays in a given year."""
-    year = 2024  # Replace with the desired year
-    print(calendar.monthcalendar(year, 12))  # Returns a matrix representing the month’s calendar
-    for week in calendar.monthcalendar(year, 12):
+# Example 8: Generate a list of all holidays for a specific year
+holidays = calendar.holidays(2023)
+print("\nHolidays in Year 2023:")
+for holiday in holidays:
+    print(holiday)
+
+# Example 9: Format the month with weekend days highlighted
+highlight_weekends = calendar.monthcalendar(2023, 10)
+print("\nMonth Calendar with Weekends Highlighted:")
+for week in highlight_weekends:
+    for day in week:
+        if day == 6 or day == 7:  # Saturday and Sunday
+            print("*", end=" ")
+        else:
+            print(day, end=" ")
+    print()
+
+# Example 10: Generate a list of all days in a year
+days_of_year = calendar.Calendar().yeardays2calendar(2023)
+print("\nDays of the Year for Year 2023:")
+for week_list in days_of_year:
+    for week in week_list:
         for day in week:
-            if day != 0:  # Non-zero values represent days in the month
-                print(f"{day}: Holiday")
-
-print_holidays()
+            print(day, end=" ")
+    print()
 ```
-This example includes functions to:
 
-1. Print the current month and year.
-2. Get the number of days in a given month.
-3. Get the first day of a week (0 for Monday, 6 for Sunday).
-4. Get the number of weeks in a given month.
-5. Print all holidays in a given year.
+### Explanation:
 
-These functions are part of the `calendar` module's standard library function set and can be used to interact with dates in Python.
+1. **Current Month Calendar**: Displays the current month's calendar with weekday names at the top.
+2. **Specific Month Calendar (Centered Day Numbers)**: Demonstrates displaying a specific month and year's calendar with centered day numbers.
+3. **Formatted Date (ISO 8601)**: Shows how to format a date in the ISO 8601 format.
+4. **Leap Year Check**: Determines if a given year is a leap year using the `isleap` function.
+5. **Day of the Week**: Finds and prints the day of the week for a specific date in a month and year.
+6. **Full Calendar for Year**: Displays the full calendar for a specified year.
+7. **Generate a Range of Dates**: Shows how to generate a range of dates from a start to an end date.
+8. **Holidays in Year**: Lists all holidays for a given year using the `holidays` function.
+9. **Month Calendar with Weekends Highlighted**: Highlights Saturday and Sunday in a month's calendar.
+10. **Days of the Year**: Displays all days in a year in a structured format.
+
+These examples cover various aspects of the `calendar` module, from basic calendaring functions to more advanced date manipulation techniques.

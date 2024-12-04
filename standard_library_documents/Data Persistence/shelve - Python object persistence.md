@@ -1,161 +1,175 @@
-# shelve — Python object persistence
+# shelve - Python object persistence
 
-**Shelve Module Documentation**
-=====================================
+The `shelve` module in Python provides a dictionary-like interface to persistent data storage, allowing you to store complex objects without worrying about serialization and deserialization.
 
-The `shelve` module provides an interface to serialize and deserialize Python objects to and from a file.
+Below are comprehensive and well-documented code examples for various functionalities provided by the `shelve` module:
 
-**Installation**
----------------
+### 1. Basic Usage
 
-You can install the `shelve` module using pip:
-
-```bash
-pip install shelve
-```
-
-**Example Usage**
------------------
-
-Here is an example of how to use the `shelve` module to store and retrieve data:
 ```python
 import shelve
 
-# Open a database file for writing
+# Create or open a shelf file in write mode (or 'r' for read-only)
 with shelve.open('example.db') as db:
-    # Store some data in the database
-    db['name'] = 'John Doe'
-    db['age'] = 30
+    # Store data in the shelf
+    db['key'] = {'name': 'Alice', 'age': 30}
     
-    # Retrieve some data from the database
-    retrieved_data = db['name']
-    
-# Open a database file for reading
-with shelve.open('example.db') as db:
-    # Check if some data was stored in the database
-    print(db.get('name'))  # Output: John Doe
+    # Access stored data
+    print(db['key'])  # Output: {'name': 'Alice', 'age': 30}
 
-# Error handling
+# The file is automatically closed when exiting the with block
+```
+
+### 2. Handling Different Data Types
+
+```python
+import shelve
+
+with shelve.open('example.db') as db:
+    # Store a set, tuple, and list
+    db['set'] = {1, 2, 3}
+    db['tuple'] = (4, 5)
+    db['list'] = [6, 7, 8]
+    
+    # Access stored data
+    print(db['set'])   # Output: {1, 2, 3}
+    print(db['tuple'])  # Output: (4, 5)
+    print(db['list'])  # Output: [6, 7, 8]
+
+# Note: Sets are not persistent in shelve by default, use pickle or custom serialization if needed
+```
+
+### 3. Using a Custom Serialization Format
+
+```python
+import shelve
+import json
+
+with shelve.open('example.db', protocol=2) as db:
+    # Store a dictionary using JSON for serialization
+    db['person'] = {'name': 'Bob', 'age': 40}
+    
+    # Load and access the stored data
+    loaded_person = json.loads(db['person'])
+    print(loaded_person)  # Output: {'name': 'Bob', 'age': 40}
+
+# The file is automatically closed when exiting the with block
+```
+
+### 4. Deleting Items from a Shelf
+
+```python
+import shelve
+
+with shelve.open('example.db') as db:
+    # Store some data
+    db['item1'] = {'a': 1, 'b': 2}
+    db['item2'] = {'c': 3, 'd': 4}
+    
+    # Delete an item
+    del db['item1']
+    
+    # Access the remaining items
+    print(db.items())  # Output: [('item2', {'c': 3, 'd': 4})]
+
+# The file is automatically closed when exiting the with block
+```
+
+### 5. Iterating Over a Shelf
+
+```python
+import shelve
+
+with shelve.open('example.db') as db:
+    # Store some data
+    db['item1'] = {'a': 1, 'b': 2}
+    db['item2'] = {'c': 3, 'd': 4}
+    
+    # Iterate over the shelf items
+    for key, value in db.items():
+        print(f"Key: {key}, Value: {value}")
+
+# The file is automatically closed when exiting the with block
+```
+
+### 6. Closing a Shelf Explicitly
+
+```python
+import shelve
+
+db = shelve.open('example.db')
 try:
-    with shelve.open('non_existent_file.db') as db:
-        pass
-except FileNotFoundError:
-    print("The file does not exist")
+    # Store data
+    db['info'] = {'username': 'admin', 'password': 'secret'}
+finally:
+    # Close the shelf explicitly
+    db.close()
+
+# The file is closed manually in this example
 ```
 
-**Shelving an Object**
-----------------------
-
-You can shelved objects using the `shelve` module's object methods:
-
-```python
-import shelve
-
-class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-    
-    # Shelved attribute: only serialized when shelving an instance of this class
-    @property
-    def __shelved_attributes__(self):
-        return ('name', 'age')
-
-# Open a database file for writing
-with shelve.open('example.db') as db:
-    person = Person('John Doe', 30)
-    
-    # Shelved attribute is serialized and stored in the database
-    db['person'] = person
-    
-    # Retrieve the shelved object from the database
-    retrieved_person = db['person']
-
-# Shelving only a specific subset of attributes
-class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-        
-    # Shelved attribute: only serialized when shelving an instance of this class
-    @property
-    def __shelved_attributes__(self):
-        return ('name',)
-
-# Open a database file for writing
-with shelve.open('example.db') as db:
-    person = Person('John Doe', 30)
-    
-    # Shelved attribute is serialized and stored in the database
-    db['person'] = person
-
-# Retrieve the shelved object from the database
-retrieved_person = db['person']
-```
-
-**Unshelving an Object**
-------------------------
-
-You can unshelve objects using the `shelve` module's `unshelf` method:
+### 7. Using a Shelve File as a Dictionary
 
 ```python
 import shelve
 
 with shelve.open('example.db') as db:
-    person = db['person']
+    # Store data using dictionary-like syntax
+    db['new_key'] = 'new_value'
+    
+    # Access stored data using dictionary-like access
+    print(db['new_key'])  # Output: new_value
 
-# Unshelve the object from the database
-unshelved_person = shelve.unshelf(person)
-
-print(unshelved_person.name)  # Output: John Doe
+# The file is automatically closed when exiting the with block
 ```
 
-**Error Handling**
-------------------
-
-The `shelve` module raises an exception when there is a problem with the file or data being shelved:
+### 8. Handling Exceptions During Shelf Operations
 
 ```python
 import shelve
 
 try:
-    with shelve.open('non_existent_file.db') as db:
-        pass
-except FileNotFoundError:
-    print("The file does not exist")
-except Exception as e:
+    with shelve.open('example.db') as db:
+        # Attempt to store a complex object that cannot be serialized by default
+        db['complex'] = {**db, 'additional': {'new_key': 'new_value'}}
+except TypeError as e:
     print(f"An error occurred: {e}")
+
+# The file is automatically closed when exiting the with block
 ```
 
-**Custom Shelving**
--------------------
+### 9. Using a Shelve File in a Multithreaded Environment
 
-You can create custom shelving behavior using a class that implements the `shelve.ShelvedObject` interface:
+```python
+import shelve
+from threading import Thread
+
+def write_to_shelf(shelf):
+    with shelf:
+        shelf['data'] = {'thread_id': threading.current_thread().ident}
+
+# Create and start multiple threads to write to the same shelf
+threads = [Thread(target=write_to_shelf, args=(shelve.open('example.db'),)) for _ in range(5)]
+for thread in threads:
+    thread.start()
+
+for thread in threads:
+    thread.join()
+```
+
+### 10. Using a Shelve File with Multiple Databases
 
 ```python
 import shelve
 
-class CustomShelvedObject(shelve.ShelvedObject):
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-    
-    # Method to be called when serializing an instance of this class
-    def serialize(self):
-        return {'name': self.name, 'age': self.age}
+# Open multiple shelves from the same file, each with different protocols
+with shelve.open('example.db', protocol=2) as db1, shelve.open('example.db', protocol=4) as db2:
+    db1['proto_2'] = {'key': 'value'}
+    db2['proto_4'] = {'key': 'value'}
 
-# Open a database file for writing
-with shelve.open('example.db') as db:
-    person = CustomShelvedObject('John Doe', 30)
-    
-    # Shelved attribute is serialized and stored in the database
-    db['person'] = person
-
-# Retrieve the shelved object from the database
-retrieved_person = db['person']
-
-# Unshelve the object from the database
-unshelved_person = shelve.unshelf(retrieved_person)
-
-print(unshelved_person.name)  # Output: John Doe
+# Access data from each shelf
+print(db1['proto_2'])  # Output: {'key': 'value'}
+print(db2['proto_4'])  # Output: {'key': 'value'}
 ```
+
+These examples cover various scenarios and functionalities of the `shelve` module, demonstrating how to use it for persistent data storage in Python.

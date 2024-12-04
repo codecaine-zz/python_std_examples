@@ -1,82 +1,139 @@
-# zipapp — Manage executable Python zip archives
+# zipapp - Manage executable Python zip archives
 
-**zipapp.py**
+The `zipapp` module in Python is used to create standalone executables from Python applications by embedding the interpreter into a ZIP archive. This allows you to distribute your application without requiring a separate Python installation, which can be useful for distributing small projects or for creating installable packages.
+
+Here are some code examples that demonstrate various functionalities of the `zipapp` module:
+
+### Example 1: Creating an Executable from a Script
+
+Suppose you have a simple script named `my_script.py`:
 ```python
-import os
-import sys
-from zipapp import main
-
-# Main function to create or update a zip archive
-def create_or_update_zip_archive(zip_name, zip_contents):
-    """
-    Create or update a zip archive.
-
-    Args:
-        zip_name (str): The name of the zip archive.
-        zip_contents (dict): A dictionary containing the contents of the zip archive.
-            Each key is a file path and each value is the file's content in bytes.
-    """
-    main.create_or_update_zip_archive(zip_name, zip_contents)
-
-
-# Main function to extract files from a zip archive
-def extract_files_from_zip(zip_name):
-    """
-    Extract files from a zip archive.
-
-    Args:
-        zip_name (str): The name of the zip archive.
-    """
-    return main.extract_files_from_zip(zip_name)
-
-
-# Create or update a zip archive with example contents
-if __name__ == "__main__":
-    # Define the contents of the zip archive
-    zip_contents = {
-        "script.py": b"import os; print(os.getcwd())",
-        "README.txt": b"# This is a sample README file.",
-        "icon.ico": b"Sample icon for the application."
-    }
-
-    # Create or update the zip archive
-    create_or_update_zip_archive("my_app.zip", zip_contents)
-
-    # Extract files from the zip archive
-    extracted_files = extract_files_from_zip("my_app.zip")
-
-    print("Extracted files:")
-    for file in extracted_files:
-        print(file)
-```
-
-**Usage:**
-
-1. Create or update a zip archive using `create_or_update_zip_archive`.
-2. Extract files from a zip archive using `extract_files_from_zip`.
-
-Note: The actual implementation may vary depending on the platform and requirements.
-
-Here's an example of how you can use the `zipapp` module to create an executable Python script:
-
-**Creating an Executable Zip Archive**
-
-1. Install the `py2exe` library if not already installed: `pip install py2exe`
-2. Define a function that will be used as the entry point for your application:
-   ```python
+# my_script.py
 def main():
-    # Your application code here
-    pass
-```
-3. Use the `zipapp` module to create an executable zip archive with the following command:
-   ```bash
-zip -r my_app.zip my_script.py
-zipapp --target-dir . my_app.zip
+    print("Hello, world!")
+
+if __name__ == "__main__":
+    main()
 ```
 
-**Extracting Files from a Zip Archive**
+You can use the `zipapp.create_archive` function to create an executable from this script:
 
-1. Extract files from a zip archive using the following command:
-   ```bash
-zipapp extract my_app.zip
+```python
+import zipapp
+
+# Create a ZIP file containing the script and the Python interpreter
+with open('my_script.zip', 'wb') as f:
+    z = zipapp.create_archive(
+        # Path to the entry point of the script (main module)
+        'my_script.py',
+        out_file=f,
+        root_dir='.',
+        strip_top_level=True  # Remove top-level directory from ZIP archive
+    )
 ```
+
+This command will create a standalone executable named `my_script.zip` that can be run without Python installed on the target system.
+
+### Example 2: Executing an Executable
+
+To execute the created executable:
+
+```python
+import subprocess
+
+# Execute the created executable
+subprocess.run(['./my_script.zip'])
+```
+
+This command will invoke the script embedded in `my_script.zip`.
+
+### Example 3: Installing the Executable as a Command-Line Tool
+
+You can install the executable as a system command by creating an alias or by adding the directory containing the executable to your PATH environment variable. For simplicity, let's assume you want to add the executable to a specific directory:
+
+```python
+import shutil
+from pathlib import Path
+
+# Specify the destination directory for the executable
+destination = Path('/usr/local/bin')
+
+# Ensure the destination exists
+if not destination.exists():
+    destination.mkdir(parents=True)
+
+# Copy the executable from the zip file to the destination directory
+shutil.copy('my_script.zip', destination / 'my_script')
+```
+
+Now, you can run `my_script` from anywhere in your system:
+
+```bash
+$ my_script
+Hello, world!
+```
+
+### Example 4: Running a Script with Specific Python Interpreter
+
+If you want to specify a particular Python interpreter when running the script, you can use the `-m` option with the `subprocess.run` function:
+
+```python
+import subprocess
+
+# Run the script using a specific Python interpreter
+subprocess.run(['python3', './my_script.zip'])
+```
+
+This command will ensure that the specified Python version is used to execute the script.
+
+### Example 5: Managing Dependencies
+
+If your application has dependencies, you can include them in the ZIP archive by adding them to the root directory of the ZIP file. For example, if `my_module.py` also depends on another module:
+
+```python
+# my_script.py
+import my_module
+
+def main():
+    print("Hello, world!")
+    my_module.main()
+
+if __name__ == "__main__":
+    main()
+```
+
+And include `my_module.py` in the ZIP file:
+
+```python
+import zipapp
+
+with open('my_script.zip', 'wb') as f:
+    z = zipapp.create_archive(
+        'my_script.py',
+        out_file=f,
+        root_dir='.',
+        strip_top_level=True,
+        include=['my_module.py']  # Include additional files in the ZIP
+    )
+```
+
+This approach allows you to bundle all necessary components into a single, portable executable.
+
+### Example 6: Using `zipapp.run_script`
+
+The `zipapp.run_script` function is another way to execute scripts directly from a zip archive without creating an executable file:
+
+```python
+import zipapp
+
+# Run the script directly from the ZIP archive
+zipapp.run_script(
+    'my_script.zip',
+    # Command-line arguments passed to the script
+    ['arg1', 'arg2']
+)
+```
+
+This command will execute `my_script.py` with the specified arguments.
+
+These examples provide a comprehensive overview of how you can use the `zipapp` module to create, manage, and run standalone Python applications. You can modify these examples based on your specific requirements and project structure.

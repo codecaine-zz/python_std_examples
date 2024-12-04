@@ -1,74 +1,192 @@
 # multiprocessing.shared_memory - Shared memory for direct access across processes
 
-**Shared Memory Example using Multiprocessing in Python**
-===========================================================
+The `multiprocessing.shared_memory` module provides a way to create shared memory objects that can be accessed by multiple processes directly. This is useful for sharing large amounts of data between processes without having to copy it. Below are comprehensive examples of how to use this module, including creating and accessing shared memory objects in Python 3.12.
 
-Below is an example of how to use `multiprocessing sharable memory` to share data between multiple processes.
+### Example 1: Creating a Shared Memory Object
+
+This example demonstrates how to create a shared memory object and map it into a shared array.
 
 ```python
-import multiprocessing
-import os
+import multiprocessing as mp
 
-# Create a shared memory segment
-def create_shared_memory():
-    # Get the size of the shared memory segment (in bytes)
-    size = 1024
-    
-    # Create a shared memory segment with the specified size
-    shm_id = multiprocessing.SharedMemory(create=1, size=size)
-    
-    return shm_id
-
-# Process to write data to shared memory
-def write_data(shm_id):
-    # Write some data to the shared memory segment (as bytes)
-    data_to_write = b'Hello from process 1!'
-    shm_id.buf[:len(data_to_write)] = data_to_write
-    
-    # Print the ID of the shared memory segment for verification
-    print(f"Shared Memory Segment ID: {shm_id.name}")
-    
-# Process to read data from shared memory
-def read_data(shm_id):
-    # Read some data from the shared memory segment (as bytes)
-    data_from_shm = shm_id.buf[:len(data_to_write)]
-    
-    # Print the data from the shared memory segment for verification
-    print(f"Data from Shared Memory Segment: {data_from_shm.decode('utf-8')}")
+def worker(shared_array):
+    # Accessing the shared array from the worker process
+    for i in range(len(shared_array)):
+        shared_array[i] += 1
 
 if __name__ == "__main__":
-    # Create a shared memory segment
-    shm_id = create_shared_memory()
-    
-    # Calculate the size of the shared memory segment in bytes
-    size = shm_id.size
-    
-    # Get the address of the shared memory segment
-    addr = shm_id.address
-    
-    # Create two processes
-    p1 = multiprocessing.Process(target=write_data, args=(shm_id,))
-    p2 = multiprocessing.Process(target=read_data, args=(shm_id,))
-    
-    # Start both processes
-    p1.start()
-    p2.start()
-    
-    # Wait for both processes to finish
-    p1.join()
-    p2.join()
+    # Create a shared memory object of type 'c' (char) with size 10
+    shm = mp.Array('c', 10)
 
+    # Map the shared memory object into the worker process's address space
+    array_view = mp.array(shm)
+
+    # Start a new process that will modify the shared array
+    p = mp.Process(target=worker, args=(array_view,))
+    p.start()
+    p.join()
+
+    # Print the modified shared array
+    print("Modified shared array:", ''.join(array_view))
 ```
 
-**Explanation:**
+### Example 2: Creating a Shared Memory Object for an Integer
 
-*   We create a shared memory segment with the `SharedMemory` class from the `multiprocessing` module. The `create=1` argument indicates that we want to allocate an existing file, and the `size` parameter specifies the size of the shared memory segment in bytes.
-*   In the example above, we define two processes: one process (`p1`) writes data to a shared memory segment, while the other process (`p2`) reads data from it. The processes are created with the same shared memory segment using the `shared_memory` argument passed to the `Process` constructor.
-*   We use the `start()` method to start both processes and then wait for them to finish using the `join()` method.
+This example shows how to create a shared memory object of type 'i' (int) and initialize it with a specific value.
 
-**Output:**
+```python
+import multiprocessing as mp
 
+def worker(shared_int):
+    # Accessing the shared integer from the worker process
+    print("Initial shared integer:", shared_int.value)
+    shared_int.value += 1
+
+if __name__ == "__main__":
+    # Create a shared memory object of type 'i' (int) with size 1
+    shm = mp.Value('i', 5)
+
+    # Map the shared memory object into the worker process's address space
+    array_view = mp.Value(shm)
+
+    # Start a new process that will modify the shared integer
+    p = mp.Process(target=worker, args=(array_view,))
+    p.start()
+    p.join()
+
+    # Print the modified shared integer
+    print("Modified shared integer:", array_view.value)
 ```
-Shared Memory Segment ID: 0x7f9d4ba10000
-Data from Shared Memory Segment: Hello from process 1!
+
+### Example 3: Creating a Shared Memory Object for a Float
+
+This example demonstrates how to create a shared memory object of type 'f' (float) and initialize it with a specific value.
+
+```python
+import multiprocessing as mp
+
+def worker(shared_float):
+    # Accessing the shared float from the worker process
+    print("Initial shared float:", shared_float.value)
+    shared_float.value += 0.1
+
+if __name__ == "__main__":
+    # Create a shared memory object of type 'f' (float) with size 1
+    shm = mp.Value('f', 5.0)
+
+    # Map the shared memory object into the worker process's address space
+    array_view = mp.Value(shm)
+
+    # Start a new process that will modify the shared float
+    p = mp.Process(target=worker, args=(array_view,))
+    p.start()
+    p.join()
+
+    # Print the modified shared float
+    print("Modified shared float:", array_view.value)
 ```
+
+### Example 4: Creating a Shared Memory Object for a List
+
+This example shows how to create a shared memory object of type 'l' (list) and initialize it with a list of values.
+
+```python
+import multiprocessing as mp
+
+def worker(shared_list):
+    # Accessing the shared list from the worker process
+    print("Initial shared list:", shared_list)
+    for i in range(len(shared_list)):
+        shared_list[i] += 1
+
+if __name__ == "__main__":
+    # Create a shared memory object of type 'l' (list) with size 5
+    shm = mp.List([1, 2, 3, 4, 5])
+
+    # Map the shared memory object into the worker process's address space
+    array_view = mp.List(shm)
+
+    # Start a new process that will modify the shared list
+    p = mp.Process(target=worker, args=(array_view,))
+    p.start()
+    p.join()
+
+    # Print the modified shared list
+    print("Modified shared list:", array_view)
+```
+
+### Example 5: Creating and Accessing Shared Memory Objects Across Multiple Processes
+
+This example demonstrates how to create and access shared memory objects in a more complex scenario involving multiple processes.
+
+```python
+import multiprocessing as mp
+
+def worker(shared_array):
+    # Accessing the shared array from the worker process
+    for i in range(len(shared_array)):
+        shared_array[i] += 1
+
+def main():
+    # Create a shared memory object of type 'c' (char) with size 10
+    shm = mp.Array('c', 10)
+
+    # Map the shared memory object into the worker process's address space
+    array_view = mp.array(shm)
+
+    # Start multiple processes that will modify the shared array
+    processes = []
+    for _ in range(5):
+        p = mp.Process(target=worker, args=(array_view,))
+        p.start()
+        processes.append(p)
+
+    # Wait for all processes to complete
+    for p in processes:
+        p.join()
+
+    # Print the final modified shared array
+    print("Final shared array:", ''.join(array_view))
+
+if __name__ == "__main__":
+    main()
+```
+
+### Example 6: Creating and Accessing Shared Memory Objects with Initial Data
+
+This example demonstrates how to create a shared memory object of type 'l' (list) with initial data and modify it from multiple processes.
+
+```python
+import multiprocessing as mp
+
+def worker(shared_list):
+    # Accessing the shared list from the worker process
+    for i in range(len(shared_list)):
+        shared_list[i] += 1
+
+def main():
+    # Create a shared memory object of type 'l' (list) with initial data and size 5
+    shm = mp.List([1, 2, 3, 4, 5])
+
+    # Map the shared memory object into the worker process's address space
+    array_view = mp.List(shm)
+
+    # Start multiple processes that will modify the shared list
+    processes = []
+    for _ in range(5):
+        p = mp.Process(target=worker, args=(array_view,))
+        p.start()
+        processes.append(p)
+
+    # Wait for all processes to complete
+    for p in processes:
+        p.join()
+
+    # Print the final modified shared list
+    print("Final shared list:", array_view)
+
+if __name__ == "__main__":
+    main()
+```
+
+These examples cover various scenarios of using `multiprocessing.shared_memory` to share data between processes. Each example includes comments explaining key steps and demonstrates how to handle different types of shared memory objects (e.g., strings, integers, floats, lists).

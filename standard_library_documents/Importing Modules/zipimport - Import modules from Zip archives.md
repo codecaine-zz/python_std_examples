@@ -1,72 +1,135 @@
-# zipimport — Import modules from Zip archives
+# zipimport - Import modules from Zip archives
 
-**ZipImport Example**
+The `zipimport` module in Python allows you to import modules from a ZIP archive, which can be useful for distributing libraries as standalone ZIP files or for using pre-compiled shared objects. Here are comprehensive examples demonstrating various functionalities of the `zipimport` module.
+
+### Example 1: Importing a Module from a Zip Archive
+
 ```python
-# Importing modules from a zip archive using ZipImport
+import zipimport
+import sys
 
-import importlib.util
-from importlib.machinery import SourceFileLoader
-from io import BytesIO
+# Specify the path to the ZIP file containing the module
+zip_path = 'path/to/your/library.zip'
+module_name = 'my_module'
 
-def load_module_from_zip(zip_path, module_name):
-    """
-    Load a Python module from a zip archive.
+# Find the zipimporter for the ZIP archive
+zip_importer = zipimport.find_loader(module_name)
 
-    Args:
-        zip_path (str): Path to the zip archive containing the module.
-        module_name (str): Name of the module to be loaded.
+if not zip_importer:
+    raise ImportError(f"Module {module_name} not found in {zip_path}")
 
-    Returns:
-        Module: The loaded module.
-    """
-    # Create a BytesIO object to simulate a file
-    with open(zip_path, 'rb') as f:
-        zip_data = f.read()
+# Create an instance of the importer and load the module
+package_path, module_name = zip_importer.load_module(module_name).split('.', 1)
+sys.modules[module_name] = importlib.import_module(package_path + '.' + module_name)
 
-    # Load the zip archive using the BytesIO object
-    spec = importlib.util.spec_from_file_location(module_name, BytesIO(zip_data))
-    
-    if spec is None:
-        raise ValueError(f"Failed to load module from zip: {module_path}")
-
-    # Create a SourceFileLoader object to load the module
-    loader = SourceFileLoader(module_name, BytesIO(zip_data))
-
-    # Load the module using the loader
-    try:
-        module = loader.load_module()
-    except Exception as e:
-        raise ValueError(f"Failed to load module from zip: {e}")
-
-    return module
-
-# Example usage
-if __name__ == "__main__":
-    # Create a sample zip archive containing a Python module
-    import zipfile
-    with zipfile.ZipFile("example.zip", "w") as zip_file:
-        # Add the module to the zip archive
-        zip_file.write("./module.py")
-
-    # Load the module from the zip archive
-    module_name = "example.module"
-    loaded_module = load_module_from_zip("example.zip", module_name)
-
-    # Print the loaded module's name and attributes
-    print(f"Loaded Module: {loaded_module.__name__}")
-    for attr in dir(loaded_module):
-        if not attr.startswith("_"):
-            print(f"{attr}: {getattr(loaded_module, attr)}")
+# Now you can use the imported module as usual
+print(my_module.some_function())
 ```
 
-**Explanation**
+### Example 2: Using Zipimporter Directly
 
-This code defines a function `load_module_from_zip` that loads a Python module from a zip archive. It uses the `importlib.util.spec_from_file_location` function to create a module specification for the zip archive, and then creates a `SourceFileLoader` object to load the module.
+```python
+import zipimport
+import sys
 
-The example usage demonstrates how to create a sample zip archive containing a Python module, load the module using the `load_module_from_zip` function, and print the loaded module's name and attributes.
+# Specify the path to the ZIP file containing the module
+zip_path = 'path/to/your/library.zip'
+module_name = 'my_module'
 
-**Note**
+# Find the zipimporter for the ZIP archive
+zip_importer = zipimport.find_loader(module_name)
 
-This code assumes that the zip archive contains a single Python module file. If your use case involves loading multiple modules from different parts of the same zip archive, you will need to modify the code accordingly.
+if not zip_importer:
+    raise ImportError(f"Module {module_name} not found in {zip_path}")
 
-Also note that this is just one way to load a Python module from a zip archive. Depending on your specific requirements, you may need to use other methods or libraries.
+# Create an instance of the importer and load the module
+package_path, module_name = zip_importer.load_module(module_name).split('.', 1)
+sys.modules[module_name] = importlib.import_module(package_path + '.' + module_name)
+
+# Now you can use the imported module as usual
+print(my_module.some_function())
+```
+
+### Example 3: Importing All Modules in a ZIP Archive
+
+```python
+import zipimport
+import sys
+
+# Specify the path to the ZIP file containing the modules
+zip_path = 'path/to/your/library.zip'
+
+# Find all loaders for modules within the ZIP archive
+loaders = [loader for loader, name in zipimport.find_modules('', zip_path)]
+
+for loader, name in loaders:
+    package_name, module_name = loader.load_module(name).split('.', 1)
+    sys.modules[module_name] = importlib.import_module(package_name + '.' + module_name)
+
+# Now you can use any imported modules as usual
+print(my_module.some_function())
+```
+
+### Example 4: Handling ZipFile Errors
+
+```python
+import zipimport
+import sys
+
+# Specify the path to the ZIP file containing the module
+zip_path = 'path/to/your/library.zip'
+module_name = 'my_module'
+
+# Find the zipimporter for the ZIP archive
+zip_importer = zipimport.find_loader(module_name)
+
+if not zip_importer:
+    try:
+        # Attempt to open the ZIP file directly and check if it contains the module
+        with zipfile.ZipFile(zip_path) as zipf:
+            if module_name in zipf.namelist():
+                sys.path.append(zip_path)
+                import my_module
+                print(my_module.some_function())
+            else:
+                raise ImportError(f"Module {module_name} not found in {zip_path}")
+    except zipfile.BadZipFile:
+        print("The ZIP file is corrupted.")
+
+# Import the module using a standard import statement
+```
+
+### Example 5: Using `zipimport` with `pkg_resources`
+
+```python
+from pkg_resources import resource_filename, ensure_resource
+
+# Ensure that the ZIP file is extracted to a temporary directory
+with ensure_resource(zip_path) as temp_dir:
+    # Use zipimport directly on the extracted files
+    import zipimport
+    import sys
+
+    # Specify the module name within the ZIP archive
+    module_name = 'my_module'
+
+    # Find the zipimporter for the module
+    zip_importer = zipimport.find_loader(module_name, temp_dir)
+
+    if not zip_importer:
+        raise ImportError(f"Module {module_name} not found in {zip_path}")
+
+    # Create an instance of the importer and load the module
+    package_path, module_name = zip_importer.load_module(module_name).split('.', 1)
+    sys.modules[module_name] = importlib.import_module(package_path + '.' + module_name)
+
+# Now you can use the imported module as usual
+print(my_module.some_function())
+```
+
+### Notes:
+- Ensure that the ZIP file is accessible and that the paths are correctly specified.
+- The `ensure_resource` function from `pkg_resources` is used to extract the ZIP file to a temporary directory, which can help manage dependencies more effectively.
+- Error handling is included to manage cases where the module or ZIP file might not be found or corrupted.
+
+These examples demonstrate how to use the `zipimport` module to dynamically import modules from ZIP archives in Python.

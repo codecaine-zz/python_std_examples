@@ -1,69 +1,106 @@
-# hmac — Keyed-Hashing for Message Authentication
+# hmac - Keyed-Hashing for Message Authentication
 
-Here's an example of how you can use the `hmac` module from Python's standard library:
+The `hmac` module in Python provides a way to create message authentication codes (MACs) using cryptographic hash functions such as SHA-1, SHA-256, etc. A MAC is a fixed-size binary value that verifies the integrity of a message and ensures it hasn't been tampered with during transmission or storage.
+
+Below are comprehensive examples for various functionalities in the `hmac` module:
+
+### Example 1: Creating an HMAC Using SHA-256
 
 ```python
-# Import the hmac module from the standard library
 import hmac
+import hashlib
 
-def generate_hmac(key, message):
-    """
-    Generates a HMAC (Keyed-Hashing for Message Authentication) object.
+# Define a secret key and a message
+secret_key = b'secret_key'
+message = b'This is a test message'
 
-    Args:
-        key (bytes): The secret key used to authenticate the message.
-        message (bytes): The message to be authenticated.
+# Create an HMAC object using SHA-256 and the secret key
+hmac_obj = hmac.new(secret_key, msg=message, digestmod=hashlib.sha256)
 
-    Returns:
-        hmac.HMAC: A HMAC object containing the authentication key and other metadata.
-    """
-    return hmac.new(key, message, hashlib.sha256)
-
-def verify_hmac(key, message, expected_hmac):
-    """
-    Verifies a given HMAC against a secret key and expected HMAC value.
-
-    Args:
-        key (bytes): The secret key used to generate the expected HMAC.
-        message (bytes): The message that was authenticated with the HMAC.
-        expected_hmac (bytes): The expected HMAC value.
-
-    Returns:
-        bool: True if the provided HMAC matches the expected HMAC, False otherwise.
-    """
-    try:
-        hmac_object = hmac.new(key, message, hashlib.sha256)
-        return hmac.compare_digest(hmac_object.hexdigest(), expected_hmac)
-    except ValueError as e:
-        print(f"Error generating HMAC: {e}")
-        return False
-
-# Example usage
-if __name__ == "__main__":
-    # Generate a random key and a message
-    import secrets
-    key = secrets.token_bytes(32)  # Use a secret key of length 32 bytes
-    message = b"Hello, World!"  # The message to be authenticated
-
-    # Generate an HMAC object using the generated key and message
-    hmac_object = generate_hmac(key, message)
-
-    # Get the authentication key from the HMAC object
-    auth_key = hmac_object.digest()
-
-    # Verify the HMAC against the secret key and expected HMAC value
-    expected_hmac = "1234567890abcdef"  # Replace with your expected HMAC value
-    print("Verification result:", verify_hmac(key, message, expected_hmac))
+# Calculate and print the MAC value
+mac_value = hmac_obj.digest()
+print(f"SHA-256 HMAC: {mac_value.hex()}")
 ```
 
-Here's a breakdown of what each part of this example does:
+### Example 2: Creating an HMAC Using SHA-1
 
-1. **Generating an HMAC**: We create a new `hmac` object using the `generate_hmac` function. This takes our secret key and message as arguments.
-2. **Verifying an HMAC**: The `verify_hmac` function checks whether a given HMAC matches our expected value. It uses the same secret key and provided HMAC value to compare them.
+```python
+import hmac
+import hashlib
 
-**Additional Functions in hmac**
+# Define a secret key and a message
+secret_key = b'secret_key'
+message = b'This is a test message'
 
-1.  `hmac.new(key, msg=None, alg=None)` : Creates a new HMAC object with optional message and algorithm.
-2.  `hmac.compare_digest(hmac_value1, hmac_value2)` : Compares two HMAC values for equality, considering the possibility of different byte orders.
-3.  `hmac.new(key, msg=b'', digestmod=hashlib.sha256)` : Creates a new HMAC object using an optional message and digest algorithm.
-4.  `hmac.compare_digest(hmac_object.hexdigest(), expected_hmac)` : Compares two HMAC values for equality using hexadecimal representation.
+# Create an HMAC object using SHA-1 and the secret key
+hmac_obj = hmac.new(secret_key, msg=message, digestmod=hashlib.sha1)
+
+# Calculate and print the MAC value
+mac_value = hmac_obj.digest()
+print(f"SHA-1 HMAC: {mac_value.hex()}")
+```
+
+### Example 3: Verifying an HMAC
+
+```python
+import hmac
+import hashlib
+
+# Define a secret key and a message
+secret_key = b'secret_key'
+message = b'This is a test message'
+
+# Calculate the expected MAC value using SHA-256
+expected_mac_value = b'expected_mac_value'  # Replace with the actual expected MAC value
+
+# Create an HMAC object using SHA-256 and the secret key
+hmac_obj = hmac.new(secret_key, msg=message, digestmod=hashlib.sha256)
+
+# Calculate the actual MAC value
+actual_mac_value = hmac_obj.digest()
+
+# Verify if the calculated MAC matches the expected MAC
+if hmac.compare_digest(actual_mac_value, expected_mac_value):
+    print("The HMAC is valid.")
+else:
+    print("The HMAC is invalid.")
+```
+
+### Example 4: Using `hmac.compare_digest` for Safe Comparison
+
+```python
+import hmac
+
+# Define two MAC values to compare safely
+mac1 = b'6c967015e832e1d8f9b7b21a45d8b238'
+mac2 = b'6c967015e832e1d8f9b7b21a45d8b238'
+
+# Compare the MACs safely
+if hmac.compare_digest(mac1, mac2):
+    print("The MACs are identical.")
+else:
+    print("The MACs differ.")
+
+# Note: Use `hmac.compare_digest` to securely compare MACs to prevent timing attacks.
+```
+
+### Example 5: Creating an HMAC with Additional Data
+
+```python
+import hmac
+import hashlib
+
+# Define a secret key, message, and additional data
+secret_key = b'secret_key'
+message = b'This is a test message'
+additional_data = b'Additional information'
+
+# Create an HMAC object using SHA-256 and the secret key, including additional data
+hmac_obj = hmac.new(secret_key, msg=message + additional_data, digestmod=hashlib.sha256)
+
+# Calculate and print the MAC value
+mac_value = hmac_obj.digest()
+print(f"SHA-256 HMAC with additional data: {mac_value.hex()}")
+```
+
+These examples demonstrate how to use the `hmac` module to create, calculate, verify, and compare HMAC values securely. Each example is well-documented with comments explaining the purpose of each part of the code.

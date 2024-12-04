@@ -1,86 +1,225 @@
-# aifc — Read and write AIFF and AIFC files
+# aifc - Read and write AIFF and AIFC files
 
-**aifc Module Example Code**
-=====================================
+The `aifc` module in Python is used to read and write AIFF (Audio Interchange File Format) and AIFC (AIFF-C, which stands for Audio Interchange File Format with Compression) audio files. These formats are commonly used for digital music files and are widely supported across various platforms.
 
-The `aifc` module provides an interface for reading and writing Audio Interchange File Format (AIFF) and AIFC audio files.
+Below are comprehensive code examples for common tasks related to reading and writing AIFF/AIFC files using the `aifc` module:
 
-### Importing the aifc Module
+### Example 1: Writing an AIFF Audio File
+
 ```python
 import aifc
+
+def write_aiff_file(filename, frames, sample_rate, channels):
+    """
+    Write audio data to an AIFF file.
+
+    Parameters:
+    - filename (str): The name of the output AIFF file.
+    - frames (array-like): The audio data in the form of a sequence of samples.
+    - sample_rate (int): The sampling rate of the audio data in Hz.
+    - channels (int): The number of channels (1 for mono, 2 for stereo).
+    """
+    with aifc.open(filename, 'wb') as wavf:
+        # Set the parameters
+        wavf.setnchannels(channels)
+        wavf.setsampwidth(2)  # 16-bit samples
+        wavf.setframerate(sample_rate)
+
+        # Write the audio frames to the file
+        wavf.writeframes(frames.tobytes())
+
+# Example usage
+audio_data = np.array([32768, 0, -32768, 0], dtype=np.int16)  # 4 samples at 16-bit resolution
+write_aiff_file('output.aif', audio_data, sample_rate=44100, channels=1)
 ```
 
-### Reading AIFF/AIFC Files
------------------------------
+### Example 2: Reading an AIFF Audio File
 
-You can use the `read()` function to read an entire AIFF or AIFC file into memory.
 ```python
-def read_aiff_file(file_path):
-    """
-    Reads an entire AIFF or AIFC file into memory.
+import aifc
+import numpy as np
 
-    Args:
-        file_path (str): The path to the AIFF or AIFC file.
+def read_aiff_file(filename):
+    """
+    Read audio data from an AIFF file.
+
+    Parameters:
+    - filename (str): The name of the input AIFF file.
 
     Returns:
-        bytes: The contents of the AIFF/AIFC file.
+    - tuple: A tuple containing the audio data, sampling rate, and number of channels.
     """
-    with aifc.AiffFile(file_path) as file:
-        data = file.read()
-    return data
+    with aifc.open(filename, 'rb') as wavf:
+        # Read the parameters
+        nchannels = wavf.getnchannels()
+        sampwidth = wavf.getsampwidth()
+        sample_rate = wavf.getframerate()
+
+        # Read all frames and convert to numpy array
+        audio_data = np.frombuffer(wavf.readframes(-1), dtype=np.int16)
+
+    return audio_data, sample_rate, nchannels
+
+# Example usage
+audio_data, sample_rate, channels = read_aiff_file('input.aif')
+print(f"Audio Data: {audio_data}")
+print(f"Sample Rate: {sample_rate} Hz")
+print(f"Number of Channels: {channels}")
 ```
 
-### Writing AIFF/AIFC Files
----------------------------
+### Example 3: Writing an AIFF-C Audio File
 
-You can use the `write()` function to write data to an existing AIFF or AIFC file.
+AIFF-C is a compressed version of the AIFF format. It uses either the u-law or A-LAW compression schemes for audio data.
+
 ```python
-def write_aiff_file(file_path, data):
-    """
-    Writes data to an existing AIFF or AIFC file.
+import aifc
+import numpy as np
 
-    Args:
-        file_path (str): The path to the AIFF or AIFC file.
-        data (bytes): The data to be written to the file.
+def write_aiff_c_file(filename, frames, sample_rate, channels, compression_type='u-law'):
     """
-    with aifc.AiffFile(file_path, mode='w') as file:
-        file.write(data)
+    Write audio data to an AIFF-C file with specified compression type.
+
+    Parameters:
+    - filename (str): The name of the output AIFF-C file.
+    - frames (array-like): The audio data in the form of a sequence of samples.
+    - sample_rate (int): The sampling rate of the audio data in Hz.
+    - channels (int): The number of channels (1 for mono, 2 for stereo).
+    - compression_type (str): The compression type ('u-law' or 'a-law').
+    """
+    with aifc.open(filename, 'wb') as wavf:
+        # Set the parameters
+        wavf.setnchannels(channels)
+        wavf.setsampwidth(1)  # 8-bit samples
+        wavf.setframerate(sample_rate)
+
+        if compression_type == 'u-law':
+            wavf.setcomptype('ULAW')
+        elif compression_type == 'a-law':
+            wavf.setcomptype('A-LAW')
+        else:
+            raise ValueError("Unsupported compression type. Use 'u-law' or 'a-law'.")
+
+        # Write the audio frames to the file
+        wavf.writeframes(frames.tobytes())
+
+# Example usage
+audio_data = np.array([32, 0, -16, 0], dtype=np.int8)  # 4 samples at 8-bit resolution
+write_aiff_c_file('output.aifc', audio_data, sample_rate=44100, channels=1, compression_type='u-law')
 ```
 
-### Converting Between Wave and AIFC Formats
---------------------------------------------
+### Example 4: Reading an AIFF-C Audio File
 
-You can use the `AiffFile` class to convert between wave and AIFC formats.
 ```python
-def convert_between_formats(input_file_path, output_file_path):
-    """
-    Converts an AIFF or AIFC file to a WAV file.
+import aifc
+import numpy as np
 
-    Args:
-        input_file_path (str): The path to the AIFF or AIFC file.
-        output_file_path (str): The path to the output WAV file.
+def read_aiff_c_file(filename):
     """
-    with aifc.AiffFile(input_file_path) as file:
-        # Read the audio data from the AIFC file
-        data = file.read()
-    
-    # Convert the data to WAV format
-    wav_data = data
-    
-    # Write the converted data to the output WAV file
-    with open(output_file_path, 'wb') as output_file:
-        output_file.write(wav_data)
+    Read audio data from an AIFF-C file.
+
+    Parameters:
+    - filename (str): The name of the input AIFF-C file.
+
+    Returns:
+    - tuple: A tuple containing the audio data, sampling rate, and number of channels.
+    """
+    with aifc.open(filename, 'rb') as wavf:
+        # Read the parameters
+        nchannels = wavf.getnchannels()
+        sampwidth = wavf.getsampwidth()
+        sample_rate = wavf.getframerate()
+
+        # Determine compression type
+        if wavf.getcomptype() == 'ULAW':
+            dtype = np.int8  # u-law samples are stored as 8-bit integers
+        elif wavf.getcomptype() == 'A-LAW':
+            dtype = np.int8  # a-law samples are stored as 8-bit integers
+        else:
+            raise ValueError("Unsupported compression type. Use 'u-law' or 'a-law'.")
+
+        # Read all frames and convert to numpy array
+        audio_data = np.frombuffer(wavf.readframes(-1), dtype=dtype)
+
+    return audio_data, sample_rate, nchannels
+
+# Example usage
+audio_data, sample_rate, channels = read_aiff_c_file('input.aifc')
+print(f"Audio Data: {audio_data}")
+print(f"Sample Rate: {sample_rate} Hz")
+print(f"Number of Channels: {channels}")
 ```
 
-### Example Usage
+### Example 5: Handling Different Sample Widths
+
+The `aifc` module can handle different sample widths, which are specified using the `setsampwidth` method. This allows you to work with audio data in various bit depths.
+
 ```python
-# Read an AIFF file into memory
-data = read_aiff_file('example.aif')
+import aifc
+import numpy as np
 
-# Write data to an AIFC file
-write_aiff_file('output.aifc', b'Hello, World!')
+def write_custom_aiff_file(filename, frames, sample_rate, channels, sample_width):
+    """
+    Write audio data to an AIFF file with a specified sample width.
 
-# Convert an AIFC file to a WAV file
-convert_between_formats('input.aifc', 'output.wav')
+    Parameters:
+    - filename (str): The name of the output AIFF file.
+    - frames (array-like): The audio data in the form of a sequence of samples.
+    - sample_rate (int): The sampling rate of the audio data in Hz.
+    - channels (int): The number of channels (1 for mono, 2 for stereo).
+    - sample_width (int): The sample width in bytes (e.g., 1 for 8-bit, 2 for 16-bit).
+    """
+    with aifc.open(filename, 'wb') as wavf:
+        # Set the parameters
+        wavf.setnchannels(channels)
+        wavf.setsampwidth(sample_width)
+        wavf.setframerate(sample_rate)
+
+        # Write the audio frames to the file
+        wavf.writeframes(frames.tobytes())
+
+# Example usage
+audio_data = np.array([32, 0, -16, 0], dtype=np.int8)  # 4 samples at 8-bit resolution
+write_custom_aiff_file('output_custom.aif', audio_data, sample_rate=44100, channels=1, sample_width=1)
 ```
-Note: This is just a basic example of what can be done with the `aifc` module. The actual usage may vary depending on your specific requirements and the Python version you are using.
+
+### Example 6: Handling Different Compression Types
+
+AIFF-C supports compression types like U-LAW and A-LAW. These are set using the `setcomptype` method.
+
+```python
+import aifc
+import numpy as np
+
+def write_custom_aiff_c_file(filename, frames, sample_rate, channels, compression_type='u-law'):
+    """
+    Write audio data to an AIFF-C file with a specified compression type.
+
+    Parameters:
+    - filename (str): The name of the output AIFF-C file.
+    - frames (array-like): The audio data in the form of a sequence of samples.
+    - sample_rate (int): The sampling rate of the audio data in Hz.
+    - channels (int): The number of channels (1 for mono, 2 for stereo).
+    - compression_type (str): The compression type ('u-law' or 'a-law').
+    """
+    with aifc.open(filename, 'wb') as wavf:
+        # Set the parameters
+        wavf.setnchannels(channels)
+        wavf.setsampwidth(1)  # 8-bit samples
+        wavf.setframerate(sample_rate)
+
+        if compression_type == 'u-law':
+            wavf.setcomptype('ULAW')
+        elif compression_type == 'a-law':
+            wavf.setcomptype('A-LAW')
+        else:
+            raise ValueError("Unsupported compression type. Use 'u-law' or 'a-law'.")
+
+        # Write the audio frames to the file
+        wavf.writeframes(frames.tobytes())
+
+# Example usage
+audio_data = np.array([32, 0, -16, 0], dtype=np.int8)  # 4 samples at 8-bit resolution
+write_custom_aiff_c_file('output_custom.aifc', audio_data, sample_rate=44100, channels=1, compression_type='u-law')
+```
+
+These examples demonstrate how to use the `aifc` module to create and read AIFF and AIFF-C files with different sample widths, compression types, and formats. The code is designed to be clear and self-contained, allowing you to easily integrate audio handling into your applications.

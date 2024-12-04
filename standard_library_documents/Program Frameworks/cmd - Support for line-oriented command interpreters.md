@@ -1,103 +1,133 @@
-# cmd — Support for line-oriented command interpreters
+# cmd - Support for line-oriented command interpreters
 
-**cmd.py**
+The `cmd` module in Python provides a framework for writing line-oriented command interpreters, allowing you to create simple text-based interfaces for interacting with commands and processes.
+
+Here are some comprehensive code examples that cover various functionalities of the `cmd` module. These examples are designed to be clear, concise, and follow best practices suitable for inclusion in official documentation.
+
+### Example 1: Basic Command Interpreter
+
 ```python
-"""
-Support for line-oriented command interpreters.
-"""
+import cmd
 
-import sys
-from contextlib import contextmanager
+class SimpleInterpreter(cmd.Cmd):
+    prompt = '(simple) '
 
-class CommandError(Exception):
-    """Exception raised when a command error occurs."""
-    pass
+    def do_hello(self, arg):
+        """Print a greeting."""
+        print("Hello!")
 
-class CommandInterpreter:
-    """
-    A line-oriented command interpreter.
+    def do_exit(self, arg):
+        """Exit the interpreter."""
+        return True
 
-    Attributes:
-        _lines (list): The lines of input to process.
-        _current_line (str): The current line being processed.
-    """
+if __name__ == '__main__':
+    SimpleInterpreter().cmdloop()
+```
 
-    def __init__(self, *args):
-        self._lines = args
-        self._current_line = None
+### Example 2: Command with Arguments
 
-    @property
-    def current_line(self):
-        """
-        Get the current line being processed.
+```python
+import cmd
 
-        Returns:
-            str: The current line.
-        """
-        return self._current_line
+class Calculator(cmd.Cmd):
+    prompt = '(calc) '
 
-    @current_line.setter
-    def current_line(self, value):
-        """
-        Set the current line being processed.
-
-        Args:
-            value (str): The new current line.
-        """
-        self._current_line = value
-
-    @contextmanager
-    def _process_line(self):
-        """
-        Process a single line of input.
-
-        Yields:
-            list: The result of processing the line.
-        """
+    def do_add(self, arg):
+        """Add two numbers."""
         try:
-            yield
-        except Exception as e:
-            raise CommandError(f"Processing error: {e}") from e
+            num1, num2 = map(float, arg.split())
+            result = num1 + num2
+            print(f"Result: {result}")
+        except ValueError:
+            print("Please enter valid numbers.")
 
-    def __iter__(self):
-        """
-        Iterate over the lines of input.
-
-        Yields:
-            str: Each line of input.
-        """
-        for line in self._lines:
-            self.current_line = line
-            yield from self._process_line()
-
-def main():
-    # Create a new command interpreter with some sample input lines
-    interpreter = CommandInterpreter(
-        "hello",
-        "world!",
-        "# invalid line"
-    )
-
-    # Process each line of input
-    for result in interpreter:
-        print(f"Result: {result}")
-
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    Calculator().cmdloop()
 ```
 
-**Usage**
-```bash
-$ python cmd.py
-Result: hello
-Result: world!
-Result: invalid line
-Exception: CommandError: Processing error: SyntaxError: unexpected EOF while parsing
+### Example 3: Command with Flags
+
+```python
+import cmd
+
+class FileManipulator(cmd.Cmd):
+    prompt = '(file) '
+
+    def do_open(self, arg):
+        """Open a file and print its contents."""
+        try:
+            filename = arg.strip()
+            with open(filename, 'r') as file:
+                content = file.read()
+                print(content)
+        except FileNotFoundError:
+            print("File not found.")
+
+if __name__ == '__main__':
+    FileManipulator().cmdloop()
 ```
-This implementation provides a basic command interpreter that can process lines of input. It includes the following features:
 
-*   A `CommandInterpreter` class that manages the processing of individual lines.
-*   A `_process_line` context manager that handles any errors that occur during line processing.
-*   An `__iter__` method that yields each line of input.
+### Example 4: Command History
 
-Note that this is a simplified example, and you may want to add additional features such as support for command-line arguments or more complex syntax parsing.
+```python
+import cmd
+
+class HistoryInterpreter(cmd.Cmd):
+    prompt = '(history) '
+    historyfile = None
+
+    def postcmd(self, stop, line):
+        """Store the last command in history."""
+        if not stop:
+            self.historyfile.append(line)
+        return True
+
+if __name__ == '__main__':
+    HistoryInterpreter().cmdloop()
+```
+
+### Example 5: Subclassing `Cmd` for Custom Commands
+
+```python
+import cmd
+
+class MyCommand(cmd.Cmd):
+    prompt = '(mycommand) '
+
+    def do_create(self, arg):
+        """Create a new file."""
+        try:
+            filename = arg.strip()
+            with open(filename, 'w') as file:
+                print(f"File {filename} created.")
+        except IOError:
+            print("Error creating the file.")
+
+if __name__ == '__main__':
+    MyCommand().cmdloop()
+```
+
+### Example 6: Using `cmd.Cmd` in a Web Application
+
+```python
+import cmd
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+class CommandHTTPHandler(BaseHTTPRequestHandler):
+    prompt = '(command) '
+
+    def do_hello(self, arg):
+        """Print a greeting over HTTP."""
+        self.send_response(200)
+        self.wfile.write(b"Hello!\n")
+
+if __name__ == '__main__':
+    server_address = ('', 8000)
+    httpd = HTTPServer(server_address, CommandHTTPHandler)
+    print("Serving on port 8000...")
+    httpd.serve_forever()
+```
+
+These examples demonstrate how to create a simple command interpreter using the `cmd` module. Each example includes comments that explain the purpose of each part of the code, making it easier for others (or yourself in the future) to understand and modify the code.
+
+These examples can be expanded with more complex features such as error handling, input validation, and more sophisticated command structures to suit a wide range of applications.

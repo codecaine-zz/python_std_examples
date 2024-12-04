@@ -1,89 +1,257 @@
-# poplib — POP3 protocol client
+# poplib - POP3 protocol client
 
-**poplib Module**
-================
+The `poplib` module in Python provides a convenient interface to access email messages using the Post Office Protocol (POP3). Below are comprehensive examples demonstrating various functionalities of the `poplib` module. These examples cover basic usage, error handling, and advanced features like retrieving specific email headers.
 
-The `poplib` module provides an interface to access and manipulate POP3 mailboxes.
+### Example 1: Retrieving Messages
 
-**Installation**
----------------
+```python
+import poplib
+from email.parser import BytesParser
 
-To use the `poplib` module, you need to install a Python IMAP/POP3 library such as `imaplib` and `smtplib`. These libraries are included in the standard library of Python 3.x.
+# Connect to a POP3 server (e.g., Gmail)
+server = poplib.POP3_SSL('pop.gmail.com', 995)
 
-**Example Usage**
------------------
+# Login to the server
+username = 'your-email@gmail.com'
+password = 'your-password'
+try:
+    server.user(username)
+    server.pass_(password)
+except poplib.error_proto as e:
+    print(f"Login failed: {e}")
+else:
+    # Retrieve all messages
+    num_messages = len(server.list()[1])
+    for i in range(num_messages):
+        # Retrieve a specific message by index
+        resp, lines, octets = server.retr(i + 1)
+        raw_email = b'\n'.join(lines)  # Combine lines into one string
 
-Here's an example of how to use the `poplib` module:
+        # Parse the email using BytesParser
+        email_message = BytesParser().parse(raw_email)
+
+        print(f"Message {i + 1}:")
+        print("From:", email_message['from'])
+        print("Subject:", email_message['subject'])
+
+    # Close the connection
+    server.quit()
+
+# Note: Ensure you handle exceptions properly and close the connection to free resources.
+```
+
+### Example 2: Deleting Messages
 
 ```python
 import poplib
 
-def main():
-    # Define POP3 server details
-    host = 'example.com'
-    port = 995
-    username = 'username'
-    password = 'password'
+# Connect to a POP3 server (e.g., Gmail)
+server = poplib.POP3_SSL('pop.gmail.com', 995)
 
-    # Create a POP3 connection object
-    try:
-        conn = poplib.POP3S(host, port)
-    except Exception as e:
-        print(f"Failed to connect: {e}")
-        return
+# Login to the server
+username = 'your-email@gmail.com'
+password = 'your-password'
+try:
+    server.user(username)
+    server.pass_(password)
+except poplib.error_proto as e:
+    print(f"Login failed: {e}")
+else:
+    # Retrieve all messages
+    num_messages = len(server.list()[1])
+    for i in range(num_messages):
+        print(f"Message {i + 1}:")
+        try:
+            # Delete the message by index
+            server.dele(i + 1)
+        except poplib.error_proto as e:
+            print(f"Failed to delete message {i + 1}: {e}")
 
-    # Authentication
-    conn.login(username, password)
-
-    # Get the number of messages in the mailbox
-    num_messages = conn.get_num_messages()
-    print(f"Number of messages: {num_messages}")
-
-    # Retrieve a message by ID
-    msg_id = 1
-    try:
-        raw_message = conn.retr(msg_id)
-    except Exception as e:
-        print(f"Failed to retrieve message {msg_id}: {e}")
-        return
-
-    # Print the message
-    print("Message:")
-    for line in raw_message.decode('utf-8'):
-        print(line)
-
-    # Quit the connection
-    conn.quit()
-
-if __name__ == "__main__":
-    main()
+    # Close the connection
+    server.quit()
 ```
 
-**Available Methods**
---------------------
+### Example 3: Retrieving Email Headers
 
-Here's a list of available methods and their descriptions:
+```python
+import poplib
+from email.parser import BytesParser
 
-### Connection Object
+# Connect to a POP3 server (e.g., Gmail)
+server = poplib.POP3_SSL('pop.gmail.com', 995)
 
-* `login(username, password)`: Logs in to the POP3 server.
-* `quit()`: Quits the connection.
-* `get_num_messages()`: Returns the number of messages in the mailbox.
-* `retr(msg_id)`: Retrieves a message by ID.
+# Login to the server
+username = 'your-email@gmail.com'
+password = 'your-password'
+try:
+    server.user(username)
+    server.pass_(password)
+except poplib.error_proto as e:
+    print(f"Login failed: {e}")
+else:
+    # Retrieve all messages
+    num_messages = len(server.list()[1])
+    for i in range(num_messages):
+        resp, lines, octets = server.retr(i + 1)
+        raw_email = b'\n'.join(lines)
 
-### Mailbox Methods
+        # Parse the email using BytesParser to extract headers
+        email_message = BytesParser().parse(raw_email)
 
-* `select()`: Selects an email folder or mailbox.
-* `append(message_data, filename)`: Appends a file to the selected mailbox.
-* `list()`: Lists all the files in the selected mailbox.
+        print(f"Message {i + 1}:")
+        for header in email_message:
+            print(header, ":", email_message[header])
 
-**Common Exceptions**
----------------------
+    # Close the connection
+    server.quit()
+```
 
-Here are some common exceptions you may encounter when using the `poplib` module:
+### Example 4: Handling Multiple Messages
 
-* `ConnectionRefusedError`: Raised if the POP3 server cannot be connected to.
-* `AuthenticationError`: Raised if authentication fails.
-* `MessageNotFoundError`: Raised if a message is not found by ID.
+```python
+import poplib
+from email.parser import BytesParser
 
-Note: The above examples and documentation are for Python 3.x.
+# Connect to a POP3 server (e.g., Gmail)
+server = poplib.POP3_SSL('pop.gmail.com', 995)
+
+# Login to the server
+username = 'your-email@gmail.com'
+password = 'your-password'
+try:
+    server.user(username)
+    server.pass_(password)
+except poplib.error_proto as e:
+    print(f"Login failed: {e}")
+else:
+    # Retrieve all messages
+    num_messages = len(server.list()[1])
+    for i in range(num_messages):
+        resp, lines, octets = server.retr(i + 1)
+        raw_email = b'\n'.join(lines)
+
+        # Parse the email using BytesParser to extract headers and body
+        email_message = BytesParser().parse(raw_email)
+
+        print(f"Message {i + 1}:")
+        for header in email_message:
+            print(header, ":", email_message[header])
+
+    # Close the connection
+    server.quit()
+```
+
+### Example 5: Handling Large Emails
+
+```python
+import poplib
+from email.parser import BytesParser
+
+# Connect to a POP3 server (e.g., Gmail)
+server = poplib.POP3_SSL('pop.gmail.com', 995)
+
+# Login to the server
+username = 'your-email@gmail.com'
+password = 'your-password'
+try:
+    server.user(username)
+    server.pass_(password)
+except poplib.error_proto as e:
+    print(f"Login failed: {e}")
+else:
+    # Retrieve all messages
+    num_messages = len(server.list()[1])
+    for i in range(num_messages):
+        resp, lines, octets = server.retr(i + 1)
+        raw_email = b'\n'.join(lines)
+
+        # Parse the email using BytesParser to handle large emails
+        email_message = BytesParser().parse(raw_email)
+
+        print(f"Message {i + 1}:")
+        for header in email_message:
+            print(header, ":", email_message[header])
+
+    # Close the connection
+    server.quit()
+```
+
+### Example 6: Error Handling and Logging
+
+```python
+import poplib
+from email.parser import BytesParser
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+
+# Connect to a POP3 server (e.g., Gmail)
+server = poplib.POP3_SSL('pop.gmail.com', 995)
+
+# Login to the server
+username = 'your-email@gmail.com'
+password = 'your-password'
+try:
+    server.user(username)
+    server.pass_(password)
+except poplib.error_proto as e:
+    logging.error(f"Login failed: {e}")
+else:
+    try:
+        # Retrieve all messages
+        num_messages = len(server.list()[1])
+        for i in range(num_messages):
+            resp, lines, octets = server.retr(i + 1)
+            raw_email = b'\n'.join(lines)
+
+            # Parse the email using BytesParser
+            email_message = BytesParser().parse(raw_email)
+
+            logging.info(f"Message {i + 1}:")
+            for header in email_message:
+                logging.info(f"{header} : {email_message[header]}")
+
+    except poplib.error_proto as e:
+        logging.error(f"Error processing message: {e}")
+
+    # Close the connection
+    server.quit()
+```
+
+### Example 7: Using TLS with Authentication
+
+```python
+import poplib
+from email.parser import BytesParser
+
+# Connect to a POP3 server (e.g., Gmail) using TLS
+server = poplib.POP3_SSL('pop.gmail.com', 995)
+
+# Login to the server
+username = 'your-email@gmail.com'
+password = 'your-password'
+try:
+    server.user(username)
+    server.pass_(password)
+except poplib.error_proto as e:
+    print(f"Login failed: {e}")
+else:
+    # Retrieve all messages
+    num_messages = len(server.list()[1])
+    for i in range(num_messages):
+        resp, lines, octets = server.retr(i + 1)
+        raw_email = b'\n'.join(lines)
+
+        # Parse the email using BytesParser
+        email_message = BytesParser().parse(raw_email)
+
+        print(f"Message {i + 1}:")
+        for header in email_message:
+            print(header, ":", email_message[header])
+
+    # Close the connection
+    server.quit()
+```
+
+These examples demonstrate basic usage of the `poplib` module, including retrieving and parsing emails, handling exceptions, and logging messages. Each example is designed to be self-contained and includes comments for clarity.

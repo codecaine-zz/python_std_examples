@@ -1,111 +1,186 @@
-# dis — Disassembler for Python bytecode
+# dis - Disassembler for Python bytecode
 
-Here are some examples of using the `dis` module in Python 3.12:
+The `dis` module is a part of the Python standard library that provides a way to examine Python bytecode. It can help you understand how Python programs are executed and debug them. Below are several comprehensive examples demonstrating various functionalities of the `dis` module.
 
-**Example 1: Disassembling a simple function**
+### 1. Basic Disassembly
+
 ```python
 import dis
 
-def add(a, b):
-    return a + b
+# Example function to demonstrate basic disassembly
+def example_function(x):
+    return x * 2 + 3
 
-# Disassemble the function
-dis.dis(add)
+# Get bytecode for the function
+bytecode = example_function.__code__.co_code
+
+# Disassemble the bytecode
+dis.dis(bytecode)
 ```
-Output:
-```
-  2           0 LOAD_FAST                0 (a)
-            2 LOAD_FAST                1 (b)
-            4 BINARY_ADD
-            6 RETURN_VALUE
-```
-**Example 2: Disassembling a loop**
+
+### 2. Disassembling a Built-in Function
+
 ```python
 import dis
 
-def print_numbers(n):
-    for i in range(n):
-        print(i)
+# Disassemble the built-in sum function
+dis.dis(sum)
+```
 
-# Disassemble the function
-dis.dis(print_numbers)
-```
-Output:
-```
-  3           0 LOAD_CONST               1 (0)
-            2 LOAD_FAST                1 (n)
-            4 NEGATIVE_LOAD FAST                2
-            6 CALL_FUNCTION              1
-            8 FOR_ITER                 11 (to 15)
-        9 STORE_FAST               5 (i)
-           11 PRINT_ITEM
-          13 POP_TOP
-         14 JUMP_ABSOLUTE           8
-       15 LOAD_CONST               2 (<module>)
-           17 LOAD_NAME                1 (print_numbers)
-           19 LOAD FAST               3
-           21 CALL_FUNCTION            1
-           23 LOAD_CONST               3 (None)
-          25 RETURN_VALUE
-```
-**Example 3: Disassembling a function with arguments**
+### 3. Iterating Over Instructions
+
 ```python
 import dis
 
-def greet(greeting, name):
-    return f"{greeting} {name}"
+def print_instructions(func):
+    # Get bytecode for the function
+    bytecode = func.__code__.co_code
+    
+    # Iterate over instructions and print them
+    for offset, instruction in enumerate(dis.get_instructions(bytecode)):
+        print(f"{offset:04d}: {instruction.opname} {instruction.argval}")
 
-# Disassemble the function
-dis.dis(greet)
+# Example function to demonstrate iterating over instructions
+def example_function(x):
+    return x * 2 + 3
+
+print_instructions(example_function)
 ```
-Output:
+
+### 4. Disassembling a Module
+
+```python
+import dis
+import inspect
+
+# Get bytecode for the current module
+module = inspect.currentframe().f_code.co_filename
+with open(module, 'rb') as f:
+    bytecode = f.read()
+
+# Disassemble the bytecode of the entire module
+dis.dis(bytecode)
 ```
-  4           0 LOAD_CONST               1 (b')
-            2 LOAD_FAST                0 (greeting)
-            4 STR.format
-           6 STORE_FAST               5 (value)
-           8 LOAD_CONST               2 (<module>)
-           10 LOAD_NAME                1 (greet)
-          12 LOAD FAST               3
-          14 CALL_FUNCTION            1
-          16 LOAD_FAST                1 (name)
-          18 STR.format
-         20 STORE_FAST               6 (value)
-        22 RETURN_VALUE
-```
-**Example 4: Disassembling a class**
+
+### 5. Disassembling a Class Method
+
 ```python
 import dis
 
-class Person:
-    def __init__(self, name):
-        self.name = name
+class MyClass:
+    @staticmethod
+    def my_method(x):
+        return x * 2 + 3
 
-    def say_hello(self):
-        print(f"Hello, my name is {self.name}.")
+# Get bytecode for the class method
+bytecode = MyClass.my_method.__code__.co_code
 
-# Disassemble the class
-dis.dis(Person)
+# Disassemble the bytecode
+dis.dis(bytecode)
 ```
-Output:
+
+### 6. Disassembling a Module with Decorators
+
+```python
+import dis
+import inspect
+
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Decorator called")
+        return func(*args, **kwargs)
+    return wrapper
+
+@my_decorator
+def example_function(x):
+    return x * 2 + 3
+
+# Get bytecode for the decorated function
+bytecode = example_function.__code__.co_code
+
+# Disassemble the bytecode
+dis.dis(bytecode)
 ```
-  5           0 LOAD_CONST               1 (<class 'Person'>
-            2 MAKE_FUNCTION              0 (lambda-fast)
-          4 LOAD Fast                3 (__init__)
-         12 LOAD_FAST                0 (self)
-        14 STORE_FAST               6 (self)
-       16 LOAD_CONST               2 (<module>)
-      18 LOAD_NAME                1 (Person)
-     20 LOAD FAST               3
-    22 CALL_FUNCTION            1
-   24 LOAD_FAST                1 (name)
-   26 STR.format
-   28 STORE_FAST               7 (value)
-   30 LOAD_CONST               3 (<module>)
-    32 LOAD_NAME                2 (Person)
-   34 LOAD FAST               4
-   36 CALL_FUNCTION            1
-   38 LOAD_FAST                5 (self)
-   40 RETURN_VALUE
+
+### 7. Disassembling a Generator Function
+
+```python
+import dis
+
+def count_up_to(n):
+    i = 0
+    while i < n:
+        yield i
+        i += 1
+
+# Get bytecode for the generator function
+bytecode = count_up_to.__code__.co_code
+
+# Disassemble the bytecode
+dis.dis(bytecode)
 ```
-These examples demonstrate the `dis` module's ability to disassemble various Python constructs, including functions, loops, conditional statements, classes, and more.
+
+### 8. Disassembling a List Comprehension
+
+```python
+import dis
+
+def list_comprehension_example():
+    return [x * 2 + 3 for x in range(5)]
+
+# Get bytecode for the list comprehension
+bytecode = list_comprehension_example.__code__.co_code
+
+# Disassemble the bytecode
+dis.dis(bytecode)
+```
+
+### 9. Disassembling a Nested Function
+
+```python
+import dis
+
+def outer_function(x):
+    def inner_function(y):
+        return x * y + 3
+    
+    return inner_function(2)
+
+# Get bytecode for the nested function
+bytecode = outer_function.__code__.co_code
+
+# Disassemble the bytecode
+dis.dis(bytecode)
+```
+
+### 10. Disassembling a Function with Keyword Arguments
+
+```python
+import dis
+
+def example_function_with_kwargs(x, y=3):
+    return x * y + 2
+
+# Get bytecode for the function with keyword arguments
+bytecode = example_function_with_kwargs.__code__.co_code
+
+# Disassemble the bytecode
+dis.dis(bytecode)
+```
+
+### 11. Disassembling a Function with Default Values
+
+```python
+import dis
+
+def example_function_with_defaults(x, y=3):
+    return x * y + 2
+
+# Get bytecode for the function with default values
+bytecode = example_function_with_defaults.__code__.co_code
+
+# Disassemble the bytecode
+dis.dis(bytecode)
+```
+
+These examples cover a range of functionalities within the `dis` module, from basic disassembly to more complex scenarios involving decorators and nested functions. Each example is thoroughly documented to help understand how to use each feature effectively.

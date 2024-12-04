@@ -1,140 +1,166 @@
-# xmlrpc — XMLRPC server and client modules
+# xmlrpc - XMLRPC server and client modules
 
-**XMLRPC Module**
-================
+The `xmlrpc` module in Python is a part of the Standard Library and provides support for making XML-RPC requests and responses. Below are comprehensive code examples that demonstrate various functionalities within this module, including creating an XML-RPC server, handling XML-RPC requests, and using an XML-RPC client to communicate with an XML-RPC server.
 
-The `xmlrpc` module is used to create an XML-RPC (Remote Procedure Call) server and client.
+### 1. Creating an XML-RPC Server
 
-### Server Side Example
------------------------
+This example demonstrates how to create a basic XML-RPC server using the `SimpleXMLRPCServer` class from the `xmlrpc.server` module.
 
 ```python
-# Import the xmlrpc module
-import xmlrpc.server
+from xmlrpc.server import SimpleXMLRPCServer
 
-# Create a new server instance
-server = xmlrpc.server.SimpleServer()
-
-# Define a function for our RPC method
 def add(x, y):
-    """Return the sum of two numbers"""
+    """Add two numbers."""
     return x + y
 
-# Register the function with the server
-server.register_function(add)
+def subtract(x, y):
+    """Subtract two numbers."""
+    return x - y
 
-# Run the server on port 8080
-print("Server running on port 8080...")
+def multiply(x, y):
+    """Multiply two numbers."""
+    return x * y
+
+def divide(x, y):
+    """Divide two numbers. Returns None if division by zero is attempted."""
+    if y == 0:
+        raise Exception("Cannot divide by zero")
+    return x / y
+
+# Create an XML-RPC server instance on port 8000
+server = SimpleXMLRPCServer(("localhost", 8000))
+
+# Register functions to the server
+server.register_function(add, "add")
+server.register_function(subtract, "subtract")
+server.register_function(multiply, "multiply")
+server.register_function(divide, "divide")
+
+# Start the XML-RPC server loop
+print("Starting server...")
 server.serve_forever()
 ```
 
-This code will create an XML-RPC server that listens for incoming requests on port 8080. The `add` function is registered with the server, and can be called by clients.
+### 2. Handling XML-RPC Requests
 
-### Client Side Example
-----------------------
-
-```python
-# Import the xmlrpc module
-import xmlrpc.client
-
-# Create a client instance
-client = xmlrpc.client.ServerProxy('http://localhost:8080')
-
-# Call the add method on the server
-result = client.add(2, 3)
-print("Result:", result)  # Output: 5
-
-# Call another method (if available in your server)
-another_result = client.greet('John')
-print("Another Result:", another_result)  # Output: "Hello John"
-```
-
-This code will create a client instance that connects to the XML-RPC server running on `localhost:8080`. The `add` and `greet` methods are called on the server, demonstrating how to use the client.
-
-### Using JSON or Other Data Types
------------------------------------
+This example shows how to handle requests received by the XML-RPC server.
 
 ```python
-# Import the xmlrpc module
-import json
+from xmlrpc.server import SimpleXMLRPCServer
 
-# Create a new server instance
-server = xmlrpc.server.SimpleServer()
-
-# Define a function for our RPC method
 def add(x, y):
-    """Return the sum of two numbers"""
+    """Add two numbers."""
     return x + y
 
-# Register the function with the server using JSON data type
-server.register_function(add, 'method_name', json_type='int')
+# Create an instance of SimpleXMLRPCServer and register functions
+server = SimpleXMLRPCServer(("localhost", 8000))
+server.register_function(add, "add")
 
-# Run the server on port 8080
-print("Server running on port 8080...")
+# Define a custom exception handler to log errors
+def handle_exception(exc, value, tb):
+    print(f"Error: {exc}, {value}")
+
+server.set_exception_handler(handle_exception)
+
+# Start the server
+print("Starting server...")
 server.serve_forever()
 ```
 
+### 3. Using an XML-RPC Client
+
+This example demonstrates how to use a client to communicate with an XML-RPC server.
+
 ```python
-# Import the xmlrpc module
 import xmlrpc.client
 
-# Create a client instance
-client = xmlrpc.client.ServerProxy('http://localhost:8080')
+def add(x, y):
+    """Add two numbers."""
+    return x + y
 
-# Call the add method on the server using JSON data type
-result = client.add(2, 3)
-print("Result:", result)  # Output: 5
+# Create an XML-RPC client and connect to the server
+client = xmlrpc.client.ServerProxy("http://localhost:8000")
+
+# Call a method on the server
+result = client.add(5, 3)
+print(f"The result of add is {result}")
+
+# Handle exceptions for RPC calls
+try:
+    result = client.divide(10, 0)
+except xmlrpc.client.Fault as fault:
+    print(f"Error from server: {fault.faultString}")
 ```
 
-In this example, we use the `json_type` parameter to specify that the `add` method should return a string (not an integer). Note that not all XML-RPC implementations support custom data types.
+### 4. Customizing XML-RPC Server Behavior
 
-### Error Handling
-------------------
+This example shows how to customize the behavior of an XML-RPC server by adding error handling and logging.
 
 ```python
-# Import the xmlrpc module
-import xmlrpc.server
+from xmlrpc.server import SimpleXMLRPCServer
 
-# Create a new server instance
-server = xmlrpc.server.SimpleServer()
+def add(x, y):
+    """Add two numbers."""
+    return x + y
 
+# Create an XML-RPC server instance
+server = SimpleXMLRPCServer(("localhost", 8000))
+
+# Register functions to the server
+server.register_function(add, "add")
+
+# Define custom exception handling to log errors
+def handle_exception(exc, value, tb):
+    print(f"Error: {exc}, {value}")
+
+server.set_exception_handler(handle_exception)
+
+# Start the server and handle exceptions
 try:
-    # Define a function for our RPC method with error handling
-    def add(x, y):
-        """Return the sum of two numbers"""
-        if x < 0 or y < 0:
-            raise ValueError("Invalid input")
-        return x + y
-except ValueError as e:
-    print(f"Error: {e}")
-
-# Register the function with the server
-server.register_function(add)
-
-# Run the server on port 8080
-print("Server running on port 8080...")
-server.serve_forever()
+    server.serve_forever()
+except KeyboardInterrupt:
+    print("Server shutting down...")
 ```
+
+### 5. Using `jsonrpc` Module for JSON-RPC Server and Client
+
+The `jsonrpc` module provides a more modern, feature-rich alternative to XML-RPC.
+
+#### Server Example with `jsonrpc`:
 
 ```python
-# Import the xmlrpc module
-import xmlrpc.client
+from jsonrpcserver import methods, serve
 
-# Create a client instance
-client = xmlrpc.client.ServerProxy('http://localhost:8080')
+@methods.add
+def add(x, y):
+    """Add two numbers."""
+    return x + y
 
-try:
-    # Call the add method with invalid input
-    result = client.add(-2, 3)
-except ValueError as e:
-    print(f"Error: {e}")  # Output: Error: Invalid input
+@methods.add
+def subtract(x, y):
+    """Subtract two numbers."""
+    return x - y
+
+if __name__ == "__main__":
+    serve(add)
 ```
 
-In this example, we define a function `add` that raises a `ValueError` if either of the inputs is negative. We catch this error using a `try-except` block in both the server and client code.
+#### Client Example with `jsonrpc`:
 
-### Security Considerations
--------------------------
+```python
+import requests
 
-When creating an XML-RPC server, you should be cautious about allowing arbitrary input from clients. Malicious clients could potentially inject malicious code or data into your server. Be sure to implement proper input validation and sanitization to prevent such attacks.
+# Define the URL of the JSON-RPC server
+url = "http://localhost:8001"
 
-Similarly, when using a client to call RPC methods on a server, ensure that the server is running with sufficient security measures in place (e.g., authentication, encryption).
+# Function to make a JSON-RPC request
+def make_rpc_request(method, params):
+    response = requests.post(url, json={"method": method, "params": params, "jsonrpc": "2.0", "id": 1})
+    return response.json()
+
+# Call the 'add' method on the server
+result = make_rpc_request("add", [5, 3])
+print(f"The result of add is {result}")
+```
+
+These examples cover basic and advanced functionalities of the `xmlrpc` module. Each example includes comments to explain key steps and behaviors. You can adapt these examples to suit your specific needs or integrate them into larger applications.

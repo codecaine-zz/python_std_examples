@@ -1,127 +1,152 @@
-# importlib.resources — Resource reading using importers
+# importlib.resources - Resource reading using importers
 
-**Importlib Resources Module Code Examples**
-=====================================================
+The `importlib.resources` module provides a robust interface for accessing resources within a package or other importable resource. This module is particularly useful for managing resources like configuration files, data files, and other non-code artifacts that are included in Python packages.
 
-The `importlib.resources` module provides a way to access resources within Python packages.
+Here are some comprehensive code examples demonstrating various functionalities of the `importlib.resources` module:
 
-### 1. Accessing Text Files
-
-```python
-# Import the resources module
-import importlib.resources
-
-# Open a text file from the package's resources
-with importlib.resources.open_text('my_package', 'path/to/file.txt') as f:
-    # Read and print the contents of the file
-    contents = f.read()
-    print(contents)
-```
-
-### 2. Accessing Binary Files
+### Example 1: Accessing a Text File
 
 ```python
-# Import the resources module
-import importlib.resources
+import importlib.resources as res
 
-# Open a binary file from the package's resources
-with importlib.resources.open_binary('my_package', 'path/to/file.bin') as f:
-    # Read and print the contents of the file
-    contents = f.read()
-    print(contents)
+# Define the package name and resource path
+package_name = "example_package"
+resource_path = "resources/config.txt"
+
+# Open and read the text file
+with res.open_text(package_name, resource_path) as f:
+    content = f.read()
+    print("Content of config.txt:")
+    print(content)
 ```
 
-### 3. Accessing directories
+### Example 2: Accessing a Binary File
 
 ```python
-# Import the resources module
-import importlib.resources
+import importlib.resources as res
 
-# Open a directory from the package's resources
-with importlib.resources.path('my_package', 'path/to/directory') as dir_path:
-    # Print the contents of the directory
-    print(dir_path)
+# Define the package name and resource path
+package_name = "example_package"
+resource_path = "resources/data.bin"
+
+# Open and read the binary file
+with res.open_binary(package_name, resource_path) as f:
+    data = f.read()
+    print("Content of data.bin:")
+    print(data)
 ```
 
-### 4. Accessing file paths
+### Example 3: Accessing a Directory Containing Resources
 
 ```python
-# Import the resources module
-import importlib.resources
+import importlib.resources as res
 
-# Open a file path from the package's resources
-with importlib.resources.path('my_package', 'path/to/file') as f_path:
-    # Print the contents of the file path
-    print(f_path)
+# Define the package name and directory path
+package_name = "example_package"
+directory_path = "resources"
+
+# List all files in the specified directory
+with res.files(package_name).iterdir() as files:
+    print("Files in resources directory:")
+    for file in files:
+        print(file.name)
 ```
 
-### 5. Resolving relative paths
+### Example 4: Accessing a Resource Using a Context Manager
 
 ```python
-# Import the resources module
-import importlib.resources
+import importlib.resources as res
 
-# Resolve a relative path from the package's resources
-resolved_path = importlib.resources.resolve('my_package', 'path/to/file')
-print(resolved_path)
+# Define the package name and resource path
+package_name = "example_package"
+resource_path = "resources/another.txt"
+
+# Use the context manager to open and read the file
+content = res.read_text(package_name, resource_path)
+print("Content of another.txt:")
+print(content)
 ```
 
-### 6. Finding all files in a directory
+### Example 5: Accessing a Resource Using `files` Method
 
 ```python
-# Import the resources module
-import importlib.resources
+import importlib.resources as res
 
-# Get all files in a directory from the package's resources
-files = [f for f in importlib.resources.files('my_package')]
-for file in files:
-    print(file)
+# Define the package name
+package_name = "example_package"
+
+# Get the directory containing resources
+resources_dir = res.files(package_name)
+
+# List all files in the resources directory
+for file_path in resources_dir.iterdir():
+    print(file_path)
 ```
 
-### 7. Searching for files using a path pattern
+### Example 6: Accessing a Resource Using `open` Method
 
 ```python
-# Import the resources module
-import importlib.resources
+import importlib.resources as res
 
-# Search for all files matching a pattern from the package's resources
-files = [f.path for f in importlib.resources.files('my_package', pattern='*.txt')]
-for file in files:
-    print(file)
+# Define the package name and resource path
+package_name = "example_package"
+resource_path = "resources/another.txt"
+
+# Open and read the file using the open method
+with resources.open(package_name, resource_path) as f:
+    content = f.read()
+    print("Content of another.txt:")
+    print(content)
 ```
 
-### 8. Reading a resource as a text file
+### Example 7: Accessing a Resource Using `as_file` Method
 
 ```python
-# Import the resources module
-import importlib.resources
+import importlib.resources as res
 
-# Read a resource from the package's resources as a text file
-with importlib.resources.read_text('my_package', 'path/to/file.txt') as f:
-    # Print the contents of the file
-    print(f)
+# Define the package name and resource path
+package_name = "example_package"
+resource_path = "resources/another.txt"
+
+# Get the file object using as_file
+file_obj = resources.as_file(res.files(package_name) / resource_path)
+
+# Read the content of the file
+content = file_obj.read()
+print("Content of another.txt:")
+print(content)
 ```
 
-### 9. Reading a resource as a binary file
+### Example 8: Accessing a Resource Using `exists` Method
 
 ```python
-# Import the resources module
-import importlib.resources
+import importlib.resources as res
 
-# Read a resource from the package's resources as a binary file
-with importlib.resources.read_binary('my_package', 'path/to/file.bin') as f:
-    # Print the contents of the file
-    print(f)
+# Define the package name and resource path
+package_name = "example_package"
+resource_path = "resources/config.txt"
+
+# Check if the resource exists
+if res.exists(package_name, resource_path):
+    print("Resource config.txt exists.")
+else:
+    print("Resource config.txt does not exist.")
 ```
 
-### 10. Writing to a resource file
+### Example 9: Accessing a Resource Using `in_directory` Method
 
 ```python
-# Import the resources module
-import importlib.resources
+import importlib.resources as res
 
-# Write data to a resource file from the package's resources
-with importlib.resources.open_text('my_package', 'path/to/file.txt', mode='w') as f:
-    # Write some data to the file
-    f.write('Hello, World!')
+# Define the package name and directory path
+package_name = "example_package"
+directory_path = "resources"
+
+# Check if a specific file exists within a directory
+if res.in_directory(package_name, directory_path) / "another.txt".exists():
+    print("File another.txt exists in resources directory.")
+else:
+    print("File another.txt does not exist in resources directory.")
 ```
+
+These examples demonstrate various ways to access and manage resources using the `importlib.resources` module. Each example is self-contained and includes comments for clarity. You can integrate these examples into your Python projects to efficiently handle resource files within packages or other importable resources.

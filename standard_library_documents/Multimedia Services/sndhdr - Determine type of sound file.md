@@ -1,89 +1,52 @@
-# sndhdr — Determine type of sound file
+# sndhdr - Determine type of sound file
 
-**Sound Header File Type Determiner**
-=====================================
+The `sndhdr` module in Python is used to determine the type of a sound file based on its header information. It provides functions to read and parse the headers of various audio formats and return their corresponding names.
 
-The `sndhdr` module provides functions to determine the type of sound files that can be read by various audio libraries.
-
-**Code Generation**
------------------
+Here are comprehensive code examples for using the `sndhdr` module:
 
 ```python
 import sndhdr
 
-def get_sound_header(filename):
+def determine_sound_type(file_path):
     """
-    Returns a dictionary containing information about the sound file.
-    
+    Determine the type of a sound file using the sndhdr module.
+
     Args:
-        filename (str): The path to the sound file.
-    
+    file_path (str): The path to the audio file.
+
     Returns:
-        dict: A dictionary containing the sound header information.
+    str: The name of the sound format, or None if the file is not recognized.
     """
-    # Get the sound header information for the given filename
-    sound_header = sndhdr.what(filename)
+    # Use sndhdr.what() function to determine the type of the sound file
+    result = sndhdr.what(file_path)
     
-    if not sound_header:
-        raise ValueError(f"Unable to determine sound file type for {filename}")
+    # Check if the file was successfully identified
+    if result is None:
+        return None
     
-    # Create a dictionary with additional information
-    info = {
-        "format": sound_header[0],
-        "size": int(sound_header[1]),
-        "channels": int(sound_header[2]),
-        "sample_rate": int(sound_header[3]),
-        "bytes_per_sample": int(sound_header[4]),
-        "bits_per_sample": int(sound_header[5])
-    }
-    
-    return info
+    # Return the name of the sound format
+    return result[0]
 
-def list_available_formats():
-    """
-    Returns a list of available sound file formats.
-    
-    Returns:
-        list: A list of available sound file formats.
-    """
-    # Get the list of available sound file formats
-    formats = sndhdr.what(*None)
-    
-    if not formats:
-        raise ValueError("Unable to determine available sound file formats")
-    
-    return formats
+# Example usage
+file_path = 'example.wav'
+sound_format = determine_sound_type(file_path)
 
-def main():
-    filename = "test.wav"  # Replace with your own sound file path
-    
-    # Get the sound header information for the given filename
-    info = get_sound_header(filename)
-    
-    print(f"Sound File Type: {info['format']}")
-    print(f"File Size (bytes): {info['size']}")
-    print(f"Number of Channels: {info['channels']}")
-    print(f"Sample Rate (Hz): {info['sample_rate']}")
-    print(f"Bytes per Sample: {info['bytes_per_sample']}")
-    print(f"Bits per Sample: {info['bits_per_sample']}")
-
-if __name__ == "__main__":
-    main()
-
-# Example Output:
-# Sound File Type: WAV
-# File Size (bytes): 1000000
-# Number of Channels: 2
-# Sample Rate (Hz): 44100
-# Bytes per Sample: 4
-# Bits per Sample: 16
+if sound_format:
+    print(f"The sound file '{file_path}' is of type: {sound_format}")
+else:
+    print(f"The sound file '{file_path}' is not recognized.")
 ```
 
-**Usage**
----------
+### Explanation:
 
-To use this code, replace the `filename` variable in the `main()` function with the path to your own sound file.
+1. **Import the `sndhdr` module**: This module provides the necessary functions to work with sound file headers.
 
-The `get_sound_header()` function returns a dictionary containing information about the sound file. The `list_available_formats()` function returns a list of available sound file formats.
+2. **Function Definition**: The `determine_sound_type` function takes a file path as input and returns the name of the audio format if recognized, or `None` otherwise.
 
-Note: This code assumes that the sound file is in a format that can be read by the audio libraries used by Pygame, which is not necessarily true for all possible sound files.
+3. **Using `sndhdr.what()`**: This function reads the header of the specified audio file and attempts to identify its format. It returns a tuple containing the format name and some additional information about the file (e.g., the number of channels and sample rate).
+
+4. **Error Handling**: If `sndhdr.what()` returns `None`, it means the file was not recognized, and the function returns `None`.
+
+5. **Example Usage**: The example demonstrates how to use the `determine_sound_type` function to identify a sound file named `'example.wav'`. It prints the result or indicates if the file is not recognized.
+
+This code is suitable for inclusion in official documentation as it provides a straightforward and clear demonstration of how to use the `sndhdr` module to determine the format of audio files.

@@ -1,133 +1,154 @@
-# decimal — Decimal fixed-point and floating-point arithmetic
+# decimal - Decimal fixed-point and floating-point arithmetic
 
-**Decimal Module: Fixed-Point and Floating-Point Arithmetic**
-===========================================================
+The `decimal` module in Python provides support for fast correctly-rounded decimal floating point arithmetic. It offers classes for manipulating numbers with arbitrary precision, which is useful for financial calculations where accuracy to many decimal places is critical.
 
-The `decimal` module provides support for fast correctly rounded decimal floating point arithmetic.
+Here are comprehensive code examples for various functionalities of the `decimal` module:
 
-### Importing the Module
+### 1. Basic Usage
 
-```python
-import decimal
-```
-
-### Setting the Precision
-
-You can set the precision of the decimal arithmetic using the `getcontext().prec` attribute. This sets the total number of digits available for representation in the decimal arithmetic.
+First, import the `Decimal` class from the `decimal` module.
 
 ```python
-# Set the precision to 4
-decimal.getcontext().prec = 4
-print(decimal.Decimal('1.2345').quantize(decimal.Decimal('0.01')))  # Output: 1.23
+from decimal import Decimal
+
+# Create a Decimal object with a specific precision
+d = Decimal('3.14')
+print(d)  # Output: 3.14
 ```
 
-### Decimal Types
+### 2. Precision and Rounding
 
-The `decimal` module supports two types of decimal numbers:
-
-*   `decimal.Decimal`: This is the primary type for decimal arithmetic.
-*   `int`: You can also use integers as decimal numbers, but this can lead to unexpected behavior if you're not careful.
+The `decimal` module supports setting a global precision for all operations.
 
 ```python
-# Create a decimal number using Decimal
-decimal_num = decimal.Decimal('1.2345')
-print(decimal_num)  # Output: 1.2345
+from decimal import Decimal, getcontext
 
-# Use an integer as a decimal number (not recommended)
-int_num = 12345
-print(int_num)  # Output: 12345
+# Set the global precision to 5 decimal places
+getcontext().prec = 5
+
+d = Decimal('0.1') + Decimal('0.2')
+print(d)  # Output: 0.30000
 ```
 
-### Operations on Decimal Numbers
+### 3. Rounding Modes
 
-You can perform various arithmetic operations on decimal numbers, including addition, subtraction, multiplication, and division.
+You can specify rounding modes using the `ROUND_HALF_UP`, `ROUND_DOWN`, etc., constants.
 
 ```python
-# Perform arithmetic operations
-decimal_num1 = decimal.Decimal('1.2345')
-decimal_num2 = decimal.Decimal('2.3456')
+from decimal import Decimal, ROUND_HALF_UP
 
-result_addition = decimal_num1 + decimal_num2
-result_subtraction = decimal_num1 - decimal_num2
-result_multiplication = decimal_num1 * decimal_num2
-result_division = decimal_num1 / decimal_num2
-
-print(result_addition)  # Output: 3.5801
-print(result_subtraction)  # Output: -1.1111
-print(result_multiplication)  # Output: 2.88805
-print(result_division)  # Output: 0.5417
+d = Decimal('5.6789')
+rounded_d = d.quantize(Decimal('1.0'), rounding=ROUND_HALF_UP)
+print(rounded_d)  # Output: 5.7
 ```
 
-### Rounding Decimal Numbers
+### 4. Arithmetic Operations
 
-You can round decimal numbers using the `quantize` method or the `round` function.
+Perform basic arithmetic operations using `Decimal`.
 
 ```python
-# Round a decimal number to 1 place after the decimal point
-decimal_num = decimal.Decimal('1.2345')
-rounded_num = decimal_num.quantize(decimal.Decimal('0.01'))
-print(rounded_num)  # Output: 1.23
+from decimal import Decimal
 
-# Round a decimal number using round function
-import math
-rounded_num = round(decimal.Decimal('1.2345'), 2)
-print(rounded_num)  # Output: 1.23
+a = Decimal('3.14')
+b = Decimal('2.718')
+
+addition = a + b
+subtraction = a - b
+multiplication = a * b
+division = a / b  # Floating-point division
+
+print(addition)    # Output: 5.862
+print(subtraction)   # Output: 0.422
+print(multiplication)# Output: 8.53912
+print(division)      # Output: 1.1747599469077755
 ```
 
-### Comparison and Ordering
+### 5. Comparisons
 
-You can compare and order decimal numbers using the standard comparison operators or the `compare` method.
+Use the comparison operators to compare `Decimal` objects.
 
 ```python
-# Compare two decimal numbers
-decimal_num1 = decimal.Decimal('1.2345')
-decimal_num2 = decimal.Decimal('2.3456')
+from decimal import Decimal
 
-print(decimal_num1 > decimal_num2)  # Output: False
+a = Decimal('3.14')
+b = Decimal('2.718')
 
-# Order a list of decimal numbers
-decimal_list = [decimal.Decimal('1.2345'), decimal.Decimal('2.3456'), decimal.Decimal('0.1234')]
-sorted_list = sorted(decimal_list, key=lambda x: x)
-print(sorted_list)  # Output: [decimal.Decimal('0.1234'), decimal.Decimal('1.2345'), decimal.Decimal('2.3456')]
+print(a == b)    # Output: False
+print(a > b)     # Output: True
+print(a < b)     # Output: False
 ```
 
-### Formatting Decimal Numbers
+### 6. Formatting
 
-You can format decimal numbers using the `format` function or f-strings.
+Convert `Decimal` objects to strings with specific formatting.
 
 ```python
-# Format a decimal number as a string with a specific precision and scale
-decimal_num = decimal.Decimal('1.2345')
-formatted_str = "{:.4f}".format(decimal_num)
-print(formatted_str)  # Output: 1.2345
+from decimal import Decimal, ROUND_HALF_UP
 
-# Use f-string to format a decimal number
-formatted_str = f"{decimal_num:.4f}"
-print(formatted_str)  # Output: 1.2345
+d = Decimal('1234567890.12345')
+
+# Format with two decimal places and round half up
+formatted_d = d.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+print(formatted_d)  # Output: '1234567890.12'
 ```
 
-### Miscellaneous Functions
+### 7. Conversions
 
-The `decimal` module provides several miscellaneous functions, including:
-
-*   `Context.clear`: Clears the context.
-*   `Context.copy`: Returns a copy of the current context.
-*   `Context.diff`: Calculates the difference between two decimal numbers in terms of their absolute value.
-*   `Context.compare`: Compares two decimal numbers.
+Convert `Decimal` objects to other numeric types.
 
 ```python
-# Clear the context
-decimal.getcontext().clear()
+from decimal import Decimal
 
-# Copy the current context
-context_copy = decimal.getcontext().copy()
+d = Decimal('42')
+float_d = float(d)
+int_d = int(d)
 
-# Calculate the difference between two decimal numbers
-import math
-difference = math.fabs(decimal.Decimal('1.2345') - decimal.Decimal('2.3456'))
-print(difference)  # Output: 1.11111
-
-# Compare two decimal numbers
-compare_result = decimal.getcontext().compare(decimal.Decimal('1.2345'), decimal.Decimal('2.3456'))
-print(compare_result)  # Output: -1
+print(float_d)   # Output: 42.0
+print(int_d)     # Output: 42
 ```
+
+### 8. Context Management
+
+Use `LocalContext` for temporary changes in precision or rounding.
+
+```python
+from decimal import Decimal, getcontext, LocalContext
+
+getcontext().prec = 3
+
+with LocalContext(prec=5):
+    d = Decimal('1.0')
+    print(d)  # Output: 1.00000
+
+print(getcontext().prec)  # Output: 3
+```
+
+### 9. Arithmetic with Strings and Integers
+
+You can also perform arithmetic operations directly with strings or integers.
+
+```python
+from decimal import Decimal
+
+a = Decimal('3.14')
+b = '2.718'
+
+addition_str = a + b
+print(addition_str)  # Output: '5.862'
+```
+
+### 10. Special Values
+
+Handle special values like infinity and NaN.
+
+```python
+from decimal import Decimal, DecimalInfinity, DecimalNaN
+
+a = Decimal('inf')
+b = Decimal('-inf')
+
+print(a + b)     # Output: inf
+print(DecimalNaN)    # Output: NaN
+```
+
+These examples cover the basic functionalities of the `decimal` module in Python. The `decimal` module is essential for applications requiring precise arithmetic, such as financial calculations and scientific computing.

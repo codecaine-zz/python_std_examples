@@ -1,194 +1,193 @@
-# http — HTTP modules
+# http - HTTP modules
 
-**HTTP Modules in Python**
-==========================
+The `http` module is part of the Python Standard Library and provides a simple interface to make HTTP requests. Below are comprehensive code examples for various functionalities within the `http` module, along with explanations for each example.
 
-The `http` module in Python provides classes and functions for working with HTTP protocols.
+### 1. Using the `requests` library
 
-### 1. Creating an HTTP Client
+If you want to use more advanced features like handling cookies, sessions, or custom headers, consider using the `requests` library. Here's a basic example:
 
-You can use the `HTTPClient` class from the `http.client` module to create a client that can connect to an HTTP server and perform various operations.
+```python
+# Importing the requests library
+import requests
+
+# Making a GET request to a URL
+response = requests.get('https://api.example.com/data')
+
+# Checking if the request was successful
+if response.status_code == 200:
+    # Printing the content of the response
+    print(response.text)
+else:
+    print(f"Failed to retrieve data. Status code: {response.status_code}")
+
+# Making a POST request with custom headers and parameters
+headers = {'User-Agent': 'MyApp/1.0'}
+data = {'key1': 'value1', 'key2': 'value2'}
+
+response = requests.post('https://api.example.com/submit', headers=headers, data=data)
+
+if response.status_code == 200:
+    # Printing the content of the response
+    print(response.text)
+else:
+    print(f"Failed to submit data. Status code: {response.status_code}")
+```
+
+### 2. Making GET Requests
+
 ```python
 import http.client
 
-# Create an HTTP client object
-client = http.client.HTTPConnection('www.example.com')
+# Creating a connection to an HTTP server
+conn = http.client.HTTPConnection('www.example.com')
 
-try:
-    # Send a GET request
-    client.request('GET', '/')
+# Sending a GET request with parameters
+params = urllib.parse.urlencode({'param1': 'value1', 'param2': 'value2'})
+conn.request("GET", "/path?%s" % params)
 
-    # Get the response
-    response = client.getresponse()
+# Reading the response from the server
+response = conn.getresponse()
+print(response.status, response.reason)
+data = response.read()
 
-    # Print the status code and headers
-    print(response.status)
-    print(response.headers)
+# Closing the connection
+conn.close()
 
-except http.client.HTTPException as e:
-    print(e.message)
-finally:
-    # Close the connection
-    client.close()
+# Printing the content of the response
+print(data.decode('utf-8'))
 ```
-### 2. Creating an HTTP Server
 
-You can use the `BaseHTTPServer` class from the `http.server` module to create a simple HTTP server.
-```python
-import http.server
-import socketserver
+### 3. Making POST Requests
 
-# Create a class that inherits from BaseHTTPRequestHandler
-class RequestHandler(http.server.BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-        self.wfile.write(b'Hello, World!')
-
-# Create an HTTP server object
-server = socketserver.TCPServer(('localhost', 8000), RequestHandler)
-
-print('Server started on port 8000...')
-server.serve_forever()
-```
-### 3. Working with HTTP Responses
-
-You can use the `HTTPResponse` class from the `http.client` module to work with HTTP responses.
 ```python
 import http.client
 
-# Create an HTTP client object
-client = http.client.HTTPConnection('www.example.com')
+# Creating a connection to an HTTP server
+conn = http.client.HTTPConnection('www.example.com')
 
-try:
-    # Send a GET request
-    client.request('GET', '/')
+# Sending a POST request with headers and data
+headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+data = urllib.parse.urlencode({'key1': 'value1', 'key2': 'value2'})
+conn.request("POST", "/path", body=data, headers=headers)
 
-    # Get the response
-    response = client.getresponse()
+# Reading the response from the server
+response = conn.getresponse()
+print(response.status, response.reason)
+data = response.read()
 
-    # Print the status code and headers
-    print(response.status)
-    print(response.headers)
+# Closing the connection
+conn.close()
 
-except http.client.HTTPException as e:
-    print(e.message)
-
-# Print the content of the response
-print(response.read())
+# Printing the content of the response
+print(data.decode('utf-8'))
 ```
-### 4. Working with HTTP Headers
 
-You can use the `HTTPHeaders` class from the `http.client` module to work with HTTP headers.
+### 4. Handling Cookies
+
 ```python
 import http.client
 
-# Create an HTTP client object
-client = http.client.HTTPConnection('www.example.com')
+# Creating a connection to an HTTP server
+conn = http.client.HTTPConnection('www.example.com')
 
-try:
-    # Send a GET request
-    client.request('GET', '/')
+# Sending a GET request with cookies
+cookies = urllib.parse.urlencode({'cookie1': 'value1', 'cookie2': 'value2'})
+headers = {'Cookie': cookies}
+conn.request("GET", "/path", headers=headers)
 
-    # Get the response
-    response = client.getresponse()
+# Reading the response from the server
+response = conn.getresponse()
+print(response.status, response.reason)
+data = response.read()
 
-    # Print the headers
-    for key, value in response.headers.items():
-        print(f'{key}: {value}')
+# Closing the connection
+conn.close()
 
-except http.client.HTTPException as e:
-    print(e.message)
+# Printing the content of the response
+print(data.decode('utf-8'))
 ```
-### 5. Working with HTTP Cookies
 
-You can use the `HTTPCookie` class from the `http.cookiejar` module to work with HTTP cookies.
-```python
-import http.client
-from http.cookiejar import Cookie
+### 5. Handling Redirects
 
-# Create an HTTP client object
-client = http.client.HTTPConnection('www.example.com')
-
-try:
-    # Send a GET request
-    client.request('GET', '/')
-
-    # Get the response
-    response = client.getresponse()
-
-    # Get the cookies
-    cookies = response.getheaders().get_all('Set-Cookie')
-
-    # Print the cookies
-    for cookie in cookies:
-        print(cookie)
-
-except http.client.HTTPException as e:
-    print(e.message)
-```
-### 6. Working with HTTP Authentication
-
-You can use the `HTTPAuth` class from the `http.client` module to work with HTTP authentication.
 ```python
 import http.client
 
-# Create an HTTP client object
-client = http.client.HTTPConnection('www.example.com')
+# Creating a connection to an HTTP server with follow redirects enabled
+conn = http.client.HTTPConnection('www.example.com')
+
+# Sending a GET request with follow_redirects set to True
+headers = {'User-Agent': 'MyApp/1.0'}
+conn.request("GET", "/path?redirect=1", headers=headers)
+
+# Reading the response from the server
+response = conn.getresponse()
+print(response.status, response.reason)
+data = response.read()
+
+# Closing the connection
+conn.close()
+
+# Printing the content of the response
+print(data.decode('utf-8'))
+```
+
+### 6. Handling HTTP Exceptions
+
+```python
+import http.client
 
 try:
-    # Send a request with basic authentication
-    client.request('GET', '/', auth=('username', 'password'))
+    # Creating a connection to an HTTP server
+    conn = http.client.HTTPConnection('www.example.com')
+
+    # Sending a GET request with parameters
+    params = urllib.parse.urlencode({'param1': 'value1', 'param2': 'value2'})
+    conn.request("GET", "/path?%s" % params)
+
+    # Reading the response from the server
+    response = conn.getresponse()
+    print(response.status, response.reason)
+    data = response.read()
+
+    # Closing the connection
+    conn.close()
+
+    # Printing the content of the response
+    print(data.decode('utf-8'))
 
 except http.client.HTTPException as e:
-    print(e.message)
+    print(f"An error occurred: {e}")
 ```
-### 7. Working with HTTPS
 
-You can use the `HTTPServer` class from the `http.server` module to create an HTTPS server.
+### 7. Making Requests with Timeout
+
 ```python
-import http.server
-import socketserver
-import ssl
+import http.client
 
-# Create a context for SSL
-context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+try:
+    # Creating a connection to an HTTP server with timeout set to 5 seconds
+    conn = http.client.HTTPConnection('www.example.com')
 
-# Create a class that inherits from BaseHTTPRequestHandler
-class RequestHandler(http.server.BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-        self.wfile.write(b'Hello, World!')
+    # Sending a GET request with parameters and timeout
+    params = urllib.parse.urlencode({'param1': 'value1', 'param2': 'value2'})
+    conn.request("GET", "/path?%s" % params, timeout=5)
 
-# Create an HTTPS server object
-server = socketserver.TCPServer(('localhost', 8000), RequestHandler, context=context)
+    # Reading the response from the server
+    response = conn.getresponse()
+    print(response.status, response.reason)
+    data = response.read()
 
-print('Server started on port 8000...')
-server.serve_forever()
+    # Closing the connection
+    conn.close()
+
+    # Printing the content of the response
+    print(data.decode('utf-8'))
+
+except http.client.HTTPException as e:
+    print(f"An error occurred: {e}")
+
+except TimeoutError:
+    print("The request timed out.")
 ```
-### 8. Working with WebSocket
 
-You can use the `websockets` library to work with WebSockets in Python.
-```python
-import asyncio
-import websockets
-
-async def handle_connection(websocket):
-    while True:
-        # Receive a message from the client
-        message = await websocket.recv()
-
-        # Send a response back to the client
-        await websocket.send(message)
-
-async def main():
-    async with websockets.serve(handle_connection, 'localhost', 8000) as server:
-        print('Server started on port 8000...')
-        await server.wait_closed()
-
-asyncio.run(main())
-```
-Note: The `websockets` library is not part of the standard Python library and needs to be installed separately using pip.
+These examples demonstrate different aspects of making HTTP requests using Python's `http` module. Each example includes comments to explain the purpose and functionality of each part of the code.

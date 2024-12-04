@@ -1,89 +1,181 @@
-# curses.panel — A panel stack extension for curses
+# curses.panel - A panel stack extension for curses
 
-**Curses Panel Module**
-======================
+The `curses.panel` module provides a set of functions to create, manipulate, and manage panels within a curses window. Panels are useful for organizing multiple windows on the screen and allowing them to be stacked on top of each other with z-order management. Below are comprehensive code examples demonstrating various functionalities provided by the `curses.panel` module.
 
-The `curses.panel` module provides an interface to create and manage panels, which are regions of a window that can be displayed independently.
-
-### Creating Panels
--------------------
-
-A panel is created using the `panel` function, which takes two arguments: the current window and the panel type. The panel type can be either `PALL`, which stands for "all", or a specific attribute (e.g., `PAD`, which stands for "absolute double buffering").
+### Example 1: Creating and Displaying Multiple Panels
 
 ```python
-# Import the curses module and the panel class
 import curses
+from curses import panel as p
 
-# Initialize the curses window
-stdscr = curses.initscr()
-curses.noecho()
-curses.curs_set(0)  # Hide the cursor
+def main(stdscr):
+    # Initialize the screen
+    stdscr.clear()
+    stdscr.refresh()
 
-# Create a new panel on top of the standard window
-pall = curses.newwin(10, 20, 0, 0, 'PALL')
+    # Create a new window
+    win1 = curses.newwin(5, 10, 2, 5)
+    win2 = curses.newwin(3, 8, 7, 3)
 
-# Set the title of the panel
-pall.addstr(1, 1, "Panel Title")
-pall.refresh()
+    # Create panels for each window
+    p1 = p.new_panel(win1)
+    p2 = p.new_panel(win2)
 
-# Wait for user input and then clean up
-curses.napms(1000)
-curses.endwin()
+    # Update the stack to bring panel1 to the front
+    p.update_panels()
+
+    # Refresh the screen with all panels
+    stdscr.refresh()
+
+    # Add some content to win1 and win2
+    stdscr.addstr(3, 6, "Panel 1")
+    stdscr.addstr(5, 7, "Panel 2")
+
+    # Get user input to change panel order
+    key = stdscr.getch()
+    
+    if key == ord('1'):
+        p.update_panels()  # Bring win1 to the front
+        stdscr.refresh()
+    elif key == ord('2'):
+        p.update_panels()  # Bring win2 to the front
+        stdscr.refresh()
+
+curses.wrapper(main)
 ```
 
-### Panel Stack
-----------------
-
-A panel stack is a sequence of panels that can be stacked on top of each other. Each panel in the stack can have its own title, and the stack can be manipulated using various methods.
+### Example 2: Moving a Panel
 
 ```python
-# Create another panel on top of the original one
-pall2 = curses.newwin(10, 20, 0, 0, 'PALL')
+import curses
+from curses import panel as p
 
-# Add a new string to the second panel
-pall2.addstr(1, 1, "New String")
+def main(stdscr):
+    # Initialize the screen
+    stdscr.clear()
+    stdscr.refresh()
 
-# Set the title of the second panel
-pall2.set_title("Panel Title 2")
+    # Create two windows and their panels
+    win1 = curses.newwin(5, 10, 2, 5)
+    win2 = curses.newwin(3, 8, 7, 3)
 
-# Stack the two panels on top of each other
-stack = curses.newstack()
-stack.push(pall)
-stack.push(pall2)
+    p1 = p.new_panel(win1)
+    p2 = p.new_panel(win2)
 
-# Refresh the stacked panels
-stack.refresh()
+    # Update the stack to bring panel1 to the front
+    p.update_panels()
+    stdscr.refresh()
 
-# Wait for user input and then clean up
-curses.napms(1000)
-curses.endwin()
+    # Move win1 below win2 by swapping their positions in the panel stack
+    p.swapwin(p1, p2)
+    p.update_panels()
+    stdscr.refresh()
+
+curses.wrapper(main)
 ```
 
-### Panel Methods
------------------
-
-The `curses.panel` class provides several methods that can be used to manipulate panels. These include:
-
-*   `set_title`: sets the title of a panel
-*   `addstr`: adds a new string to a panel
-*   `refresh`: refreshes the contents of a panel
-*   `push`: pushes a panel onto a stack
-*   `pop`: pops the top panel from a stack
+### Example 3: Hiding and Showing Panels
 
 ```python
-# Create a new panel and add some text to it
-p = curses.newwin(10, 20, 0, 0)
-p.addstr(1, 1, "Hello World")
+import curses
+from curses import panel as p
 
-# Set the title of the panel
-p.set_title("My Panel")
+def main(stdscr):
+    # Initialize the screen
+    stdscr.clear()
+    stdscr.refresh()
+
+    # Create two windows and their panels
+    win1 = curses.newwin(5, 10, 2, 5)
+    win2 = curses.newwin(3, 8, 7, 3)
+
+    p1 = p.new_panel(win1)
+    p2 = p.new_panel(win2)
+
+    # Update the stack to bring panel1 to the front
+    p.update_panels()
+    stdscr.refresh()
+
+    # Hide win2 by calling hide()
+    p.hide(p2)
+    p.update_panels()
+
+    # Display win2 by calling show()
+    p.show(p2)
+    p.update_panels()
+
+curses.wrapper(main)
 ```
 
-### Example Use Cases
-----------------------
+### Example 4: Deleting a Panel
 
-*   Creating a GUI application with multiple panels that can be displayed independently.
-*   Implementing a text editor with multiple views for different parts of the document.
-*   Building a graphical user interface (GUI) with separate panels for menus, buttons, and other controls.
+```python
+import curses
+from curses import panel as p
 
-Note: The above code examples are just a starting point, and you may need to modify them to suit your specific requirements. Additionally, this is not an exhaustive list of all methods provided by the `curses.panel` module.
+def main(stdscr):
+    # Initialize the screen
+    stdscr.clear()
+    stdscr.refresh()
+
+    # Create two windows and their panels
+    win1 = curses.newwin(5, 10, 2, 5)
+    win2 = curses.newwin(3, 8, 7, 3)
+
+    p1 = p.new_panel(win1)
+    p2 = p.new_panel(win2)
+
+    # Update the stack to bring panel1 to the front
+    p.update_panels()
+    stdscr.refresh()
+
+    # Delete win2 by calling delete_panel()
+    p.delete_panel(p2)
+    p.update_panels()
+
+curses.wrapper(main)
+```
+
+### Example 5: Getting and Setting Panel Attributes
+
+```python
+import curses
+from curses import panel as p
+
+def main(stdscr):
+    # Initialize the screen
+    stdscr.clear()
+    stdscr.refresh()
+
+    # Create two windows and their panels
+    win1 = curses.newwin(5, 10, 2, 5)
+    win2 = curses.newwin(3, 8, 7, 3)
+
+    p1 = p.new_panel(win1)
+    p2 = p.new_panel(win2)
+
+    # Update the stack to bring panel1 to the front
+    p.update_panels()
+    stdscr.refresh()
+
+    # Get and print the attributes of win1
+    attrs = p.get_attr(p1)
+    print(f"Attributes of win1: {attrs}")
+
+    # Set new attributes for win2 (e.g., curses.A_REVERSE)
+    p.set_attr(p2, curses.A_REVERSE)
+    p.update_panels()
+    stdscr.refresh()
+
+curses.wrapper(main)
+```
+
+### Explanation
+
+- **Initialization and Setup**: The examples start by initializing the screen using `curses.wrapper`, which ensures proper cleanup after the main function exits.
+- **Panel Creation**: Each window is created using `curses.newwin` and then wrapped in a panel with `p.new_panel`.
+- **Stack Management**: Panels are updated using `p.update_panels()` to reorder them according to their stacking order.
+- **User Input Handling**: Examples demonstrate how to change the stack by getting user input and using `p.swapwin`, `p.hide`, `p.show`, and `p.delete_panel`.
+- **Attribute Manipulation**: Panels can have attributes set and retrieved using `p.set_attr` and `p.get_attr`.
+
+These examples cover the basic functionalities of managing panels in a curses application, from creating and showing them to managing their stacking order and attributes.

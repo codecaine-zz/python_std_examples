@@ -1,230 +1,138 @@
-# curses.ascii — Utilities for ASCII characters
+# curses.ascii - Utilities for ASCII characters
 
-**curses.ascii Module**
-=======================
+The `curses.ascii` module provides a set of functions that handle ASCII character operations in a way similar to those found in the C library. This is useful for applications that require text processing and need to interact with ASCII-only data.
 
-The `curses.ascii` module provides functions and classes related to the use of ASCII characters in curses.
+Here are comprehensive code examples demonstrating various functionalities provided by the `curses.ascii` module:
 
-### Importing the Module
+### Example 1: Character Classification
+
 ```python
 import curses.ascii as ascii
+
+def classify_character(character):
+    """
+    Classify an ASCII character based on its properties.
+    
+    :param character: A single ASCII character.
+    :return: A classification string indicating character type.
+    """
+    if ascii.islower(character):
+        return "Lowercase"
+    elif ascii.isupper(character):
+        return "Uppercase"
+    elif ascii.isdigit(character):
+        return "Digit"
+    elif ascii.ispunct(character):
+        return "Punctuation"
+    elif ascii.isspace(character):
+        return "Whitespace"
+    else:
+        return "Other"
+
+# Example usage
+char = 'A'
+classification = classify_character(char)
+print(f"The character '{char}' is a {classification}.")
 ```
 
-### Functions
+### Example 2: Character Conversion
 
-#### `ascii.isalnum()`
-Checks if a character is alphanumeric (either letter or number).
+```python
+import curses.ascii as ascii
 
-*   Returns: True if the character is alphanumeric, False otherwise.
-*   Example:
-    ```python
-# Check if a character is alphanumeric
-if ascii.isalnum('a'):
-    print("Character 'a' is alphanumeric")
-else:
-    print("Character 'a' is not alphanumeric")
+def convert_case(character):
+    """
+    Convert an ASCII character to uppercase or lowercase.
+    
+    :param character: A single ASCII character.
+    :return: The converted character.
+    """
+    if ascii.islower(character):
+        return chr(ascii.toupper(character))
+    elif ascii.isupper(character):
+        return chr(ascii.tolower(character))
+    else:
+        return character
+
+# Example usage
+char = 'a'
+converted_char = convert_case(char)
+print(f"The case of '{char}' is converted to '{converted_char}'.")
 ```
 
-#### `ascii.isalpha()`
-Checks if a character is an alphabetic character.
+### Example 3: Character Arithmetic
 
-*   Returns: True if the character is alphabetic, False otherwise.
-*   Example:
-    ```python
-# Check if a character is alphabetic
-if ascii.isalpha('A'):
-    print("Character 'A' is alphabetic")
-else:
-    print("Character 'A' is not alphabetic")
+```python
+import curses.ascii as ascii
+
+def shift_character_right(character, amount):
+    """
+    Shift an ASCII character right by a specified number of positions.
+    
+    :param character: A single ASCII character.
+    :param amount: Number of positions to shift the character.
+    :return: The shifted character.
+    """
+    if ascii.isalpha(character):
+        return chr((ord(character) + amount - 97) % 26 + 97)
+    else:
+        return character
+
+# Example usage
+char = 'A'
+shift_amount = 3
+shifted_char = shift_character_right(char, shift_amount)
+print(f"The character '{char}' shifted right by {shift_amount} is '{shifted_char}'.")
 ```
 
-#### `ascii.isascii()`
-Checks if a character is an ASCII character.
+### Example 4: Character Equality and Comparison
 
-*   Returns: True if the character is ASCII, False otherwise.
-*   Example:
-    ```python
-# Check if a character is ASCII
-if ascii.isascii('\u4F60'):
-    print("Character '\u4F60' is ASCII")
-else:
-    print("Character '\u4F60' is not ASCII")
+```python
+import curses.ascii as ascii
+
+def compare_characters(char1, char2):
+    """
+    Compare two ASCII characters.
+    
+    :param char1: First ASCII character.
+    :param char2: Second ASCII character.
+    :return: A comparison result (0 if equal, -1 if less than, 1 if greater than).
+    """
+    return ascii.cmp(char1, char2)
+
+# Example usage
+char1 = 'B'
+char2 = 'A'
+comparison_result = compare_characters(char1, char2)
+print(f"The comparison of '{char1}' and '{char2}' is: {comparison_result}")
 ```
 
-#### `ascii.isdigit()`
-Checks if a character is a digit.
+### Example 5: Character Properties
 
-*   Returns: True if the character is a digit, False otherwise.
-*   Example:
-    ```python
-# Check if a character is a digit
-if ascii.isdigit('5'):
-    print("Character '5' is a digit")
-else:
-    print("Character '5' is not a digit")
+```python
+import curses.ascii as ascii
+
+def character_properties(character):
+    """
+    Retrieve properties of an ASCII character.
+    
+    :param character: A single ASCII character.
+    :return: Dictionary with properties of the character.
+    """
+    return {
+        'islower': ascii.islower(character),
+        'isupper': ascii.isupper(character),
+        'isdigit': ascii.isdigit(character),
+        'ispunct': ascii.ispunct(character),
+        'isspace': ascii.isspace(character)
+    }
+
+# Example usage
+char = ' '
+properties = character_properties(char)
+print(f"Properties of '{char}': {properties}")
 ```
 
-#### `ascii.islower()`
-Checks if a character is in the lowercase letter set.
+### Summary
 
-*   Returns: True if the character is lowercase, False otherwise.
-*   Example:
-    ```python
-# Check if a character is lowercase
-if ascii.islower('a'):
-    print("Character 'a' is lowercase")
-else:
-    print("Character 'a' is not lowercase")
-```
-
-#### `ascii.isprintable()`
-Checks if a character can be printed.
-
-*   Returns: True if the character can be printed, False otherwise.
-*   Example:
-    ```python
-# Check if a character can be printed
-if ascii.isprintable('\n'):
-    print("Character '\n' can be printed")
-else:
-    print("Character '\n' cannot be printed")
-```
-
-#### `ascii.isascii()`
-Checks if a character is an ASCII character.
-
-*   Returns: True if the character is ASCII, False otherwise.
-*   Example:
-    ```python
-# Check if a character is ASCII
-if ascii.isascii('\u4F60'):
-    print("Character '\u4F60' is ASCII")
-else:
-    print("Character '\u4F60' is not ASCII")
-```
-
-#### `ascii.isupper()`
-Checks if a character is in the uppercase letter set.
-
-*   Returns: True if the character is uppercase, False otherwise.
-*   Example:
-    ```python
-# Check if a character is uppercase
-if ascii.isupper('A'):
-    print("Character 'A' is uppercase")
-else:
-    print("Character 'A' is not uppercase")
-```
-
-#### `ascii.isspace()`
-Checks if a character is a whitespace character.
-
-*   Returns: True if the character is whitespace, False otherwise.
-*   Example:
-    ```python
-# Check if a character is whitespace
-if ascii.isspace(' '):
-    print("Character ' ' is whitespace")
-else:
-    print("Character ' ' is not whitespace")
-```
-
-#### `ascii.isidentifier()`
-Checks if a string is an ASCII identifier.
-
-*   Returns: True if the string is an ASCII identifier, False otherwise.
-*   Example:
-    ```python
-# Check if a string is an ASCII identifier
-if ascii.isidentifier('abc'):
-    print("String 'abc' is an ASCII identifier")
-else:
-    print("String 'abc' is not an ASCII identifier")
-```
-
-#### `ascii.isdecimal()`
-Checks if a character is a decimal digit.
-
-*   Returns: True if the character is a decimal digit, False otherwise.
-*   Example:
-    ```python
-# Check if a character is a decimal digit
-if ascii.isdecimal('0'):
-    print("Character '0' is a decimal digit")
-else:
-    print("Character '0' is not a decimal digit")
-```
-
-#### `ascii.islowercase()`
-Checks if all characters in the string are lowercase.
-
-*   Returns: True if all characters are lowercase, False otherwise.
-*   Example:
-    ```python
-# Check if all characters in a string are lowercase
-if ascii.islowercase('abcdef'):
-    print("All characters in 'abcdef' are lowercase")
-else:
-    print("Not all characters in 'abcdef' are lowercase")
-```
-
-#### `ascii.isuppercase()`
-Checks if all characters in the string are uppercase.
-
-*   Returns: True if all characters are uppercase, False otherwise.
-*   Example:
-    ```python
-# Check if all characters in a string are uppercase
-if ascii.isuppercase('ABCDEF'):
-    print("All characters in 'ABCDEF' are uppercase")
-else:
-    print("Not all characters in 'ABCDEF' are uppercase")
-```
-
-#### `ascii.isspace()`
-Checks if all characters in the string are whitespace.
-
-*   Returns: True if all characters are whitespace, False otherwise.
-*   Example:
-    ```python
-# Check if all characters in a string are whitespace
-if ascii.isspace('   '):
-    print("All characters in '   ' are whitespace")
-else:
-    print("Not all characters in '   ' are whitespace")
-```
-
-#### `ascii.isprintable()`
-Checks if all characters in the string can be printed.
-
-*   Returns: True if all characters can be printed, False otherwise.
-*   Example:
-    ```python
-# Check if all characters in a string can be printed
-if ascii.isprintable('\nabc'):
-    print("All characters in '\nabc' can be printed")
-else:
-    print("Not all characters in '\nabc' can be printed")
-```
-
-#### `ascii.digits`
-Returns a string of ASCII digit characters.
-
-*   Returns: A string containing only the ASCII digits.
-*   Example:
-    ```python
-# Get a string of ASCII digit characters
-digits = ascii.digits
-print(digits)  # prints '0123456789'
-```
-
-#### `ascii.ascii_letters`
-Returns a string of ASCII letter characters.
-
-*   Returns: A string containing only the ASCII letters.
-*   Example:
-    ```python
-# Get a string of ASCII letter characters
-letters = ascii.ascii_letters
-print(letters)  # prints 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-```
+These examples demonstrate how to use the `curses.ascii` module for various character operations, including classification, conversion, arithmetic shifts, comparison, and property retrieval. Each example includes comments explaining the purpose and functionality of each code snippet, making it suitable for integration into official documentation or application development projects.

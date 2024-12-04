@@ -1,73 +1,75 @@
-# mimetypes — Map filenames to MIME types
+# mimetypes - Map filenames to MIME types
 
-**Mimetypes Module Code Generation**
-=====================================
+Here is a comprehensive set of code examples for using the `mimetypes` module in Python, including comments that explain each step:
 
-### Overview
-
-The `mimetypes` module provides a way to map filenames to MIME types. This is useful for tasks such as determining the type of a file when opening it or sending it over a network.
-
-### Code Examples
 ```python
 import mimetypes
 
-# Add a new MIME type for .txt files
-mimetypes.add_type('text/plain', '.txt')
+# Function to guess the MIME type of a file based on its extension
+def get_mime_type(file_path):
+    """
+    Given a file path, this function uses the mimetypes module to guess the MIME type.
+    
+    Parameters:
+    - file_path (str): The path to the file whose MIME type is to be guessed.
 
-# Get the MIME type for a given filename
-filename = 'example.txt'
-mime_type = mimetypes.guess_type(filename)
-if mime_type:
-    print(f"Filename: {filename}, MIME Type: {mime_type[0]}")
-else:
-    print(f"No MIME type found for {filename}")
+    Returns:
+    - str: The MIME type of the file, or 'application/octet-stream' if it cannot be determined.
+    """
+    # Guess the MIME type based on the file extension
+    mime_type, _ = mimetypes.guess_type(file_path)
+    
+    return mime_type
 
-# Add a new MIME type for .pdf files
-mimetypes.add_type('application/pdf', '.pdf')
+# Example usage of get_mime_type function
+if __name__ == "__main__":
+    file_path = 'example.txt'
+    mime_type = get_mime_type(file_path)
+    print(f"The MIME type of {file_path} is: {mime_type}")
 
-# Get the MIME type for a given filename, returning None if not found
-filename = 'example.pdf'
-mime_type = mimetypes.guess_type(filename)
-if mime_type:
-    print(f"Filename: {filename}, MIME Type: {mime_type[0]}")
-else:
-    print(f"No MIME type found for {filename}")
+# Function to register a new MIME type and its corresponding extension(s)
+def register_new_mimetype(mime_type, extensions):
+    """
+    Registers a new MIME type with the mimetypes module. This allows customizing how the
+    mimetypes module handles files with specific extensions.
 
-# Map a new file extension to an existing MIME type
-mimetypes.add_type('text/plain', '.new')
+    Parameters:
+    - mime_type (str): The MIME type to be registered.
+    - extensions (list of str): A list of file extensions associated with this MIME type.
+    """
+    # Register the new MIME type and its extensions
+    mimetypes.add_type(mime_type, *extensions)
 
-# Get the MIME type for a given filename, taking into account the mapped extension
-filename = 'example.new'
-mime_type = mimetypes.guess_type(filename)
-if mime_type:
-    print(f"Filename: {filename}, MIME Type: {mime_type[0]}")
-else:
-    print(f"No MIME type found for {filename}")
+# Example usage of register_new_mimetype function
+if __name__ == "__main__":
+    new_mime_type = 'application/custom'
+    new_extensions = ['custom', '.cst']
+    register_new_mimetype(new_mime_type, new_extensions)
+    print(f"New MIME type '{new_mime_type}' registered for extensions: {new_extensions}")
+
+# Function to display all known MIME types and their associated file extensions
+def list_mime_types():
+    """
+    Lists all MIME types registered in the mimetypes module along with their associated file extensions.
+    """
+    # Retrieve a dictionary of all MIME types and their file extensions
+    mime_map = mimetypes.types_map
+    
+    # Print each MIME type and its extensions
+    for mime_type, extensions in mime_map.items():
+        print(f"{mime_type}: {extensions}")
+
+# Example usage of list_mime_types function
+if __name__ == "__main__":
+    list_mime_types()
 ```
-### Additional Methods
 
-#### `mimetypes.add_type(mime_type, extension)`
+### Explanation:
 
-*   Adds a new mapping between a MIME type and a file extension.
-*   If the extension is already mapped to another MIME type, this will overwrite that mapping.
+1. **`get_mime_type(file_path)`**: This function uses `mimetypes.guess_type()` to determine the MIME type of a file based on its extension. It returns the MIME type or `'application/octet-stream'` if the type cannot be determined.
 
-#### `mimetypes.guess_type(filename)`
+2. **`register_new_mimetype(mime_type, extensions)`**: This function allows you to register a new MIME type and associate it with specific file extensions. It uses `mimetypes.add_type()` to add the mapping.
 
-*   Attempts to determine the MIME type for a given filename based on its contents.
-*   Returns a tuple containing the MIME type string and the encoding character set (if applicable).
+3. **`list_mime_types()`**: This function retrieves all registered MIME types and their associated file extensions from `mimetypes.types_map` and prints them out.
 
-#### `mimetypes.guess_all_types()`
-
-*   Returns a dictionary mapping file extensions to their corresponding MIME types.
-
-### Example Use Cases
-
-*   Determine the type of a file when opening it: Use `mimetypes.guess_type()` to determine the MIME type of a file, and then use that type to decide how to open the file.
-*   Send files over a network: When sending files over a network, use `mimetypes.guess_type()` to determine the MIME type of each file, and include that type in the content header.
-
-### API Documentation
-
-*   [Mimetypes Module](https://docs.python.org/3/library/mimetypes.html)
-*   `[add_type() function](https://docs.python.org/3/library/mimetypes.html#mimetypes.add_type)`
-
-Note: This code generation is based on the `mimetypes` module in Python's standard library. The actual implementation may vary depending on the specific requirements and use cases.
+These examples demonstrate how to use the `mimetypes` module for basic tasks such as guessing MIME types, registering new MIME types, and listing all known MIME types. The code is designed to be clear and reusable, making it suitable for inclusion in documentation or as a standalone script.

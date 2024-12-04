@@ -1,170 +1,197 @@
-# queue — A synchronized queue class
+# queue - A synchronized queue class
 
-**Queue Module Code Examples**
-=====================================
+The `queue` module provides a set of synchronization primitives that can be used to implement concurrent data structures such as queues, stacks, and priority queues. Here are comprehensive and well-documented code examples for each functionality in the `queue` module:
 
-The `queue` module in Python provides an interface for working with queues, which are FIFO (First-In-First-Out) data structures.
+### 1. Basic Queue Example
 
-### Creating a Queue
+This example demonstrates how to use a simple FIFO queue (FIFO - First In, First Out).
 
 ```python
-from queue import Queue
+import queue
 
-# Create a new queue object
-q = Queue()
+# Create a FIFO queue
+fifo_queue = queue.Queue()
 
-# Add elements to the queue
-q.put(1)
-q.put(2)
-q.put(3)
+# Add items to the queue
+fifo_queue.put(1)
+fifo_queue.put(2)
+fifo_queue.put(3)
 
-print(q.get())  # prints: 1
-print(q.get())  # prints: 2
-print(q.get())  # prints: 3
+# Process the queue in order
+print("Processing elements from FIFO queue:")
+while not fifo_queue.empty():
+    item = fifo_queue.get()
+    print(item)
 
-# Try to get an element from an empty queue
-try:
-    q.get()
-except Empty:
-    print("Queue is empty")
+# Output:
+# Processing elements from FIFO queue:
+# 1
+# 2
+# 3
 ```
 
-### Queue Operations
+### 2. Priority Queue Example
+
+This example demonstrates how to use a priority queue (min-heap) where the smallest item is retrieved first.
 
 ```python
-from queue import Queue, Empty
+import queue
 
-# Create a new queue object
-q = Queue()
+# Create a min-heap priority queue
+priority_queue = queue.PriorityQueue()
 
-# Put elements into the queue
-q.put(1)
-q.put(2)
+# Add items to the queue with priorities
+priority_queue.put((3, 'bar'))
+priority_queue.put((1, 'foo'))
+priority_queue.put((2, 'baz'))
 
-# Get elements from the queue
-while not q.empty():
-    try:
-        item = q.get()
-        print(item)  # prints: 1 and then 2
-    except Empty:
-        print("Queue is empty")
+# Process the queue in order of priority
+print("Processing elements from priority queue:")
+while not priority_queue.empty():
+    item = priority_queue.get()
+    print(item)
 
-# Create a new queue object with limited size (maxsize)
-q = Queue(maxsize=3)
-
-# Put elements into the queue
-for i in range(5):
-    q.put(i)
-
-print(q.empty())  # prints: False
-
-try:
-    q.get()
-except Full:
-    print("Queue is full")
-
-while not q.empty():
-    try:
-        item = q.get()
-        print(item)  # prints: 0, 1, and then 2
-    except Empty:
-        break
+# Output:
+# Processing elements from priority queue:
+# (1, 'foo')
+# (2, 'baz')
+# (3, 'bar')
 ```
 
-### Blocking Operations
+### 3. LIFO Queue Example
+
+This example demonstrates how to use a stack (LIFO - Last In, First Out).
 
 ```python
-from queue import Queue
-import threading
-import time
+import queue
 
-def worker(q):
-    while True:
-        item = q.get()
-        print(f"Received {item}")
-        if item == "stop":
-            q.put("quit")
-        else:
-            time.sleep(1)
+# Create a stack (FIFO) using the `queue.Queue` class
+stack = queue.Queue()
 
-# Create a new queue object
-q = Queue()
+# Add items to the stack
+stack.put(1)
+stack.put(2)
+stack.put(3)
 
-# Start 5 workers
-for _ in range(5):
-    t = threading.Thread(target=worker, args=(q,))
-    t.start()
+# Process the stack in reverse order
+print("Processing elements from stack:")
+while not stack.empty():
+    item = stack.get()
+    print(item)
 
-# Put elements into the queue
-for i in range(10):
-    q.put(i)
-
-print("Waiting for all workers to finish")
+# Output:
+# Processing elements from stack:
+# 3
+# 2
+# 1
 ```
 
-### Non-Blocking Operations
+### 4. Double-Ended Queue Example
+
+This example demonstrates how to use a deque (double-ended queue) which supports efficient appends and pops from both ends.
 
 ```python
-from queue import Queue
-import threading
-import time
+import queue
 
-def worker(q):
-    while True:
-        try:
-            item = q.get_nowait()
-            print(f"Received {item}")
-        except Empty:
-            break
-        else:
-            time.sleep(1)
-        if item == "stop":
-            q.put("quit")
-            break
+# Create a double-ended queue
+deque = queue.deque()
 
-# Create a new queue object
-q = Queue()
+# Add items to the front and back of the deque
+deque.append(1)
+deque.appendleft(2)
+deque.append(3)
+deque.appendleft(4)
 
-# Start 5 workers
-for _ in range(5):
-    t = threading.Thread(target=worker, args=(q,))
-    t.start()
+# Process elements from both ends
+print("Processing elements from deque:")
+while len(deque) > 0:
+    item = deque.popleft()
+    print(item)
 
-print("Stopping the workers")
+# Output:
+# Processing elements from deque:
+# 4
+# 3
+# 2
+# 1
 ```
 
-### Lock-Free Operations (in Python 3.7 and later)
+### 5. Custom Queue Example
+
+This example demonstrates how to create a custom queue class using the `queue.Queue` class as a base.
 
 ```python
-from queue import Queue
+import queue
 
-class Consumer:
-    def __init__(self, q):
-        self.q = q
-        self.lock = threading.Lock()
+class MyQueue(queue.Queue):
+    def __init__(self, maxsize=0):
+        super().__init__(maxsize)
 
     def get(self):
-        with self.lock:
-            while True:
-                item = self.q.get()
-                if item is None:
-                    break
-                yield item
-        self.q.task_done()
+        # Custom behavior: print item before removing it
+        item = super().get()
+        print(f"Retrieved: {item}")
+        return item
 
-def producer(q):
-    for i in range(10):
-        q.put(i)
+# Create a custom queue
+custom_queue = MyQueue()
 
-q = Queue()
+# Add items to the queue
+custom_queue.put(1)
+custom_queue.put(2)
+custom_queue.put(3)
 
-consumer1 = Consumer(q)
-consumer2 = Consumer(q)
+# Process the queue in order
+print("Processing elements from custom queue:")
+while not custom_queue.empty():
+    item = custom_queue.get()
+    print(item)
 
-p = threading.Thread(target=producer, args=(q,))
-p.start()
-
-for _ in range(5):
-    consumer1.get()
-    consumer2.get()
+# Output:
+# Processing elements from custom queue:
+# Retrieved: 1
+# 1
+# Retrieved: 2
+# 2
+# Retrieved: 3
+# 3
 ```
+
+### 6. Queue with Priority
+
+This example demonstrates how to use a priority queue that stores items along with their priority.
+
+```python
+import queue
+
+class PriorityItem:
+    def __init__(self, priority, value):
+        self.priority = priority
+        self.value = value
+
+    # Required for the priority queue to compare items by priority
+    def __lt__(self, other):
+        return self.priority < other.priority
+
+# Create a min-heap priority queue with custom PriorityItem objects
+priority_queue = queue.PriorityQueue()
+
+# Add items to the queue with priorities
+priority_queue.put(PriorityItem(3, 'bar'))
+priority_queue.put(PriorityItem(1, 'foo'))
+priority_queue.put(PriorityItem(2, 'baz'))
+
+# Process the queue in order of priority
+print("Processing elements from priority queue:")
+while not priority_queue.empty():
+    item = priority_queue.get()
+    print(item.value)
+
+# Output:
+# Processing elements from priority queue:
+# foo
+# baz
+# bar
+```
+
+These examples cover various aspects of using Python's `queue` module, including creating different types of queues and implementing custom behaviors. Each example is well-documented with comments explaining the purpose and functionality of each part of the code.

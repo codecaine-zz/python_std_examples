@@ -1,77 +1,167 @@
-# doctest — Test interactive Python examples
+# doctest - Test interactive Python examples
 
-**doctest Module**
-====================
+The `doctest` module in Python is a testing framework that provides tools to run and verify tests written as docstrings in Python modules, classes, functions, and methods. It is particularly useful for verifying that the examples provided in docstrings are correct and up-to-date.
 
-The `doctest` module provides a way to run interactive Python examples as test cases.
+Below are comprehensive code examples demonstrating various functionalities of the `doctest` module:
 
-### Installation
-
-You don't need to install anything, as this is a standard library module in Python.
-
-### Example Use Cases
-
-1. **Running doctests**: You can use the `doctest` module to run your interactive Python examples as tests.
-2. **Writing custom test cases**: You can write your own test cases using the `doctest` module.
-
-### Code Examples
-```python
-import doctest
-
-# Interactive example from the docstring of a function
-def greet(name):
-    """Prints out a personalized greeting."""
-    print(f"Hello, {name}!")
-
-def main():
-    # Running the interactive example as a test case
-    result = doctest.testmod(greet)
-    if result.failures:
-        print("Test cases failed:", result.failures)
-
-if __name__ == "__main__":
-    main()
-```
-
-### Explanation
-
-In this code:
-
-1. We import the `doctest` module.
-2. We define a simple function `greet` that prints out a personalized greeting.
-3. The docstring of the `greet` function is used as a test case to verify its correctness.
-4. In the `main` function, we use `doctest.testmod(greet)` to run the interactive example as a test case.
-5. If any test cases fail, their failure messages are printed out.
-
-### Additional Example: Writing Custom Test Cases
+### Example 1: Basic Usage
 
 ```python
 import doctest
+import unittest
 
-# Interactive example from the docstring of a function
 def add(a, b):
-    """Returns the sum of two numbers."""
+    """
+    >>> add(1, 2)
+    3
+    >>> add(5, 7)
+    12
+    """
     return a + b
 
-def main():
-    # Writing our own test case
-    def test_add():
-        result = add(2, 3)
-        assert result == 5, "Test failed"
-        print("Addition test passed")
-
-    # Running our custom test case
-    doctest.testmod(add, module='test_add', optionflags=doctest.ELLIPSIS)
-
-if __name__ == "__main__":
-    main()
+# Run the doctests in the module
+doctest.testmod()
 ```
 
-### Explanation
+### Example 2: Testing Functions with More Complex Arguments
 
-In this code:
+```python
+def multiply(a, b):
+    """
+    >>> multiply(3, 4)
+    12
+    >>> multiply(-2, 5)
+    -10
+    """
+    return a * b
 
-1. We import the `doctest` module.
-2. We define a simple function `add` that returns the sum of two numbers.
-3. In the `main` function, we write our own test case using a custom function `test_add`.
-4. We use `doctest.testmod(add, ...)`, specifying our custom test case and some additional options (`optionflags=doctest.ELLIPSIS`).
+# Run the doctests in the module
+doctest.testmod()
+```
+
+### Example 3: Testing Functions with Lists and Tuples
+
+```python
+def sort_and_filter(numbers):
+    """
+    Sorts a list of numbers in ascending order and filters out even numbers.
+    
+    >>> sort_and_filter([5, 3, 8, 1, 4])
+    [1, 3, 5]
+    """
+    return sorted(filter(lambda x: x % 2 != 0, numbers))
+
+# Run the doctests in the module
+doctest.testmod()
+```
+
+### Example 4: Testing Functions with String Manipulation
+
+```python
+def reverse_string(s):
+    """
+    Reverses a given string.
+    
+    >>> reverse_string('hello')
+    'olleh'
+    >>> reverse_string('Python')
+    'nohtyP'
+    """
+    return s[::-1]
+
+# Run the doctests in the module
+doctest.testmod()
+```
+
+### Example 5: Testing Functions with Conditional Logic
+
+```python
+def is_positive(n):
+    """
+    Determines if a number is positive.
+    
+    >>> is_positive(10)
+    True
+    >>> is_positive(-3)
+    False
+    """
+    return n > 0
+
+# Run the doctests in the module
+doctest.testmod()
+```
+
+### Example 6: Testing Functions with Class Methods
+
+```python
+class Calculator:
+    def add(self, a, b):
+        return a + b
+
+    def multiply(self, a, b):
+        return a * b
+
+# Define the class and its method docstrings
+doc = """
+Calculator class provides basic arithmetic operations.
+
+>>> calc = Calculator()
+>>> calc.add(3, 4)
+7
+>>> calc.multiply(5, 6)
+30
+"""
+
+# Run the doctests in the module
+doctest.testmod()
+
+# Optionally, you can run the doctests using unittest framework
+class TestCalculator(unittest.TestCase):
+    def test_add(self):
+        self.assertEqual(Calculator().add(3, 4), 7)
+
+    def test_multiply(self):
+        self.assertEqual(Calculator().multiply(5, 6), 30)
+
+# Run the tests
+unittest.main(argv=[''], exit=False)
+```
+
+### Example 7: Testing Functions with External Modules
+
+```python
+def parse_json(json_str):
+    """
+    Parses a JSON string and returns a Python dictionary.
+    
+    >>> data = parse_json('{"name": "John", "age": 30}')
+    {'name': 'John', 'age': 30}
+    """
+    import json
+    return json.loads(json_str)
+
+# Run the doctests in the module
+doctest.testmod()
+```
+
+### Example 8: Testing Functions with Assertions
+
+```python
+def check_even(num):
+    """
+    Asserts that a number is even.
+    
+    >>> check_even(4)
+    True
+    >>> check_even(7)
+    Traceback (most recent call last):
+        ...
+    AssertionError: 7 is not even
+    """
+    assert num % 2 == 0, f"{num} is not even"
+
+# Run the doctests in the module
+doctest.testmod()
+```
+
+These examples cover various scenarios and functionalities of the `doctest` module. Each example includes a docstring with test cases that are verified by running the `testmod()` function or using an external testing framework like `unittest`. This approach ensures that the documentation is self-contained and easily verifiable.

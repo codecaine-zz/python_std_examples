@@ -1,89 +1,64 @@
-# quopri — Encode and decode MIME quoted-printable data
+# quopri - Encode and decode MIME quoted-printable data
 
-**Quopri Module**
-=================
+The `quopri` module in Python is used to encode and decode MIME quoted-printable (QP) encoded strings, which are often used in email headers. Below are comprehensive examples demonstrating how to use this module for encoding and decoding QP data.
 
-The Quopri module provides functions to encode and decode MIME quoted-printable data.
+### Encoding QP Data
 
-### Importing the Quopri Module
+QP encoding converts binary data into a printable format that can be safely transmitted over ASCII-based media like email headers. Here's an example of how to encode binary data using the `quopri` module:
 
 ```python
 import quopri
+
+def encode_qp_string(input_data):
+    # Convert the input data to bytes if it isn't already
+    if not isinstance(input_data, bytes):
+        input_data = input_data.encode('utf-8')
+    
+    # Encode the binary data using QP encoding
+    encoded_data = quopri.encodestring(input_data)
+    
+    return encoded_data.decode()
+
+# Example usage
+if __name__ == "__main__":
+    original_message = "Hello, world! This is a test message with special characters like ñ and €."
+    encoded_message = encode_qp_string(original_message)
+    print("Original Message:", original_message)
+    print("Encoded QP Message:", encoded_message)
 ```
 
-### Encoding MIME Data with Quopri
+### Decoding QP Data
 
-To encode a string using Quopri, you can use the `quopri.encode()` function.
+Decoding QP encoded strings back to their original binary form can be done using the `quopri` module. Here's an example of how to decode a QP encoded string:
 
 ```python
-# Define the input string to be encoded
-input_string = "Hello, World!"
+import quopri
 
-# Encode the string using Quopri
-encoded_string = quopri.encode(input_string)
+def decode_qp_string(encoded_data):
+    # Decode the QP encoded data back to bytes
+    decoded_bytes = quopri.decodestring(encoded_data)
+    
+    # Convert the bytes back to a string if needed
+    decoded_text = decoded_bytes.decode('utf-8')
+    
+    return decoded_text
 
-print("Encoded String:", encoded_string)
+# Example usage
+if __name__ == "__main__":
+    encoded_message = "Hello, world! This is a test message with special characters like =C3=BA and =E2=82=A2."
+    original_message = decode_qp_string(encoded_message)
+    print("Encoded QP Message:", encoded_message)
+    print("Decoded Original Message:", original_message)
 ```
 
-Output:
-```
-Encoded String: QWxhcm8g
-```
+### Key Points
 
-### Decoding MIME Data with Quopri
+1. **Encoding**: The `quopri.encodestring()` function takes binary data as input and returns a QP encoded string.
 
-To decode a Quopri-encoded string, you can use the `quopri.decode()` function.
+2. **Decoding**: The `quopri.decodestring()` function takes a QP encoded string and returns the original bytes.
 
-```python
-# Define the input string to be decoded (Quopri-encoded)
-input_string = b"QWxhcm8="
+3. **Character Encoding**: Both encoding and decoding assume that the input data is in UTF-8, which is common for text strings. You can specify different encodings if needed by passing them as arguments to the `encode()` and `decode()` methods.
 
-# Decode the string using Quopri
-decoded_string = quopri.decode(input_string)
+4. **Example Strings**: The example strings used are designed to demonstrate special characters (ñ and €) that might be encoded in QP format.
 
-print("Decoded String:", decoded_string)
-```
-
-Output:
-```
-Decoded String: Hello, World!
-```
-
-### Handling Multiple Encoding Tables
-
-The `quopri.encode()` function can handle multiple encoding tables.
-
-```python
-# Define the input string to be encoded with multiple tables
-input_string = "Hello, World!"
-
-# Encode the string using Quopri with multiple tables (0x80 and 0xFF)
-encoded_string = quopri.encode(input_string, table=2)
-
-print("Encoded String:", encoded_string)
-```
-
-Output:
-```
-Encoded String: HgVybG9z
-```
-
-### Error Handling
-
-If an invalid input string is provided to the `quopri.decode()` function, it raises a `ValueError`.
-
-```python
-try:
-    # Define an invalid input string for decoding
-    input_string = "Invalid Quopri-Encoded String"
-
-    # Attempt to decode the string using Quopri
-    decoded_string = quopri.decode(input_string)
-except ValueError as e:
-    print("Error:", e)
-```
-
-Output:
-```
-Error: Invalid input 'Invalid Quopri-Encoded String' for encoding.
-```
+These examples provide a basic understanding of how to use the `quopri` module for encoding and decoding MIME quoted-printable data.

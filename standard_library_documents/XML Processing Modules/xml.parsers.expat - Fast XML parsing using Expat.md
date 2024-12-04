@@ -1,316 +1,277 @@
-# xml.parsers.expat — Fast XML parsing using Expat
+# xml.parsers.expat - Fast XML parsing using Expat
 
-Here's an example of how you can use the xml.parsers.expat module in Python:
+Below are comprehensive code examples for various functionalities of the `xml.parsers.expat` module, which is a fast and simple parser for XML documents in Python.
 
-```python
-# Import the required modules
-import xml.parsers.expat as expat
+### Example 1: Basic Parsing with Callbacks
 
-class CustomParser(expat.Parser):
-    """
-    A custom parser that raises exceptions for invalid elements.
-    """
-
-    def start_element(self, name, attrs):
-        # Print the start element
-        print(f"Start Element: {name}")
-        # Call the parent's start_element method to continue parsing
-        expat.Parser.base(self).start_element(name, attrs)
-
-    def end_element(self, name):
-        # Print the end element
-        print(f"End Element: {name}")
-        # Call the parent's end_element method to continue parsing
-        expat.Parser.base(self).end_element(name)
-
-    def character_data(self, data):
-        # Handle character data (text)
-        print(f"Character Data: {data}")
-
-# Create an XML document
-xml_doc = """
-<person>
-    <name>John Doe</name>
-    <age>30</age>
-</person>
-"""
-
-class Parser:
-    def __init__(self, xml_string):
-        # Initialize the parser with the XML string
-        self.xml_string = xml_string
-        # Create a new ExpAT parser
-        self.parser = CustomParser()
-        # Set the parser's feed method to process the XML string
-        self.parser.feed(xml_string)
-
-    def get_elements(self):
-        # Get all elements from the parsed XML
-        return self.parser.getroot().getchildren()
-
-# Usage example:
-parser = Parser(xml_doc)
-elements = parser.get_elements()
-
-for element in elements:
-    print(f"Element: {element.tag}")
-```
-
-This code demonstrates how to use a custom ExpAT parser that raises exceptions for invalid elements. It also shows how to parse an XML string and get all elements from the parsed document.
-
-**ExpatParser**
+This example demonstrates how to use callbacks to handle elements and attributes during parsing.
 
 ```python
-import xml.parsers.expat as expat
+import xml.parsers.expat
 
-class ExpatParser(expat.Parser):
-    """
-    A basic ExpAT parser.
-    """
+# Define callback functions for handling start tags, end tags, and character data
+def start_element(name, attrs):
+    print(f"Start Element: {name}")
+    for attr_name, attr_value in attrs.items():
+        print(f"  Attribute: {attr_name} = {attr_value}")
 
-    def start_element(self, name, attrs):
-        # Print the start element
-        print(f"Start Element: {name}")
-        # Call the parent's start_element method to continue parsing
-        expat.Parser.base(self).start_element(name, attrs)
+def end_element(name):
+    print(f"End Element: {name}")
 
-    def end_element(self, name):
-        # Print the end element
-        print(f"End Element: {name}")
-        # Call the parent's end_element method to continue parsing
-        expat.Parser.base(self).end_element(name)
+def characters(data):
+    print(f"Characters: {data.strip()}")
 
-    def character_data(self, data):
-        # Handle character data (text)
-        if self.last_char:
-            print(f"Character Data: {data}", end='')
-        else:
-            print(data)
+# Create a parser object
+parser = xml.parsers.expat.ParserCreate()
 
-# Create an XML document
-xml_doc = """
-<person>
-    <name>John Doe</name>
-    <age>30</age>
-</person>
+# Set the callback functions
+parser.StartElementHandler = start_element
+parser.EndElementHandler = end_element
+parser.CharacterDataHandler = characters
+
+# Parse an XML string
+xml_data = """
+<bookstore>
+    <book category="cooking">
+        <title lang="en">Everyday Italian</title>
+        <author>Giada De Laurentis</author>
+        <year>2005</year>
+        <price>13.50</price>
+    </book>
+    <book category="children">
+        <title lang="en">Harry Potter and the Sorcerer's Stone</title>
+        <author>J.K. Rowling</author>
+        <year>2005</year>
+        <price>29.99</price>
+    </book>
+</bookstore>
 """
 
-class Parser:
-    def __init__(self, xml_string):
-        # Initialize the parser with the XML string
-        self.xml_string = xml_string
+parser.Parse(xml_data)
 
-    def parse(self):
-        # Create an ExpAT parser
-        parser = ExpatParser()
-        # Set the parser's feed method to process the XML string
-        parser.feed(self.xml_string)
-        return parser.getroot()
-
-# Usage example:
-parser = Parser(xml_doc)
-root = parser.parse()
-
-# Print the parsed root element
-print("Root Element:", root.tag)
-
-# Get all child elements from the root element
-for child in root.getchildren():
-    print(f"Child Element: {child.tag}")
+# Call end_element for any remaining unclosed tags
+parser.Parse('', True)
 ```
 
-This code demonstrates how to create a basic ExpAT parser that prints start and end elements, as well as character data. It also shows how to parse an XML string using the `ExpatParser` class.
+### Example 2: Parsing XML from a File
 
-**xml.dom.minidom**
+This example shows how to parse an XML file using the `xml.parsers.expat` module.
 
 ```python
-import xml.dom.minidom as minidom
+import xml.parsers.expat
 
-class DOMParser:
-    def __init__(self, xml_string):
-        # Initialize the parser with the XML string
-        self.xml_string = xml_string
-        # Create a new DOM parser
-        self.parser = minidom.parseString(xml_string)
+def start_element(name, attrs):
+    print(f"Start Element: {name}")
+    for attr_name, attr_value in attrs.items():
+        print(f"  Attribute: {attr_name} = {attr_value}")
 
-    def get_root(self):
-        # Get the root element from the parsed document
-        return self.parser.documentElement
+def end_element(name):
+    print(f"End Element: {name}")
 
-    def get_elements(self, tag=None):
-        # Get all elements with a specified tag or all elements
-        if tag:
-            return self.parser.getElementsByTagName(tag)
-        else:
-            return list(self.parser.childNodes)
+def characters(data):
+    print(f"Characters: {data.strip()}")
 
-# Create an XML document
-xml_doc = """
-<person>
-    <name>John Doe</name>
-    <age>30</age>
-</person>
-"""
+# Create a parser object
+parser = xml.parsers.expat.ParserCreate()
 
-parser = DOMParser(xml_doc)
-root = parser.get_root()
+# Set the callback functions
+parser.StartElementHandler = start_element
+parser.EndElementHandler = end_element
+parser.CharacterDataHandler = characters
 
-print("Root Element:", root.tagName)
-elements = parser.get_elements('name')
-for element in elements:
-    print(f"Name Element: {element.textContent}")
+# Parse an XML file
+with open('books.xml', 'r') as file:
+    parser.ParseFile(file)
 
-elements = parser.get_elements()
-for i, element in enumerate(elements):
-    print(f"Element {i+1}: {element.tagName}")
+# Call end_element for any remaining unclosed tags
+parser.Parse('', True)
 ```
 
-This code demonstrates how to use the `xml.dom.minidom` module to parse an XML string and get all elements from the parsed document. It shows how to get the root element and elements with a specified tag.
+### Example 3: Parsing with Attributes and Namespaces
 
-**xml.etree.ElementTree**
+This example demonstrates how to handle attributes and namespaces during parsing.
 
 ```python
-import xml.etree.ElementTree as ET
+import xml.parsers.expat
 
-class ElementTreeParser:
-    def __init__(self, xml_string):
-        # Initialize the parser with the XML string
-        self.xml_string = xml_string
-        # Create a new ElementTree parser
-        self.parser = ET.fromstring(xml_string)
+def start_element(name, attrs):
+    print(f"Start Element: {name}")
+    for attr_name, attr_value in attrs.items():
+        print(f"  Attribute: {attr_name} = {attr_value}")
 
-    def get_root(self):
-        # Get the root element from the parsed document
-        return self.parser
+def end_element(name):
+    print(f"End Element: {name}")
 
-    def get_elements(self, tag=None):
-        # Get all elements with a specified tag or all elements
-        if tag:
-            return self.parser.findall('.//' + tag)
-        else:
-            return list(self.parser.iter())
+def characters(data):
+    print(f"Characters: {data.strip()}")
 
-# Create an XML document
-xml_doc = """
-<person>
-    <name>John Doe</name>
-    <age>30</age>
-</person>
+# Create a parser object
+parser = xml.parsers.expat.ParserCreate()
+
+# Set the callback functions
+parser.StartElementHandler = start_element
+parser.EndElementHandler = end_element
+parser.CharacterDataHandler = characters
+
+# Parse an XML string with namespaces
+xml_data = """
+<?xml version="1.0" encoding="UTF-8"?>
+<bookstore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.example.com/books
+                               books.xsd">
+    <book category="cooking">
+        <title lang="en">Everyday Italian</title>
+        <author>Giada De Laurentis</author>
+        <year>2005</year>
+        <price>13.50</price>
+    </book>
+    <book category="children" xmlns:child="http://www.example.com/children">
+        <title lang="en">Harry Potter and the Sorcerer's Stone</title>
+        <author>J.K. Rowling</author>
+        <year>2005</year>
+        <price>29.99</price>
+    </book>
+</bookstore>
 """
 
-parser = ElementTreeParser(xml_doc)
-root = parser.get_root()
+parser.Parse(xml_data)
 
-print("Root Element:", root.tag)
-
-elements = parser.get_elements('name')
-for element in elements:
-    print(f"Name Element: {element.text}")
-
-elements = parser.get_elements()
-for i, element in enumerate(elements):
-    print(f"Element {i+1}: {element.tag}")
+# Call end_element for any remaining unclosed tags
+parser.Parse('', True)
 ```
 
-This code demonstrates how to use the `xml.etree.ElementTree` module to parse an XML string and get all elements from the parsed document. It shows how to get the root element and elements with a specified tag.
+### Example 4: Error Handling
 
-**xml.dom**
+This example demonstrates how to handle parsing errors gracefully.
 
 ```python
-import xml.dom as dom
+import xml.parsers.expat
 
-class DOMParser:
-    def __init__(self, xml_string):
-        # Initialize the parser with the XML string
-        self.xml_string = xml_string
-        # Create a new DOM parser
-        self.parser = dom.parseString(xml_string)
+def start_element(name, attrs):
+    print(f"Start Element: {name}")
+    for attr_name, attr_value in attrs.items():
+        print(f"  Attribute: {attr_name} = {attr_value}")
 
-    def get_root(self):
-        # Get the root element from the parsed document
-        return self.parser.documentElement
+def end_element(name):
+    print(f"End Element: {name}")
 
-    def get_elements(self, tag=None):
-        # Get all elements with a specified tag or all elements
-        if tag:
-            return self.parser.getElementsByTagName(tag)
-        else:
-            return list(self.parser.childNodes)
+def characters(data):
+    print(f"Characters: {data.strip()}")
 
-# Create an XML document
-xml_doc = """
-<person>
-    <name>John Doe</name>
-    <age>30</age>
-</person>
+# Create a parser object
+parser = xml.parsers.expat.ParserCreate()
+
+# Set the callback functions
+parser.StartElementHandler = start_element
+parser.EndElementHandler = end_element
+parser.CharacterDataHandler = characters
+
+# Parse an XML string with a syntax error
+xml_data = """
+<bookstore>
+    <book category="cooking">
+        <title lang="en">Everyday Italian</title>
+        <author>Giada De Laurentis</author>
+        <year>2005</year>
+        <price>13.50</price>
+</bookstore>
 """
 
-parser = DOMParser(xml_doc)
-root = parser.get_root()
+try:
+    parser.Parse(xml_data)
+except xml.parsers.expat.ExpatError as e:
+    print(f"Error parsing XML: {e}")
 
-print("Root Element:", root.tagName)
-elements = parser.get_elements('name')
-for element in elements:
-    print(f"Name Element: {element.textContent}")
-
-elements = parser.get_elements()
-for i, element in enumerate(elements):
-    print(f"Element {i+1}: {element.tagName}")
+# Call end_element for any remaining unclosed tags
+parser.Parse('', True)
 ```
 
-This code demonstrates how to use the `xml.dom` module to parse an XML string and get all elements from the parsed document. It shows how to get the root element and elements with a specified tag.
+### Example 5: Parsing with Entity References
 
-**xml.dom.minidom vs xml.etree.ElementTree**
-
-Both `xml.dom.minidom` and `xml.etree.ElementTree` are used for parsing XML documents in Python. However, they have different use cases:
-
-*   **`xml.dom.minidom`**: This module is a more traditional way of parsing XML documents. It uses the DOM (Document Object Model) to represent the parsed document.
-    *   Pros:
-        *   Easier to use for small to medium-sized documents
-        *   More straightforward API
-    *   Cons:
-        *   Slower than `xml.etree.ElementTree` for large documents
-        *   Not suitable for XML data binding or other complex DOM operations
-*   **`xml.etree.ElementTree`**: This module is a more modern way of parsing XML documents. It uses an ElementTree to represent the parsed document, which is a simpler and more efficient data structure.
-    *   Pros:
-        *   Faster than `xml.dom.minidom` for large documents
-        *   Suitable for XML data binding or other complex DOM operations
-    *   Cons:
-        *   More complex API
-        *   Less intuitive for small to medium-sized documents
-
-In general, if you're working with small to medium-sized XML documents and need a straightforward way to parse them, `xml.dom.minidom` might be a better choice. However, if you're working with large XML documents or need more advanced features like XML data binding, `xml.etree.ElementTree` is likely a better fit.
-
-**XML Parsing Example**
+This example demonstrates how to handle entity references during parsing.
 
 ```python
-import xml.etree.ElementTree as ET
+import xml.parsers.expat
 
-# Create an XML string
-xml_string = """
-<person>
-    <name>John Doe</name>
-    <age>30</age>
-</person>
+def start_element(name, attrs):
+    print(f"Start Element: {name}")
+    for attr_name, attr_value in attrs.items():
+        print(f"  Attribute: {attr_name} = {attr_value}")
+
+def end_element(name):
+    print(f"End Element: {name}")
+
+def characters(data):
+    print(f"Characters: {data.strip()}")
+
+# Create a parser object
+parser = xml.parsers.expat.ParserCreate()
+
+# Set the callback functions
+parser.StartElementHandler = start_element
+parser.EndElementHandler = end_element
+parser.CharacterDataHandler = characters
+
+# Parse an XML string with entity references
+xml_data = """
+<bookstore>
+    <book category="cooking">
+        <title lang="en">Everyday Italian &amp; Pasta</title>
+        <author>Giada De Laurentis</author>
+        <year>2005</year>
+        <price>13.50</price>
+    </book>
+</bookstore>
 """
 
-# Parse the XML string using ElementTree
-parser = ET.fromstring(xml_string)
+parser.Parse(xml_data)
 
-# Get the root element
-root = parser
-
-print("Root Element:", root.tag)
-
-# Get all elements with a specified tag
-elements = root.findall('.//name')
-for element in elements:
-    print(f"Name Element: {element.text}")
-
-# Get all elements (including those without a specified tag)
-elements = root.iter()
-for i, element in enumerate(elements):
-    print(f"Element {i+1}: {element.tag}")
+# Call end_element for any remaining unclosed tags
+parser.Parse('', True)
 ```
 
-This code demonstrates how to parse an XML string using `xml.etree.ElementTree` and get all elements from the parsed document. It shows how to get the root element, elements with a specified tag, and all elements (including those without a specified tag).
+### Example 6: Parsing with Encoding
+
+This example demonstrates how to handle different character encodings during parsing.
+
+```python
+import xml.parsers.expat
+
+def start_element(name, attrs):
+    print(f"Start Element: {name}")
+    for attr_name, attr_value in attrs.items():
+        print(f"  Attribute: {attr_name} = {attr_value}")
+
+def end_element(name):
+    print(f"End Element: {name}")
+
+def characters(data):
+    print(f"Characters: {data.strip()}")
+
+# Create a parser object
+parser = xml.parsers.expat.ParserCreate('iso-8859-1', 'replace')
+
+# Set the callback functions
+parser.StartElementHandler = start_element
+parser.EndElementHandler = end_element
+parser.CharacterDataHandler = characters
+
+# Parse an XML string with ISO-8859-1 encoding and replace unsupported characters
+xml_data = """
+<bookstore>
+    <book category="cooking">
+        <title lang="en">Área de cocina</title>
+        <author>Giada De Laurentis</author>
+        <year>2005</year>
+        <price>13.50</price>
+    </book>
+</bookstore>
+"""
+
+parser.Parse(xml_data)
+
+# Call end_element for any remaining unclosed tags
+parser.Parse('', True)
+```
+
+These examples cover various aspects of using the `xml.parsers.expat` module, including basic parsing with callbacks, parsing from files, handling attributes and namespaces, error handling, entity references, and different character encodings. You can include these in your documentation to provide a comprehensive understanding of the module's capabilities.

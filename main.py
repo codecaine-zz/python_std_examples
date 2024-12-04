@@ -263,7 +263,6 @@ standard_library = {
         "parser - Access Python parse trees",
         "ast - Abstract Syntax Trees",
         "symtable - Access to the compiler’s symbol tables",
-        "symbol - Constants used with Python parse trees",
         "token - Constants used with Python parse trees",
         "keyword - Testing for Python keywords",
         "tokenize - Tokenizer for Python source",
@@ -311,6 +310,12 @@ async def write_code_example(file_path, category, module, executor):
     loop = asyncio.get_event_loop()
     await loop.run_in_executor(executor, file_path.write_text, f"# {module}\n\n{code_example}\n")
     print(f"Category: {category}, Module: {module}\n{code_example}\n")
+
+def get_activation_script_path(venv_path):
+    if os.name == 'nt':
+        return f"{venv_path}\\Scripts\\activate"
+    else:
+        return f"{venv_path}/bin/activate"
 
 async def process_module(category, module, executor):
     base_dir = Path.cwd() / "standard_library_documents"

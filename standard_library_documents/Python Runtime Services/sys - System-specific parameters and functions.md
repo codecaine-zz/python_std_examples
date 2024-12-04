@@ -1,114 +1,190 @@
-# sys — System-specific parameters and functions
+# sys - System-specific parameters and functions
 
-Here's an example of how you can use the `sys` module in Python:
+The `sys` module in Python provides access to some variables used or maintained by the interpreter and to functions that interact strongly with the interpreter. Below are comprehensive and well-documented code examples for each functionality provided by the `sys` module.
+
+### 1. `sys.version`
+This function returns a string containing the version number of the Python interpreter as a string in the form 'x.x.y'.
 
 ```python
-# Importing the sys module
+# Example: Retrieve the Python version
 import sys
 
-# Printing the current system platform
-print("System Platform: ", sys.platform)
-
-# Printing the current system architecture
-print("System Architecture: ", sys.maxsize)
-
-# Printing the command line arguments passed to the script
-print("Command Line Arguments: ")
-for i, arg in enumerate(sys.argv):
-    print(f"Argument {i+1}: {arg}")
-
-# Printing the exit status of the script (0 for success, non-zero for failure)
-print("Exit Status:", sys.exit())
-
-# Getting the current system's display name
-import platform
-display_name = platform.node()
-print("Display Name: ", display_name)
-
-# Getting the current system's processor type
-processor_type = platform.processor()
-print("Processor Type: ", processor_type)
-
-# Getting the current Python version and compiler information
-python_info = sys.version_info
-print("Python Version: ", python_info)
-python_compiler_info = sys.version
-print("Python Compiler Information: ", python_compiler_info)
+print("Python version:", sys.version)
 ```
 
-**Module Functions**
-
-Here's a list of functions available in the `sys` module:
+### 2. `sys.executable`
+This function returns the full path to the interpreter that started the current program.
 
 ```python
-# Function to exit the program with an error code
-def exit(error_code=0):
-    """Exit the program with the specified error code."""
-    sys.exit(error_code)
+# Example: Retrieve the executable file path
+import sys
 
-# Function to print the command line arguments passed to the script
-def argv(*args, **kwargs):
-    """Return a list of command line arguments."""
-    return sys.argv
-
-# Function to get the platform name
-def platform():
-    """Return the platform name."""
-    import platform
-    return platform.platform()
-
-# Function to get the system's display name
-def node():
-    """Return the system's display name."""
-    import platform
-    return platform.node()
-
-# Function to get the current Python version and compiler information
-def version():
-    """Return a string containing the Python version and compilation information."""
-    return sys.version
-
-# Function to get the maximum size of an integer on the system
-def maxsize:
-    """Return the maximum size of an integer on the system."""
-    return sys.maxsize
-
-# Function to get the current system's architecture
-def maxsize():
-    """Return the maximum size of an integer on the system."""
-    return sys.maxsize
-
-# Function to set the Python interpreter for the current process
-def exec_module(module):
-    """Set the Python interpreter for the current process."""
-    # Use importlib's _execute_code object, which runs a module as Python code.
-    import importlib._execute_code
-    if not isinstance(module, str):
-        raise TypeError(
-            f"Expected str, got {type(module).__name__}"
-        )
-    importlib._execute_code(module)
+print("Executable path:", sys.executable)
 ```
 
-**Module Constants**
-
-Here's a list of constants available in the `sys` module:
+### 3. `sys.platform`
+This function returns a string identifying the underlying platform on which Python is running.
 
 ```python
-# Constant for successful exit status (0)
-EX IT Status = 0
+# Example: Retrieve the platform
+import sys
 
-# Constant for unsuccessful exit status (non-zero)
-EXIT Status = 1
-
-# Module constants
-__file__ = ""
-
-__loader__ = None
-
-__name__ = "sys"
-
-__package__ = None
+print("Platform:", sys.platform)
 ```
 
-Note: These are some of the most commonly used functions and variables in the `sys` module. This is not an exhaustive list, as the `sys` module provides many more functions and constants.
+### 4. `sys.modules`
+This variable holds the dictionary of all currently loaded modules, with keys as module names and values as their corresponding module objects.
+
+```python
+# Example: Print all imported modules
+import sys
+
+for name in sys.modules:
+    print(name)
+```
+
+### 5. `sys.maxsize`
+This constant holds the maximum integer value that can be stored in an integer type on the current platform.
+
+```python
+# Example: Retrieve the maximum size of integers
+import sys
+
+print("Maximum size of integers:", sys.maxsize)
+```
+
+### 6. `sys.argv`
+This list contains the command-line arguments passed to the script when it was run. The first element is always a string 'scriptname', and the rest are the remaining arguments.
+
+```python
+# Example: Print command-line arguments
+import sys
+
+print("Command-line arguments:", sys.argv)
+```
+
+### 7. `sys.path`
+This list contains the current Python module search path. This is used when importing modules.
+
+```python
+# Example: Print current Python path
+import sys
+
+print("Current Python path:", sys.path)
+```
+
+### 8. `sys.stdin`, `sys.stdout`, and `sys.stderr`
+These are file-like objects representing standard input, standard output, and standard error streams, respectively. You can use them to read from or write to these streams.
+
+```python
+# Example: Read from stdin and print the result
+import sys
+
+user_input = sys.stdin.read()
+print("User input:", user_input)
+
+# Example: Write to stdout
+import sys
+
+sys.stdout.write("Hello, World!\n")
+```
+
+### 9. `sys.exit([status])`
+This function exits the script with an optional exit status code. If no argument is given, it defaults to 0.
+
+```python
+# Example: Exit the program
+import sys
+
+print("Exiting the program...")
+sys.exit(0)
+```
+
+### 10. `sys.getsizeof(obj[, default])`
+This function returns the size of an object in bytes. The `default` parameter is used if `obj` is a type object, not an instance.
+
+```python
+# Example: Get the size of an integer
+import sys
+
+num = 123456
+print("Size of", num, ":", sys.getsizeof(num))
+
+# Example: Get the size of a string
+str_obj = "Hello, World!"
+print("Size of", str_obj, ":", sys.getsizeof(str_obj))
+```
+
+### 11. `sys.settrace(func)`
+This function sets a global trace function for all currently running Python programs.
+
+```python
+# Example: Set a global trace function
+import sys
+
+def my_trace(frame, event, arg):
+    print(event, frame.f_lineno)
+
+sys.settrace(my_trace)
+```
+
+### 12. `sys.getdefaultencoding()`
+This function returns the default encoding used by the interpreter for strings.
+
+```python
+# Example: Retrieve the default encoding
+import sys
+
+print("Default encoding:", sys.getdefaultencoding())
+```
+
+### 13. `sys.setrecursionlimit(limit)`
+This function sets the maximum depth of recursion. If a recursive function calls itself too many times, it will raise a `RecursionError`.
+
+```python
+# Example: Set the recursion limit
+import sys
+
+print("Current recursion limit:", sys.getrecursionlimit())
+sys.setrecursionlimit(1000)
+print("New recursion limit:", sys.getrecursionlimit())
+```
+
+### 14. `sys.exitfunc`
+This variable holds a function to be called when the interpreter exits, such as at the end of a program or on an error.
+
+```python
+# Example: Set an exit function
+import sys
+
+def my_exit_function():
+    print("Exiting with custom message...")
+
+sys.exitfunc = my_exit_function
+```
+
+### 15. `sys.dont_write_bytecode`
+This variable is used to prevent the creation of `.pyc` files.
+
+```python
+# Example: Disable bytecode writing
+import sys
+
+print("Bytecode writing enabled:", not sys.dont_write_bytecode)
+sys.dont_write_bytecode = True
+print("Bytecode writing disabled:", not sys.dont_write_bytecode)
+```
+
+### 16. `sys.flags`
+This dictionary contains various flags that control the behavior of Python.
+
+```python
+# Example: Print all flags
+import sys
+
+for name, value in vars(sys).items():
+    if isinstance(value, bool) and not name.startswith('__'):
+        print(name, value)
+```
+
+These examples cover a wide range of functionalities provided by the `sys` module. Each example is thoroughly documented to ensure clarity and ease of understanding.

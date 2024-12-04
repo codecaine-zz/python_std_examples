@@ -1,217 +1,151 @@
-# importlib — The implementation of import
+# importlib - The implementation of import
 
-**Importlib Module**
-======================
+The `importlib` module in Python provides a framework for dynamically importing modules and packages. It is particularly useful when you need to load modules at runtime or when dealing with dynamic imports based on configuration or user input.
 
-The `importlib` module provides functions to manipulate import statements and imports.
+Below are comprehensive examples demonstrating various functionalities provided by the `importlib` module:
 
-### Table of Contents
-
-*   [Loading a Module](#loading-a-module)
-*   [Getting Information About an Module](#getting-information-about-an-module)
-*   [Resolving the Name of an Module](#resolving-the-name-of-an-module)
-*   [Creating a New Module from Code](#creating-a-new-module-from-code)
-*   [Executing a Function from an Module](#executing-a-function-from-an-module)
-
-### Loading a Module
+### 1. Dynamically Importing a Module
 
 ```python
-import importlib.util
+# Example: Dynamically importing a module and using its functions
 
-def load_module(module_name):
-    """
-    Load a module by name.
+import importlib
 
-    Args:
-        module_name (str): The name of the module to be loaded.
+# Dynamically import a module
+module = importlib.import_module("math")
 
-    Returns:
-        importlib.util.ModuleSpec: A `ModuleSpec` object representing the loaded module.
-    """
+# Use a function from the imported module
+result = module.sqrt(16)
+print(f"The square root of 16 is: {result}")
 
-    # Use the `importlib.util.find_spec()` function to find the module spec.
-    try:
-        # Attempt to find the module spec.
-        module_spec = importlib.util.find_spec(module_name)
-        
-        # If successful, return the module spec.
-        if module_spec is not None and module_spec.loader is not None:
-            return module_spec
-        else:
-            raise ImportError(f"Failed to load module {module_name}")
-    
-    except ImportError as e:
-        print(e)
-
-# Example usage
-module_name = "math"
-loaded_module = load_module(module_name)
+# Importing a specific attribute from a module
+from math import pi
+print(f"Value of pi: {pi}")
 ```
 
-### Getting Information About an Module
+### 2. Importing a Module with Aliasing
 
 ```python
-import importlib.util
+# Example: Importing a module and using it with an alias
 
-def get_module_info(module_name):
-    """
-    Get information about a module.
+import importlib
 
-    Args:
-        module_name (str): The name of the module to be inspected.
+# Dynamically import a module with an alias
+math_module = importlib.import_module("math", "m")
 
-    Returns:
-        dict: A dictionary containing metadata about the module.
-    """
-
-    # Use the `importlib.util.find_spec()` function to find the module spec.
-    try:
-        module_spec = importlib.util.find_spec(module_name)
-        
-        # If successful, return the module's metadata.
-        if module_spec is not None and module_spec.loader is not None:
-            return {
-                "module_name": module_spec.name,
-                "origin": module_spec.origin,
-                "loader": module_spec.loader,
-                "filename": module_spec.filename
-            }
-        
-    except ImportError as e:
-        print(e)
-    
-    return {}
-
-# Example usage
-module_name = "math"
-module_info = get_module_info(module_name)
-print(module_info)
+# Use a function from the imported module using its alias
+result = m.sqrt(16)
+print(f"The square root of 16 is: {result}")
 ```
 
-### Resolving the Name of an Module
+### 3. Importing a Module Using `importlib.util.module_from_spec`
 
 ```python
+# Example: Dynamically importing a module using importlib.util
+
 import importlib.util
+import sys
 
-def resolve_module_name(name):
-    """
-    Resolve a module name to its actual location.
+# Create a spec for the module
+spec = importlib.util.spec_from_file_location("my_module", "path/to/my_module.py")
 
-    Args:
-        name (str): The name of the module to be resolved.
+# Create a module object from the spec
+module = importlib.util.module_from_spec(spec)
 
-    Returns:
-        str: The absolute path of the module's file.
-    """
+# Executing the spec to define the module
+spec.loader.exec_module(module)
 
-    # Use the `importlib.util.find_spec()` function to find the module spec.
-    try:
-        # Attempt to find the module spec.
-        module_spec = importlib.util.find_spec(name)
-        
-        # If successful, return the module's filename.
-        if module_spec is not None and module_spec.loader is not None:
-            return module_spec.filename
-        
-    except ImportError as e:
-        print(e)
-    
-    return None
-
-# Example usage
-module_name = "math"
-resolved_name = resolve_module_name(module_name)
-print(resolved_name)
+# Accessing and using functions from the imported module
+print(module.my_function())
 ```
 
-### Creating a New Module from Code
+### 4. Dynamically Importing a Submodule
 
 ```python
-import importlib.util
-from io import BytesIO
+# Example: Dynamically importing a submodule and accessing its attributes
 
-def create_module_from_code(code):
-    """
-    Create a new module from code.
+import importlib
 
-    Args:
-        code (str): The source code of the module to be created.
+# Dynamically import a main module and then its submodule
+main_module = importlib.import_module("my_project.main")
+submodule = getattr(main_module, "submodule")
 
-    Returns:
-        importlib.util.ModuleSpec: A `ModuleSpec` object representing the newly created module.
-    """
-
-    # Use the `importlib.util.find_spec()` function to find the module spec.
-    try:
-        # Create a bytes buffer from the code.
-        buf = BytesIO(code.encode())
-        
-        # Attempt to create the module spec.
-        module_spec = importlib.util.spec_from_file_location("module_name", buf.name)
-        
-        # If successful, return the module spec.
-        if module_spec is not None and module_spec.loader is not None:
-            return module_spec
-        else:
-            raise ImportError(f"Failed to create module")
-    
-    except ImportError as e:
-        print(e)
-
-# Example usage
-code = """
-def add(a, b):
-    return a + b
-
-class MyClass:
-    pass
-"""
-
-new_module_name = "my_module"
-new_module = create_module_from_code(code)
-print(new_module.name)
+# Access an attribute from the submodule
+print(submodule.my_attribute)
 ```
 
-### Executing a Function from an Module
+### 5. Importing Packages
 
 ```python
-import importlib.util
-from math import sin, cos
+# Example: Importing a package and accessing its submodules
 
-def execute_function(module_name, func_name):
-    """
-    Execute a function from an module.
+import importlib
 
-    Args:
-        module_name (str): The name of the module containing the function.
-        func_name (str): The name of the function to be executed.
+# Dynamically import a package
+package = importlib.import_package("my_package")
 
-    Returns:
-        float: The result of the function execution.
-    """
+# Access a submodule within the package
+submodule = getattr(package, "submodule")
 
-    # Use the `importlib.util.find_spec()` function to find the module spec.
-    try:
-        # Attempt to load the module.
-        module = importlib.util.spec_from_module(module_name).loader
-        func = getattr(module, func_name)
-        
-        # If successful, return the result of the function execution.
-        if callable(func):
-            return func()
-        else:
-            raise TypeError(f"Function {func_name} does not exist in module")
-    
-    except ImportError as e:
-        print(e)
-
-# Example usage
-module_name = "math"
-func_name = "sin"
-result = execute_function(module_name, func_name)
-print(result)
+# Use a function from the submodule
+result = submodule.my_function()
+print(f"The result of my_function: {result}")
 ```
 
-This code provides an implementation of the `importlib` module from Python's standard library. It includes functions to load a module by name, get information about a module, resolve a module name, create a new module from code, and execute a function from a module.
+### 6. Handling Module Errors
 
-**Note:** This is a simplified implementation and may not cover all edge cases. The actual `importlib` module in Python's standard library is more comprehensive and includes additional features.
+```python
+# Example: Handling import errors using try-except blocks
+
+import importlib
+
+try:
+    # Attempt to dynamically import an unknown module
+    module = importlib.import_module("unknown_module")
+except ImportError as e:
+    print(f"Error importing module: {e}")
+```
+
+### 7. Importing Specific Attributes from a Package
+
+```python
+# Example: Importing specific attributes from a package
+
+import importlib
+
+# Dynamically import the main module and then use specific attributes
+main_module = importlib.import_package("my_package.main")
+
+# Access multiple specific attributes
+attr1, attr2 = getattr(main_module, "attr1"), getattr(main_module, "attr2")
+print(f"Attr1: {attr1}, Attr2: {attr2}")
+```
+
+### 8. Using `importlib.reload` to Reload a Module
+
+```python
+# Example: Reloading a module with changes
+
+import importlib
+import time
+
+# Dynamically import a module
+module = importlib.import_module("my_module")
+
+# Modify the module's behavior
+def new_function():
+    return "This is a new function!"
+
+setattr(module, "new_function", new_function)
+
+# Print the original function
+print(module.original_function())
+
+# Reload the module to see changes
+importlib.reload(module)
+
+# Print the updated function after reload
+print(module.new_function())
+```
+
+These examples cover a range of common use cases for the `importlib` module, demonstrating its flexibility and power in dynamically managing modules and packages in Python.

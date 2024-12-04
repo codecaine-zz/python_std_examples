@@ -1,115 +1,239 @@
-# imaplib — IMAP4 protocol client
+# imaplib - IMAP4 protocol client
 
-**IMAPlib: A Python Client for IMAP4 Protocol**
-====================================================
+The `imaplib` module in Python provides an interface to the IMAP4 protocol, which is used for retrieving and managing email messages on a mail server. Below are comprehensive code examples demonstrating various functionalities of the `imaplib` module.
 
-The `imaplib` module is a Python interface to the Internet Message Access Protocol (IMAP) version 4, which is a standard for accessing and managing email messages on a remote server.
+### 1. Connecting to an IMAP Server
 
-### Installation
-
-You don't need to install anything as it's part of the Python Standard Library.
-
-### Example Usage
 ```python
 import imaplib
 
-# Connect to the IMAP server
-def connect_to_imap(server, username, password):
+def connect_to_imap_server(server, username, password):
     """
-    Establishes a connection to an IMAP server.
+    Connects to an IMAP server and returns an IMAP4 object.
 
-    Args:
-        server (str): The hostname or IP address of the IMAP server.
-        username (str): The username to use for authentication.
-        password (str): The password to use for authentication.
-
-    Returns:
-        imaplib.IMAP4: An IMAP4 client object.
+    :param server: The IMAP server address (e.g., 'imap.example.com').
+    :param username: The user's email username.
+    :param password: The user's email password.
+    :return: An IMAP4 object connected to the specified server.
     """
-    # Create an IMAP4 client object
-    mail = imaplib.IMAP4(server)
+    try:
+        # Connect to the IMAP server
+        imap = imaplib.IMAP4_SSL(server)
+        imap.login(username, password)
+        print(f"Connected to {server} as {username}")
+        return imap
+    except Exception as e:
+        print(f"Failed to connect to {server}: {e}")
+        return None
 
-    # Login to the IMAP server
-    mail.login(username, password)
+# Example usage
+server = 'imap.example.com'
+username = 'your-email@example.com'
+password = 'your-password'
 
-    return mail
+imap_connection = connect_to_imap_server(server, username, password)
+if imap_connection:
+    # Proceed with operations
+    pass
+```
 
-# Search for emails with a specific subject or keyword
-def search_for_emails(mail, subject=None, keyword=None):
+### 2. Listing Mailboxes (Inboxes)
+
+```python
+def list_mailboxes(imap):
     """
-    Searches for emails on the IMAP server.
+    Lists all mailboxes on the server.
 
-    Args:
-        mail (imaplib.IMAP4): An IMAP4 client object.
-        subject (str, optional): The subject of the email to search for. Defaults to None.
-        keyword (str, optional): A keyword to search for in the email body or subject. Defaults to None.
-
-    Returns:
-        list: A list of message IDs matching the search criteria.
+    :param imap: An IMAP4 object connected to an IMAP server.
+    :return: A list of mailbox names.
     """
-    # Search for emails with a specific subject
-    if subject:
-        result = mail.search(None, 'SUBJECT', subject)
-    else:
-        result = mail.search(None, '*')
-
-    # Check if any messages were found
-    if result[0] != b'':
-        return result[1].decode('utf-8').split()
-    else:
+    try:
+        # Select the INBOX mailbox
+        status, messages = imap.select('INBOX')
+        if status == 'OK':
+            print("Listing mailboxes...")
+            # List all available mailboxes
+            return imap.list()[1]
+        else:
+            print(f"Failed to list mailboxes: {status}")
+            return None
+    except Exception as e:
+        print(f"Failed to list mailboxes: {e}")
         return []
 
-# Fetch an email message by ID
-def fetch_email(mail, msgid):
-    """
-    Fetches an email message from the IMAP server.
-
-    Args:
-        mail (imaplib.IMAP4): An IMAP4 client object.
-        msgid (int or str): The message ID of the email to fetch.
-
-    Returns:
-        tuple: A tuple containing the email body and subject.
-    """
-    result = mail.fetch(str(msgid), '(BODY[TEXT])')
-    return result[0].split('\n')
-
-# Close the IMAP connection
-def close_connection(mail):
-    """
-    Closes the IMAP connection.
-
-    Args:
-        mail (imaplib.IMAP4): An IMAP4 client object.
-    """
-    # Logout from the IMAP server
-    mail.logout()
-
-    # Close the connection to the IMAP server
-    mail.close()
-    mail.logout()
-
-# Usage example
-if __name__ == '__main__':
-    # Connect to the IMAP server
-    mail = connect_to_imap('imap.gmail.com', 'your_email@gmail.com', 'your_password')
-
-    # Search for emails with a specific subject
-    subject = 'Example Email'
-    email_ids = search_for_emails(mail, subject)
-    print(f"Found {len(email_ids)} email(s) with subject '{subject}':")
-    for emailid in email_ids:
-        print(f"- Message ID: {emailid}")
-
-    # Fetch an email message by ID
-    msgid = 1
-    email_body, email_subject = fetch_email(mail, msgid)
-    print(f"Email Subject: {email_subject}")
-    print(f"Email Body:\n{email_body}")
-
-    # Close the IMAP connection
-    close_connection(mail)
+# Example usage
+if imap_connection:
+    mailboxes = list_mailboxes(imap_connection)
+    if mailboxes:
+        for mailbox in mailboxes:
+            print(mailbox.decode('utf-8'))
 ```
-This example demonstrates how to connect to an IMAP server, search for emails with a specific subject or keyword, fetch an email message by ID, and close the IMAP connection.
 
-**Note**: This code snippet is just an illustration of the `imaplib` module's capabilities. You should replace `'your_email@gmail.com'`, `'your_password'`, and `'imap.gmail.com'` with your actual email credentials and IMAP server address.
+### 3. Searching for Emails
+
+```python
+def search_emails(imap, criteria):
+    """
+    Searches for emails based on a set of criteria.
+
+    :param imap: An IMAP4 object connected to an IMAP server.
+    :param criteria: A list of search criteria (e.g., ['FROM', 'example@example.com']).
+    :return: A list of email IDs that match the criteria.
+    """
+    try:
+        # Search for emails
+        status, messages = imap.search(None, *criteria)
+        if status == 'OK':
+            print(f"Found {len(messages[0].split())} matching messages.")
+            return messages[0].split()
+        else:
+            print(f"Failed to search for emails: {status}")
+            return []
+    except Exception as e:
+        print(f"Failed to search for emails: {e}")
+        return []
+
+# Example usage
+if imap_connection:
+    criteria = ['FROM', 'example@example.com']
+    email_ids = search_emails(imap_connection, criteria)
+    if email_ids:
+        for email_id in email_ids:
+            print(email_id.decode('utf-8'))
+```
+
+### 4. Retrieving Emails
+
+```python
+def retrieve_email(imap, message_id):
+    """
+    Retrieves an email based on its ID.
+
+    :param imap: An IMAP4 object connected to an IMAP server.
+    :param message_id: The ID of the email to retrieve.
+    :return: The raw email data as bytes.
+    """
+    try:
+        # Fetch the email
+        status, email_data = imap.fetch(message_id, '(RFC822)')
+        if status == 'OK':
+            print(f"Email retrieved: {message_id}")
+            return email_data[0][1]
+        else:
+            print(f"Failed to retrieve email: {status}")
+            return None
+    except Exception as e:
+        print(f"Failed to retrieve email: {e}")
+        return None
+
+# Example usage
+if imap_connection and email_ids:
+    message_id = email_ids[0]  # Assume the first email ID is the one to fetch
+    raw_email = retrieve_email(imap_connection, message_id)
+    if raw_email:
+        print(raw_email.decode('utf-8'))
+```
+
+### 5. Storing Emails (Outbox)
+
+```python
+def store_emails(imap, folder_name, messages):
+    """
+    Stores email messages in a specified folder.
+
+    :param imap: An IMAP4 object connected to an IMAP server.
+    :param folder_name: The name of the folder where emails will be stored.
+    :param messages: A list of raw email data as bytes.
+    """
+    try:
+        # Select the target folder
+        imap.select(folder_name)
+        # Store each message
+        for msg in messages:
+            status, result = imap.append(folder_name, '', None, msg)
+            if status == 'OK':
+                print(f"Message stored in {folder_name}: {result[0].decode('utf-8')}")
+            else:
+                print(f"Failed to store message in {folder_name}: {status}")
+    except Exception as e:
+        print(f"Failed to store emails: {e}")
+
+# Example usage
+if imap_connection and email_ids:
+    folder_name = 'Sent'
+    messages_to_store = [raw_email for _, raw_email in enumerate(messages, 1)]  # Assume all retrieved emails are to be stored
+    store_emails(imap_connection, folder_name, messages_to_store)
+```
+
+### 6. Deleting Emails
+
+```python
+def delete_emails(imap, message_id):
+    """
+    Deletes an email based on its ID.
+
+    :param imap: An IMAP4 object connected to an IMAP server.
+    :param message_id: The ID of the email to delete.
+    """
+    try:
+        # Delete the email
+        status, result = imap.store(message_id, '+FLAGS', '\\Deleted')
+        if status == 'OK':
+            print(f"Email deleted: {message_id}")
+        else:
+            print(f"Failed to delete email: {status}")
+    except Exception as e:
+        print(f"Failed to delete email: {e}")
+
+# Example usage
+if imap_connection and email_ids:
+    message_id = email_ids[0]  # Assume the first email ID is the one to delete
+    delete_emails(imap_connection, message_id)
+```
+
+### 7. Expunging Deleted Emails
+
+```python
+def expunge_deleted_emails(imap):
+    """
+    Expunges (deletes) all deleted emails from a mailbox.
+
+    :param imap: An IMAP4 object connected to an IMAP server.
+    """
+    try:
+        # Expunge all deleted emails
+        status, result = imap.expunge()
+        if status == 'OK':
+            print("Deleted emails expunged.")
+        else:
+            print(f"Failed to expunge deleted emails: {status}")
+    except Exception as e:
+        print(f"Failed to expunge deleted emails: {e}")
+
+# Example usage
+if imap_connection and email_ids:
+    expunge_deleted_emails(imap_connection)
+```
+
+### 8. Disconnecting from the Server
+
+```python
+def disconnect_from_imap_server(imap):
+    """
+    Disconnects from the IMAP server.
+
+    :param imap: An IMAP4 object connected to an IMAP server.
+    """
+    try:
+        # Logout and close the connection
+        imap.logout()
+        print("Disconnected from the IMAP server.")
+    except Exception as e:
+        print(f"Failed to disconnect from the IMAP server: {e}")
+
+# Example usage
+if imap_connection:
+    disconnect_from_imap_server(imap_connection)
+```
+
+These examples provide a comprehensive overview of how to use various functionalities in the `imaplib` module. Each example includes error handling and assumes that you have already established a connection to the IMAP server using `connect_to_imap_server`.

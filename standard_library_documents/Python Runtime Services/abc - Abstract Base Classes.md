@@ -1,108 +1,287 @@
-# abc — Abstract Base Classes
+# abc - Abstract Base Classes
 
-**Abstract Base Classes (ABC) Module**
-=====================================
+The `abc` (Abstract Base Class) module in Python provides a way to define abstract base classes, which are classes that cannot be instantiated directly but serve as a blueprint for subclasses. This module includes the `ABC` class and decorators such as `abstractmethod` and `abstractproperty`. Below are comprehensive code examples demonstrating various functionalities of this module.
 
-The `abc` module provides support for defining abstract base classes, which are classes that cannot be instantiated and must be subclassed by other classes.
+### 1. Defining an Abstract Base Class
 
-### Importing the ABC Module
 ```python
-import abc
-```
+from abc import ABC, abstractmethod
 
-### Defining an Abstract Class
-```python
-# Define a new class using the abc class
-class Shape(abc.ABC):
-    # The __abstractmethods__ attribute will be populated with abstract methods
-    @property
-    @abc.abstractmethod
-    def area(self):
-        """Return the area of the shape"""
+class Animal(ABC):
+    # Constructor
+    def __init__(self, name):
+        self.name = name
+
+    @abstractmethod
+    def speak(self):
         pass
 
-    @abc.abstractmethod
-    def perimeter(self):
-        """Return the perimeter of the shape"""
-        pass
-```
-
-### Implementing an Abstract Method
-```python
-# Define a concrete class that implements the abstract methods
-class Circle(Shape):
-    def __init__(self, radius):
-        self.radius = radius
-
-    @property
-    def area(self):
-        return 3.14 * (self.radius ** 2)
-
-    @property
-    def perimeter(self):
-        return 2 * 3.14 * self.radius
-```
-
-### Checking for Abstract Methods
-```python
+# Attempting to instantiate the base class will raise a TypeError
 try:
-    # Attempt to instantiate the abstract class
-    obj = Shape()
+    animal = Animal("Generic Animal")  # This line will cause an error
 except TypeError as e:
-    print(e)
-# Output: Can't instantiate abstract class Shape with abstract methods area, perimeter
-
-# Attempt to get the abstract method without subclassing it
-print(Shape.area)  # Output: <class 'abc.abstractmethod'>
+    print(e)  # Output: Can't instantiate abstract class Animal with abstract methods speak
 ```
 
-### Registering Abstract Base Classes
+### 2. Subclassing and Implementing Abstract Methods
+
 ```python
-import abc
+from abc import ABC, abstractmethod
 
-class Singleton(type):
-    _instances = {}
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name)
 
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
+    @abstractmethod
+    def bark(self):
+        pass
 
-class Logger(metaclass=Singleton):
-    pass
+    def speak(self):
+        return self.bark()
+
+class Cat(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    @abstractmethod
+    def meow(self):
+        pass
+
+    def speak(self):
+        return self.meow()
 ```
 
-### Checking for Singleton Classes
+### 3. Abstract Properties
+
 ```python
-print(Logger.__instance_count)  # Output: 1
+from abc import ABC, abstractmethod
+
+class Vehicle(ABC):
+    @abstractmethod
+    def get_color(self):
+        pass
+
+    @property
+    @abstractmethod
+    def color(self):
+        pass
+
+    @color.setter
+    @abstractmethod
+    def color(self, value):
+        pass
+
+class Car(Vehicle):
+    _color = None
+
+    def __init__(self, make, model, color="red"):
+        self.make = make
+        self.model = model
+        self.color = color
+
+    def get_color(self):
+        return self._color
+
+    @property
+    def color(self):
+        return self._color
+
+    @color.setter
+    def color(self, value):
+        if isinstance(value, str) and value.lower() in ["red", "blue", "green"]:
+            self._color = value.upper()
+        else:
+            raise ValueError("Invalid color. Choose from: red, blue, green")
 ```
 
-### Creating a Metaclass
+### 4. Using ABCs with `register` to Customize Base Class
+
 ```python
-import abc
+from abc import ABC, abstractmethod
 
-def singleton(cls):
-    cls._ instances = {}
-    def wrapper(*args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super().__call__(*args, **kwargs)
-        return cls._instances[cls]
-    return wrapper
+class Vehicle(ABC):
+    @abstractmethod
+    def drive(self):
+        pass
 
-class Logger(metaclass=singleton):
-    pass
+# Define a custom class that will be registered as a subclass of Vehicle
+class Bike(Vehicle):
+    def drive(self):
+        return "Riding the bike"
+
+# Register the custom class with the Vehicle ABC
+Vehicle.register(Bike)
+
+# Example usage
+vehicle = Bike()
+print(vehicle.drive())  # Output: Riding the bike
+
+# Attempting to instantiate a non-registered subclass will raise an error
+try:
+    vehicle = Vehicle()  # This line will cause an error
+except TypeError as e:
+    print(e)  # Output: Can't instantiate abstract class Vehicle with abstract methods drive
 ```
 
-### Checking for Singleton Classes (again)
+### 5. Using `abstractmethod` on Class Methods and Static Methods
+
 ```python
-print(Logger.__instance_count)  # Output: 1
+from abc import ABC, abstractmethod
+
+class MathOperations(ABC):
+    @staticmethod
+    @abstractmethod
+    def add(x, y):
+        pass
+
+    @classmethod
+    @abstractmethod
+    def multiply(cls, x, y):
+        pass
+
+class Calculator(MathOperations):
+    @staticmethod
+    def add(x, y):
+        return x + y
+
+    @classmethod
+    def multiply(cls, x, y):
+        return x * y
+
+# Example usage
+calc = Calculator()
+print(calc.add(3, 5))       # Output: 8
+print(calc.multiply(4, 6))   # Output: 24
 ```
 
-### Using `issubclass`
+### 6. Using `abc` with Inheritance and Multiple Abstract Methods
+
 ```python
-# Check if Circle is a subclass of Shape
-print(issubclass(Circle, Shape))  # Output: True
+from abc import ABC, abstractmethod
 
-# Check if int is a subclass of Circle
-print(issubclass(int, Circle))  # Output: False
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+
+    @abstractmethod
+    def perimeter(self):
+        pass
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+
+# Example usage
+rectangle = Rectangle(5, 3)
+print("Area:", rectangle.area())   # Output: Area: 15
+print("Perimeter:", rectangle.perimeter()) # Output: Perimeter: 16
 ```
+
+### 7. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass
+
+```python
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    @abstractmethod
+    def speak(self):
+        pass
+
+class Mammal(Animal):
+    def __init__(self, name):
+        self.name = name
+
+class Dog(Mammal):
+    def speak(self):
+        return "Woof!"
+
+# Example usage
+dog = Dog("Buddy")
+print(dog.speak())  # Output: Woof!
+```
+
+### 8. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass with Class Attributes
+
+```python
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+
+class Rectangle(Shape):
+    _width = None
+    _height = None
+
+    def __init__(self, width, height):
+        self._width = width
+        self._height = height
+
+    def get_area(self):
+        return self._width * self._height
+
+# Example usage
+rectangle = Rectangle(5, 3)
+print("Area:", rectangle.get_area())   # Output: Area: 15
+```
+
+### 9. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass with Class Attributes and Properties
+
+```python
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    @abstractmethod
+    def speak(self):
+        pass
+
+class Mammal(Animal):
+    _name = None
+
+    def __init__(self, name):
+        self._name = name
+
+class Dog(Mammal):
+    def speak(self):
+        return "Woof!"
+
+# Example usage
+dog = Dog("Buddy")
+print(dog.speak())  # Output: Woof!
+```
+
+### 10. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass with Class Attributes and Properties
+
+```python
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    @abstractmethod
+    def speak(self):
+        pass
+
+class Mammal(Animal):
+    _name = None
+
+    def __init__(self, name):
+        self._name = name
+
+class Dog(Mammal):
+    def speak(self):
+        return "Woof!"
+
+# Example usage
+dog = Dog("Buddy")
+print(dog.speak())  # Output: Woof!
+```
+
+These examples demonstrate various aspects of using the `abc` module in Python, including defining abstract base classes, subclassing, implementing methods and properties, and using `register` to customize base classes. Each example includes comments explaining each step for clarity.

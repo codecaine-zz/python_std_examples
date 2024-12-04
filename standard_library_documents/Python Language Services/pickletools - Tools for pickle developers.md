@@ -1,63 +1,106 @@
-# pickletools — Tools for pickle developers
+# pickletools - Tools for pickle developers
 
-**pickletools Module**
-======================
+The `pickletools` module in Python provides tools for examining and debugging pickled data, which is used to serialize and deserialize objects. Below are comprehensive code examples for each functionality provided by `pickletools`, including comments explaining each step.
 
-The `pickletools` module provides functions and classes to parse and analyze Python objects, such as pickled data.
+```python
+# Example 1: Inspecting a Pickle File
 
-### Code Generation
+import pickletools
+
+def inspect_pickle_file(filename):
+    # Open the pickle file in binary read mode
+    with open(filename, 'rb') as f:
+        # Load and parse the pickle data
+        parsed_data = pickletools.dis(f)
+        
+        # Print the disassembly of the pickled data
+        for line in parsed_data.splitlines():
+            print(line)
+
+# Example usage
+inspect_pickle_file('example.pkl')
+```
+
+### Explanation:
+- **Function Definition**: The function `inspect_pickle_file` takes a filename as an argument.
+- **File Opening**: The file is opened in binary read mode (`'rb'`) to handle the serialized data.
+- **Loading and Parsing**: The `pickletools.dis()` function is used to parse the pickle data, which disassembles it into human-readable form.
+- **Output**: Each line of disassembly is printed to the console.
+
+### Example 2: Extracting Source Code from a Pickled Object
 
 ```python
 import pickletools
 
-# Function to dump a Python object using pickle.dump()
-def dump_object(obj):
-    """Dump a Python object to a bytes buffer."""
-    # Use pickle.dumps() to serialize the object into a bytes buffer
-    buf = pickle.dumps(obj)
-    # Use pickletools.dump_module_to() to parse the serialized bytes as a module (in this case, our obj)
-    return pickletools.dump_module_to(buf)
+def extract_source_code(obj):
+    # Create an in-memory buffer and write the object to it
+    import io
+    buf = io.BytesIO()
+    pickle.dump(obj, buf)
+    
+    # Get the bytecode of the pickled data
+    bytecodes = buf.getvalue()
+    
+    # Disassemble the bytecodes
+    parsed_data = pickletools.dis(bytecodes)
+    
+    # Print the disassembly
+    for line in parsed_data.splitlines():
+        print(line)
 
-# Function to load a Python object from a bytes buffer using pickle.loads()
-def load_object(buf):
-    """Load a Python object from a bytes buffer."""
-    # Use pickletools.load_module_from() to parse the serialized bytes as a module (in this case, our buf)
-    return pickletools.load_module_from(buf)
+# Example usage
+class MyClass:
+    def __init__(self, value):
+        self.value = value
 
-# Function to get a human-readable representation of a pickled object
-def get_pretty_obj(obj):
-    """Get a pretty-printed string representation of a pickled object."""
-    # Use pickle.dumps() to serialize the object into a bytes buffer
-    buf = pickle.dumps(obj)
-    # Use pickletools.PICKLE.loads as a fallback if dump_module_to returns an error.
-    return pickletools.unpickler.load(buf)
-
-# Example usage:
-obj = 12345
-buf = dump_object(obj)
-print(buf)  # Output: b'\x80\x03}q\x00(X\x01K\x02K.'
-
-loaded_obj = load_object(buf)
-print(loaded_obj)  # Output: 12345
-
-pretty_obj = get_pretty_obj(obj)
-print(pretty_obj)  # Output: 'integer object(n=12345)'
+obj = MyClass(42)
+extract_source_code(obj)
 ```
 
-### Classes and Functions
+### Explanation:
+- **Object Creation**: A simple class `MyClass` is defined with an initializer.
+- **Buffer and Serialization**: The object is serialized into a memory buffer using `pickle.dump()`.
+- **Bytecode Retrieval**: The bytecodes are extracted from the buffer.
+- **Disassembly**: The `pickletools.dis()` function disassembles the bytecodes, providing insights into the serialization process.
 
-The `pickletools` module provides the following classes and functions:
+### Example 3: Generating Python Source Code for a Pickled Object
 
-*   **`dump_module_to()`**: Parse a serialized bytes buffer as a Python module.
-*   **`load_module_from()`**: Parse a serialized bytes buffer as a Python module, returning the loaded object.
-*   **`pickle.PICKLE.loads()`**: Load an unpickled bytes buffer into a Python object.
-*   **`pickletools.unpickler.load()`**: Load an unpickled bytes buffer into a Python object.
+```python
+import pickletools
+import ast
 
-### Modules
+def generate_python_source_code(obj):
+    # Create an in-memory buffer and write the object to it
+    import io
+    buf = io.BytesIO()
+    pickle.dump(obj, buf)
+    
+    # Get the bytecodes of the pickled data
+    bytecodes = buf.getvalue()
+    
+    # Disassemble the bytecodes
+    parsed_data = pickletools.dis(bytecodes)
+    
+    # Parse the disassembly into Python source code
+    ast_code = ast.parse(parsed_data)
+    
+    # Print the generated source code
+    import pprint
+    pprint.pprint(ast_code)
 
-The `pickletools` module provides several modules for different purposes:
+# Example usage
+class MyClass:
+    def __init__(self, value):
+        self.value = value
 
-*   **`pickletools.PicklingError`**: Raised when an error occurs during pickling.
-*   **`pickletools.UnpicklingError`**: Raised when an error occurs during unpickling.
+obj = MyClass(42)
+generate_python_source_code(obj)
+```
 
-Note: The above code examples are intended to illustrate how the `pickletools` module can be used, but they may not cover all possible use cases or edge conditions. Always use caution when working with pickled data and consider using safer alternatives whenever possible.
+### Explanation:
+- **Buffer and Serialization**: Similar to example 2, the object is serialized into a buffer.
+- **Disassembly**: The bytecodes are disassembled to understand the serialization process.
+- **Parsing**: The `ast.parse()` function converts the disassembly into Python source code.
+- **Output**: The parsed source code is printed using `pprint.pprint()`, which provides a readable representation of the AST.
+
+These examples demonstrate how to use `pickletools` for various purposes, from inspecting pickled data to generating Python source code that reconstructs it.

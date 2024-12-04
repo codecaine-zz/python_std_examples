@@ -1,97 +1,161 @@
-# fnmatch — Unix filename pattern matching
+# fnmatch - Unix filename pattern matching
 
-**Functionality Overview:**
+The `fnmatch` module is used to perform shell-style pattern matching on filenames, which is particularly useful for applications that need to handle file paths and patterns according to common Unix/Linux conventions. Below are comprehensive code examples demonstrating various functionalities of the `fnmatch` module.
 
-The `fnmatch` module provides a way to match filenames against Unix shell-style wildcards.
-
-**Example Use Cases:**
-
-*   Matching files with a specific extension
-*   Matching files in a directory with a wildcard pattern
-*   Checking if a file exists and has a certain attribute (e.g., size, mode)
-
-**Code Generation:**
+### Example 1: Basic Pattern Matching
 
 ```python
-# Import the fnmatch module
 import fnmatch
 
-def match_files_with_extension(directory, extension):
-    """
-    Match all files with the specified extension in the given directory.
+# Define a list of filenames
+filenames = [
+    "document.txt",
+    "images.png",
+    "notes.pdf",
+    "backup.tar.gz",
+    "README.md"
+]
 
-    Args:
-        directory (str): The path to the directory to search.
-        extension (str): The file extension to match.
+# Define a pattern to match files with ".txt" or ".md" extensions
+pattern = "*.txt|*.md"
 
-    Returns:
-        list: A list of paths to files matching the specified extension.
-    """
-    # Use fnmatch.fnmatch to find all files with the specified extension
-    return [path for path in os.listdir(directory) if fnmatch.fnmatch(path, f"*.{extension}")]
+# Use fnmatch.filter() to find filenames that match the pattern
+matched_filenames = fnmatch.filter(filenames, pattern)
 
-def get_files_in_directory(directory):
-    """
-    Get a list of all files and directories in the given directory.
-
-    Args:
-        directory (str): The path to the directory to search.
-
-    Returns:
-        list: A list of paths to files and directories.
-    """
-    # Use os.listdir to get a list of all files and directories
-    return [path for path in os.listdir(directory)]
-
-def check_file_attributes(directory, pattern, attr):
-    """
-    Check if any file in the given directory matches the specified wildcard pattern.
-
-    Args:
-        directory (str): The path to the directory to search.
-        pattern (str): The Unix shell-style wildcard pattern to match.
-        attr (str): The attribute to check (e.g., size, mode).
-
-    Returns:
-        bool: True if a file matches the pattern and has the specified attribute; False otherwise.
-    """
-    # Use os.path.exists and os.stat to get a list of all files
-    files = [path for path in os.listdir(directory) if os.path.exists(os.path.join(directory, path))]
-
-    # Iterate over each file and check if it matches the pattern and has the specified attribute
-    for file in files:
-        if fnmatch.fnmatch(file, pattern):
-            try:
-                stat = os.stat(os.path.join(directory, file))
-                # Check if the file's size or mode match the specified attribute
-                if attr == "size" and stat.st_size > 0:
-                    return True
-                elif attr == "mode" and stat.st_mode != -1:
-                    return True
-            except OSError:
-                pass
-
-    return False
-
-# Example usage:
-
-if __name__ == "__main__":
-    import os
-
-    directory = "."  # Search for files in the current directory
-    extension = "*.txt"  # Match all .txt files
-    pattern = "*.txt"  # Match all .txt files
-    attr = "size"  # Check if any file has a non-zero size
-
-    print(match_files_with_extension(directory, extension))  # Get all .txt files
-    print(get_files_in_directory(directory))  # Get all files and directories
-    print(check_file_attributes(directory, pattern, attr))  # Check if any file is a .txt file with a non-zero size
+# Print the matched filenames
+print("Matched filenames:", matched_filenames)
 ```
 
-This code includes the following functions:
+### Explanation:
+- **Importing `fnmatch`:** The `fnmatch` module provides a function `filter()` that can be used to filter a list of filenames based on a given pattern.
+- **Pattern Definition:** The pattern `"*.txt|*.md"` matches any file name ending with `.txt` or `.md`.
+- **Function Call:** `fnmatch.filter(filenames, pattern)` returns a list of filenames that match the specified pattern.
+- **Output:** The matched filenames are printed.
 
-*   `match_files_with_extension`: Returns a list of paths to files matching the specified extension.
-*   `get_files_in_directory`: Returns a list of paths to all files and directories in the given directory.
-*   `check_file_attributes`: Returns True if any file matches the pattern and has the specified attribute, and False otherwise.
+### Example 2: Case Insensitive Matching
 
-These functions demonstrate how you can use the `fnmatch` module to perform various operations on files in a directory.
+```python
+import fnmatch
+
+# Define a list of filenames with mixed cases
+filenames = [
+    "Document.txt",
+    "Images.png",
+    "Notes.pdf",
+    "BACKUP.tar.gz",
+    "README.md"
+]
+
+# Define a case-insensitive pattern to match files ending with ".txt" or ".md"
+pattern = "*.txt|*.md"
+
+# Convert the pattern to a case-insensitive version
+case_insensitive_pattern = fnmatch.translate(pattern)
+
+# Use fnmatch.filter() with the translated pattern for case-insensitive matching
+matched_filenames = fnmatch.filter(filenames, case_insensitive_pattern)
+
+# Print the matched filenames
+print("Matched filenames:", matched_filenames)
+```
+
+### Explanation:
+- **Case Insensitivity:** The `fnmatch.translate()` function is used to convert a pattern into a form that is suitable for case-insensitive matching.
+- **Pattern Translation:** The pattern `"*.txt|*.md"` becomes `r'(?i)(\.txt|\.md)'` after translation, which matches filenames with `.TXT`, `.TEXT`, etc., as well as `.txt` and `.md`.
+- **Function Call:** `fnmatch.filter(filenames, case_insensitive_pattern)` returns a list of filenames that match the case-insensitive pattern.
+- **Output:** The matched filenames are printed.
+
+### Example 3: Using Wildcards in Patterns
+
+```python
+import fnmatch
+
+# Define a list of filenames with different extensions
+filenames = [
+    "file1.txt",
+    "file2.docx",
+    "file3.pdf",
+    "file4.xlsx",
+    "file5.jpg"
+]
+
+# Define a pattern to match files ending with ".txt" or ".docx"
+pattern = "*.txt|*.docx"
+
+# Use fnmatch.filter() to find filenames that match the pattern
+matched_filenames = fnmatch.filter(filenames, pattern)
+
+# Print the matched filenames
+print("Matched filenames:", matched_filenames)
+```
+
+### Explanation:
+- **Wildcard Usage:** The pattern `"*.txt|*.docx"` matches any file name ending with `.txt` or `.docx`.
+- **Function Call:** `fnmatch.filter(filenames, pattern)` returns a list of filenames that match the specified pattern.
+- **Output:** The matched filenames are printed.
+
+### Example 4: Matching Multiple Patterns
+
+```python
+import fnmatch
+
+# Define a list of filenames
+filenames = [
+    "file1.txt",
+    "file2.docx",
+    "file3.pdf",
+    "file4.xlsx",
+    "file5.jpg"
+]
+
+# Define multiple patterns to match files ending with ".txt", ".docx", or ".pdf"
+patterns = ["*.txt", "*.docx", "*.pdf"]
+
+# Use fnmatch.filter() with each pattern in the list
+matched_filenames = [fnmatch.filter(filenames, p) for p in patterns]
+
+# Print the matched filenames for each pattern
+for i, matched in enumerate(matched_filenames):
+    print("Matched filenames for pattern '{}':".format(patterns[i]))
+    print(matched)
+```
+
+### Explanation:
+- **Multiple Patterns:** The list `["*.txt", "*.docx", "*.pdf"]` contains multiple patterns.
+- **List Comprehension:** A list comprehension is used to apply `fnmatch.filter()` to each pattern in the list, resulting in a list of lists where each sublist contains filenames that match the corresponding pattern.
+- **Output:** The matched filenames for each pattern are printed.
+
+### Example 5: Using Regular Expressions for More Complex Patterns
+
+```python
+import fnmatch
+
+# Define a list of filenames
+filenames = [
+    "file1.txt",
+    "file2.docx",
+    "file3.pdf",
+    "file4.xlsx",
+    "file5.jpg"
+]
+
+# Define a regular expression pattern to match files ending with ".txt", ".docx", or ".pdf"
+pattern = r'\.(txt|docx|pdf)$'
+
+# Use fnmatch.filter() with the regular expression pattern
+matched_filenames = fnmatch.filter(filenames, pattern)
+
+# Print the matched filenames
+print("Matched filenames:", matched_filenames)
+```
+
+### Explanation:
+- **Regular Expression Pattern:** The pattern `r'\.(txt|docx|pdf)$'` matches any file name that ends with `.txt`, `.docx`, or `.pdf`.
+  - `\.` matches the literal dot (`.`) before the extension.
+  - `(txt|docx|pdf)` is a group of alternatives, matching any of these extensions.
+  - `$` asserts the position at the end of the string, ensuring that only filenames ending with the specified extensions are matched.
+- **Function Call:** `fnmatch.filter(filenames, pattern)` returns a list of filenames that match the regular expression pattern.
+- **Output:** The matched filenames are printed.
+
+### Conclusion
+The `fnmatch` module provides flexible and powerful tools for matching filenames according to Unix/Linux conventions. By understanding how to define patterns and use them with various functions like `filter()`, you can effectively manage file paths in your Python applications.

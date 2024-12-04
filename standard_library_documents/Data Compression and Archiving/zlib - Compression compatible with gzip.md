@@ -1,73 +1,157 @@
-# zlib — Compression compatible with gzip
+# zlib - Compression compatible with gzip
 
-Here's an example of how you can use the `zlib` module in Python:
+Certainly! Below are comprehensive code examples for each functionality available in the `zlib` module, along with explanations of each step. These examples are designed to be clear, concise, and suitable for inclusion in official documentation.
+
+### 1. Compressing Data
+
 ```python
-# Importing the zlib module
 import zlib
 
-# Creating a bytes object to be compressed
-data = b"Hello, World!"
+def compress_data(data):
+    """
+    Compresses input data using the zlib algorithm.
 
-# Compressing the data using the compress function
-compressed_data = zlib.compress(data)
+    Parameters:
+    - data: bytes, the data to be compressed.
+
+    Returns:
+    - bytes, the compressed data.
+    """
+    # Create a compressor object with default settings (level 6)
+    comp = zlib.compressobj(zlib.Z_DEFAULT_COMPRESSION)
+    
+    # Compress the input data
+    compressed_data = comp.compress(data)
+    compressed_data += comp.flush()
+    
+    return compressed_data
+
+# Example usage
+data = b'This is some example data to be compressed using zlib.'
+compressed_data = compress_data(data)
+
 print("Compressed Data:", compressed_data)
-
-# Decompressing the compressed data using the decompress function
-decompressed_data = zlib.decompress(compressed_data)
-print("Decompressed Data:", decompressed_data)
-
-# Creating a bytes object to be decompressed
-data_to_decompress = b"Hello, World! (Compressed)"
-
-# Compressing the data first, then compressing again
-compressed_data_zlib = zlib.compress(data_to_decompress)
-decompressed_data_zlib = zlib.decompress(compressed_data_zlib)
-
-print("Decompressed Data using Zlib:", decompressed_data_zlib)
-
-# Using the gzip module for better compression
-import gzip
-
-with gzip.GzipFile('output.txt.gz', 'wb') as f:
-    # Writing data to the file
-    f.write(data)
 ```
-This example covers the following topics:
 
-1.  **zlib.compress() and zlib.decompress():**
+### 2. Decompressing Compressed Data
 
-    *   These functions compress and decompress data using the LZ77 algorithm.
+```python
+def decompress_data(compressed_data):
+    """
+    Decompresses previously compressed data using the zlib algorithm.
 
-2.  **Compressed vs. Decompressed Data:**
+    Parameters:
+    - compressed_data: bytes, the data to be decompressed.
 
-    *   The compressed data is not human-readable, while the decompressed data is.
+    Returns:
+    - bytes, the decompressed original data.
+    """
+    # Create a decompressor object with default settings
+    decomp = zlib.decompressobj()
+    
+    # Decompress the input data
+    decompressed_data = decomp.decompress(compressed_data)
+    
+    return decompressed_data
 
-3.  **Multiple Compressions:**
+# Example usage
+compressed_data = b'\x78\x9c\x00\x01\x00\x00\x2d\x46\xc4\xa0\x5f\x03'
+decompressed_data = decompress_data(compressed_data)
 
-    *   The `zlib.compress()` function can be called multiple times on the same input, producing different compression levels each time it's used.
+print("Decompressed Data:", decompressed_data.decode('utf-8'))
+```
 
-4.  **Gzip Module:**
+### 3. Getting Compression and Decompression Statistics
 
-    *   For better compression, you can use the gzip module in combination with zlib.
+```python
+def get_compression_stats(data):
+    """
+    Gets statistics on the compression process.
 
-5.  **Writing Data to a Compressed File:**
+    Parameters:
+    - data: bytes, the input data to be compressed.
 
-    *   This example shows how to write data to a compressed file using `gzip.GzipFile`.
+    Returns:
+    - dict, a dictionary containing compression statistics.
+    """
+    comp = zlib.compressobj(zlib.Z_DEFAULT_COMPRESSION)
+    
+    # Compress the input data
+    comp.compress(data)
+    comp.flush()
+    
+    # Get statistics
+    stats = comp._get_stats()
+    
+    return stats
 
-**Additional Functions and Classes:**
+# Example usage
+data = b'This is some example data to be compressed using zlib.'
+stats = get_compression_stats(data)
 
-*   `zlib.crc32()`: Calculates the CRC-32 checksum of a bytes object.
-*   `zlib.crc32obj()`: Calculates the CRC-32 checksum of an object (like a string).
-*   `zlib.decompressobj()`: Returns an object that can be used to decompress data with a hint about what the data is likely to look like.
-*   `zlib.gzipfile()`: An interface to write gzip-compressed files.
+print("Compression Statistics:", stats)
+```
 
-**Other Functions:**
+### 4. Handling Compressed Files with `zlib.decompressobj`
 
-*   `zlib.compressobj()`: Creates an object from which you can obtain compressed data.
-*   `zlib.deflate()`: Returns a function that compresses data using the DEFLATE algorithm.
+```python
+def decompress_file(file_path):
+    """
+    Decompresses a file that was compressed using the gzip format.
 
-**Notes:**
+    Parameters:
+    - file_path: str, the path to the compressed file.
 
-*   The zlib module is generally faster and more efficient than the gzip module for small to medium-sized datasets.
-*   The gzip module, on the other hand, provides better compression levels but at the cost of speed.
-*   Always use the correct modules based on your specific requirements.
+    Returns:
+    - bytes, the decompressed data.
+    """
+    with open(file_path, 'rb') as f:
+        compressed_data = f.read()
+    
+    # Create a decompressor object for gzip
+    decomp = zlib.decompressobj(zlib.MAX_WBITS | 16)
+    
+    # Decompress the file data
+    decompressed_data = decomp.decompress(compressed_data)
+    decompressed_data += decomp.flush()
+    
+    return decompressed_data
+
+# Example usage
+file_path = 'example.gz'
+decompressed_data = decompress_file(file_path)
+
+print("Decompressed File Data:", decompressed_data.decode('utf-8'))
+```
+
+### 5. Using `zlib.compressobj` with Different Compression Levels
+
+```python
+def compress_with_level(data, level):
+    """
+    Compresses input data using the zlib algorithm with a specified compression level.
+
+    Parameters:
+    - data: bytes, the data to be compressed.
+    - level: int, the compression level (0-9), where 9 is maximum compression.
+
+    Returns:
+    - bytes, the compressed data.
+    """
+    # Create a compressor object with a specific compression level
+    comp = zlib.compressobj(level)
+    
+    # Compress the input data
+    compressed_data = comp.compress(data)
+    compressed_data += comp.flush()
+    
+    return compressed_data
+
+# Example usage
+data = b'This is some example data to be compressed using zlib.'
+compressed_data = compress_with_level(data, 9)
+
+print("Compressed Data (Level 9):", compressed_data)
+```
+
+These examples cover the basic functionalities of the `zlib` module, including compression and decompression, as well as handling file operations with gzip format. Each example includes comments explaining the purpose and functionality of each part of the code.

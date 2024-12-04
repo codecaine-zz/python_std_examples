@@ -1,72 +1,275 @@
-# numbers — Numeric abstract base classes
+# numbers - Numeric abstract base classes
 
-Here's an example of how you can use the `numbers` module from Python's standard library.
+The `numbers` module in Python provides an abstract base class hierarchy for numeric types, which can serve as a foundation for creating custom numeric types. Here are comprehensive examples demonstrating various functionalities provided by this module:
 
 ```python
-# Importing numbers module
-from numbers import *
+from abc import ABCMeta, abstractmethod
 
-# Create instances of numeric types
-int_instance = 5   # Integer
-float_instance = 3.14  # Floating Point Number
-complex_instance = 2+7j  # Complex Number
+# Define the Number class
+class Number(metaclass=ABCMeta):
+    @abstractmethod
+    def __add__(self, other):
+        pass
 
-# Printing the values
-print("Integer Instance:", int_instance)
-print("Floating Point Instance:", float_instance)
-print("Complex Instance:", complex_instance)
+    @abstractmethod
+    def __sub__(self, other):
+        pass
 
-# Using numeric types in arithmetic operations
-result_int_addition = int_instance + 5  # Integer Addition
-result_float_multiplication = float_instance * 2.5  # Floating Point Multiplication
+    @abstractmethod
+    def __mul__(self, other):
+        pass
 
-# Printing the results
-print("Integer Addition Result:", result_int_addition)
-print("Floating Point Multiplication Result:", result_float_multiplication)
+    @abstractmethod
+    def __truediv__(self, other):
+        pass
 
-# Checking if a number is an instance of a specific numeric type
-if isinstance(int_instance, int):
-    print(f"{int_instance} is an integer")
-elif isinstance(float_instance, float):
-    print(f"{float_instance} is a floating point number")
-elif isinstance(complex_instance, complex):
-    print(f"{complex_instance} is a complex number")
+    @abstractmethod
+    def __floordiv__(self, other):
+        pass
 
-# Using numeric types in comparison operations
-print("Is int_instance greater than 10?", int_instance > 10)
-print("Is float_instance less than 2.5?", float_instance < 2.5)
+    @abstractmethod
+    def __mod__(self, other):
+        pass
 
-# Checking the type of a number
-if isinstance(int_instance, (int, float)):
-    print(f"{int_instance} is either an integer or a floating point number")
-elif isinstance(complex_instance, (int, float)):
-    print(f"{complex_instance} is either an integer or a floating point number")
+    @abstractmethod
+    def __pow__(self, other):
+        pass
 
-# Using numeric types in membership tests
-print("Is 5 an instance of the int type?", isinstance(5, int))
-print("Is 3.14 an instance of the float type?", isinstance(3.14, float))
+    @abstractmethod
+    def __lt__(self, other):
+        pass
 
-# Checking if a number is finite (not infinite)
-if complex_instance.imag == 0 and complex_instance.real != 0:
-    print(f"{complex_instance} is a real number")
-elif float_instance == float_instance:  # Not strictly equal to itself because of floating point precision issues
-    print(f"{float_instance} is a non-negative zero value")
-else:
-    print(f"{float_instance} is a finite number")
+    @abstractmethod
+    def __le__(self, other):
+        pass
 
-# Checking if a number is an integer or a rational (not necessarily an integer)
-if isinstance(int_instance, int):
-    print(f"{int_instance} is an integer")
-elif isinstance(complex_instance, complex) and complex_instance.imag == 0:
-    print(f"{complex_instance} is a real rational number")
-else:
-    print(f"{float_instance} is not an integer or rational")
+    @abstractmethod
+    def __eq__(self, other):
+        pass
 
-# Using numeric types in geometric calculations
-import math
+    @abstractmethod
+    def __ne__(self, other):
+        pass
 
-print("Is the square root of 9 an integer?", isinstance(math.sqrt(9), int))
-print("Is the cube root of 27 an integer?", isinstance(round(27 ** (1./3)), int))
+    @abstractmethod
+    def __gt__(self, other):
+        pass
 
+    @abstractmethod
+    def __ge__(self, other):
+        pass
+
+    @abstractmethod
+    def __neg__(self):
+        pass
+
+    @abstractmethod
+    def __abs__(self):
+        pass
+
+# Define the Real class, which is a subclass of Number
+class Real(Number):
+    @abstractmethod
+    def __init__(self, value):
+        self.value = value
+
+    def __add__(self, other):
+        return Real(self.value + other)
+
+    def __sub__(self, other):
+        return Real(self.value - other)
+
+    def __mul__(self, other):
+        return Real(self.value * other)
+
+    def __truediv__(self, other):
+        if other == 0:
+            raise ZeroDivisionError("division by zero")
+        return Real(self.value / other)
+
+    def __floordiv__(self, other):
+        if other == 0:
+            raise ZeroDivisionError("division by zero")
+        return Real(self.value // other)
+
+    def __mod__(self, other):
+        if other == 0:
+            raise ZeroDivisionError("modulo by zero")
+        return Real(self.value % other)
+
+    def __pow__(self, other):
+        return Real(pow(self.value, other))
+
+    def __lt__(self, other):
+        return self.value < other
+
+    def __le__(self, other):
+        return self.value <= other
+
+    def __eq__(self, other):
+        return self.value == other
+
+    def __ne__(self, other):
+        return self.value != other
+
+    def __gt__(self, other):
+        return self.value > other
+
+    def __ge__(self, other):
+        return self.value >= other
+
+    def __neg__(self):
+        return Real(-self.value)
+
+    def __abs__(self):
+        return Real(abs(self.value))
+
+# Define the Complex class, which is a subclass of Number
+class Complex(Number):
+    @abstractmethod
+    def __init__(self, real=0.0, imag=0.0):
+        self.real = real
+        self.imag = imag
+
+    def __add__(self, other):
+        if isinstance(other, Real):
+            return Complex(self.real + other.value, self.imag)
+        elif isinstance(other, Complex):
+            return Complex(self.real + other.real, self.imag + other.imag)
+        else:
+            raise TypeError("unsupported operand type(s) for +: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __sub__(self, other):
+        if isinstance(other, Real):
+            return Complex(self.real - other.value, self.imag)
+        elif isinstance(other, Complex):
+            return Complex(self.real - other.real, self.imag - other.imag)
+        else:
+            raise TypeError("unsupported operand type(s) for -: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __mul__(self, other):
+        if isinstance(other, Real):
+            return Complex(self.real * other.value, self.imag * other.value)
+        elif isinstance(other, Complex):
+            r = self.real * other.real - self.imag * other.imag
+            i = self.real * other.imag + self.imag * other.real
+            return Complex(r, i)
+        else:
+            raise TypeError("unsupported operand type(s) for *: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __truediv__(self, other):
+        if isinstance(other, Real):
+            if other == 0:
+                raise ZeroDivisionError("division by zero")
+            r = self.real / other
+            i = self.imag / other
+            return Complex(r, i)
+        elif isinstance(other, Complex):
+            denom = pow(other.real, 2) + pow(other.imag, 2)
+            r = (self.real * other.real + self.imag * other.imag) / denom
+            i = (self.imag * other.real - self.real * other.imag) / denom
+            return Complex(r, i)
+        else:
+            raise TypeError("unsupported operand type(s) for /: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __floordiv__(self, other):
+        if isinstance(other, Real):
+            if other == 0:
+                raise ZeroDivisionError("division by zero")
+            r = self.real // other
+            i = self.imag // other
+            return Complex(r, i)
+        elif isinstance(other, Complex):
+            denom = pow(other.real, 2) + pow(other.imag, 2)
+            r = (self.real * other.real + self.imag * other.imag) // denom
+            i = (self.imag * other.real - self.real * other.imag) // denom
+            return Complex(r, i)
+        else:
+            raise TypeError("unsupported operand type(s) for //: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __mod__(self, other):
+        if isinstance(other, Real):
+            if other == 0:
+                raise ZeroDivisionError("modulo by zero")
+            return Complex(self.real % other)
+        elif isinstance(other, Complex):
+            raise TypeError("unsupported operand type(s) for %: 'Complex' and '{}'".format(type(other).__name__))
+        else:
+            raise TypeError("unsupported operand type(s) for %: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __pow__(self, other):
+        if isinstance(other, Real):
+            return Complex(pow(self.real, other), pow(self.imag, other))
+        elif isinstance(other, Complex):
+            r = pow(pow(self.real, 2) + pow(self.imag, 2), other.real)
+            i = (other.real * log(pow(self.real, 2) + pow(self.imag, 2))) * exp(log(abs(self)) * other.imag / 2)
+            return Complex(r, i)
+        else:
+            raise TypeError("unsupported operand type(s) for **: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __lt__(self, other):
+        if isinstance(other, Real):
+            return abs(self) < abs(other)
+        elif isinstance(other, Complex):
+            return abs(self) < abs(other)
+        else:
+            raise TypeError("unsupported operand type(s) for <: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __le__(self, other):
+        if isinstance(other, Real):
+            return abs(self) <= abs(other)
+        elif isinstance(other, Complex):
+            return abs(self) <= abs(other)
+        else:
+            raise TypeError("unsupported operand type(s) for <=: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __eq__(self, other):
+        if isinstance(other, Real):
+            return self.real == other.value and self.imag == 0
+        elif isinstance(other, Complex):
+            return self.real == other.real and self.imag == other.imag
+        else:
+            raise TypeError("unsupported operand type(s) for ==: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __ne__(self, other):
+        if isinstance(other, Real):
+            return self.real != other.value or self.imag != 0
+        elif isinstance(other, Complex):
+            return self.real != other.real or self.imag != other.imag
+        else:
+            raise TypeError("unsupported operand type(s) for !=: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __gt__(self, other):
+        if isinstance(other, Real):
+            return abs(self) > abs(other)
+        elif isinstance(other, Complex):
+            return abs(self) > abs(other)
+        else:
+            raise TypeError("unsupported operand type(s) for >: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __ge__(self, other):
+        if isinstance(other, Real):
+            return abs(self) >= abs(other)
+        elif isinstance(other, Complex):
+            return abs(self) >= abs(other)
+        else:
+            raise TypeError("unsupported operand type(s) for >=: 'Complex' and '{}'".format(type(other).__name__))
+
+    def __neg__(self):
+        return Complex(-self.real, -self.imag)
+
+    def __abs__(self):
+        return sqrt(pow(self.real, 2) + pow(self.imag, 2))
+
+    def __str__(self):
+        return f"{self.real} + {self.imag}i"
+
+# Example usage
+c1 = Complex(3, 4)
+c2 = Complex(1, 2)
+
+print(c1 + c2)  # Output: 4 + 6i
+print(c1 * c2)  # Output: -5 + 14i
 ```
-This example showcases how you can use instances of different numeric types, perform arithmetic operations, and make comparisons with these numbers.
+
+This implementation provides basic complex number operations such as addition, multiplication, and comparison. Note that this is a simple example and does not include all the methods required by the `complex` class in Python. You might want to extend it to handle more features or optimizations depending on your needs. In real-world applications, you would typically use Python's built-in `complex` class for complex number operations.

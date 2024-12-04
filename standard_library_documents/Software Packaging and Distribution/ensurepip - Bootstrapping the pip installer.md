@@ -1,93 +1,69 @@
-# ensurepip — Bootstrapping the pip installer
+# ensurepip - Bootstrapping the pip installer
 
-**Ensurepip**
-================
+**ensurepip Module Documentation**
 
-The `ensurepip` module is used to bootstrap the pip installer.
+The `ensurepip` module provides a script that can be used to bootstrap the installation of the `pip` package manager on systems where it is not already installed. This is particularly useful during system initialization or when setting up new environments.
 
-**Installation**
----------------
+### Usage
 
-To use the `ensurepip` module, you need to install pip along with Python. The process varies depending on your operating system:
+1. **Using `sys.executable`:**
+   The `ensurepip` module uses the Python executable itself to bootstrap the installation process. By default, it uses `sys.executable`, which points to the Python interpreter used by your current script.
 
-### On Linux/OSX/Mac
+   ```python
+   import ensurepip
+   ensurepip.bootstrap()
+   ```
 
-You can install pip using the package manager or by downloading the installer from the official Python website.
+2. **Customizing the Bootstrapping Process:**
+   You can specify a custom pip version or a specific installation directory for the `pip` package manager.
 
-```bash
-# Using pip3 (Python 3.x)
-sudo apt-get install python3-pip  # For Debian-based systems
-sudo yum install python3-pip     # For RHEL-based systems
+   - Specifying a specific version of `pip`:
+     ```python
+     import ensurepip
+     ensurepip.bootstrap(pip_version='19.3')
+     ```
 
-# Alternatively, download the installer from the official Python website:
-https://bootstrap.pypa.io/get-pip.py
-```
+   - Installing to a specific directory:
+     ```python
+     import ensurepip
+     ensurepip.bootstrap(target='/path/to/custom/directory')
+     ```
 
-### On Windows
+3. **Using `sys.executable` with Additional Arguments:**
+   You can pass additional arguments to the `ensurepip.bootstrap()` function if needed.
 
-You can install pip using the `easy_install` tool that comes with Python.
+   ```python
+   import sys
+   import ensurepip
+   ensurepip.bootstrap(bootstrap_args=['--upgrade'])
+   ```
 
-```bash
-python -m ensurepip
-```
+### Detailed Example
 
-**Code Example**
------------------
-
-Here's a simple code example of how to use the `ensurepip` module:
+Here's a detailed example of how you might use the `ensurepip` module in a Python script:
 
 ```python
 import sys
+import ensurepip
 
-def main():
-    # Check if pip is already installed
-    if 'pip' in sys.modules:
-        print("Pip is already installed.")
-    else:
-        # Bootstrap pip using ensurepip
-        try:
-            import pkg_resources
-            print("Pip has been successfully bootstrapped.")
-        except ImportError as e:
-            print(f"Error bootstrapping pip: {e}")
+# Specify a custom version of pip and install it to a specific directory
+def bootstrap_pip():
+    # Ensure that pip is installed with a specific version and installed in a custom directory
+    ensurepip.bootstrap(pip_version='19.3', target='/path/to/custom/directory')
 
+# Example usage
 if __name__ == "__main__":
-    main()
+    print("Booting up pip...")
+    try:
+        bootstrap_pip()
+        print("pip has been successfully bootstrapped.")
+    except ensurepip.PipError as e:
+        print(f"An error occurred: {e}")
 ```
 
-**Using pip**
---------------
+### Notes
 
-Once pip is installed, you can use it to install packages using the following command:
+- Ensure that you have the necessary permissions to write to the target directory where `pip` is being installed.
+- The `ensurepip.bootstrap()` function will handle the installation of `pip`, including dependencies, if they are not already available.
 
-```bash
-pip install package_name
-```
-
-Replace `package_name` with the name of the package you want to install.
-
-This code generator will create a Python script that does the same thing as the above example. 
-
-**Generated Code**
------------------
-
-```python
-# ensurepip.py
-
-import sys
-
-def main():
-    # Check if pip is already installed
-    if 'pip' in sys.modules:
-        print("Pip is already installed.")
-    else:
-        # Bootstrap pip using ensurepip
-        try:
-            import pkg_resources
-            print("Pip has been successfully bootstrapped.")
-        except ImportError as e:
-            print(f"Error bootstrapping pip: {e}")
-
-if __name__ == "__main__":
-    main()
-```
+This example demonstrates how to use the `ensurepip` module to bootstrap the pip package manager in a Python script.

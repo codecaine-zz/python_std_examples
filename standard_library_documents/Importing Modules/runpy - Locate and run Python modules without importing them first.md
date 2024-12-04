@@ -1,96 +1,135 @@
-# runpy — Locate and run Python modules without importing them first
+# runpy - Locate and run Python modules without importing them first
 
-**RunPy Module Code Generation**
-=====================================
+The `runpy` module in Python provides functions to locate and execute Python scripts or modules, similar to how you would use the `python -m` command from the command line. This is particularly useful for running standalone scripts that are not imported as modules into other programs.
 
-The `runpy` module is used to locate and run Python modules without requiring an import statement.
+Here are some code examples demonstrating how to use the `runpy` module:
 
-### Importing RunPy Module
+### Example 1: Running a standalone Python script
 
+Suppose you have a simple Python script named `my_script.py` with the following content:
 ```python
-# Import the runpy module from the standard library
-import runpy
+# my_script.py
+print("Hello, from my_script!")
 ```
 
-### Locating a Python Module
-
-You can use the `runpy.main()` function to locate and run a Python module. This function takes two arguments: the module path and an optional second argument, which is not supported in this implementation.
-
-```python
-# Define a function to locate and run a Python module
-def locate_and_run_module(module_path):
-    """
-    Locate and run a Python module without requiring an import statement.
-    
-    Args:
-        module_path (str): The path to the Python module to run.
-    """
-    try:
-        # Attempt to run the module using runpy.main()
-        runpy.main([module_path])
-    except Exception as e:
-        # Handle any exceptions that occur during execution
-        print(f"Error running module: {e}")
-
-# Example usage
-module_path = "/path/to/your/module.py"
-locate_and_run_module(module_path)
-```
-
-### Using RunPy's Main Function
-
-The `runpy.main()` function can also be used to run a Python script directly from the command line.
+You can run this script using `runpy` like this:
 
 ```python
 import runpy
 
-def main():
-    # Define the module path as a string argument
-    args = ["./your_script.py"]
-    
-    # Run the script using runpy.main()
-    runpy.main(args)
-
-# Call the main function
-if __name__ == "__main__":
-    main()
+# Run the standalone script
+runpy.run_path('my_script.py')
 ```
 
-### Running Multiple Modules
+### Example 2: Running a module with command-line arguments
 
-You can use the `runpy.run_path()` function to run multiple modules in a single call.
+If your script uses command-line arguments, you can pass them to `runpy` using the `args` parameter:
 
 ```python
+import sys
 import runpy
 
-def main():
-    # Define the module paths as a list of strings
-    module_paths = ["/path/to/module1.py", "/path/to/module2.py"]
-    
-    # Run all the modules using runpy.run_path()
-    for module_path in module_paths:
-        runpy.run_path(module_path)
+# Define the arguments to be passed to the script
+args = ['my_script.py', '--arg1', 'value1']
 
-# Call the main function
-if __name__ == "__main__":
-    main()
+# Run the module with command-line arguments
+result = runpy.run_path('my_script.py', args=args)
+print(result)
 ```
 
-### Running Modules with Arguments
+### Example 3: Running a module with custom sys.argv
 
-You can pass arguments to a Python module when running it using `runpy.main()`.
+You can also customize the `sys.argv` list before running the script:
 
 ```python
+import sys
 import runpy
 
-def main():
-    # Define the module path and argument as strings
-    args = ["./your_module.py", "arg1=value1,arg2=value2"]
-    
-    # Run the script using runpy.main()
-    runpy.main(args)
+# Original sys.argv
+original_argv = sys.argv[:]
 
-# Call the main function
-if __name__ == "__main__":
-    main()
+# Set new arguments for sys.argv
+new_args = ['my_script.py', '--arg1', 'value1']
+
+# Replace the original sys.argv with new ones
+sys.argv = new_args
+
+# Run the module
+result = runpy.run_path('my_script.py')
+print(result)
+
+# Restore the original sys.argv
+sys.argv = original_argv
 ```
+
+### Example 4: Running a script in a different working directory
+
+You can change the current working directory before running the script:
+
+```python
+import os
+import runpy
+
+# Original working directory
+original_dir = os.getcwd()
+
+# Set new working directory
+new_dir = '/path/to/new/directory'
+os.chdir(new_dir)
+
+# Run the script
+result = runpy.run_path('my_script.py')
+print(result)
+
+# Restore the original working directory
+os.chdir(original_dir)
+```
+
+### Example 5: Running a module with custom environment variables
+
+You can set custom environment variables before running the script:
+
+```python
+import os
+import runpy
+
+# Original environment variables
+original_env = dict(os.environ)
+
+# Set new environment variables
+new_env = {'MY_VAR': 'value', 'OTHER_VAR': 'another_value'}
+os.environ.update(new_env)
+
+# Run the module
+result = runpy.run_path('my_script.py')
+print(result)
+
+# Restore the original environment variables
+os.environ.clear()
+os.environ.update(original_env)
+```
+
+### Example 6: Running a module with custom import paths
+
+You can specify additional directories to search for modules when running the script:
+
+```python
+import sys
+import runpy
+
+# Original import path
+original_path = sys.path[:]
+
+# Add new directory to the import path
+new_dir = '/path/to/new/directory'
+sys.path.append(new_dir)
+
+# Run the module
+result = runpy.run_path('my_script.py')
+print(result)
+
+# Restore the original import path
+sys.path = original_path
+```
+
+These examples demonstrate various ways to use the `runpy` module to execute Python scripts and modules, providing flexibility for running standalone scripts, handling command-line arguments, customizing runtime environments, and more.

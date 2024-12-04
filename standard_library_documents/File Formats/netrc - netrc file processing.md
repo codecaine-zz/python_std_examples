@@ -1,122 +1,142 @@
-# netrc — netrc file processing
+# netrc - netrc file processing
 
-**Netrc File Processing Module**
-=====================================
+The `netrc` module in Python provides an interface to read and write `.netrc` files, which are commonly used by applications that require network access, such as FTP clients, email clients, and web browsers. This module allows you to manage credentials securely across different network services.
 
-The `netrc` module is used to process and manipulate Netrc files, which are used by clients such as SSH, FTP, and HTTP to store login credentials.
+Below are comprehensive examples for various functionalities of the `netrc` module:
 
-### Installing the Module
-
-To use the `netrc` module, you need to install it using pip:
-```bash
-pip install python-netrc
-```
-### Importing the Module
-
-To access the functions and classes provided by the `netrc` module, import it in your Python code:
 ```python
+# Import the netrc module
 import netrc
-```
-### Creating a Netrc File Object
 
-You can create a new `Netrc` object using the following function:
-```python
-def read_netrc(filename='~/.netrc'):
+def example_1_read_netrc():
     """
-    Reads and parses the Netrc file.
-
-    Args:
-        filename (str): The path to the Netrc file. Defaults to ~/.netrc.
-
-    Returns:
-        Netrc: A dictionary-like object containing the parsed credentials.
+    Example 1: Reading a .netrc file and accessing credentials.
+    
+    This function reads the user's default `.netrc` file and prints out the username, password,
+    and machine for each entry.
     """
-    with open(filename, 'r') as f:
-        netrc_file = netrc.Netrc()
-        for section in netrc_file.sections():
-            for (key, value) in netrc_file.passwords()[section].items():
-                # Comment: Set a default password if none is provided
-                if not value:
-                    value = input(f"Enter default password for {section} user: ")
-                    print(f"{value} set as default password")
-        return netrc_file
+    try:
+        # Create a NetRC object to read the .netrc file
+        n = netrc.netrc()
+        
+        # Iterate over all hosts in the .netrc file
+        for host, auth_info in n.hosts.items():
+            print(f"Host: {host}")
+            print(f"Username: {auth_info.login}")
+            print(f"Password: {auth_info.password}")
+            if auth_info.account:
+                print(f"Account: {auth_info.account}")
+            print('-' * 40)
+    except FileNotFoundError:
+        print("No .netrc file found.")
+    except netrc.NetrcParseError as e:
+        print(f"Error parsing .netrc file: {e}")
 
-# Example usage:
-netrc_file = read_netrc()
-print(netrc_file)
+def example_2_write_netrc():
+    """
+    Example 2: Writing to a .netrc file.
+    
+    This function writes new entries to the user's default `.netrc` file for a specific host.
+    """
+    try:
+        # Create a NetRC object to write to the .netrc file
+        n = netrc.netrc()
+        
+        # Add a new entry for a specific host
+        n.add('example.com', 'username', 'password')
+        
+        # Write the changes to the .netrc file
+        with open(n.netrc_file, 'w') as f:
+            f.write(str(n))
+        
+        print("Entry added to .netrc file successfully.")
+    except Exception as e:
+        print(f"Error writing to .netrc file: {e}")
+
+def example_3_update_netrc():
+    """
+    Example 3: Updating an existing entry in a .netrc file.
+    
+    This function updates the password for an existing host in the user's default `.netrc` file.
+    """
+    try:
+        # Create a NetRC object to update the .netrc file
+        n = netrc.netrc()
+        
+        # Update an existing entry for a specific host
+        n.update('example.com', 'username', new_password='newpassword')
+        
+        # Write the changes to the .netrc file
+        with open(n.netrc_file, 'w') as f:
+            f.write(str(n))
+        
+        print("Entry updated in .netrc file successfully.")
+    except Exception as e:
+        print(f"Error updating .netrc file: {e}")
+
+def example_4_remove_netrc():
+    """
+    Example 4: Removing an entry from a .netrc file.
+    
+    This function removes an entry for a specific host from the user's default `.netrc` file.
+    """
+    try:
+        # Create a NetRC object to remove the entry
+        n = netrc.netrc()
+        
+        # Remove an existing entry for a specific host
+        n.remove('example.com')
+        
+        # Write the changes to the .netrc file
+        with open(n.netrc_file, 'w') as f:
+            f.write(str(n))
+        
+        print("Entry removed from .netrc file successfully.")
+    except Exception as e:
+        print(f"Error removing entry from .netrc file: {e}")
+
+def example_5_error_handling():
+    """
+    Example 5: Handling errors gracefully.
+    
+    This function demonstrates how to handle potential errors that might occur when reading,
+    writing, updating, or removing entries from the `.netrc` file.
+    """
+    try:
+        # Attempt to read a non-existent .netrc file
+        n = netrc.netrc('nonexistent_file')
+        print("This line will not be executed due to FileNotFoundError.")
+    except FileNotFoundError as e:
+        print(f"No .netrc file found: {e}")
+
+    try:
+        # Attempt to update a non-existing host in the default .netrc file
+        n = netrc.netrc()
+        n.update('nonexistent_host', 'username', 'password')
+        with open(n.netrc_file, 'w') as f:
+            f.write(str(n))
+        print("This line will not be executed due to NetrcParseError.")
+    except netrc.NetrcParseError as e:
+        print(f"Error parsing .netrc file: {e}")
+
+if __name__ == "__main__":
+    example_1_read_netrc()
+    example_2_write_netrc()
+    example_3_update_netrc()
+    example_4_remove_netrc()
+    example_5_error_handling()
 ```
-### Parsing Credentials from a Netrc File
 
-To parse credentials from a Netrc file, use the following methods:
+### Explanation:
 
-*   `sections()`: Returns an iterable of section names.
-*   `passwords(section)`: Returns an iterable of key-value pairs for the specified section.
-*   `get(password, default=None)`: Returns the value for the specified password. If no value is found, returns the default.
+- **Reading a `.netrc` file**: The `example_1_read_netrc` function reads the default `.netrc` file and prints out the credentials for each host.
+  
+- **Writing to a `.netrc` file**: The `example_2_write_netrc` function adds a new entry to the default `.netrc` file.
 
-Here's an example:
-```python
-netrc_file = read_netrc()
+- **Updating an existing entry in a `.netrc` file**: The `example_3_update_netrc` function updates the password for an existing host.
 
-for section in netrc_file.sections():
-    print(f"Section: {section}")
-    for (key, value) in netrc_file.passwords(section).items():
-        print(f"{key}: {value}")
+- **Removing an entry from a `.netrc` file**: The `example_4_remove_netrc` function removes an entry for a specific host.
 
-# Example usage:
-print(netrc_file.get('ssh', 'default_password'))
-```
-### Updating Credentials in a Netrc File
+- **Error handling**: The `example_5_error_handling` function demonstrates how to handle potential errors, such as non-existent files or invalid entries in the `.netrc` file.
 
-To update credentials in a Netrc file, use the following methods:
-
-*   `add(section, key, value)`: Adds a new password for the specified section.
-*   `update(section, key, value)`: Updates an existing password for the specified section.
-
-Here's an example:
-```python
-netrc_file = read_netrc()
-
-netrc_file.add('ssh', 'username', 'new_password')
-print(netrc_file.get('ssh'))
-
-netrc_file.update('ssh', 'username', 'another_new_password')
-print(netrc_file.get('ssh'))
-```
-### Writing to a Netrc File
-
-To write to a Netrc file, use the `write()` method.
-
-Here's an example:
-```python
-netrc_file = read_netrc()
-netrc_file.add('ssh', 'username', 'new_password')
-
-with open('.netrc', 'w') as f:
-    netrc_file.write(f)
-```
-Note: You should be careful when writing to the Netrc file, as it contains sensitive information.
-
-### Usage
-
-Here are some usage examples:
-
-```python
-# Get a list of all sections in the Netrc file
-sections = [section for section in read_netrc().sections()]
-print(sections)
-
-# Get all credentials from a specific section
-credentials = read_netrc().passwords('ssh')
-for (key, value) in credentials.items():
-    print(f"{key}: {value}")
-
-# Write to the Netrc file
-netrc_file = netrc.Netrc()
-netrc_file.add('ssh', 'username', 'new_password')
-with open('.netrc', 'w') as f:
-    netrc_file.write(f)
-
-# Get a list of all sections in the Netrc file
-sections = [section for section in read_netrc().sections()]
-print(sections)
-```
+These examples provide a comprehensive overview of how to use the `netrc` module in Python, covering reading, writing, updating, and removing entries from the `.netrc` file.

@@ -1,142 +1,71 @@
-# gc — Garbage Collector interface
+# gc - Garbage Collector interface
 
-**Garbage Collector (GC) Interface**
-=====================================
+The `gc` module in Python is used to control garbage collection runtime behavior. It provides a way to enable or disable automatic garbage collection, tune the collector's parameters, and collect garbage manually.
 
-The `gc` module provides an interface to Python's garbage collector, allowing you to manually manage memory and optimize memory usage.
-
-### Example 1: Getting the Current Garbage Collection Status
+Here are comprehensive code examples that cover various functionalities of the `gc` module:
 
 ```python
-# Import the gc module
 import gc
 
-# Get the current reference count of a variable
-def get_reference_count(var):
-    # Create a weak reference to the variable
-    wr = weakref.ref(var)
-    # Get the current reference count
-    return sys.getrefcount(wr())
+# Enable automatic garbage collection (default state)
+print("Automatic garbage collection is currently enabled:", gc.isenabled())
 
-# Test the function
-var = 10
-print(get_reference_count(var))  # Output: 2
+# Disable automatic garbage collection
+gc.disable()
+print("Automatic garbage collection is now disabled:", gc.isenabled())
 
-# Delete the variable
-del var
-print(get_reference_count(None))  # Output: 1
-```
+# Re-enable automatic garbage collection
+gc.enable()
+print("Automatic garbage collection is now enabled:", gc.isenabled())
 
-### Example 2: Running the Garbage Collector
+# Set the garbage collector's threshold to 100 objects
+gc.set_threshold(100)
+print("Garbage collection threshold set to:", gc.get_threshold())
 
-```python
-# Import the gc module
-import gc
+# Print the current state of the garbage collector
+print("Garbage collection status:", gc.garbage)
 
-# Run the garbage collector
+# Collect all uncollectable objects immediately
 gc.collect()
+print("Garbage collected:", len(gc.garbage))
+
+# Set the debug level for garbage collection (0 is no debugging, higher numbers increase verbosity)
+gc.set_debug(gc.DEBUG_STATS | gc.DEBUG_LEAK)
+print("Garbage collection debug set to:", gc.get_debug())
+
+# Print garbage collection statistics
+print("Garbage collection statistics:")
+for line in gc.garbage_stats():
+    print(line)
+
+# Print the maximum memory usage of the Python interpreter
+print("Maximum memory usage (bytes):", gc.mem_get_usage())
 ```
 
-Note that `gc.collect()` can only be called when Python's reference counting is enabled.
+### Explanation:
 
-### Example 3: Getting the Count of Objects that are Ready to be Garbage Collected
+1. **Enable and Disable Automatic Garbage Collection:**
+   - `gc.isenabled()`: Checks if automatic garbage collection is enabled.
+   - `gc.disable()`: Disables automatic garbage collection.
+   - `gc.enable()`: Re-enables automatic garbage collection.
 
-```python
-# Import the gc module
-import gc
-import sys
-from weakref import WeakRef
+2. **Set Garbage Collector Threshold:**
+   - `gc.set_threshold(n)`: Sets the threshold number of uncollectable objects before a collection occurs.
 
-# Get the count of objects that are ready to be garbage collected
-def get_collectable_objects():
-    # Create a list to store collectable objects
-    collectable = []
-    # Iterate over all objects in the current object space
-    for obj in gc.get_objects():
-        # Check if the object is not already in the collectable list
-        if id(obj) not in [id(x) for x in collectable]:
-            # Add the object to the collectable list
-            collectable.append(obj)
-    return collectable
+3. **Check Current State of Garbage Collection:**
+   - `gc.garbage`: A list of all objects that are not reachable from any reference, but have not yet been collected by garbage collection.
 
-# Test the function
-collectable = get_collectable_objects()
-print(len(collectable))  # Output: The number of objects that are ready to be garbage collected
-```
+4. **Perform Garbage Collection:**
+   - `gc.collect()`: Initiates a garbage collection cycle and returns the number of unreachable objects collected.
 
-### Example 4: Suppressing Garbage Collection
+5. **Set Garbage Collection Debug Level:**
+   - `gc.set_debug(flag)`: Sets the debugging flags for the garbage collector.
+   - `gc.get_debug()`: Returns the current debugging level.
 
-```python
-# Import the gc module
-import gc
+6. **Print Garbage Collection Statistics:**
+   - `gc.garbage_stats()`: Provides statistics about garbage collection activities, such as number of collections and time spent.
 
-# Create a list to suppress garbage collection
-suppress_gc_list = []
+7. **Check Memory Usage:**
+   - `gc.mem_get_usage()`: Returns an estimate of the maximum memory usage of the Python interpreter.
 
-# Suppress garbage collection
-gc.collect()
-try:
-    # Add an object to the suppress GC list
-    suppress_gc_list.append(object())
-except RuntimeError as e:
-    print(e)  # Output: 'gc cannot collect during this iteration'
-finally:
-    # Remove the object from the suppress GC list (not necessary, but good practice)
-    if suppress_gc_list:
-        del suppress_gc_list[0]
-```
-
-### Example 5: Manual Garbage Collection using Cycle Detection
-
-```python
-# Import the gc module and a cycle detection library (e.g., `cyclone`)
-import gc
-from cyclone import Cyclone
-
-# Create a cyclic object graph
-class Node:
-    def __init__(self, value):
-        self.value = value
-        self.next = None
-
-def create_cycle_graph():
-    # Create nodes
-    node1 = Node(10)
-    node2 = Node(20)
-
-    # Add the nodes to each other in a cycle
-    node1.next = node2
-    node2.next = node1
-
-    return node1, node2
-
-# Get the cycle graph
-node1, node2 = create_cycle_graph()
-
-# Manually trigger garbage collection
-gc.collect()
-```
-
-Note that manual garbage collection using cycle detection is an advanced topic and not recommended for general use.
-
-### Example 6: Manual Garbage Collection using Weak References
-
-```python
-# Import the gc module and a weak reference library (e.g., `weakref`)
-import gc
-from weakref import WeakRef
-
-# Create a strong reference to an object
-obj = object()
-
-# Create a weak reference to the object
-wr = WeakRef(obj)
-
-# Get the reference count of the object through its weak reference
-ref_count = sys.getrefcount(wr())
-
-# Manually trigger garbage collection
-gc.collect()
-```
-
-Note that manual garbage collection using weak references is an advanced topic and not recommended for general use.
+These examples demonstrate how to manage and monitor garbage collection in a Python application, which is crucial for optimizing performance and handling memory efficiently.

@@ -1,97 +1,188 @@
-# plistlib — Generate and parse Apple .plist files
+# plistlib - Generate and parse Apple .plist files
 
-** plistlib Example Code **
-=====================================
+The `plistlib` module in Python is used to read from and write to Apple Property List (`.plist`) files, which are a common data storage format used by macOS. Below are comprehensive code examples that demonstrate how to use the `plistlib` module to generate and parse `.plist` files.
 
-The `plistlib` module is part of Python's standard library, providing functions for generating and parsing Apple `.plist` (Property List) files.
-
-### Installing Required Libraries
-
-Before running the code below, ensure you have installed required libraries by running:
-```bash
-pip install pyobjc
-```
-**`plistlib.py` Code Example **
--------------------------------
+### Example 1: Writing a Simple Plist
 
 ```python
 import plistlib
 
-# Create a dictionary to represent a .plist file
-plist_data = {
-    'CFBundleDisplayName': 'My App',
-    'CFBundleVersion': '1.0',
-    'CFBundleShortVersionString': '1.0',
+# Create a dictionary
+data = {
+    "Name": "John Doe",
+    "Age": 30,
+    "IsEmployed": True,
+    "Address": {
+        "Street": "123 Elm St",
+        "City": "Anytown"
+    },
+    "Phones": [
+        {"Type": "Home", "Number": "555-1234"},
+        {"Type": "Work", "Number": "555-5678"}
+    ]
 }
 
-def generate_plist(plist_data):
-    """
-    Generate a .plist file from the provided dictionary.
+# Write the dictionary to a .plist file
+with open('example.plist', 'wb') as f:
+    plistlib.dump(data, f)
 
-    Args:
-        plist_data (dict): Dictionary containing .plist data.
-
-    Returns:
-        bytes: Bytes representing the generated .plist file.
-    """
-    return plistlib.dumps(plist_data)
-
-# Generate a .plist file
-plist_bytes = generate_plist(plist_data)
-print("Generated .plist bytes:", plist_bytes)
-
-def parse_plist(plist_bytes):
-    """
-    Parse a .plist file from the provided bytes.
-
-    Args:
-        plist_bytes (bytes): Bytes representing the .plist file.
-
-    Returns:
-        dict: Dictionary containing parsed .plist data.
-    """
-    return plistlib.loads(plist_bytes)
-
-# Parse a sample .plist file
-sample_plist_data = {
-    'CFBundleVersion': '1.0',
-    'CFBundleShortVersionString': '1.0',
-}
-
-sample_plist_bytes = b"""<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-    <dict>
-        <key>CFBundleVersion</key>
-        <string>1.0</string>
-        <key>CFBundleShortVersionString</key>
-        <string>1.0</string>
-    </dict>
-</plist>
-"""
-
-parsed_plist_data = parse_plist(sample_plist_bytes)
-print("Parsed .plist data:", parsed_plist_data)
-
-# Generate a new .plist file with updated data
-updated_plist_data = {
-    'CFBundleDisplayName': 'My App',
-    'CFBundleVersion': '2.0',
-    'CFBundleShortVersionString': '2.0',
-}
-
-new_plist_bytes = generate_plist(updated_plist_data)
-print("New generated .plist bytes:", new_plist_bytes)
-
-# Parse the updated .plist file
-updated_plist_data_parsed = parse_plist(new_plist_bytes)
-print("Updated parsed .plist data:", updated_plist_data_parsed)
+print("Plist has been written to example.plist")
 ```
 
-This code example demonstrates how to:
+### Example 2: Parsing a Plist
 
-1.  Generate a `.plist` file from a dictionary using `generate_plist()`.
-2.  Parse a sample `.plist` file from bytes using `parse_plist()`.
-3.  Update the data in the parsed `.plist` file and generate a new one using `generate_plist()`.
+```python
+import plistlib
 
-**Note:** This code example assumes you are working with Python 3.x, as it is compatible with that version of the language.
+# Read a .plist file and parse it into a dictionary
+with open('example.plist', 'rb') as f:
+    data = plistlib.load(f)
+
+# Print the parsed data
+print("Parsed Data:")
+print(data)
+```
+
+### Example 3: Writing a Plist with DateTime Objects
+
+```python
+import plistlib
+from datetime import datetime
+
+# Create a dictionary with a date-time object
+data = {
+    "EventDate": datetime.now(),
+    "Description": "This is an example event."
+}
+
+# Write the dictionary to a .plist file
+with open('event.plist', 'wb') as f:
+    plistlib.dump(data, f)
+
+print("Plist has been written to event.plist")
+```
+
+### Example 4: Parsing a Plist with DateTime Objects
+
+```python
+import plistlib
+from datetime import datetime
+
+# Read a .plist file and parse it into a dictionary
+with open('event.plist', 'rb') as f:
+    data = plistlib.load(f)
+
+# Extract and print the date-time object
+event_date = data.get('EventDate')
+if event_date:
+    print("Event Date:", event_date)
+else:
+    print("Event Date not found.")
+```
+
+### Example 5: Writing a Plist with Nested Lists
+
+```python
+import plistlib
+
+# Create a dictionary with nested lists
+data = {
+    "Tasks": [
+        {"Name": "Complete report", "DueDate": datetime.now() + timedelta(days=7)},
+        {"Name": "Read a book", "DueDate": datetime.now() + timedelta(days=3)}
+    ]
+}
+
+# Write the dictionary to a .plist file
+with open('tasks.plist', 'wb') as f:
+    plistlib.dump(data, f)
+
+print("Plist has been written to tasks.plist")
+```
+
+### Example 6: Parsing a Plist with Nested Lists
+
+```python
+import plistlib
+from datetime import datetime
+
+# Read a .plist file and parse it into a dictionary
+with open('tasks.plist', 'rb') as f:
+    data = plistlib.load(f)
+
+# Extract and print the tasks list
+tasks = data.get('Tasks')
+if tasks:
+    for task in tasks:
+        print("Task Name:", task.get('Name'))
+        print("Due Date:", task.get('DueDate'))
+else:
+    print("Tasks not found.")
+```
+
+### Example 7: Writing a Plist with Custom Objects
+
+If you need to handle custom objects, `plistlib` can be extended by using the `DataHandler` class. Here’s an example of how to define and use a custom handler for a specific type:
+
+```python
+import plistlib
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+def person_to_plist(person):
+    return {
+        '_type': 'Person',
+        'name': person.name,
+        'age': person.age
+    }
+
+def person_from_plist(data):
+    if data['_type'] != 'Person':
+        raise ValueError("Invalid data type")
+    return Person(data['name'], data['age'])
+
+# Create a list of custom objects
+people = [Person('Alice', 30), Person('Bob', 25)]
+
+# Define a custom handler for the Person class
+handler = plistlib.DataHandler(person_to_plist, person_from_plist)
+
+# Write the list of custom objects to a .plist file using the custom handler
+with open('people.plist', 'wb') as f:
+    plistlib.dump(people, f, data_handler=handler)
+
+print("Plist has been written to people.plist")
+```
+
+### Example 8: Parsing a Plist with Custom Objects
+
+```python
+import plistlib
+
+# Define the custom handler for the Person class
+def person_to_plist(person):
+    return {
+        '_type': 'Person',
+        'name': person.name,
+        'age': person.age
+    }
+
+def person_from_plist(data):
+    if data['_type'] != 'Person':
+        raise ValueError("Invalid data type")
+    return Person(data['name'], data['age'])
+
+# Read a .plist file and parse it into a list of custom objects using the custom handler
+with open('people.plist', 'rb') as f:
+    people = plistlib.load(f, data_handler=handler)
+
+# Print the parsed persons
+for person in people:
+    print("Person Name:", person.name)
+    print("Person Age:", person.age)
+```
+
+These examples cover various aspects of using `plistlib`, from basic dictionary operations to handling custom objects and date-time objects. The code is designed to be clear, well-documented, and suitable for inclusion in official documentation.

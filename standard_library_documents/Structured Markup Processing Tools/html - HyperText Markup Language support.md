@@ -1,564 +1,200 @@
-# html — HyperText Markup Language support
+# html - HyperText Markup Language support
 
-Here's an example of using the `html` module from Python's standard library:
+The `html` module in Python provides tools to parse HTML documents and render them as formatted text, including basic formatting features like bold, italic, lists, links, and images. Below are comprehensive and well-documented code examples for various functionalities provided by the `html` module.
 
-```python
-# Import the html module
-from html import escape, unescape
+### Example 1: Parsing an HTML Document
 
-def escape_html(input_string):
-    """
-    Escapes special characters in a string to be used in HTML.
-    
-    Args:
-        input_string (str): The string to be escaped.
-    
-    Returns:
-        str: The escaped string.
-    """
-    # Use the escape function from the html module
-    return escape(input_string)
-
-def unescape_html(escaped_string):
-    """
-    Unescapes special characters in a string that was previously escaped using the html module's escape function.
-    
-    Args:
-        escaped_string (str): The string to be unescaped.
-    
-    Returns:
-        str: The unescaped string.
-    """
-    # Use the unescape function from the html module
-    return unescape(escaped_string)
-
-# Example usage:
-input_string = "<script>alert('XSS')</script>"
-print("Original String:", input_string)
-
-# Escape the string to be used in HTML
-escaped_string = escape_html(input_string)
-print("Escaped String:", escaped_string)
-
-# Unescape the string to remove any special characters
-unescaped_string = unescape_html(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Using the html.escape() function for a more modern approach:
-modern_escaped_string = html.escape(input_string)
-print("Modern Escaped String:", modern_escaped_string)
-```
-
-This code provides examples of how to use the `html` module to escape and unescape special characters in strings, as well as using the more modern `html.escape()` function.
-
-**Parser Example:**
-The `html.parser` module is a built-in module that parses HTML documents and allows you to extract data from them. Here's an example of how to use it:
+This example demonstrates how to parse an HTML document using the `BeautifulSoup` library from the `bs4` package, which is a popular choice for parsing HTML in Python.
 
 ```python
-from html import parser
+from bs4 import BeautifulSoup
+import requests
 
-class MyHTMLParser(parser.HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.data = []
-    
-    def handle_data(self, data):
-        """
-        Called when the parser encounters a chunk of text.
-        
-        Args:
-            data (str): The chunk of text.
-        """
-        self.data.append(data)
-    
-    def feed(self, html_string):
-        """
-        Feeds an HTML string to the parser.
-        
-        Args:
-            html_string (str): The HTML string.
-        """
-        super().feed(html_string)
-    
-    def close(self):
-        print("Parsed Data:", self.data)
+# Fetch an HTML page
+url = "https://example.com"
+response = requests.get(url)
 
-# Example usage:
-html_string = "<p>This is a paragraph of text.</p><p>This is another paragraph.</p>"
-parser = MyHTMLParser()
-parser.feed(html_string)
-parser.close()
+# Parse the HTML content
+soup = BeautifulSoup(response.content, 'html.parser')
+
+# Extract all links from the parsed document
+links = soup.find_all('a')
+for link in links:
+    print(f"Link: {link.get('href')}, Text: {link.text}")
 ```
 
-This code defines a custom HTML parser that extracts the data from the parsed HTML string.
+### Example 2: Rendering HTML as a String
 
-**Unescapeing:**
-The `html.unescape()` function unescapes special characters in a string. Here's an example of how to use it:
+This example shows how to render an HTML document into a formatted string using the `html` module.
 
 ```python
-from html import unescape
+from html import escape
 
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
+# Define some text with HTML tags
+text = "<strong>Hello, <em>world!</em></strong>"
 
-# Output: <p>This is a paragraph of text.</p>
+# Escape any special characters and render as HTML
+formatted_text = escape(text)
+print(formatted_text)  # Output: &lt;strong&gt;Hello, &lt;em&gt;world!&lt;/em&gt;&lt;/strong&gt;
 ```
 
-**Links and URLs:**
-The `html` module can also be used to parse links and URLs. Here's an example of how to use the `urljoin()` function:
+### Example 3: Rendering HTML to a File
+
+This example demonstrates how to write an HTML document to a file.
 
 ```python
-from urllib.parse import urljoin, urlparse
-import html
+from html import escape
 
-# Example usage:
-base_url = "https://www.example.com/"
-relative_url = "/path/to/resource"
+# Define some text with HTML tags
+text = "<h1>Welcome to Python</h1><p>This is a sample paragraph.</p>"
 
-# Join the base URL with the relative URL
-absolute_url = urljoin(base_url, relative_url)
-print("Absolute URL:", absolute_url)
+# Escape any special characters and render as HTML
+formatted_text = escape(text)
 
-# Parse the absolute URL
-parsed_url = urlparse(absolute_url)
-print("Parsed URL:", parsed_url)
+# Write the formatted text to a file
+with open('output.html', 'w') as file:
+    file.write(formatted_text)
 ```
 
-This code uses the `urlparse()` function from the `urllib.parse` module to parse a URL.
+### Example 4: Creating an HTML Page from Python
 
-**HTML Entity:**
-The `html` module can also be used to convert HTML entities into their corresponding characters. Here's an example of how to use the `unescape()` function:
+This example shows how to create a simple HTML page programmatically using the `html` module.
 
 ```python
-from html import unescape
+from html import escape
 
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
+# Define some content for the HTML page
+title = "My Custom Webpage"
+content = "<h1>Welcome to My Website</h1><p>This is my custom webpage.</p>"
 
-# Output: <p>This is a paragraph of text.</p>
+# Escape any special characters and render as HTML
+formatted_title = escape(title)
+formatted_content = escape(content)
+
+# Create the HTML structure
+html_page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{formatted_title}</title>
+</head>
+<body>
+    {formatted_content}
+</body>
+</html>"""
+
+# Write the HTML page to a file
+with open('custom_page.html', 'w') as file:
+    file.write(html_page)
 ```
 
-**Entity to Unicode:**
-The `html` module can also be used to convert HTML entities into their corresponding Unicode characters. Here's an example of how to use the `unescape()` function:
+### Example 5: Modifying an HTML Document
+
+This example demonstrates how to modify an existing HTML document by adding or removing elements.
+
+```python
+from bs4 import BeautifulSoup
+import requests
+
+# Fetch an HTML page
+url = "https://example.com"
+response = requests.get(url)
+
+# Parse the HTML content
+soup = BeautifulSoup(response.content, 'html.parser')
+
+# Add a new paragraph to the body
+new_paragraph = soup.new_tag("p")
+new_paragraph.string = "This is a newly added paragraph."
+soup.body.append(new_paragraph)
+
+# Remove an existing element
+existing_element = soup.find('a')
+if existing_element:
+    existing_element.decompose()
+
+# Print the modified HTML content
+print(soup.prettify())
+```
+
+### Example 6: Escaping Special Characters
+
+This example shows how to use the `html` module's `escape` function to safely render text containing HTML tags.
+
+```python
+from html import escape
+
+# Define some text with special characters and HTML tags
+text = "<>&'\""
+
+# Escape any special characters
+escaped_text = escape(text)
+print(escaped_text)  # Output: &lt;&gt;&#38;&#39;&quot;
+```
+
+### Example 7: Encoding HTML Entities
+
+This example demonstrates how to use the `html` module's `unescape` function to decode HTML entities.
 
 ```python
 from html import unescape
 
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
+# Define some text with HTML entities
+escaped_text = "&lt;>&#38;&#39;&quot;"
 
-# Output: <p>This is a paragraph of text.</p>
+# Decode the HTML entities
+decoded_text = unescape(escaped_text)
+print(decoded_text)  # Output: <>&'"
 ```
 
-**Entity to String:**
-The `html` module can also be used to convert HTML entities into their corresponding string values. Here's an example of how to use the `unescape()` function:
+### Example 8: Parsing HTML from a String
+
+This example shows how to parse an HTML string using the `BeautifulSoup` library.
+
+```python
+from bs4 import BeautifulSoup
+
+# Define an HTML string
+html_string = "<h1>Hello, World!</h1><p>This is a paragraph.</p>"
+
+# Parse the HTML string
+soup = BeautifulSoup(html_string, 'html.parser')
+
+# Extract all paragraphs from the parsed document
+paragraphs = soup.find_all('p')
+for para in paragraphs:
+    print(para.text)
+```
+
+### Example 9: Rendering HTML with Custom Styling
+
+This example demonstrates how to render an HTML document with custom CSS styles.
+
+```python
+from html import escape
+
+# Define some text with HTML tags and a simple CSS style
+text = "<h1>Welcome to Python</h1><p style='color: blue; font-size: 20px;'>This is my custom webpage.</p>"
+
+# Escape any special characters and render as HTML
+formatted_text = escape(text)
+print(formatted_text)  # Output: &lt;h1&gt;Welcome to Python&lt;/h1&gt;&lt;p style='color: blue; font-size: 20px;'&gt;This is my custom webpage.&lt;/p&gt;
+```
+
+### Example 10: Handling HTML Entities in a String
+
+This example shows how to handle and decode HTML entities within a string.
 
 ```python
 from html import unescape
 
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
+# Define a string containing HTML entities
+html_entities = "&amp;&lt;&gt;"
 
-# Output: <p>This is a paragraph of text.</p>
+# Decode the HTML entities
+decoded_string = unescape(html_entities)
+print(decoded_string)  # Output: & < >
 ```
 
-**Entity to Character:**
-The `html` module can also be used to convert HTML entities into their corresponding character values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Symbol:**
-The `html` module can also be used to convert HTML entities into their corresponding symbol values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Font:**
-The `html` module can also be used to convert HTML entities into their corresponding font values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Color:**
-The `html` module can also be used to convert HTML entities into their corresponding color values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Background:**
-The `html` module can also be used to convert HTML entities into their corresponding background values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Border:**
-The `html` module can also be used to convert HTML entities into their corresponding border values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Padding:**
-The `html` module can also be used to convert HTML entities into their corresponding padding values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Margin:**
-The `html` module can also be used to convert HTML entities into their corresponding margin values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Outline:**
-The `html` module can also be used to convert HTML entities into their corresponding outline values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Box-Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding box-shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Blur-Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding blur-shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Spread-Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding spread-shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Inset-Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding inset-shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Stroke-Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding stroke-shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Stroke-Width-Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding stroke-width-shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Stroke-Style-Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding stroke-style-shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Stroke-Color-Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding stroke-color-shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Stroke-Width-Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding stroke-width-shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Stroke-Style-Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding stroke-style-shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Stroke-Color-Shadow:**
-The `html` module can also be used to convert HTML entities into their corresponding stroke-color-shadow values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Box-Shadow-Color:**
-The `html` module can also be used to convert HTML entities into their corresponding box-shadow-color values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Blur-Shadow-Color:**
-The `html` module can also be used to convert HTML entities into their corresponding blur-shadow-color values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Spread-Shadow-Color:**
-The `html` module can also be used to convert HTML entities into their corresponding spread-shadow-color values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Inset-Shadow-Color:**
-The `html` module can also be used to convert HTML entities into their corresponding inset-shadow-color values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Stroke-Shadow-Color:**
-The `html` module can also be used to convert HTML entities into their corresponding stroke-shadow-color values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-**Entity to Box-Shadow-Color:**
-The `html` module can also be used to convert HTML entities into their corresponding box-shadow-color values. Here's an example of how to use the `unescape()` function:
-
-```python
-from html import unescape
-
-# Example usage:
-escaped_string = "&lt;p&gt;This is a paragraph of text.&lt;/p&gt;"
-unescaped_string = unescape(escaped_string)
-print("Unescaped String:", unescaped_string)
-
-# Output: <p>This is a paragraph of text.</p>
-```
-
-The code snippet provided earlier does not define any CSS or HTML elements. It only defines a function `unescape` that takes a string as an argument and attempts to "unescape" it by replacing special characters with their corresponding escape sequences. However, this function is not related to the original question about modifying a CSS rule using JavaScript.
-
-To modify a CSS rule using JavaScript, you would typically use the `style` attribute of an HTML element or create a new style rule using the `style` property of an object that represents the DOM. Here's a basic example:
-
-```javascript
-let cssRule = 'body { background-color: #f2f2f2; }';
-document.body.style.cssText = cssRule;
-```
-
-In this example, we define a CSS rule as a string and then assign it to the `cssText` property of the `style` object associated with the `body` element. This will apply the new style rule to the document.
-
-If you want to dynamically modify an existing CSS rule, you would need to access the CSS stylesheet and update its rules using the `CSSStyleSheet` API or similar methods provided by your browser's JavaScript engine. However, please note that this is a more complex topic and requires knowledge of advanced CSS concepts and DOM manipulation techniques.
-
-I hope this clears up any confusion, and I'm here to help with further questions if you need assistance with modifying a CSS rule using JavaScript!
+These examples cover various aspects of working with HTML in Python using the `html` module. Each example is well-documented, includes comments explaining each step, and follows best practices for clarity and maintainability.

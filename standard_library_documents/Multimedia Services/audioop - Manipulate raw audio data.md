@@ -1,227 +1,130 @@
-# audioop — Manipulate raw audio data
+# audioop - Manipulate raw audio data
 
-**Audioop Module**
-=================
+The `audioop` module in Python provides functions to manipulate raw audio data, such as converting between different sample formats and performing various operations on audio samples. Below are comprehensive examples of how to use these functions, along with explanations for each step.
 
-The `audioop` module provides functions for manipulating raw audio data.
-
-### Functions
-
-#### 1. `audioop.add(a, b)` : Add two signed 8-bit integers.
+### Example 1: Reading Audio Data from a File
 
 ```python
-def add(a: int, b: int) -> int:
+import wave
+
+def read_audio_data(filename):
     """
-    Adds two signed 8-bit integers.
-    
-    Args:
-        a (int): The first integer to add.
-        b (int): The second integer to add.
-    
-    Returns:
-        int: The sum of the two integers.
+    Reads audio data from a WAV file and returns the sample rate, number of channels,
+    and audio frames as a list of bytes.
     """
-    # Ensure the result is within the range of 8-bit signed integers
-    return min(max(a + b, -128), 127)
+    with wave.open(filename, 'rb') as wav_file:
+        # Get the parameters (sample rate, number of channels, bits per sample)
+        params = wav_file.getparams()
+        
+        # Read all the audio data
+        audio_frames = wav_file.readframes(params.nframes)
+        
+        return params.samplerate, params.nchannels, audio_frames
+
+# Example usage
+sample_rate, num_channels, audio_data = read_audio_data('example.wav')
+print(f"Sample Rate: {sample_rate} Hz")
+print(f"Number of Channels: {num_channels}")
 ```
 
-#### 2. `audioop.sub(a, b)` : Subtract two signed 8-bit integers.
+### Example 2: Converting Audio Data to Different Formats
 
 ```python
-def sub(a: int, b: int) -> int:
-    """
-    Subtracts two signed 8-bit integers.
-    
-    Args:
-        a (int): The first integer to subtract from.
-        b (int): The second integer to subtract.
-    
-    Returns:
-        int: The difference of the two integers.
-    """
-    # Ensure the result is within the range of 8-bit signed integers
-    return min(max(a - b, -127), 127)
-```
-
-#### 3. `audioop.mul(a, b)` : Multiply two unsigned 16-bit integers.
-
-```python
-def mul(a: int, b: int) -> int:
-    """
-    Multiplies two unsigned 16-bit integers.
-    
-    Args:
-        a (int): The first integer to multiply.
-        b (int): The second integer to multiply.
-    
-    Returns:
-        int: The product of the two integers.
-    """
-    # Ensure the result is within the range of 16-bit unsigned integers
-    return min(max(a * b, 0), 65535)
-```
-
-#### 4. `audioop.imul(a, b)` : Multiply two signed 8-bit integers.
-
-```python
-def imul(a: int, b: int) -> int:
-    """
-    Multiplies two signed 8-bit integers.
-    
-    Args:
-        a (int): The first integer to multiply.
-        b (int): The second integer to multiply.
-    
-    Returns:
-        int: The product of the two integers.
-    """
-    # Handle sign and overflow
-    if b < 0:
-        return -mul(a, -b)
-    elif a & 1 and b & 1:
-        return add(add(a >> 1, b >> 1), mul((a ^ b) >> 1))
-    else:
-        return (a * b) >> 1
-```
-
-#### 5. `audioop.iadd(a, b)` : Add two signed 8-bit integers.
-
-```python
-def iadd(a: int, b: int) -> int:
-    """
-    Adds two signed 8-bit integers.
-    
-    Args:
-        a (int): The first integer to add.
-        b (int): The second integer to add.
-    
-    Returns:
-        int: The sum of the two integers.
-    """
-    # Handle sign and overflow
-    if a < 0 and b >= 0:
-        return -sub(-a, b)
-    elif a >= 0 and b < 0:
-        return sub(a, -b)
-    else:
-        return add(a, b)
-```
-
-#### 6. `audioop.isub(a, b)` : Subtract two signed 8-bit integers.
-
-```python
-def isub(a: int, b: int) -> int:
-    """
-    Subtracts two signed 8-bit integers.
-    
-    Args:
-        a (int): The first integer to subtract from.
-        b (int): The second integer to subtract.
-    
-    Returns:
-        int: The difference of the two integers.
-    """
-    # Handle sign and overflow
-    if a < 0 and b >= 0:
-        return -iadd(-a, b)
-    elif a >= 0 and b < 0:
-        return iadd(a, -b)
-    else:
-        return sub(a, b)
-```
-
-#### 7. `audioop.imul2(a, b)` : Multiply two signed 16-bit integers.
-
-```python
-def imul2(a: int, b: int) -> int:
-    """
-    Multiplies two signed 16-bit integers.
-    
-    Args:
-        a (int): The first integer to multiply.
-        b (int): The second integer to multiply.
-    
-    Returns:
-        int: The product of the two integers.
-    """
-    # Handle sign and overflow
-    if a < 0 and b < 0:
-        return mul(a, b)
-    elif a >= 0 and b >= 0:
-        return mul(a, b)
-    else:
-        # Special case for (a ^ b) >> 1
-        return add(add((abs(a) & ~a) * b >> 1, abs(b) & ~b), ((a - b + 128) | -128))
-```
-
-#### 8. `audioop.iadd2(a, b)` : Add two signed 16-bit integers.
-
-```python
-def iadd2(a: int, b: int) -> int:
-    """
-    Adds two signed 16-bit integers.
-    
-    Args:
-        a (int): The first integer to add.
-        b (int): The second integer to add.
-    
-    Returns:
-        int: The sum of the two integers.
-    """
-    # Handle sign and overflow
-    if a < 0 and b >= 0:
-        return -iadd(-a, b)
-    elif a >= 0 and b < 0:
-        return iadd(a, -b)
-    else:
-        return add(a, b)
-```
-
-#### 9. `audioop.isub2(a, b)` : Subtract two signed 16-bit integers.
-
-```python
-def isub2(a: int, b: int) -> int:
-    """
-    Subtracts two signed 16-bit integers.
-    
-    Args:
-        a (int): The first integer to subtract from.
-        b (int): The second integer to subtract.
-    
-    Returns:
-        int: The difference of the two integers.
-    """
-    # Handle sign and overflow
-    if a < 0 and b >= 0:
-        return -iadd2(-a, b)
-    elif a >= 0 and b < 0:
-        return iadd2(a, -b)
-    else:
-        return sub(a, b)
-```
-
-### Example Usage
-
-```python
+import wave
 import audioop
 
-# Signed 8-bit integers
-a = 5
-b = 10
-print(audioop.add(a, b))  # Output: 15
+def convert_to_int16(audio_frames):
+    """
+    Converts a sequence of bytes representing audio frames into signed 16-bit integers.
+    Assumes the input is in unsigned 8-bit format.
+    """
+    # Convert to signed 16-bit using audioop.lin2lin()
+    converted_audio = audioop.lin2lin(audio_frames, 'U', 'S')
+    return converted_audio
 
-# Unsigned 16-bit integers
-x = 32768
-y = 1280
-print(audioop.mul(x, y))  # Output: 131072
-
-# Signed 8-bit integer and unsigned 16-bit integer
-a = -10
-b = 5
-print(audioop.iadd(a, b))  # Output: -5
-
-# Signed 16-bit integers
-a = 65535
-b = 12345
-print(audioop.isub2(a, b))  # Output: -53190
+# Example usage
+sample_rate, num_channels, audio_data = read_audio_data('example.wav')
+converted_audio = convert_to_int16(audio_data)
 ```
+
+### Example 3: Calculating the RMS (Root Mean Square) of Audio Data
+
+```python
+import wave
+import audioop
+
+def calculate_rms(audio_frames):
+    """
+    Calculates the root mean square (RMS) of a sequence of bytes representing audio frames.
+    Assumes the input is in signed 16-bit format.
+    """
+    # Calculate RMS using audioop.rms()
+    rms = audioop.rms(audio_frames, 2)
+    return rms
+
+# Example usage
+sample_rate, num_channels, audio_data = read_audio_data('example.wav')
+converted_audio = convert_to_int16(audio_data)
+rms_value = calculate_rms(converted_audio)
+print(f"RMS Value: {rms_value}")
+```
+
+### Example 4: Applying a Volume Adjustment to Audio Data
+
+```python
+import wave
+import audioop
+
+def apply_volume_adjustment(audio_frames, volume_factor):
+    """
+    Applies a volume adjustment to a sequence of bytes representing audio frames.
+    Assumes the input is in signed 16-bit format.
+    """
+    # Apply volume adjustment using audioop.mul()
+    adjusted_audio = audioop.mul(audio_frames, 2, volume_factor)
+    return adjusted_audio
+
+# Example usage
+sample_rate, num_channels, audio_data = read_audio_data('example.wav')
+converted_audio = convert_to_int16(audio_data)
+volume_adjusted_audio = apply_volume_adjustment(converted_audio, 0.5)  # Half the original volume
+```
+
+### Example 5: Writing Audio Data to a File
+
+```python
+import wave
+
+def write_audio_data(filename, sample_rate, num_channels, audio_frames):
+    """
+    Writes raw audio data to a WAV file.
+    """
+    with wave.open(filename, 'wb') as wav_file:
+        # Write the parameters (sample rate, number of channels, bits per sample)
+        wav_file.setnchannels(num_channels)
+        wav_file.setsampwidth(2)  # Signed 16-bit
+        wav_file.setframerate(sample_rate)
+        
+        # Write all the audio data
+        wav_file.writeframes(audio_frames)
+
+# Example usage
+sample_rate = 44100
+num_channels = 2
+audio_data = converted_audio  # Use converted data from previous example
+write_audio_data('output.wav', sample_rate, num_channels, audio_data)
+```
+
+### Explanation
+
+- **Reading Audio Data**: The `wave` module is used to open and read audio files. The `getparams()` method retrieves the format parameters (sample rate, number of channels, bits per sample), and `readframes()` reads all the frames.
+  
+- **Converting Formats**: The `audioop.lin2lin()` function converts between different linear sample formats.
+
+- **Calculating RMS**: The `audioop.rms()` function calculates the root mean square of audio data, which is a measure of its power or loudness.
+
+- **Volume Adjustment**: The `audioop.mul()` function multiplies each sample in the audio data by a volume factor, effectively changing the volume level.
+
+- **Writing Audio Data**: The `wave` module is used to write audio data back to a file with specified parameters and frames.
+
+These examples demonstrate how to manipulate audio data using the `audioop` module in Python. Each function is thoroughly documented to ensure clarity and ease of use in real-world applications.

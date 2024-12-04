@@ -1,73 +1,98 @@
-# importlib.metadata — Accessing the import metadata
+# importlib.metadata - Accessing the import metadata
 
-Here's an example of how you can access the metadata of an imported module using `importlib.metadata`:
+The `importlib.metadata` module in Python is used to access metadata about installed packages and their dependencies. It provides a way to programmatically query package information, which can be useful for creating tools that interact with Python installations or manage dependencies dynamically.
 
-```python
-# Import the importlib.metadata module
-from importlib.metadata import version, name, author, description
+Here are some code examples that demonstrate various functionalities of the `importlib.metadata` module:
 
-def get_module_metadata(module_name):
-    """
-    Returns the metadata of a given module.
+1. **Accessing Package Information:**
+   ```python
+   import importlib.metadata
 
-    Args:
-        module_name (str): The name of the module to retrieve metadata for.
+   # Get a list of all installed packages
+   all_packages = importlib.metadata.available()
+   print("All Installed Packages:", all_packages)
 
-    Returns:
-        dict: A dictionary containing the metadata.
-    """
+   # Get details about a specific package
+   package_details = importlib.metadata.version('requests')
+   print("Version of requests:", package_details)
 
-    # Try to get the module's metadata
-    try:
-        # Get the module's version
-        module_version = version(module_name)
-        
-        # Get the module's name
-        module_name_str = name(module_name)
-        
-        # Get the author of the module
-        module_author = author(module_name)
-        
-        # Get a brief description of the module
-        module_description = description(module_name)
-        
-        # Return the metadata as a dictionary
-        return {
-            "version": module_version,
-            "name": module_name_str,
-            "author": module_author,
-            "description": module_description,
-        }
-    
-    # Handle any exceptions that may occur during metadata retrieval
-    except Exception as e:
-        print(f"Error retrieving metadata for {module_name}: {e}")
-        return None
+   # Check if a package is installed
+   is_installed = importlib.metadata.version('numpy') in all_packages
+   print("Is numpy installed?", is_installed)
+   ```
 
-# Example usage
-if __name__ == "__main__":
-    module_name = "importlib.metadata"
-    metadata = get_module_metadata(module_name)
-    
-    if metadata:
-        print("Module Metadata:")
-        print(f"Version: {metadata['version']}")
-        print(f"Name: {metadata['name']}")
-        print(f"Author: {metadata['author']}")
-        print(f"Description: {metadata['description']}")
-```
+2. **Querying Package Metadata:**
+   ```python
+   import importlib.metadata
 
-This example uses the `importlib.metadata` module to access metadata for a given module. The `get_module_metadata` function takes a module name as input and returns a dictionary containing the module's version, name, author, and description.
+   # Get the description of a package
+   description = importlib.metadata.description('beautifulsoup4')
+   print("Description of beautifulsoup4:", description)
 
-Please note that this is just an example and you may want to customize it according to your needs.
+   # Retrieve all versions of a package
+   versions = list(importlib.metadata.versions('setuptools'))
+   print("Versions of setuptools:", versions)
+   ```
 
-Here are some additional methods provided by `importlib.metadata`:
+3. **Listing Files in an Installed Package:**
+   ```python
+   import importlib.metadata
 
-*   `version(module_name)`: Returns the version number of a given module.
-*   `name(module_name)`: Returns the full name of a given module.
-*   `author(module_name)`: Returns the author of a given module.
-*   `description(module_name)`: Returns a brief description of a given module.
-*   `home(module_name)`: Returns the URL of the module's homepage (available since Python 3.10).
-*   `readme(filename)`: Returns the contents of a file at the specified path in the module's home directory (available since Python 3.9).
+   # List files in the 'requests' package
+   files = list(importlib.metadata.files('requests'))
+   for file in files:
+       print(file)
+   ```
 
-These methods can be used to access metadata for various modules, including built-in modules and packages that are installed using pip or other package managers.
+4. **Checking for Required Dependencies:**
+   ```python
+   import importlib.metadata
+
+   # Check if a package requires a specific dependency
+   requires = importlib.metadata.requires('scipy')
+   print("Dependencies of scipy:", requires)
+
+   # Verify if all dependencies are installed
+   is_complete_installation = all([dep in all_packages for dep in requires])
+   print("Is the complete set of dependencies installed?", is_complete_installation)
+   ```
+
+5. **Handling Distribution Metadata:**
+   ```python
+   import importlib.metadata
+
+   # Access distribution metadata from a package
+   dist_info = importlib.metadata.distribution('pandas')
+   print("Distribution Information:", dist_info)
+
+   # Retrieve information about the distribution's URL and maintainer
+   distribution_url = dist_info.url
+   maintainer = dist_info.maintainers[0].name
+   print("Distribution URL:", distribution_url)
+   print("Maintainer:", maintainer)
+   ```
+
+6. **Using Distribution Files:**
+   ```python
+   import importlib.metadata
+
+   # Access files within a distribution's package directory
+   package_files = list(dist_info.files(package='pandas'))
+   for file in package_files:
+       print(file)
+   ```
+
+7. **Querying Package Version Details:**
+   ```python
+   import importlib.metadata
+
+   # Get detailed version information
+   version_details = dist_info.version_details()
+   print("Version Details:", version_details)
+
+   # Check if a specific version is available
+   is_version_available = '1.2.3' in version_details.available_versions
+   print("Is version 1.2.3 available?", is_version_available)
+   ```
+
+These examples cover basic operations such as listing installed packages, accessing package descriptions and versions, checking for dependencies, retrieving distribution metadata, and querying version details. Each example includes comments to explain the purpose of each section of the code.

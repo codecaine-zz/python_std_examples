@@ -1,197 +1,257 @@
-# subprocess — Subprocess management
+# subprocess - Subprocess management
 
-**Subprocess Management**
-==========================
+The `subprocess` module in Python provides a way to spawn new processes, connect to their input/output/error pipes, and obtain their return codes. Below are comprehensive examples demonstrating various functionalities of the `subprocess` module. These examples are designed to be clear, concise, and suitable for inclusion in official documentation.
 
-The `subprocess` module allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes.
-
-### Functions
-
-#### `Popen([b'command', *args], **kwargs)`
-
-Creates a new process.
-
-*   `command`: A string containing the program name or a bytes object.
-*   `args`: Variable number of arguments to pass to the command.
-*   `stdin`, `stdout`, `stderr`, `shell`: Optional keyword arguments that control how the child's input/output/error pipes are used. Default values are:
-    *   `stdin`: Opened from system's standard input (`sys.stdin`).
-    *   `stdout`: Opened to system's standard output (`sys.stdout`).
-    *   `stderr`: Opened to system's standard error (`sys.stderr`).
-    *   `shell`: Use a new shell to execute the command. Default is `False`.
+### Example 1: Running an External Command
 
 ```python
 import subprocess
 
-# Create a new process that runs the 'ls' command with the '-l' option.
-process = subprocess.Popen(['ls', '-l'])
+# Example command to run 'ls -l'
+result = subprocess.run(['ls', '-l'], capture_output=True, text=True)
 
-# Wait for the process to finish and print its return code.
-print(process.wait())  # Output: 0 (Successful)
+# Print the output of the command
+print("Command Output:")
+print(result.stdout)
 
+# Check if the command was successful
+if result.returncode == 0:
+    print("Command executed successfully.")
+else:
+    print(f"Error: {result.stderr}")
 ```
 
-#### `run(command, *, stdin=None, stdout=None, stderr=None, shell=False, check=True)`
+**Explanation**: This example demonstrates how to use `subprocess.run()` to execute an external command. The `['ls', '-l']` list specifies the command and its arguments. The `capture_output=True` argument captures both standard output and error, and `text=True` ensures that the output is returned as a string instead of bytes. The result is then printed, and the script checks if the command was successful.
 
-Run a command in a new process.
-
-*   `command`: A string containing the program name or a bytes object.
-*   `stdin`, `stdout`, `stderr`: Optional keyword arguments that control how the child's input/output/error pipes are used. Default values are:
-    *   `stdin`: Opened from system's standard input (`sys.stdin`).
-    *   `stdout`: Opened to system's standard output (`sys.stdout`).
-    *   `stderr`: Opened to system's standard error (`sys.stderr`).
-*   `shell`: Use a new shell to execute the command. Default is `False`.
-*   `check`: Whether to raise an exception if the return code of the process is non-zero. Default is `True`.
+### Example 2: Running a Command in a Separate Process
 
 ```python
 import subprocess
 
-# Run the 'ls' command with the '-l' option.
-result = subprocess.run(['ls', '-l'], check=True)
+# Create a subprocess object to run 'echo Hello'
+process = subprocess.Popen(['echo', 'Hello'], stdout=subprocess.PIPE)
 
-# Print whether the operation was successful.
-print(result.success)  # Output: True
+# Read the output from the subprocess
+output, _ = process.communicate()
 
+# Print the output of the command
+print("Command Output:")
+print(output.decode('utf-8'))
+
+# Check if the command was successful
+if process.returncode == 0:
+    print("Command executed successfully.")
+else:
+    print(f"Error: {process.stderr}")
 ```
 
-#### `Popen(*args, **kwargs) -> Popen`
+**Explanation**: This example shows how to use `subprocess.Popen()` to run a command in a separate process. The `stdout=subprocess.PIPE` argument allows reading the output of the command. The `communicate()` method is used to get both the standard output and error from the subprocess. The script decodes the output from bytes to a string before printing it.
 
-Create a new process.
-
-*   `args`: Variable number of arguments to pass to the command. The first argument must be the program name or a bytes object.
-*   `kwargs`: Keyword arguments that control how the child's input/output/error pipes are used. Default values are:
-    *   `stdin`: Opened from system's standard input (`sys.stdin`).
-    *   `stdout`: Opened to system's standard output (`sys.stdout`).
-    *   `stderr`: Opened to system's standard error (`sys.stderr`).
+### Example 3: Handling Subprocess Input
 
 ```python
 import subprocess
 
-# Create a new process that runs the 'ls' command with the '-l' option.
-process = subprocess.Popen(['ls', '-l'])
+# Create a subprocess object to run 'cat' with input piped in
+process = subprocess.Popen(['cat'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
-# Wait for the process to finish and print its return code.
-print(process.wait())  # Output: 0 (Successful)
+# Write input to the subprocess
+input_data = "Hello, World!\n"
+process.stdin.write(input_data.encode('utf-8'))
+process.stdin.close()
 
+# Read the output from the subprocess
+output, _ = process.communicate()
+
+# Print the output of the command
+print("Command Output:")
+print(output.decode('utf-8'))
+
+# Check if the command was successful
+if process.returncode == 0:
+    print("Command executed successfully.")
+else:
+    print(f"Error: {process.stderr}")
 ```
 
-### Classes
+**Explanation**: This example demonstrates how to write input to a subprocess. The `stdin=subprocess.PIPE` argument allows writing input to the subprocess, and `encode('utf-8')` is used to convert the string to bytes before sending it to the process. The script reads the output from the subprocess and checks if the command was successful.
 
-#### `Popen([b'command', *args], **kwargs)`
-
-Create a new process.
-
-*   `command`: A string containing the program name or a bytes object.
-*   `args`: Variable number of arguments to pass to the command.
-*   `stdin`, `stdout`, `stderr`, `shell`: Optional keyword arguments that control how the child's input/output/error pipes are used. Default values are:
-    *   `stdin`: Opened from system's standard input (`sys.stdin`).
-    *   `stdout`: Opened to system's standard output (`sys.stdout`).
-    *   `stderr`: Opened to system's standard error (`sys.stderr`).
-    *   `shell`: Use a new shell to execute the command. Default is `False`.
+### Example 4: Running Commands with Environment Variables
 
 ```python
 import subprocess
 
-# Create a new process that runs the 'ls' command with the '-l' option.
-process = subprocess.Popen(['ls', '-l'])
+# Define environment variables
+env = {
+    'PATH': '/usr/local/bin',
+    'MY_VAR': 'my_value'
+}
 
-# Wait for the process to finish and print its return code.
-print(process.wait())  # Output: 0 (Successful)
+# Run a command with specified environment variables
+result = subprocess.run(['echo', '$MY_VAR'], env=env, capture_output=True, text=True)
 
+# Print the output of the command
+print("Command Output:")
+print(result.stdout)
+
+# Check if the command was successful
+if result.returncode == 0:
+    print("Command executed successfully.")
+else:
+    print(f"Error: {result.stderr}")
 ```
 
-#### `run(command, *, stdin=None, stdout=None, stderr=None, shell=False, check=True)`
+**Explanation**: This example shows how to run a command with specified environment variables. The `env` dictionary is used to set environment variables for the subprocess. The `$MY_VAR` in the command string is replaced with its value from the environment.
 
-Run a command in a new process.
+### Example 5: Running Commands in Parallel
 
-*   `command`: A string containing the program name or a bytes object.
-*   `stdin`, `stdout`, `stderr`: Optional keyword arguments that control how the child's input/output/error pipes are used. Default values are:
-    *   `stdin`: Opened from system's standard input (`sys.stdin`).
-    *   `stdout`: Opened to system's standard output (`sys.stdout`).
-    *   `stderr`: Opened to system's standard error (`sys.stderr`).
-*   `shell`: Use a new shell to execute the command. Default is `False`.
-*   `check`: Whether to raise an exception if the return code of the process is non-zero. Default is `True`.
+```python
+import subprocess
+import time
+
+# List of commands to run in parallel
+commands = [
+    ['echo', 'Command1'],
+    ['sleep', '2'],
+    ['echo', 'Command3']
+]
+
+# Create and start processes for each command
+processes = []
+for cmd in commands:
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    processes.append(process)
+
+# Wait for all processes to complete
+for p in processes:
+    output, _ = p.communicate()
+    print(f"Output of {p.args}:")
+    print(output.decode('utf-8'))
+    print("Command executed successfully." if p.returncode == 0 else f"Error: {p.stderr}")
+
+# Wait for all subprocesses to finish
+for p in processes:
+    p.wait()
+```
+
+**Explanation**: This example demonstrates how to run multiple commands in parallel using the `subprocess` module. Each command is executed in a separate process, and their outputs are captured. The script waits for all processes to complete before proceeding.
+
+### Example 6: Using `check_output()` for Simple Operations
 
 ```python
 import subprocess
 
-# Run the 'ls' command with the '-l' option.
-result = subprocess.run(['ls', '-l'], check=True)
+# Use check_output() to run a simple command and capture its output
+output = subprocess.check_output(['uname', '-a'], text=True)
 
-# Print whether the operation was successful.
-print(result.success)  # Output: True
+# Print the output of the command
+print("Output:")
+print(output)
 
+# Check if the command was successful
+if subprocess.call(['uname', '-a']) == 0:
+    print("Command executed successfully.")
+else:
+    print("Error: Command execution failed.")
 ```
 
-#### `Popen(*args, **kwargs) -> Popen`
+**Explanation**: This example shows how to use `subprocess.check_output()` to run a simple command and capture its output. The function raises an exception if the command fails, making it convenient for checking the success of operations.
 
-Create a new process.
+### Example 7: Using `run()` with Timeout
 
-*   `args`: Variable number of arguments to pass to the command. The first argument must be the program name or a bytes object.
-*   `kwargs`: Keyword arguments that control how the child's input/output/error pipes are used. Default values are:
-    *   `stdin`: Opened from system's standard input (`sys.stdin`).
-    *   `stdout`: Opened to system's standard output (`sys.stdout`).
-    *   `stderr`: Opened to system's standard error (`sys.stderr`).
+```python
+import subprocess
+import time
+
+# Run a command with a timeout
+try:
+    result = subprocess.run(['sleep', '3'], timeout=2, capture_output=True, text=True)
+except subprocess.TimeoutExpired as e:
+    print("Command timed out.")
+else:
+    # Print the output of the command
+    print("Command Output:")
+    print(result.stdout)
+
+# Check if the command was successful
+if result.returncode == 0:
+    print("Command executed successfully.")
+else:
+    print(f"Error: {result.stderr}")
+```
+
+**Explanation**: This example demonstrates how to run a command with a timeout using `subprocess.run()`. If the command takes longer than the specified timeout, it raises a `TimeoutExpired` exception. The script handles this exception and prints an appropriate message.
+
+### Example 8: Using `run()` with Custom Signal Handling
 
 ```python
 import subprocess
 
-# Create a new process that runs the 'ls' command with the '-l' option.
-process = subprocess.Popen(['ls', '-l'])
+# Run a command with custom signal handling
+try:
+    result = subprocess.run(['sleep', '10'], preexec_fn=os.setsid, capture_output=True, text=True)
+except subprocess.TimeoutExpired as e:
+    # Send the SIGTERM signal to the process group
+    os.killpg(os.getpgid(result.pid), signal.SIGTERM)
+    print("Command timed out. Sent SIGTERM.")
+else:
+    # Print the output of the command
+    print("Command Output:")
+    print(result.stdout)
 
-# Wait for the process to finish and print its return code.
-print(process.wait())  # Output: 0 (Successful)
-
+# Check if the command was successful
+if result.returncode == 0:
+    print("Command executed successfully.")
+else:
+    print(f"Error: {result.stderr}")
 ```
 
-### Example Usage
+**Explanation**: This example shows how to run a command with custom signal handling using `subprocess.run()`. The `preexec_fn=os.setsid` argument creates a new process group, and the script sends the SIGTERM signal to the entire process group if the command times out.
+
+### Example 9: Using `run()` with Background Execution
+
+```python
+import subprocess
+import time
+
+# Run a command in the background
+process = subprocess.Popen(['sleep', '5'], stdout=subprocess.PIPE)
+
+# Wait for the process to complete
+output, _ = process.communicate()
+
+# Print the output of the command
+print("Command Output:")
+print(output.decode('utf-8'))
+
+# Check if the command was successful
+if process.returncode == 0:
+    print("Command executed successfully.")
+else:
+    print(f"Error: {process.stderr}")
+```
+
+**Explanation**: This example demonstrates how to run a command in the background using `subprocess.Popen()`. The process is executed without waiting for it to complete, and the output is captured using `communicate()`.
+
+### Example 10: Using `run()` with Multiple Arguments
 
 ```python
 import subprocess
 
-def run_command(command, check=True):
-    """
-    Run a command in a new process.
+# Run a command with multiple arguments
+result = subprocess.run(['echo', 'Hello', 'World'], capture_output=True, text=True)
 
-    Args:
-        command (str): The command to run.
-        check (bool): Whether to raise an exception if the return code is non-zero. Defaults to True.
+# Print the output of the command
+print("Command Output:")
+print(result.stdout)
 
-    Returns:
-        tuple: A tuple containing the return code and output of the process.
-    """
-    result = subprocess.run(command, check=check)
-    return result.returncode, result.stdout.decode()
-
-def run_process(process):
-    """
-    Run a new process that runs the 'ls' command with the '-l' option.
-
-    Args:
-        process (Popen): The process to run.
-
-    Returns:
-        int: The return code of the process.
-    """
-    return process.wait()
-
-if __name__ == "__main__":
-    # Run the 'ls' command with the '-l' option.
-    command = ['ls', '-l']
-    check = True
-
-    # Run the command and print its return code.
-    return_code, output = run_command(command, check=check)
-    print(f"Return Code: {return_code}")
-    print(f"Output:\n{output}")
-
-    # Create a new process that runs the 'ls' command with the '-l' option.
-    process = subprocess.Popen(['ls', '-l'])
-
-    # Wait for the process to finish and print its return code.
-    return_code = run_process(process)
-    print(f"Return Code: {return_code}")
+# Check if the command was successful
+if result.returncode == 0:
+    print("Command executed successfully.")
+else:
+    print(f"Error: {result.stderr}")
 ```
 
-This example demonstrates how to use the `subprocess` module to run a command in a new process, wait for its completion, and retrieve its return code. The `run_command` function runs a command and returns its return code and output. The `run_process` function runs a new process that runs the 'ls' command with the '-l' option and waits for it to finish.
+**Explanation**: This example shows how to run a command with multiple arguments using `subprocess.run()`. The list `['echo', 'Hello', 'World']` specifies the command and its arguments.
 
-**Note:** This is not an exhaustive guide to the `subprocess` module, but rather a collection of examples demonstrating how to use some of its most commonly used functions.
+These examples cover various aspects of the `subprocess` module, including running commands, handling input/output, environment variables, parallel execution, error handling, and more. Each example is designed to be clear and concise, making it suitable for inclusion in a broader discussion or usage guide.

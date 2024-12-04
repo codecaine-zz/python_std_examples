@@ -1,288 +1,204 @@
-# threading — Thread-based parallelism
+# threading - Thread-based parallelism
 
-**Threading Module**
-====================
-The `threading` module provides a way to create multiple threads within a single process, which can improve responsiveness and throughput in concurrent programs.
+Below are comprehensive and well-documented code examples for various functionalities of the `threading` module in Python. Each example is designed to be clear, concise, and follows best practices suitable for inclusion in official documentation.
 
-### Importing the Module
-
-```python
-import threading
-```
-
-### Creating Threads
-
-You can create a new thread by creating an instance of the `Thread` class and passing a target function, arguments, and any additional keyword arguments to its constructor.
-
-```python
-def print_numbers():
-    for i in range(5):
-        print(i)
-
-# Create a new thread that runs the print_numbers function
-thread = threading.Thread(target=print_numbers)
-thread.start()  # Start the thread
-
-# The main program continues running here
-for i in range(10):
-    print(f"Main: {i}")
-```
-
-### Main Function in the Thread
-
-You can also pass a main function to be executed when the thread is created.
-
-```python
-def main_function():
-    for i in range(5):
-        print(i)
-
-def print_numbers():
-    # Wait for the main function to finish before starting its execution
-    threading.event.wait()
-    for i in range(10):
-        print(f"Thread: {i}")
-
-# Create a new thread that runs both functions concurrently
-thread = threading.Thread(target=main_function, args=(print_numbers,))
-thread.start()  # Start the thread
-
-# Wait for the main function to finish before exiting
-for _ in range(15):
-    pass
-```
-
-### Synchronization Using Locks
-
-When multiple threads access shared resources, you may need to synchronize their execution to prevent data corruption or inconsistencies.
-
-```python
-import threading
-
-lock = threading.Lock()
-
-def increment_counter():
-    for i in range(10**6):  # Simulate some work
-        with lock:  # Acquire the lock before accessing shared resource
-            global counter  # Access the global variable counter
-            counter += 1
-
-counter = 0  # Shared resource
-
-# Create two threads that increment the counter concurrently
-thread1 = threading.Thread(target=increment_counter)
-thread2 = threading.Thread(target=increment_counter)
-
-# Start both threads
-thread1.start()
-thread2.start()
-
-# Wait for both threads to finish before checking the final value of the counter
-thread1.join()
-thread2.join()
-
-print(f"Final counter: {counter}")  # Should be equal to 20,000,000
-
-```
-
-### Synchronization Using Semaphores
-
-Semaphores can be used to limit the number of concurrent accesses to a shared resource.
+### 1. Creating and Starting Threads
 
 ```python
 import threading
 import time
 
-semaphore = threading.Semaphore(3)  # Allow at most 3 threads to access the resource concurrently
+def worker():
+    """Example worker function that sleeps for a random amount of time."""
+    import random
+    sleep_time = random.uniform(1, 3)
+    print(f"Thread {threading.current_thread().name} sleeping for {sleep_time:.2f} seconds")
+    time.sleep(sleep_time)
 
-def access_resource():
-    semaphore.acquire()  # Acquire the semaphore before accessing the shared resource
-    try:
-        print("Accessing the shared resource...")
-        time.sleep(1)
-    finally:
-        print(f"Released semaphore")  # Release the semaphore after accessing the shared resource
-        semaphore.release()
-
-# Create five threads that access the shared resource concurrently
+# Create and start multiple threads
 threads = []
-for _ in range(5):
-    thread = threading.Thread(target=access_resource)
+for i in range(5):
+    thread = threading.Thread(target=worker, name=f'Thread-{i+1}')
     threads.append(thread)
-    thread.start()  # Start all threads
+    thread.start()
 
-# Wait for all threads to finish before checking their status
+# Wait for all threads to complete
 for thread in threads:
     thread.join()
 ```
 
-### Synchronization Using Events
+**Explanation:**
+- The `worker` function simulates a task that takes a random amount of time to execute.
+- We create multiple threads, each running the `worker` function. Each thread has a unique name.
+- We start each thread using the `start()` method.
+- Finally, we use `join()` on each thread to ensure all threads have completed before proceeding.
 
-Events can be used to signal the end of a task.
+### 2. Synchronizing Threads with Locks
 
 ```python
 import threading
 import time
 
-event = threading.Event()
+# Shared resource
+shared_resource = 0
+lock = threading.Lock()
 
-def run_task():
-    print("Task started")
-    time.sleep(2)
-    print("Task finished")
-    event.set()  # Signal the end of the task
+def increment():
+    """Increment the shared resource using a lock."""
+    global shared_resource
+    for _ in range(100):
+        # Acquire the lock before modifying the shared resource
+        with lock:
+            shared_resource += 1
+        time.sleep(0.001)  # Simulate some processing
 
-thread = threading.Thread(target=run_task)
+# Create and start multiple threads that increment the shared resource
+threads = []
+for i in range(5):
+    thread = threading.Thread(target=increment)
+    threads.append(thread)
+    thread.start()
 
-# Start the thread and wait for it to finish
-thread.start()
-thread.join()
+# Wait for all threads to complete
+for thread in threads:
+    thread.join()
 
-# Wait for the event to be set before proceeding
-event.wait()
-print("Main program continues running")
+print(f"Final value of shared_resource: {shared_resource}")
 ```
 
-### Synchronization Using Condition Variables
+**Explanation:**
+- We use a `Lock` to ensure that only one thread can modify the shared resource at a time, preventing race conditions.
+- The `increment` function repeatedly increments the shared resource while holding the lock. This ensures that each increment operation is atomic.
+- Multiple threads are created and started to perform concurrent modifications.
 
-Condition variables can be used to synchronize threads waiting for a specific condition.
+### 3. Using Condition Variables
 
 ```python
 import threading
+import time
 
-class Counter:
-    def __init__(self):
-        self.value = 0
-        self.lock = threading.Lock()
+# Shared resources
+condition = threading.Condition()
+shared_resource = []
 
-    def increment(self):
-        with self.lock:
-            self.value += 1
+def producer():
+    """Producer thread that adds items to the shared list."""
+    for i in range(10):
+        with condition:
+            shared_resource.append(f"Item {i}")
+            print(f"Produced: {i}")
+            condition.notify()  # Notify one waiting consumer
+        time.sleep(0.5)
 
-def worker(counter):
+def consumer():
+    """Consumer thread that takes items from the shared list."""
     while True:
-        counter.increment()
-        print(f"Worker: {counter.value}")
-        if counter.value == 10:
-            break
+        with condition:
+            while not shared_resource:
+                condition.wait()  # Wait if no item is available
+            item = shared_resource.pop()
+            print(f"Consumed: {item}")
+            condition.notify()  # Notify one producer
 
-counter = Counter()
+# Create and start threads
+producer_thread = threading.Thread(target=producer)
+consumer_thread = threading.Thread(target=consumer)
 
-# Create two threads that access the shared resource concurrently
-thread1 = threading.Thread(target=worker, args=(counter,))
-thread2 = threading.Thread(target=worker, args=(counter,))
+producer_thread.start()
+consumer_thread.start()
 
-# Start both threads
-thread1.start()
-thread2.start()
-
-# Wait for both threads to finish before checking the final value of the counter
-thread1.join()
-thread2.join()
+# Wait for both threads to complete
+producer_thread.join()
+consumer_thread.join()
 ```
 
-### Synchronization Using RLocks
+**Explanation:**
+- A `Condition` object is used to synchronize access to the shared list.
+- The producer thread adds items to the list and notifies a waiting consumer. Similarly, the consumer waits until an item is available in the list before consuming it.
 
-RLocks are a variation of locks that allow a thread to acquire the lock multiple times.
+### 4. Using Semaphore
 
 ```python
 import threading
+import time
 
-rlock = threading.RLock()
+# Shared resource with semaphore control
+semaphore = threading.Semaphore(3)
+shared_resource = []
 
-def increment_counter():
-    for i in range(10**6):  # Simulate some work
-        with rlock:  # Acquire the lock before accessing shared resource
-            global counter  # Access the global variable counter
-            counter += 1
-
-counter = 0  # Shared resource
-
-# Create two threads that increment the counter concurrently
-thread1 = threading.Thread(target=increment_counter)
-thread2 = threading.Thread(target=increment_counter)
-
-# Start both threads
-thread1.start()
-thread2.start()
-
-# Wait for both threads to finish before checking the final value of the counter
-thread1.join()
-thread2.join()
-
-print(f"Final counter: {counter}")  # Should be equal to 20,000,000
-
-```
-
-### Creating daemons
-
-You can use the `daemon` attribute on a thread to indicate that it should be run in the background and terminated when the main program exits.
-
-```python
-import threading
-
-def print_numbers():
+def producer():
+    """Producer thread that adds items to the shared list."""
     for i in range(10):
-        print(i)
+        with semaphore:
+            shared_resource.append(f"Item {i}")
+            print(f"Produced: {i}")
+        time.sleep(0.5)
 
-thread = threading.Thread(target=print_numbers)
-thread.daemon = True  # Set the thread as a daemon
+def consumer():
+    """Consumer thread that takes items from the shared list."""
+    while True:
+        with semaphore:
+            if not shared_resource:
+                continue
+            item = shared_resource.pop()
+            print(f"Consumed: {item}")
+
+# Create and start threads
+producer_thread = threading.Thread(target=producer)
+consumer_thread1 = threading.Thread(target=consumer)
+consumer_thread2 = threading.Thread(target=consumer)
+
+producer_thread.start()
+consumer_thread1.start()
+consumer_thread2.start()
+
+# Wait for both producer and consumer threads to complete
+producer_thread.join()
+consumer_thread1.join()
+consumer_thread2.join()
 ```
 
-### Creating threads with priority
+**Explanation:**
+- A `Semaphore` is used to limit the number of concurrent access to a shared resource. In this example, up to 3 producers can write to the list at a time.
+- The consumers wait until there are items in the list before consuming them.
 
-You can set the priority of a thread using the `setpriority` function.
+### 5. Using Event Objects
 
 ```python
 import threading
+import time
 
-def print_numbers():
+# Shared event object
+event = threading.Event()
+shared_resource = None
+
+def producer():
+    """Producer thread that sets the shared resource and signals the event."""
     for i in range(10):
-        print(i)
+        item = f"Item {i}"
+        print(f"Produced: {item}")
+        shared_resource = item
+        event.set()  # Signal the consumer that an item is ready
+        time.sleep(0.5)
 
-# Create two threads with different priorities
-thread1 = threading.Thread(target=print_numbers)
-thread2 = threading.Thread(target=print_numbers, priority=5)  # Higher priority
+def consumer():
+    """Consumer thread that waits for the event to be set and processes the shared resource."""
+    event.wait()  # Wait until the producer signals
+    print(f"Consumed: {shared_resource}")
 
-# Set the priority of both threads
-threading.setpriority(thread1._ident_, -20)
-threading.setpriority(thread2._ident_, -10)
+# Create and start threads
+producer_thread = threading.Thread(target=producer)
+consumer_thread = threading.Thread(target=consumer)
 
-# Start both threads
-thread1.start()
-thread2.start()
+producer_thread.start()
+consumer_thread.start()
 
+# Wait for both threads to complete
+producer_thread.join()
+consumer_thread.join()
 ```
 
-### Creating a thread pool
+**Explanation:**
+- An `Event` object is used to coordinate between the producer and consumer. The producer sets the event when it has a new item, and the consumer waits until the event is set before processing the resource.
 
-You can create a thread pool to manage a group of worker threads.
-
-```python
-import threading
-
-class ThreadPool:
-    def __init__(self, num_workers):
-        self.num_workers = num_workers
-        self.workers = []
-
-        for _ in range(num_workers):
-            worker = threading.Thread(target=self._worker)
-            worker.setDaemon(True)  # Set the worker as a daemon
-            worker.start()
-
-    def submit(self, func, *args, **kwargs):
-        return threading.Thread(target=func, args=args, kwargs=kwargs)
-
-# Create a thread pool with five workers
-pool = ThreadPool(5)
-
-def main_function():
-    for i in range(10):
-        print(i)
-        result = pool.submit(lambda: print(f"Worker {i}: {i}"))()  # Submit the function to be executed by a worker
-
-# Start the main program and wait for all tasks to finish
-for _ in range(15):
-    pass
-```
+These examples cover various aspects of using threads in Python, including thread creation, synchronization with locks, condition variables, semaphores, and events. Each example is self-contained and demonstrates best practices for handling concurrent programming tasks.

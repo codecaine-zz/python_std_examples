@@ -1,108 +1,120 @@
-# secrets — Generate secure random numbers for managing secrets
+# secrets - Generate secure random numbers for managing secrets
 
-**Secrets Module Code Examples**
-=====================================
+Below are comprehensive and well-documented code examples for various functionalities of the `secrets` module, which is used to generate cryptographically strong random numbers suitable for managing data such as passwords, account authentication, tokens, and related secrets.
 
-### Overview
-
-The `secrets` module provides an implementation of the cryptographically secure pseudo-random number generator (CSPRNG) as defined in RFC 4086.
-
-### Example Use Cases
-
-* Generating passwords
-* Managing cryptographic keys
-* Creating secure tokens
-
-### Code Examples
-
-#### 1. Generate a Random Integer
+### 1. Generating a Secure Random Integer
 
 ```python
 import secrets
 
-# Generate a random integer between 0 and 100
-random_int = secrets.randbelow(101)
-print(random_int)
+# Generate a secure random integer between 'a' (inclusive) and 'b' (exclusive)
+secure_int = secrets.randbelow(100)
+print(f"Secure Random Integer: {secure_int}")
 
-# Generate a random float between 0 and 10
-random_float = secrets.randbelow(11) / 10
-print(random_float)
+# Generate a secure random integer within a specified range, inclusive
+secure_int_inclusive = secrets.randint(1, 100)
+print(f"Secure Random Integer Inclusive: {secure_int_inclusive}")
 ```
 
-#### 2. Generate a Random Byte String
+### 2. Generating a Secure Random Float
 
 ```python
 import secrets
 
-# Generate a random byte string of length 16 (128 bits)
-random_bytes = secrets.token_bytes(16)
-print(random_bytes.hex())  # Print the bytes as a hexadecimal string
+# Generate a secure random float between 0.0 (inclusive) and 1.0 (exclusive)
+secure_float = secrets.randfloat()
+print(f"Secure Random Float: {secure_float}")
 
-# Generate a random byte string of length 32 (256 bits)
-random_bytes_long = secrets.token_bytes(32)
-print(random_bytes_long.hex())
+# Generate a secure random float within a specified range, inclusive
+secure_float_inclusive = secrets.uniform(0.0, 1.0)
+print(f"Secure Random Float Inclusive: {secure_float_inclusive}")
 ```
 
-#### 3. Generate a Random String
+### 3. Generating a Secure Random Bytes
+
+```python
+import secrets
+
+# Generate a secure random byte string of a specified length
+secure_bytes = secrets.token_bytes(16)
+print(f"Secure Random Bytes: {secure_bytes}")
+
+# Convert the bytes to a hexadecimal string for easier readability
+secure_hex_string = secure_bytes.hex()
+print(f"Secure Hex String: {secure_hex_string}")
+```
+
+### 4. Generating a Secure Random Token
+
+```python
+import secrets
+
+# Generate a secure random token of a specified length, which is useful for authentication tokens
+token_length = 16
+secure_token = secrets.token_urlsafe(token_length)
+print(f"Secure Token (URL-safe): {secure_token}")
+
+# Alternatively, you can use the bytes version if needed
+secure_token_bytes = secrets.token_bytes(token_length)
+print(f"Secure Token (Bytes): {secure_token_bytes.hex()}")
+```
+
+### 5. Generating a Secure Random UUID
+
+```python
+import secrets
+import uuid
+
+# Generate a secure random UUID
+secure_uuid = uuid.uuid4()
+print(f"Secure UUID: {secure_uuid}")
+
+# Generate a secure random node-based UUID
+secure_node_based_uuid = uuid.uuid1()
+print(f"Secure Node-Based UUID: {secure_node_based_uuid}")
+```
+
+### 6. Generating a Secure Random Hexadecimal String
+
+```python
+import secrets
+
+# Generate a secure random hexadecimal string of a specified length
+hex_length = 32
+secure_hex_string = secrets.token_hex(hex_length)
+print(f"Secure Hexadecimal String: {secure_hex_string}")
+
+# Convert the hex string to bytes for easier manipulation if needed
+secure_hex_bytes = bytes.fromhex(secure_hex_string)
+print(f"Secure Hex Bytes: {secure_hex_bytes}")
+```
+
+### 7. Generating a Secure Random Alphanumeric String
 
 ```python
 import secrets
 import string
 
-# Set the character set for the random string
-char_set = string.ascii_letters + string.digits
+# Define the character set (lowercase, uppercase, and digits)
+characters = string.ascii_letters + string.digits
 
-# Generate a random string of length 10
-random_string = ''.join(secrets.choice(char_set) for _ in range(10))
-print(random_string)
-
-# Generate a random password of length 12 (using uppercase and lowercase letters, digits, and punctuation)
-random_password = ''.join(
-    secrets.choice(string.ascii_letters + string.digits + string.punctuation) 
-    for _ in range(12)
-)
-print(random_password)
+# Generate a secure random alphanumeric string of a specified length
+alphanumeric_length = 20
+secure_alphanumeric_string = ''.join(secrets.choice(characters) for _ in range(alphanumeric_length))
+print(f"Secure Alphanumeric String: {secure_alphanumeric_string}")
 ```
 
-#### 4. Generate a URL-safe Random String
+### Explanation
 
-```python
-import secrets
-import string
+- **`secrets.randbelow(b)`**: Generates a random integer less than `b`.
+- **`secrets.randint(a, b)`**: Generates a random integer between `a` and `b`, inclusive.
+- **`secrets.randfloat()`**: Generates a random float between 0.0 and 1.0.
+- **`secrets.uniform(a, b)`**: Generates a random float between `a` and `b`, inclusive.
+- **`secrets.token_bytes(n)`**: Generates a random byte string of length `n`.
+- **`secrets.token_urlsafe(n)`**: Generates a URL-safe base64-encoded string of length `n`.
+- **`uuid.uuid4()`**: Generates a randomly generated UUID (Universally Unique Identifier).
+- **`uuid.uuid1()`**: Generates a node-based UUID, which is useful for generating unique identifiers in distributed systems.
+- **`secrets.token_hex(n)`**: Generates a hexadecimal string of length `n`.
+- **`secrets.choice(characters)`**: Selects a random character from the provided characters.
 
-# Set the character set for the random string (URL-safe)
-char_set = string.ascii_letters + string.digits + '-_'
-
-# Generate a random string of length 16
-random_url_safe_string = ''.join(
-    secrets.choice(char_set) 
-    for _ in range(16)
-)
-print(random_url_safe_string)
-```
-
-#### 5. Generate a Random Token
-
-```python
-import secrets
-import hashlib
-
-# Set the token length (e.g., 32 characters)
-token_length = 32
-
-# Generate a random byte string of the specified length
-random_bytes = secrets.token_bytes(token_length)
-
-# Hash the byte string using SHA-256
-token_hash = hashlib.sha256(random_bytes).hexdigest()
-print(token_hash)
-
-# Use the first token_length/2 characters as the final token
-final_token = token_hash[:token_length // 2]
-print(final_token)
-```
-
-### Notes
-
-* The `secrets` module is designed to generate cryptographically secure random numbers, making it suitable for managing secrets and cryptographic keys.
-* Always use the `secrets` module instead of `random` or other non-cryptographically secure modules when generating random numbers for security-sensitive applications.
+These examples demonstrate how to use various functionalities of the `secrets` module to generate secure random numbers and strings suitable for managing secrets.

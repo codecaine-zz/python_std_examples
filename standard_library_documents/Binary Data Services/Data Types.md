@@ -1,183 +1,202 @@
 # Data Types
 
-**Python Data Types**
-=======================
+The Python standard library includes several modules dedicated to handling different data types efficiently. Below are comprehensive code examples for some of these modules, focusing on their primary functionalities:
 
-### 1. Integers
+### 1. `collections` Module
 
-Integers are whole numbers, either positive, negative, or zero.
+This module provides specialized container datatypes that differ from built-in containers like lists and dictionaries.
 
-```python
-# Create an integer variable
-my_int = 10
-
-# Print the value of the integer
-print(my_int)  # Output: 10
-
-# Integer arithmetic operations
-result = my_int + 5
-print(result)  # Output: 15
-```
-
-### 2. Floating Point Numbers (Floats)
-
-Floats are numbers with decimal points.
+#### Example 1: Using `deque`
+A deque (double-ended queue) is a list-like container with fast appends and pops from either end.
 
 ```python
-# Create a float variable
-my_float = 3.14
+from collections import deque
 
-# Print the value of the float
-print(my_float)  # Output: 3.14
+# Creating a deque
+dq = deque([1, 2, 3])
 
-# Float arithmetic operations
-result = my_float + 2.71
-print(result)  # Output: 5.85
+# Appending to the right
+dq.append(4)
+print(dq)  # Output: deque([1, 2, 3, 4])
+
+# Appending to the left
+dq.appendleft(0)
+print(dq)  # Output: deque([0, 1, 2, 3, 4])
+
+# Popping from the right
+last_element = dq.pop()
+print(last_element)  # Output: 4
+print(dq)  # Output: deque([0, 1, 2, 3])
+
+# Popping from the left
+first_element = dq.popleft()
+print(first_element)  # Output: 0
+print(dq)  # Output: deque([1, 2, 3])
 ```
 
-### 3. Complex Numbers
-
-Complex numbers are numbers with both real and imaginary parts.
+#### Example 2: Using `Counter`
+A Counter is a dictionary subclass for counting hashable objects.
 
 ```python
-# Create a complex number variable
-my_complex = 3 + 4j
+from collections import Counter
 
-# Print the value of the complex number
-print(my_complex)  # Output: (3+4j)
+# Creating a Counter object
+counter = Counter(['apple', 'banana', 'apple', 'orange', 'banana', 'banana'])
 
-# Complex arithmetic operations
-result = my_complex * 2 - 1
-print(result)  # Output: (5+7j)
+# Displaying the count of each item
+print(counter)  # Output: Counter({'banana': 3, 'apple': 2, 'orange': 1})
+
+# Finding the most common items
+most_common_items = counter.most_common(2)
+print(most_common_items)  # Output: [('banana', 3), ('apple', 2)]
+
+# Subtracting from another Counter
+counter.subtract({'banana': 1})
+print(counter)  # Output: Counter({'banana': 2, 'apple': 2, 'orange': 1})
 ```
 
-### 4. Strings
+### 2. `datetime` Module
 
-Strings are sequences of characters.
+This module provides classes for manipulating dates and times.
 
+#### Example 1: Basic Date Manipulation
 ```python
-# Create a string variable
-my_string = "Hello, World!"
+from datetime import date
 
-# Print the value of the string
-print(my_string)  # Output: Hello, World!
+# Creating a date object
+today = date.today()
+print(today)  # Output: YYYY-MM-DD
 
-# String slicing
-slice_value = my_string[0:5]
-print(slice_value)  # Output: Hello
+# Formatting the date
+formatted_date = today.strftime('%Y-%m-%d')
+print(formatted_date)  # Output: YYYY-MM-DD
 
-# String concatenation
-result = my_string + ", Python!"
-print(result)  # Output: Hello, World!Python!
+# Adding days to a date
+tomorrow = today + timedelta(days=1)
+print(tomorrow)  # Output: YYYY-MM-DD
 ```
 
-### 5. Boolean Values
-
-Boolean values are either True or False.
-
+#### Example 2: Timezone Handling
 ```python
-# Create a boolean variable
-my_bool = True
+from datetime import datetime, timezone, timedelta
 
-# Print the value of the boolean
-print(my_bool)  # Output: True
+# Creating a timezone-aware datetime object
+aware_datetime = datetime.now(timezone.utc)
+print(aware_datetime)  # Output: datetime.datetime(YYYY, MM, DD, HH, MM, SS, tzinfo=UTC)
 
-# Boolean arithmetic operations
-result = my_bool and False
-print(result)  # Output: False
+# Converting to another timezone
+local_datetime = aware_datetime.astimezone(timezone(timedelta(hours=5)))
+print(local_datetime)  # Output: datetime.datetime(YYYY, MM, DD, HH, MM, SS, tzinfo=LOCAL_TIMEZONE)
 ```
 
-### 6. Lists
+### 3. `itertools` Module
 
-Lists are ordered collections of values.
+This module provides various functions to create iterators for efficient looping.
 
+#### Example 1: Using `count`
 ```python
-# Create a list variable
-my_list = [1, 2, 3, 4, 5]
+from itertools import count
 
-# Print the value of the list
-print(my_list)  # Output: [1, 2, 3, 4, 5]
+# Creating an infinite counter
+counter = count(start=5)
 
-# List indexing and slicing
-index_value = my_list[0]
-slice_value = my_list[1:3]
-print(index_value)  # Output: 1
-print(slice_value)  # Output: [2, 3]
+# Generating the first five numbers in the sequence
+for _ in range(5):
+    print(next(counter))  # Output: 5, 6, 7, 8, 9
 ```
 
-### 7. Tuples
-
-Tuples are ordered collections of values.
-
+#### Example 2: Using `cycle`
 ```python
-# Create a tuple variable
-my_tuple = (1, 2, 3, 4, 5)
+from itertools import cycle
 
-# Print the value of the tuple
-print(my_tuple)  # Output: (1, 2, 3, 4, 5)
+# Creating an infinite cycle iterator
+cycler = cycle(['A', 'B', 'C'])
 
-# Tuple indexing and slicing
-index_value = my_tuple[0]
-slice_value = my_tuple[1:3]
-print(index_value)  # Output: 1
-print(slice_value)  # Output: (2, 3)
+# Generating the first ten elements in the sequence
+for _ in range(10):
+    print(next(cycler))  # Output: A, B, C, A, B, C, A, B, C, A
 ```
 
-### 8. Dictionaries
+### 4. `random` Module
 
-Dictionaries are unordered collections of key-value pairs.
+This module provides functions to generate random numbers and make random selections.
 
+#### Example 1: Generating a Random Float
 ```python
-# Create a dictionary variable
-my_dict = {"name": "John", "age": 30}
+import random
 
-# Print the value of the dictionary
-print(my_dict)  # Output: {'name': 'John', 'age': 30}
-
-# Dictionary key-value lookup
-key_value = my_dict["name"]
-print(key_value)  # Output: John
-
-# Dictionary values manipulation
-result = my_dict["age"] + 1
-my_dict["age"] = result
-print(my_dict)  # Output: {'name': 'John', 'age': 31}
+# Generating a random float between 0.0 and 1.0
+random_float = random.random()
+print(random_float)  # Output: 0.987654321 (approximately)
 ```
 
-### 9. Sets
-
-Sets are unordered collections of unique values.
-
+#### Example 2: Choosing a Random Element from a List
 ```python
-# Create a set variable
-my_set = {1, 2, 3, 4, 5}
+import random
 
-# Print the value of the set
-print(my_set)  # Output: {1, 2, 3, 4, 5}
-
-# Set addition
-result = my_set.add(6)
-print(result)  # Output: None
-
-# Set intersection
-other_set = {4, 5, 6, 7}
-intersection_value = my_set & other_set
-print(intersection_value)  # Output: {4, 5}
+fruits = ['apple', 'banana', 'cherry']
+random_fruit = random.choice(fruits)
+print(random_fruit)  # Output: apple or banana or cherry randomly selected
 ```
 
-### 10. Frozensets
+### 5. `math` Module
 
-Frozensets are immutable sets.
+This module provides mathematical functions.
 
+#### Example 1: Mathematical Constants
 ```python
-# Create a frozenset variable
-my_frozenset = frozenset({1, 2, 3, 4, 5})
+import math
 
-# Print the value of the frozenset
-print(my_frozenset)  # Output: frozenset({1, 2, 3, 4, 5})
+# Accessing the value of pi
+pi_value = math.pi
+print(pi_value)  # Output: 3.141592653589793
 
-# Frozenset comparison
-other_frozenset = frozenset({4, 5, 6, 7})
-comparison_value = my_frozenset == other_frozenset
-print(comparison_value)  # Output: False
+# Calculating the square root of a number
+sqrt_2 = math.sqrt(2)
+print(sqrt_2)  # Output: 1.4142135623730951
 ```
+
+#### Example 2: Trigonometric Functions
+```python
+import math
+
+# Calculating the sine of an angle in radians
+sin_value = math.sin(math.pi / 4)
+print(sin_value)  # Output: 0.7071067811865476
+```
+
+### 6. `sys` Module
+
+This module provides access to some variables used or maintained by the interpreter and to functions that interact strongly with the interpreter.
+
+#### Example 1: Accessing Command-Line Arguments
+```python
+import sys
+
+# List of command-line arguments (sys.argv)
+print(sys.argv)  # Output: ['script_name', 'arg1', 'arg2', ...]
+```
+
+### 7. `os` Module
+
+This module provides a portable way of using operating system dependent functionality.
+
+#### Example 1: Listing Files in a Directory
+```python
+import os
+
+# List all files and directories in the current working directory
+files_and_dirs = os.listdir('.')
+print(files_and_dirs)  # Output: ['file1.txt', 'file2.txt', ...]
+```
+
+#### Example 2: Changing Current Working Directory
+```python
+import os
+
+os.chdir('/path/to/new/directory')
+current_directory = os.getcwd()
+print(current_directory)  # Output: /path/to/new/directory
+```
+
+These examples cover a range of functionalities available in the `collections`, `datetime`, `itertools`, `math`, `sys`, and `os` modules, demonstrating how to use them effectively in Python.

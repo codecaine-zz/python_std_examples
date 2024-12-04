@@ -1,119 +1,155 @@
-# codeop — Compile Python code
+# codeop - Compile Python code
 
-**Code Op: A Python Code Compiler**
-=====================================
+The `codeop` module in Python provides tools to compile Python source code into bytecode. It's particularly useful for situations where you need to dynamically execute or modify Python code at runtime, such as in interactive shells, interpreters, or during the execution of custom scripts.
 
-The `codeop` module is used to compile Python code into an executable file.
+Below are some comprehensive examples that demonstrate various functionalities provided by the `codeop` module:
 
-### Example Usage
------------------
-
-```python
-from codeop import compile_python_code
-
-def main():
-    # Define the Python code to be compiled
-    python_code = """
-    print("Hello, World!")
-    """
-
-    # Compile the Python code
-    compiled_code = compile_python_code(python_code)
-
-    # Execute the compiled code
-    if compiled_code:
-        with open(compiled_code[1], "wb") as f:
-            f.write(compiled_code[0])
-        exec(open(compiled_code[1]).read())
-        print("Code executed successfully!")
-
-if __name__ == "__main__":
-    main()
-```
-
-### Code Explanation
---------------------
+### Example 1: Basic Compilation and Execution
 
 ```python
 import codeop
 
-def compile_python_code(python_code):
-    """
-    Compile Python code into an executable file.
+# Define a Python source code string
+source_code = """
+def greet(name):
+    print(f"Hello, {name}!")
 
-    Args:
-        python_code (str): The Python code to be compiled.
+greet("Alice")
+"""
 
-    Returns:
-        tuple: A tuple containing the compiled bytecode and the filename of the resulting executable.
-    """
-    # Create a new Code object
-    code = compile(python_code, '<string>', 'exec')
+# Compile the source code into bytecode using codeop.compile_command
+code_ast = codeop.compile_command(source_code)
 
-    # Get the source code of the Code object
-    source_code = code.co_source
-
-    # Convert the source code to bytes
-    source_bytes = source_code.encode('utf-8')
-
-    # Generate a unique filename for the executable
-    filename = f"compiled_{id(python_code)}"
-
-    return (source_bytes, filename)
-
-if __name__ == "__main__":
-    main()
+# Execute the compiled bytecode to call the function and display output
+result = eval(code_ast)
+print(result)  # Output: Hello, Alice!
 ```
 
-### Code Generation Explanation
----------------------------------
+### Example 2: Compiling Source Code with Specific Mode
 
 ```python
-def generate_compiled_code():
-    """
-    Generate the compiled code and filename for the example usage.
+import codeop
 
-    Returns:
-        tuple: A tuple containing the compiled bytecode and the filename of the resulting executable.
-    """
-    # Define the Python code to be compiled
-    python_code = """
-    print("Hello, World!")
-    """
+# Define a Python source code string
+source_code = """
+def add(x, y):
+    return x + y
+"""
 
-    return compile_python_code(python_code)
+# Compile the source code into bytecode using a specific mode (e.g., 'exec')
+code_ast = codeop.compile_command(source_code, mode='exec')
 
-compiled_code = generate_compiled_code()
-print(f"Compiled Code: {compiled_code[0].decode('utf-8')}")
-print(f"Filename: {compiled_code[1]}")
+# Execute the compiled bytecode to define the function
+eval(code_ast)
+
+# Call the function and display output
+result = add(3, 5)
+print(result)  # Output: 8
 ```
 
-### Bytecode Explanation
--------------------------
+### Example 3: Compiling Source Code into Bytecode Without Executing
 
 ```python
-import dis
+import codeop
 
-def analyze_bytecode(bytecode):
-    """
-    Analyze the bytecode of a Python function.
+# Define a Python source code string
+source_code = """
+def multiply(x, y):
+    return x * y
+"""
 
-    Args:
-        bytecode (bytes): The bytecode to be analyzed.
-    """
-    # Use the dis module to disassemble the bytecode
-    dis.dis(bytecode)
+# Compile the source code into bytecode using codeop.compile_command
+code_ast = codeop.compile_command(source_code)
 
-# Compile and execute the example code
-python_code = "print('Hello, World!')"
-compiled_code = compile(python_code, '<string>', 'exec')
-analyze_bytecode(compiled_code[0])
+# The result is a syntax tree (AST) node, not executable bytecode
+print(code_ast)
 ```
 
-### Security Considerations
----------------------------
+### Example 4: Handling Syntax Errors Gracefully
 
-*   Never execute user-provided code without proper validation.
-*   Use the `exec()` function with caution and only when necessary.
+```python
+import codeop
 
-Note: This example uses a simplified approach to compiling Python code. In a real-world scenario, you would want to use a more robust method of compilation, such as PyInstaller or cx_Freeze.
+# Define a Python source code string with an error
+source_code_with_error = """
+def divide(x, y):
+    return x / y
+"""
+
+try:
+    # Compile the source code into bytecode
+    code_ast = codeop.compile_command(source_code_with_error)
+except SyntaxError as e:
+    print(f"Compilation error: {e}")
+```
+
+### Example 5: Compiling and Executing Dynamically
+
+```python
+import codeop
+
+# Define a function to compile and execute Python source code dynamically
+def run_python_code(code):
+    try:
+        # Compile the source code into bytecode
+        code_ast = codeop.compile_command(code)
+        
+        # Execute the compiled bytecode to call the function or execute statements
+        result = eval(code_ast)
+        return result
+    except SyntaxError as e:
+        print(f"Compilation error: {e}")
+        return None
+
+# Example usage of the run_python_code function
+code_to_run = """
+def square(x):
+    return x * x
+
+result = square(4)
+print(result)  # Output: 16
+"""
+output = run_python_code(code_to_run)
+print(output)  # Output: 16
+```
+
+### Example 6: Using `compile_command` with Specific Mode and Flags
+
+```python
+import codeop
+
+# Define a Python source code string
+source_code = """
+x = 10
+y = 20
+"""
+
+# Compile the source code into bytecode using a specific mode ('exec') and flags (optimize)
+code_ast = codeop.compile_command(source_code, mode='exec', flags=codeop.OPTIMIZE)
+
+# Execute the compiled bytecode to define variables
+eval(code_ast)
+
+# Access and print variables from the compiled environment
+print(x)  # Output: 10
+print(y)  # Output: 20
+```
+
+### Example 7: Using `compile_command` with Input File
+
+```python
+import codeop
+
+# Define a file path containing Python source code
+file_path = 'example.py'
+
+# Compile the content of the file into bytecode using codeop.compile_file
+with open(file_path, 'r') as file:
+    file_content = file.read()
+    code_ast = codeop.compile_file(file_content)
+
+# Execute the compiled bytecode from the file
+eval(code_ast)
+```
+
+These examples cover a range of use cases for the `codeop` module, including basic compilation and execution, handling syntax errors gracefully, dynamically compiling and executing Python code, and using the module with specific modes and flags. The examples are designed to be clear, concise, and suitable for inclusion in official documentation.

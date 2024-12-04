@@ -1,78 +1,73 @@
-# sunau — Read and write Sun AU files
+# sunau - Read and write Sun AU files
 
-Here's an example of how you can use the `struct` and `io` modules in Python to read and write Sun AU files:
+Below is a comprehensive set of code examples for the `sunau` module, which allows reading and writing Sun AU (Audio AUdio) files in Python. Each example includes comments to explain each step.
 
 ```python
-import struct
-import io
+# Importing the necessary module
+import sunau
+import wave
 
-# Structure of a Sun AU file header
-class AuHeader:
-    def __init__(self, data):
-        self.data = data
-        # Comment: Unpack the data into its components using the struct module.
-        self.version, self.file_size, self.checksum = struct.unpack('III', self.data[:12])
-
-# Function to write a Sun AU file
-def write_sun-au_file(filename, data):
+def read_sunau_file(file_path):
     """
-    Write a Sun AU file.
+    Reads a Sun AU file and returns a SoundFile object.
 
-    Args:
-        filename (str): The name of the output file.
-        data (bytes): The data to be written to the file.
+    Parameters:
+    - file_path (str): The path to the Sun AU file.
 
     Returns:
-        None
+    - soundfile: A SoundFile object containing the audio data.
     """
-    # Create a new AuHeader object with the given data.
-    header = AuHeader(data)
+    # Open the Sun AU file in read mode
+    with sunau.open(file_path, 'r') as audio_file:
+        # Read all frames from the file
+        frames = audio_file.readframes(-1)
+        
+        # Create a SoundFile object using the read frames and sample rate
+        soundfile = wave.Wave_read(audio_file.framerate, frames)
     
-    # Open the output file in binary write mode.
-    with open(filename, 'wb') as f:
-        # Write the header to the file.
-        f.write(header.data)
-        
-        # Calculate the checksum and write it to the file.
-        f.write(struct.pack('I', (header.version + header.file_size) % 256))
+    return soundfile
 
-# Function to read a Sun AU file
-def read_sun-au_file(filename):
+def write_sunau_file(file_path, frames, samplerate):
     """
-    Read a Sun AU file.
+    Writes audio frames to a Sun AU file.
 
-    Args:
-        filename (str): The name of the input file.
-
-    Returns:
-        bytes: The data from the file.
+    Parameters:
+    - file_path (str): The path where the Sun AU file will be saved.
+    - frames: An iterable of audio frames.
+    - samplerate (int): The sample rate of the audio data.
     """
-    # Open the input file in binary read mode.
-    with open(filename, 'rb') as f:
-        # Read the header from the file.
-        header = AuHeader(f.read(12))
-        
-        # Calculate the checksum and verify it.
-        calculated_checksum = (header.version + header.file_size) % 256
-        if struct.unpack('I', f.read(4))[0] != calculated_checksum:
-            raise ValueError("Checksum mismatch")
-        
-        # Read the rest of the data from the file.
-        return f.read()
+    # Open the Sun AU file in write mode
+    with sunau.open(file_path, 'w') as audio_file:
+        # Write all frames to the file
+        audio_file.writeframes(frames)
+    
+    print(f"Audio written to {file_path}")
 
-# Example usage:
+# Example usage
+
 if __name__ == "__main__":
-    # Write a Sun AU file.
-    data = b'SUN AU File'  # Replace with your desired data
-    write_sun-au_file('example.au', data)
-    
-    # Read a Sun AU file and print its contents.
-    read_data = read_sun-au_file('example.au')
-    print(read_data)
+    # Read a Sun AU file
+    read_sunau_example = read_sunau_file('example.au')
+    print(read_sunau_example.get_params())
+
+    # Write audio frames to a Sun AU file
+    write_sunau_example = b'...'  # This should be the actual bytes of your audio data
+    write_sunau_file('output.au', write_sunau_example, 44100)
 ```
 
-This code provides functions to create, modify, and manipulate Sun AU files. The `AuHeader` class represents the header of a Sun AU file, and the `write_sun-au_file` function writes data to an output file in Sun AU format. The `read_sun-au_file` function reads data from an input file in Sun AU format.
+### Explanation:
 
-You can use these functions to read and write Sun AU files as shown in the example usage section at the end of the code.
+1. **Reading a Sun AU File:**
+   - The `read_sunau_file` function opens a Sun AU file in read mode.
+   - It reads all frames from the file using the `readframes` method of the `sunau` object.
+   - A `wave.Wave_read` object is created using the sample rate and frames read.
 
-**Note:** This is a simplified example and might not cover all edge cases, but it should give you a good starting point for working with Sun AU files.
+2. **Writing a Sun AU File:**
+   - The `write_sunau_file` function opens a Sun AU file in write mode.
+   - It writes all frames to the file using the `writeframes` method of the `sunau` object.
+
+3. **Example Usage:**
+   - The example usage demonstrates how to read and write a Sun AU file using the functions defined above.
+   - The actual audio data should be provided as bytes in the `write_sunau_file` function.
+
+This code provides a basic framework for working with Sun AU files, including reading and writing them. You can extend these examples by adding error handling, more complex audio processing, or additional features as needed.

@@ -1,67 +1,238 @@
-# turtle — Turtle graphics
+# turtle - Turtle graphics
 
-Here's an example of using the turtle module in Python:
+The `turtle` module is a versatile tool in Python that provides a simple way to create visual graphics using turtles, which are animated line segments on the screen. Here are comprehensive and well-documented code examples for various functionalities of the `turtle` module:
+
+### Basic Usage Example
 
 ```python
-# Importing the turtle module
 import turtle
 
-# Creating a new turtle screen and setting its background color
-screen = turtle.Screen()
-screen.bgcolor("white")
+# Create a turtle object
+t = turtle.Turtle()
 
-# Creating a new turtle object
-my_turtle = turtle.Turtle()
+# Move the turtle forward by 100 units
+t.forward(100)
 
-# Moving the turtle forward by 20 units
-my_turtle.forward(100)
+# Turn the turtle left by 90 degrees
+t.left(90)
 
-# Turning the turtle left by 90 degrees
-my_turtle.left(90)
-
-# Drawing a square using the turtle's movements
+# Draw a square
 for _ in range(4):
-    my_turtle.forward(50)
-    my_turtle.right(90)
+    t.forward(100)
+    t.right(90)
 
-# Writing "Hello, World!" on the screen using the turtle's pen
-my_turtle.penup()
-my_turtle.goto(-100, 0)
-my_turtle.pendown()
-my_turtle.write("Hello, World!", align="center", font=("Arial", 24, "bold"))
-
-# Keeping the window open until it is closed by the user
+# Hide the turtle and exit on click
+t.hideturtle()
 turtle.done()
 ```
 
-### Turtle Module Overview
+### Drawing Shapes Example
 
-The turtle module in Python provides a simple way to create graphics and animations. It allows you to create shapes, lines, curves, and more using basic movements such as forward, backward, left, right, and up.
+```python
+import turtle
 
-Here are some key features of the turtle module:
+# Create a turtle object
+t = turtle.Turtle()
 
-*   **Turtle Movement:** The turtle can move forward, backward, left, or right by a specified distance.
-*   **Drawing Shapes:** You can use loops to draw shapes like squares, triangles, and more.
-*   **Writing Text:** You can write text on the screen using the `write` method of the turtle object.
-*   **Coloring Shapes:** You can change the color of the turtle's pen by calling the `pencolor` method.
+# Draw an equilateral triangle
+side_length = 100
+for _ in range(3):
+    t.forward(side_length)
+    t.left(120)
 
-### Common Turtle Methods
+# Hide the turtle and exit on click
+t.hideturtle()
+turtle.done()
+```
 
-Here are some common methods used with the turtle module:
+### Drawing a Circle Example
 
-*   `forward(distance)`: Moves the turtle forward by a specified distance.
-*   `backward(distance)`: Moves the turtle backward by a specified distance.
-*   `left(angle)`: Turns the turtle left by a specified angle.
-*   `right(angle)`: Turns the turtle right by a specified angle.
-*   `penup()`: Lifts the pen off the paper, allowing you to move without drawing.
-*   `pendown()`: Places the pen back on the paper, starting to draw again.
-*   `write(text, align=align, font=(font_size, font_type, font_style))`: Writes text on the screen using the turtle's pen.
+```python
+import turtle
 
-### Turtle Module Constants
+# Create a turtle object
+t = turtle.Turtle()
 
-Here are some constants provided by the turtle module:
+# Draw a circle with radius 50
+radius = 50
+t.circle(radius)
 
-*   `speed(slow=10, fast=0)`: Sets the speed of the turtle movements.
-*   `colormode(r, g, b, color)`: Changes the color mode to RGB or CMYK.
+# Hide the turtle and exit on click
+t.hideturtle()
+turtle.done()
+```
 
-Note: The above code examples demonstrate basic usage of the turtle module. For more advanced graphics and animations, consider exploring other Python modules like NumPy, Matplotlib, or Pillow.
+### Customizing Turtle Appearance Example
+
+```python
+import turtle
+
+# Create a turtle object
+t = turtle.Turtle()
+
+# Set the color of the turtle to blue
+t.color("blue")
+
+# Set the shape of the turtle to square
+t.shape("square")
+
+# Draw a square with side length 100
+for _ in range(4):
+    t.forward(100)
+    t.right(90)
+
+# Hide the turtle and exit on click
+t.hideturtle()
+turtle.done()
+```
+
+### Using Pen Up and Down Commands Example
+
+```python
+import turtle
+
+# Create a turtle object
+t = turtle.Turtle()
+
+# Move the turtle forward by 100 units
+t.forward(100)
+
+# Lift up the pen, so the turtle won't draw while moving
+t.penup()
+
+# Move the turtle backward by 50 units
+t.backward(50)
+
+# Put down the pen again to start drawing
+t.pendown()
+
+# Draw a line of length 100 from the current position
+t.forward(100)
+
+# Hide the turtle and exit on click
+t.hideturtle()
+turtle.done()
+```
+
+### Drawing Multiple Shapes Example
+
+```python
+import turtle
+
+# Create a turtle object
+t = turtle.Turtle()
+
+# Draw a square and then a circle
+side_length = 100
+circle_radius = 50
+
+# Draw an equilateral triangle
+for _ in range(3):
+    t.forward(side_length)
+    t.left(120)
+
+# Move to the position above the square
+t.penup()
+t.goto(-side_length // 2, side_length // 4)
+t.pendown()
+
+# Draw a circle
+t.circle(circle_radius)
+
+# Hide the turtle and exit on click
+t.hideturtle()
+turtle.done()
+```
+
+### Using Functions Example
+
+```python
+import turtle
+
+# Create a turtle object
+t = turtle.Turtle()
+
+def draw_square(t, side_length):
+    """Draws a square with the given side length."""
+    for _ in range(4):
+        t.forward(side_length)
+        t.right(90)
+
+def draw_circle(t, radius):
+    """Draws a circle with the given radius."""
+    t.circle(radius)
+
+# Draw a square and then a circle
+side_length = 100
+circle_radius = 50
+
+draw_square(t, side_length)
+t.penup()
+t.goto(-side_length // 2, side_length // 4)
+t.pendown()
+
+draw_circle(t, circle_radius)
+
+# Hide the turtle and exit on click
+t.hideturtle()
+turtle.done()
+```
+
+### Using Event Handling Example
+
+```python
+import turtle
+
+# Create a turtle object
+t = turtle.Turtle()
+
+def draw_square(event):
+    """Draws a square in response to mouse click."""
+    t.penup()
+    x, y = event.x, event.y
+    t.goto(x, y)
+    t.pendown()
+    for _ in range(4):
+        t.forward(50)
+        t.right(90)
+
+# Bind the draw_square function to the left button of the mouse
+turtle.onscreenclick(draw_square)
+
+# Hide the turtle and exit on click
+t.hideturtle()
+turtle.done()
+```
+
+### Using Screen Properties Example
+
+```python
+import turtle
+
+# Create a screen object with a specific background color
+screen = turtle.Screen()
+screen.bgcolor("lightblue")
+
+# Create a turtle object
+t = turtle.Turtle()
+
+# Draw a square and then change the background color to yellow
+side_length = 100
+circle_radius = 50
+
+draw_square(t, side_length)
+t.penup()
+t.goto(-side_length // 2, side_length // 4)
+t.pendown()
+
+draw_circle(t, circle_radius)
+
+# Change the background color of the screen
+screen.bgcolor("yellow")
+
+# Hide the turtle and exit on click
+t.hideturtle()
+turtle.done()
+```
+
+These examples cover a range of functionalities available in the `turtle` module, from basic drawing commands to more advanced features like event handling and screen properties. They are designed to be clear, concise, and suitable for inclusion in official documentation or educational materials.

@@ -1,109 +1,44 @@
-# sched — Event scheduler
+# sched - Event scheduler
 
-**Sched Module: Event Scheduler**
-====================================
+The `sched` module in Python is a simple event scheduler that allows you to schedule and run functions at specific times or intervals. Below are comprehensive examples of how to use the `sched` module, including comments explaining each step:
 
-The `sched` module provides a way to schedule tasks to run at specific times or after a certain delay.
-
-**Example Use Cases:**
-
-*   Scheduling system tasks, such as backing up files or sending emails.
-*   Creating cron-like jobs for recurring tasks.
-*   Implementing a scheduling system for games or simulations.
-
-**Code Generation:**
 ```python
 import sched
 import time
 
-# Create a scheduler object
-s = sched.scheduler(time.time, time.sleep)
+# Initialize the scheduler
+scheduler = sched.scheduler(time.time, time.sleep)
 
-def job(name):
-    """A sample task function."""
-    print(f"Running job: {name}")
-    # Add some sleep to demonstrate the task duration.
-    s.enter(5, 1, job, ('Subjob',))  # schedule subjobs
-    s.run()  # run the scheduler
+def print_time(sc):
+    # This function prints the current time and schedules itself again after 1 second
+    print("Current time:", time.ctime())
+    scheduler.enter(1, 1, print_time, (sc,))
 
-# Schedule a task to run after 10 seconds.
-s.enter(10, 0, job, ('Main Job',))
+# Schedule the first call to print_time
+scheduler.enter(0, 1, print_time, (scheduler,))
 
-# Start the scheduler and keep it running until manually stopped.
-while True:
-    try:
-        s.run()
-    except KeyboardInterrupt:
-        print('\nScheduler stopped.')
-        break
+# Run the scheduler
+try:
+    while True:
+        scheduler.run(blocking=False)
+except KeyboardInterrupt:
+    print("Scheduler stopped.")
 ```
 
-**Scheduling Subjobs:**
+### Explanation:
 
-```python
-def subjob(name):
-    """A sample task function."""
-    print(f"Running subjob: {name}")
-    # Schedule another subjob to run after a short delay.
-    s.enter(2, 1, subjob, ('Subsubjob',))
+1. **Initialize the Scheduler**: We create an instance of `sched.scheduler` with `time.time` as the time function and `time.sleep` as the delay function. This means that the scheduler will use Python's built-in `time` functions for current time and delays.
 
-# In the main job function:
-s.enter(5, 1, job, ('Subjob',))  # schedule this subjob
-```
+2. **Define a Task Function**: The `print_time` function is defined to print the current time and then schedule itself again after 1 second using the `scheduler.enter` method.
 
-**Creating a Cron-like Job:**
+3. **Schedule the First Call**: We schedule the first call to `print_time` immediately (`0`) with a priority of `1`. This means it will be executed first.
 
-```python
-import sched
+4. **Run the Scheduler**: The scheduler is run in an infinite loop, which continues until interrupted by a keyboard interrupt (Ctrl+C). Inside the loop, `scheduler.run(blocking=False)` runs one event at a time and returns immediately if there are no events to process, allowing other tasks to execute.
 
-def job(name):
-    print(f"Running job: {name}")
+### Key Features:
 
-# Schedule tasks with different frequencies.
-s = sched.scheduler(time.time, time.sleep)
+- **Time Functions**: The `sched` module uses Python's built-in `time` functions for current time and delays.
+- **Priority Handling**: Tasks can be scheduled with different priorities. Lower numbers have higher priority.
+- **Blocking vs Non-blocking Execution**: The scheduler can run in a blocking or non-blocking manner, depending on how it is called.
 
-def daily_job():
-    s.enter(86400, 0, job, ('Daily',))  # every day at midnight.
-
-def weekly_job():
-    s.enter(604800, 0, job, ('Weekly',))  # every Sunday.
-
-# Start the scheduler and keep it running.
-while True:
-    try:
-        s.run()
-    except KeyboardInterrupt:
-        print('\nScheduler stopped.')
-        break
-```
-
-**Real-World Example:**
-
-Suppose we want to create a simple email sender that sends emails at specific times. We can use the `sched` module to schedule tasks.
-
-```python
-import sched
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-
-def send_email(subject, message):
-    # Simulate sending an email.
-    print(f"Sending email with subject: {subject}")
-    print(message)
-
-s = sched.scheduler(time.time, time.sleep)
-
-# Schedule tasks to run at different times.
-s.enter(86400, 0, send_email, ('Hello from cron', 'This is a test email.'))  # every day at midnight.
-s.enter(604800, 1, send_email, ('Good morning!', 'This is another test email.'))  # every Sunday.
-
-# Start the scheduler and keep it running.
-while True:
-    try:
-        s.run()
-    except KeyboardInterrupt:
-        print('\nScheduler stopped.')
-        break
-```
-
-Note: This example simulates sending emails. In a real-world scenario, you would use an actual email library to send emails programmatically.
+These examples provide a basic understanding of how to use the `sched` module to schedule and manage events in your Python applications.

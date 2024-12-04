@@ -1,170 +1,203 @@
-# unittest.mock — getting started
+# unittest.mock - getting started
 
-Here's an example of how you can use `unittest.mock` to mock objects, functions, and modules:
+The `unittest.mock` module is a powerful tool used for creating mock objects in Python, which are essential for testing purposes. These mocks allow you to simulate the behavior of real objects without executing them, making your tests more isolated and predictable.
 
-**Mocking Objects**
+Below are comprehensive code examples demonstrating how to use `unittest.mock` for various common use cases:
 
-```python
-import unittest
-from unittest import mock
-
-# Create a mock object
-def add(a, b):
-    return a + b
-
-class TestAddFunction(unittest.TestCase):
-
-    # Mock the function we want to test
-    @mock.patch('my_module.add')
-    def test_add(self, mock_add):
-        # Set up the mock to return a specific value when called
-        mock_add.return_value = 10
-        
-        # Call the function being tested with some arguments
-        result = add(2, 3)
-        
-        # Assert that the returned value is correct
-        self.assertEqual(result, 5)
-
-    # Test case where we don't call the function (should raise an error)
-    @mock.patch('my_module.add')
-    def test_add_not_called(self, mock_add):
-        with self.assertRaises(RecursionError):
-            add(2, 3)
-```
-
-**Mocking Functions**
+### Example 1: Creating a Simple Mock Object
 
 ```python
 import unittest
-from unittest import mock
+from unittest.mock import MagicMock
 
-class TestPrintFunction(unittest.TestCase):
+class TestMyModule(unittest.TestCase):
+    def test_simple_mock(self):
+        # Create a mock object
+        my_mock = MagicMock()
 
-    # Mock the function we want to test
-    @mock.patch('builtins.print')
-    def test_print(self, mock_print):
-        # Set up the mock to print a specific message when called
-        mock_print.return_value = None
-        
-        # Call the function being tested with some arguments
-        print("Hello, world!")
-        
-        # Assert that the printed message is correct
-        self.assertEqual(mock_print.call_args, ('Hello, world!',))
+        # Use the mock object as if it were a real object
+        my_mock.some_method.return_value = 'mocked result'
 
-    # Test case where we don't call the function (should raise an error)
-    @mock.patch('builtins.print')
-    def test_print_not_called(self, mock_print):
-        with self.assertRaises(RecursionError):
-            print("Hello, world!")
+        # Assert that the method was called and return the expected value
+        self.assertEqual(my_mock.some_method(), 'mocked result')
+        self.assertTrue(my_mock.some_method.called)
+
+    def test_arguments(self):
+        # Create a mock object
+        my_mock = MagicMock()
+
+        # Specify that the method should be called with specific arguments
+        my_mock.some_method.return_value = 'mocked result'
+        my_mock.some_method.assert_called_once_with('arg1', 'arg2')
+
+        # Assert that the method was called multiple times with different arguments
+        my_mock.some_method.side_effect = ['result1', 'result2']
+        self.assertEqual(my_mock.some_method('a', 'b'), 'result1')
+        self.assertEqual(my_mock.some_method('c', 'd'), 'result2')
+        self.assertTrue(my_mock.some_method.called)
+
+    def test_calls(self):
+        # Create a mock object
+        my_mock = MagicMock()
+
+        # Record all calls to the method
+        my_mock.some_method('arg1', 'arg2')
+
+        # Assert that the method was called with specific arguments
+        self.assertEqual(len(my_mock.some_method.call_args_list), 1)
+        self.assertEqual(my_mock.some_method.call_args_list[0], (('arg1', 'arg2'), {}))
+
+    def test_call_counter(self):
+        # Create a mock object
+        my_mock = MagicMock()
+
+        # Record all calls to the method
+        my_mock.some_method()
+        my_mock.some_method()
+        my_mock.some_method()
+
+        # Assert that the method was called 3 times
+        self.assertEqual(my_mock.some_method.call_count, 3)
+
+if __name__ == '__main__':
+    unittest.main(argv=[''], exit=False)
 ```
 
-**Mocking Modules**
+### Example 2: Mocking a Class Method
 
 ```python
 import unittest
-from unittest import mock
+from unittest.mock import MagicMock
 
-class TestRandomModule(unittest.TestCase):
+class MyClass:
+    def some_method(self):
+        return 'real result'
 
-    # Mock the module we want to test
-    @mock.patch('random')
-    def test_random(self, mock_random):
-        # Set up the mock to return a specific value when called
-        mock_random.randint.return_value = 42
-        
-        # Call the function being tested with some arguments
-        import random
-        result = random.randint(1, 100)
-        
-        # Assert that the returned value is correct
-        self.assertEqual(result, 42)
+class TestMyClass(unittest.TestCase):
+    def test_mock_class_method(self):
+        # Create an instance of MyClass
+        my_instance = MyClass()
 
-    # Test case where we don't call the function (should raise an error)
-    @mock.patch('random')
-    def test_random_not_called(self, mock_random):
-        with self.assertRaises(RecursionError):
-            import random
+        # Create a mock object for the class method
+        my_mock = MagicMock(return_value='mocked result')
+
+        # Replace the original class method with the mock
+        MyClass.some_method = my_mock
+
+        # Call the modified class method
+        self.assertEqual(my_instance.some_method(), 'mocked result')
+        self.assertTrue(MyClass.some_method.called)
+
+if __name__ == '__main__':
+    unittest.main(argv=[''], exit=False)
 ```
 
-**Mocking Exceptions**
+### Example 3: Mocking a Static Method
 
 ```python
 import unittest
-from unittest import mock
+from unittest.mock import MagicMock
 
-class TestRaiseException(unittest.TestCase):
+class MyClass:
+    @staticmethod
+    def some_static_method(x):
+        return x * 2
 
-    # Mock the exception we want to raise
-    @mock.patch('ValueError')
-    def test_raise_exception(self, mock_value_error):
-        # Set up the mock to raise an exception when called
-        mock_value_error.side_effect = ValueError("Something went wrong!")
-        
-        # Call the function being tested with some arguments
-        with self.assertRaises(ValueError):
-            raise ValueError("Something went wrong!")
+class TestMyClass(unittest.TestCase):
+    def test_mock_static_method(self):
+        # Create a mock object for the static method
+        my_mock = MagicMock(return_value='mocked result')
 
-    # Test case where we don't call the function (should not raise an error)
-    @mock.patch('ValueError')
-    def test_raise_exception_not_called(self, mock_value_error):
-        with self.assertRaises(RecursionError):
-            raise ValueError
+        # Replace the original static method with the mock
+        MyClass.some_static_method = my_mock
+
+        # Call the modified static method
+        self.assertEqual(MyClass.some_static_method(3), 'mocked result')
+        self.assertTrue(my_mock.called)
+
+if __name__ == '__main__':
+    unittest.main(argv=[''], exit=False)
 ```
 
-**Mocking Context Managers**
+### Example 4: Mocking a Module Function
 
 ```python
 import unittest
-from unittest import mock
+from unittest.mock import patch
 
-class TestContextManager(unittest.TestCase):
+# Assuming we have a function `some_module.some_function` defined in `some_module.py`
+with patch('some_module.some_function') as mock_some_function:
+    # Modify the behavior of the mocked function
+    mock_some_function.return_value = 'mocked result'
 
-    # Mock the context manager we want to test
-    @mock.patch('contextlib.contextmanager')
-    def test_context_manager(self, mock_contextmanager):
-        # Set up the mock to yield a specific value when called
-        mock_contextmanager.return_value.__enter__.return_value = "Hello"
-        
-        # Call the function being tested with some arguments
-        with self.assertRaises(RecursionError):
-            yield from "Hello"
+    # Import and use the module that contains the function
+    from some_module import some_function
 
-    # Test case where we don't call the function (should not raise an error)
-    @mock.patch('contextlib.contextmanager')
-    def test_context_manager_not_called(self, mock_contextmanager):
-        with self.assertRaises(RecursionError):
-            import contextlib
+    # Call the mocked function
+    result = some_function()
+
+    # Assert the expected result
+    self.assertEqual(result, 'mocked result')
 ```
 
-**Mocking Decorators**
+### Example 5: Mocking an External Library Function
 
 ```python
 import unittest
-from unittest import mock
+from unittest.mock import patch
+import requests
 
-class TestDecorator(unittest.TestCase):
+# Replace the actual `requests.get` call with a mock
+with patch('requests.get') as mock_get:
+    # Modify the behavior of the mocked function to return a specific response
+    mock_get.return_value.status_code = 200
+    mock_get.return_value.json.return_value = {'data': 'mocked data'}
 
-    # Mock the decorator we want to test
-    @mock.patch('functools.wraps')
-    def test_decorator(self, mock_functor_wraps):
-        # Set up the mock to return a specific value when called
-        mock_functor_wraps.return_value = "Hello"
-        
-        # Call the function being tested with some arguments
-        from functools import wraps
-        @wraps("Hello")
-        def hello(name):
-            return f"Hello, {name}!"
-        result = hello("world")
-        
-        # Assert that the returned value is correct
-        self.assertEqual(result, "Hello, world!")
+    # Make an HTTP request using the patched `requests`
+    response = requests.get('https://example.com/api/data')
 
-    # Test case where we don't call the function (should not raise an error)
-    @mock.patch('functools.wraps')
-    def test_decorator_not_called(self, mock_functor_wraps):
-        with self.assertRaises(RecursionError):
-            from functools import wraps
+    # Assert that the mocked function was called with the expected URL
+    self.assertEqual(mock_get.call_args.args[0], 'https://example.com/api/data')
+    self.assertTrue(response.json() == {'data': 'mocked data'})
+
+if __name__ == '__main__':
+    unittest.main(argv=[''], exit=False)
 ```
+
+### Example 6: Using `patch` Decorator
+
+```python
+import unittest
+from unittest.mock import patch
+import requests
+
+@patch('requests.get')
+def test_patch_decorator(mock_get):
+    # Modify the behavior of the mocked function to return a specific response
+    mock_get.return_value.status_code = 200
+    mock_get.return_value.json.return_value = {'data': 'mocked data'}
+
+    # Make an HTTP request using the patched `requests`
+    response = requests.get('https://example.com/api/data')
+
+    # Assert that the mocked function was called with the expected URL
+    self.assertEqual(mock_get.call_args.args[0], 'https://example.com/api/data')
+    self.assertTrue(response.json() == {'data': 'mocked data'})
+
+class TestRequestsPatching(unittest.TestCase):
+    def test_example(self):
+        test_patch_decorator()
+
+if __name__ == '__main__':
+    unittest.main(argv=[''], exit=False)
+```
+
+These examples cover basic mocking techniques using `unittest.mock`, including:
+
+1. Creating simple mock objects.
+2. Mocking class and static methods.
+3. Mocking module functions.
+4. Mocking external library functions.
+5. Using the `patch` decorator.
+
+Each example includes detailed comments to explain the purpose of each step and how it relates to the functionality being tested. These examples are suitable for inclusion in official documentation, providing clear guidance on how to use `unittest.mock` effectively for testing purposes.

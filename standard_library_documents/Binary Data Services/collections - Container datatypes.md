@@ -1,165 +1,312 @@
-# collections — Container datatypes
+# collections - Container datatypes
 
-Here's an example of how you can use the various container datatypes available in Python's `collections` module.
+### Collections Module Examples
+
+The `collections` module in Python provides a collection of container data types that are implemented as subclasses of built-in types, often making them more efficient or convenient for specific use cases. Here are comprehensive examples of each data type available in the `collections` module:
+
+---
+
+#### 1. **Counter**
+
+**Description:**
+A dictionary subclass for counting hashable objects. Elements are stored as dictionary keys and their counts are stored as dictionary values.
+
+**Example:**
 
 ```python
-from collections import *
-import time
-import random
+from collections import Counter
 
-# 1. List
-print("List")
-# Create a list
-numbers = [1, 2, 3, 4, 5]
-print(numbers)
+# Example with a list of words
+words = ["apple", "banana", "apple", "orange", "banana", "apple"]
+word_counts = Counter(words)
+print(word_counts)  # Output: Counter({'apple': 3, 'banana': 2, 'orange': 1})
 
-# Append an element to the end of the list
-numbers.append(6)
-print(numbers)
+# Example with a string
+char_counts = Counter("hello world")
+print(char_counts)  # Output: Counter({'l': 3, 'o': 2, 'h': 1, 'e': 1, ' ': 1, 'w': 1, 'r': 1, 'd': 1})
 
-# Insert an element at a specific position
-numbers.insert(2, 10)
-print(numbers)
-
-# Remove the first occurrence of an element
-numbers.remove(4)
-print(numbers)
-
-# Pop an element from the end of the list
-last_element = numbers.pop()
-print(f"Removed last element: {last_element}")
-print(numbers)
-
-# Create a new list with the same elements as another list
-list1 = [1, 2, 3]
-list2 = numbers[:]
-print(list1 is list2)  # This will be False
-
-numbers.extend([7, 8])
-print(numbers)
-
-# Sort the list in-place
-numbers.sort()
-print(numbers)
-
-# Reverse the list in-place
-numbers.reverse()
-print(numbers)
-
-# Indexing and slicing
-print("Indexing and Slicing")
-index = numbers.index(10)
-print(f"Index of 10: {index}")
-
-sub_list = numbers[1:3]
-print(sub_list)
-
-numbers.clear()
-print(numbers)  # This will be []
-
-# 2. Tuple
-print("\nTuple")
-# Create a tuple
-tup = (1, 2, 3)
-print(tup)
-
-# Unpack the tuple into separate variables
-a, b, c = tup
-print(f"a: {a}, b: {b}, c: {c}")
-
-# Use the `in` operator to check if an element is in the tuple
-if 2 in tup:
-    print("2 is in the tuple")
-
-tup += (4,)
-print(tup)
-
-tup = tup[:2] + (6,)  # Slice the tuple
-print(tup)
-
-# 3. Set
-print("\nSet")
-# Create a set
-numbers_set = {1, 2, 3}
-print(numbers_set)
-
-# Add an element to the set
-numbers_set.add(4)
-print(numbers_set)
-
-# Remove an element from the set
-numbers_set.remove(2)
-print(numbers_set)
-
-# Use the `difference` method to remove elements that are in another set
-set1 = {1, 2, 3}
-set2 = {3, 4, 5}
-print(set1.difference(set2))
-
-# Find the intersection of two sets using the `intersection` method
-print(set1.intersection(set2))
-
-# Use the `symmetric_difference` method to find elements that are in exactly one set
-print(set1.symmetric_difference(set2))
-
-numbers_set.clear()
-print(numbers_set)  # This will be []
-
-# 4. Dict
-print("\nDict")
-# Create a dictionary
-person = {"name": "John", "age": 30}
-print(person)
-
-# Add a new key-value pair to the dictionary
-person["city"] = "New York"
-print(person)
-
-# Update the value of an existing key
-person["age"] = 31
-print(person)
-
-# Remove a key-value pair from the dictionary using the `del` statement
-del person["name"]
-print(person)
-
-# Use the `.keys()` method to get a view object that displays a list of all keys in the dictionary
-print(person.keys())
-
-# Use the `.values()` method to get a view object that displays a list of all values in the dictionary
-print(person.values())
-
-# Use the `.items()` method to get a view object that displays a list of all key-value pairs in the dictionary
-for key, value in person.items():
-    print(f"{key}: {value}")
-
-person.clear()
-print(person)  # This will be {}
-
-# 5. Frozenset (unmodifiable set)
-print("\nFrozenset")
-# Create a frozenset from a list
-numbers_frozenset = frozenset([1, 2, 3])
-print(numbers_frozenset)
-
-# Use the `in` operator to check if an element is in the frozenset
-if 2 in numbers_frozenset:
-    print("2 is in the frozenset")
-
-try:
-    # Attempt to add an element to the frozenset (this will raise a `TypeError`)
-    numbers_frozenset.add(4)
-except TypeError as e:
-    print(f"Error: {e}")
-
-numbers_frozenset = frozenset([1, 2, 3]) | frozenset([4, 5, 6])
-print(numbers_frozenset)
-
-try:
-    # Attempt to modify the frozenset by adding or removing elements (this will raise a `TypeError`)
-    numbers_frozenset.add(7)
-except TypeError as e:
-    print(f"Error: {e}")
+# Example with a dictionary
+dict_counts = Counter({'a': 1, 'b': 2, 'c': 1})
+print(dict_counts)  # Output: Counter({'b': 2, 'a': 1, 'c': 1})
 ```
 
-This example demonstrates how you can create, manipulate, and iterate over various container datatypes in Python using the `collections` module. It covers list, tuple, set, dictionary, and frozenset examples, including indexing, slicing, addition, removal, updating, and modification of elements.
+**Explanation:**
+- The `Counter` class is used to count the occurrences of each element in a list or any iterable.
+- It provides methods like `.most_common(n)` to get the n most common elements and their counts.
+
+---
+
+#### 2. **OrderedDict**
+
+**Description:**
+An ordered dictionary that remembers the order in which its contents are added. This is useful when you need to maintain the insertion order of keys.
+
+**Example:**
+
+```python
+from collections import OrderedDict
+
+# Example with an ordered dictionary
+ordered_dict = OrderedDict()
+ordered_dict['apple'] = 1
+ordered_dict['banana'] = 2
+ordered_dict['orange'] = 3
+print(ordered_dict)  # Output: OrderedDict([('apple', 1), ('banana', 2), ('orange', 3)])
+
+# Example with a dictionary and sorting
+regular_dict = {'banana': 2, 'apple': 1, 'orange': 3}
+ordered_dict = OrderedDict(sorted(regular_dict.items()))
+print(ordered_dict)  # Output: OrderedDict([('apple', 1), ('banana', 2), ('orange', 3)])
+```
+
+**Explanation:**
+- The `OrderedDict` class maintains the insertion order of its elements, which is not guaranteed by regular dictionaries.
+- This can be useful in scenarios where maintaining order is important, such as caching or certain types of configurations.
+
+---
+
+#### 3. **defaultdict**
+
+**Description:**
+A dictionary subclass that calls a factory function to provide missing values.
+
+**Example:**
+
+```python
+from collections import defaultdict
+
+# Example with a defaultdict to count even and odd numbers
+count_dict = defaultdict(list)
+for number in range(10):
+    if number % 2 == 0:
+        count_dict['even'].append(number)
+    else:
+        count_dict['odd'].append(number)
+
+print(count_dict)  # Output: defaultdict(<class 'list'>, {'even': [0, 2, 4, 6, 8], 'odd': [1, 3, 5, 7, 9]})
+
+# Example with a defaultdict and a custom factory function
+def default_factory():
+    return "default value"
+
+custom_dict = defaultdict(default_factory)
+print(custom_dict["missing_key"])  # Output: default value
+```
+
+**Explanation:**
+- The `defaultdict` class is used to initialize dictionary values automatically.
+- In this example, it initializes a list for each key that does not already exist in the dictionary.
+
+---
+
+#### 4. **namedtuple**
+
+**Description:**
+A factory function returning a new tuple subclass with named fields.
+
+**Example:**
+
+```python
+from collections import namedtuple
+
+# Example with a named tuple to represent a point in 2D space
+Point = namedtuple('Point', ['x', 'y'])
+p1 = Point(1, 2)
+p2 = Point(x=3, y=4)
+
+print(p1)  # Output: Point(x=1, y=2)
+print(p2)  # Output: Point(x=3, y=4)
+
+# Example with a named tuple to represent a person
+Person = namedtuple('Person', ['name', 'age'])
+person = Person(name="Alice", age=30)
+
+print(person)  # Output: Person(name='Alice', age=30)
+print(person.name)  # Output: Alice
+print(person.age)  # Output: 30
+```
+
+**Explanation:**
+- The `namedtuple` function creates a subclass of tuple with named fields.
+- This makes the tuple more readable and convenient for representing objects with specific attributes.
+
+---
+
+#### 5. **deque**
+
+**Description:**
+A double-ended queue (deque) which supports efficient appends and pops from both ends.
+
+**Example:**
+
+```python
+from collections import deque
+
+# Example with a deque to implement a simple stack
+stack = deque()
+stack.append(1)
+stack.append(2)
+stack.appendleft(3)
+
+print(stack)  # Output: deque([3, 1, 2])
+print(stack.pop())  # Output: 2
+print(stack.popleft())  # Output: 3
+
+# Example with a deque to implement a queue
+queue = deque()
+queue.append(1)
+queue.append(2)
+queue.append(3)
+
+print(queue)  # Output: deque([1, 2, 3])
+print(queue.popleft())  # Output: 1
+print(queue)  # Output: deque([2, 3])
+```
+
+**Explanation:**
+- The `deque` class is an optimized list for fast appends and pops from both ends.
+- This is useful in scenarios where you need a dynamic array that supports efficient push and pop operations on both sides.
+
+---
+
+#### 6. **ChainMap**
+
+**Description:**
+A collection which provides a way to group multiple mappings as if they were one, but which does not actually merge them.
+
+**Example:**
+
+```python
+from collections import ChainMap
+
+# Example with chain maps for combining multiple dictionaries
+dict1 = {'a': 1, 'b': 2}
+dict2 = {'b': 3, 'c': 4}
+
+combined_dict = ChainMap(dict1, dict2)
+print(combined_dict)  # Output: ChainMap({'a': 1, 'b': 2}, {'b': 3, 'c': 4})
+
+# Example with chain maps and updating values
+dict1['a'] = 5
+print(combined_dict)  # Output: ChainMap({'a': 5, 'b': 2}, {'b': 3, 'c': 4})
+```
+
+**Explanation:**
+- The `ChainMap` class allows you to create a new dictionary that combines multiple dictionaries.
+- It will prioritize the first dictionary when retrieving values for keys that exist in more than one.
+
+---
+
+#### 7. **UserDict**
+
+**Description:**
+A subclass of dict providing a base class for dictionary subclasses.
+
+**Example:**
+
+```python
+from collections import UserDict
+
+# Example with a user-defined dictionary subclass
+class MyDict(UserDict):
+    def __missing__(self, key):
+        # Custom behavior when an item is missing
+        return f"Key {key} not found"
+
+my_dict = MyDict()
+my_dict['name'] = 'Alice'
+print(my_dict)  # Output: {'name': 'Alice'}
+print(my_dict['age'])  # Output: Key age not found
+
+# Example with a user-defined dictionary subclass and custom initialization
+class MyDictWithInit(UserDict):
+    def __init__(self, initial_data):
+        super().__init__(initial_data)
+        self.custom_attribute = 'custom_value'
+
+my_dict_with_init = MyDictWithInit({'key1': 'value1'})
+print(my_dict_with_init)  # Output: {'key1': 'value1'}
+print(my_dict_with_init.custom_attribute)  # Output: custom_value
+```
+
+**Explanation:**
+- The `UserDict` class allows you to create a custom dictionary subclass with additional behavior.
+- It provides a method `__missing__` that can be overridden to customize the behavior when a key is missing.
+
+---
+
+#### 8. **UserList**
+
+**Description:**
+A subclass of list providing a base class for list subclasses.
+
+**Example:**
+
+```python
+from collections import UserList
+
+# Example with a user-defined list subclass
+class MyList(UserList):
+    def __init__(self, iterable=()):
+        # Custom initialization behavior
+        super().__init__(iterable)
+        self.custom_attribute = 'hello'
+
+my_list = MyList([1, 2, 3])
+print(my_list)  # Output: [1, 2, 3]
+print(my_list.custom_attribute)  # Output: hello
+
+# Example with a user-defined list subclass and custom method
+class MyListWithMethod(UserList):
+    def custom_method(self):
+        return sum(self)
+
+my_list_with_method = MyListWithMethod([1, 2, 3])
+print(my_list_with_method)  # Output: [1, 2, 3]
+print(my_list_with_method.custom_method())  # Output: 6
+```
+
+**Explanation:**
+- The `UserList` class allows you to create a custom list subclass with additional behavior.
+- It provides a method `__init__` that can be overridden to customize initialization.
+
+---
+
+#### 9. **UserString**
+
+**Description:**
+A subclass of str providing a base class for string subclasses.
+
+**Example:**
+
+```python
+from collections import UserString
+
+# Example with a user-defined string subclass
+class MyString(UserString):
+    def __init__(self, data=''):
+        # Custom initialization behavior
+        super().__init__(data)
+        self.custom_attribute = 'world'
+
+my_string = MyString('hello')
+print(my_string)  # Output: hello
+print(my_string.custom_attribute)  # Output: world
+
+# Example with a user-defined string subclass and custom method
+class MyStringWithMethod(UserString):
+    def custom_method(self):
+        return self.data.upper()
+
+my_string_with_method = MyStringWithMethod('hello')
+print(my_string_with_method)  # Output: hello
+print(my_string_with_method.custom_method())  # Output: HELLO
+```
+
+**Explanation:**
+- The `UserString` class allows you to create a custom string subclass with additional behavior.
+- It provides a method `__init__` that can be overridden to customize initialization.
+
+---
+
+These examples demonstrate various functionalities of the `collections` module, from basic counting to more advanced data structures like `OrderedDict` and `deque`. These classes are designed to improve performance and readability in Python applications.

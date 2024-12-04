@@ -1,85 +1,138 @@
-# stat — Interpreting stat() results
+# stat - Interpreting stat() results
 
-**Stat Module Example**
-=====================================
+The `stat` module in Python provides a portable way of using operating system-dependent functionality like reading or writing to the file system, and it includes functions that return information about files and directories. This module is particularly useful for understanding file properties such as permissions, last modification times, and more.
 
-The `stat` module provides functions to retrieve information about files and other special files.
+Here are several code examples that demonstrate how to interpret `stat()` results:
 
-### Code Generation
+### Example 1: Basic Usage of `stat()`
+```python
+import os
 
+# Define the path to a file
+file_path = 'example.txt'
+
+# Get the stat information for the file
+stat_info = os.stat(file_path)
+
+# Extract and print some useful information
+print(f"File size (bytes): {stat_info.st_size}")
+print(f"Last modified time: {stat_info.st_mtime}")
+print(f"Permissions: {oct(stat_info.st_mode)}")
+```
+
+### Example 2: Using `os.path.getmtime()` for Modification Time
+```python
+import os
+
+# Define the path to a file
+file_path = 'example.txt'
+
+# Use getmtime() to get the last modification time of the file
+modification_time = os.path.getmtime(file_path)
+
+# Print the formatted modification time
+print(f"Last modified time: {modification_time}")
+```
+
+### Example 3: Extracting Permissions and Flags
 ```python
 import stat
 
-# Define variables for file status
-mode = 0o755  # File type: regular file, owned by user, group, and others have read, write, and execute permissions
-st_dev = 10   # Device number (file is on the first disk)
-inode = 12345  # Inode number (file's internal identifier)
+# Define the path to a directory
+dir_path = '/path/to/directory'
 
-# Get file status as a struct stat_result
-stat_result = stat.stat(mode, st_dev, inode)
+# Get the stat information for the directory
+stat_info = os.stat(dir_path)
 
-# Print file status information
-print(f"Mode: {stat_result.st_mode}")
-print(f"Inode Number: {stat_result.st_ino}")
-print(f"Device Number: {stat_result.st_dev}")
-print(f"Number of Hard Links: {stat_result.st_nlink}")
-print(f"File Type: {stat_result.st_mode & 0x01} (D) - Directory, 0x02 (L) - Symbolic link")
+# Extract permissions and flags
+permissions = stat_info.st_mode
+flags = stat_info.st_flags
+
+print(f"Permissions: {oct(permissions)}")
+print(f"Flags: {hex(flags)}")
 ```
 
-### Explanation
-
-*   We start by importing the `stat` module.
-*   Define variables to simulate a file's status: mode (`mode`), device number (`st_dev`), and inode number (`inode`).
-*   Use the `stat.stat()` function to retrieve the file status information, passing in the simulated values for each field.
-*   Print out the retrieved file status information.
-
-### Functions
-
-#### stat()
-
-Retrieves information about files and other special files. The result is a struct stat_result containing the following fields:
-
-| Field  | Description              |
-|--------|--------------------------|
-| st_mode | File type, permissions    |
-| st_ino | Inode number (file's ID) |
-| st_dev | Device number (file is on) |
-| st_nlink | Number of hard links      |
-
-**Example Usage**
-
+### Example 4: Handling File Attributes with `os.lstat()` and `os.fstat()`
 ```python
-import stat
+import os
 
-# Example usage: Create a new directory and retrieve its status
-new_dir_mode = 0o777
-stat_result = stat.stat(new_dir_mode, 0, 12345)
+# Define the path to a symbolic link and a file
+symbolic_link_path = 'symlink.txt'
+file_path = 'example.txt'
 
-print(f"New Directory Status:")
-print(stat_result.st_mode)
+# Use lstat() to get stat information for a symbolic link
+link_stat_info = os.lstat(symbolic_link_path)
+print(f"Symbolic Link Stat Info: {link_stat_info.st_mode}")
+
+# Use fstat() to get stat information for an open file descriptor
+with open(file_path, 'r') as file:
+    file_stat_info = os.fstat(file.fileno())
+print(f"File Stat Info (from file descriptor): {file_stat_info.st_mode}")
 ```
 
-### File Operations
-
-The `stat` module provides functions for performing file operations. These functions are:
-
-*   `fchmod()`: Changes the mode of an existing file.
-*   `fchown()`: Changes the owner and group of a file.
-
-**Example Usage**
-
+### Example 5: Checking File Types
 ```python
-import stat
+import os
 
-# Example usage: Change the permissions of a file
-file_mode = 0o666
-stat_result = stat.fchmod(12345, file_mode)
+# Define the path to a file and directory
+file_path = 'example.txt'
+dir_path = '/path/to/directory'
 
-print(f"File Status After Permission Change:")
-print(stat.stat(file_mode, 0, 12345))
+# Get stat information for the file and directory
+file_stat_info = os.stat(file_path)
+dir_stat_info = os.stat(dir_path)
+
+# Check if they are files or directories
+is_file = stat.S_ISREG(file_stat_info.st_mode)
+is_dir = stat.S_ISDIR(dir_stat_info.st_mode)
+
+print(f"Is {file_path} a file? {'Yes' if is_file else 'No'}")
+print(f"Is {dir_path} a directory? {'Yes' if is_dir else 'No'}")
 ```
 
-### Notes
+### Example 6: Accessing Extended Attributes with `os.listxattr()`
+```python
+import os
 
-*   This example demonstrates how to retrieve information about files using the `stat` module and perform basic file operations.
-*   The `mode`, `st_dev`, and `inode` variables in this example are simulated to demonstrate the usage of the `stat.stat()` function.
+# Define the path to a file or directory
+path = '/path/to/file'
+
+# List extended attributes of the object
+try:
+    xattrs = os.listxattr(path)
+    print(f"Extended attributes for {path}: {', '.join(xattrs)}")
+except OSError as e:
+    print(f"Error listing extended attributes: {e}")
+```
+
+### Example 7: Using `os.access()` to Check Permissions
+```python
+import os
+
+# Define the path to a file and permissions
+file_path = 'example.txt'
+permissions_to_check = os.R_OK | os.W_OK
+
+# Use access() to check if the current user has the specified permissions
+if os.access(file_path, permissions_to_check):
+    print(f"Current user has read/write permission for {file_path}")
+else:
+    print(f"Current user does not have read/write permission for {file_path}")
+```
+
+### Example 8: Retrieving Filesystem Information with `os.statvfs()`
+```python
+import os
+
+# Define the path to a directory
+directory_path = '/path/to/directory'
+
+# Get filesystem statistics for the directory
+statvfs_info = os.statvfs(directory_path)
+
+print(f"Total space: {statvfs_info.f_blocks * statvfs_info.f_frsize} bytes")
+print(f"Free space: {statvfs_info.f_bfree * statvfs_info.f_frsize} bytes")
+print(f"Available space: {statvfs_info.f_bavail * statvfs_info.f_frsize} bytes")
+```
+
+These examples demonstrate how to use the `stat` module in Python to retrieve and interpret various file system properties. Each example includes comments explaining the purpose of each step and relevant functions used.

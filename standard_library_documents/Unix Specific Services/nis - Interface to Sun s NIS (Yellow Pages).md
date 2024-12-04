@@ -1,161 +1,51 @@
 # nis - Interface to Sun’s NIS (Yellow Pages)
 
-**nis Module Code Generator**
-================================
+The `nis` module is an interface to Sun Microsystems' Yellow Pages (NIS) services, which were used to manage network information systems in Unix-like operating systems. While Python's support for NIS has been limited and deprecated in recent versions of the standard library due to its complexity and lack of modern alternatives like LDAP or Active Directory, I can still provide a basic example of how you might use the `nis` module if you need to interact with an NIS server.
 
-### Overview
-
-The `nis` module provides an interface to Sun's NIS (Yellow Pages), which is a distributed database that stores information about hosts, networks, and services.
-
-### Installation
-
-To use the `nis` module, you need to have the `nis` package installed. On Ubuntu-based systems, you can install it using:
-
-```bash
-sudo apt-get install nis
-```
-
-### Importing the Module
-
-To import the `nis` module in Python, use:
-
-```python
-import nis
-```
-
-### Setting up NIS
-
-Before using the `nis` module, you need to set up NIS on your system. This typically involves creating `/etc/nsswitch.conf` file with the following content:
-
-```bash
-passwd: files nis
-group: files nis
-hosts: nis dns
-```
-
-Then, restart the system or run the following command to activate the changes:
-
-```bash
-sudo /etc/init.d/nscud restart
-```
-
-### NIS Functions
-
-The `nis` module provides several functions that can be used to interact with the NIS database. Here are some of the most commonly used functions:
-
-#### 1. `nis.getent_group(groupname)`
-
-Get information about a group by its name.
+Here's a comprehensive code example that demonstrates some common operations using the `nis` module:
 
 ```python
 import nis
 
-group_name = "wheel"
-group_info = nis.getent_group(group_name)
-print(group_info)
-```
+def main():
+    # Define the domain and service for which you want to access information
+    domain = 'example.com'
+    service = 'passwd.byname'
 
-#### 2. `nis.getent_host(hostname)`
-
-Get information about a host by its hostname or IP address.
-
-```python
-import nis
-
-hostname = "example.com"
-host_info = nis.getent_host(hostname)
-print(host_info)
-```
-
-#### 3. `nis.getent_passwd(username)`
-
-Get information about a user by its username.
-
-```python
-import nis
-
-username = "root"
-user_info = nis.getent_passwd(username)
-print(user_info)
-```
-
-#### 4. `nis.getent_password(username, password)` (Python 3.7+)
-
-Get the hashed password for a given username and password.
-
-```python
-import nis
-
-username = "root"
-password = "secret"
-hashed_password = nis.getent_password(username, password)
-print(hashed_password)
-```
-
-#### 5. `nis.getent_passwd(username)`
-
-Get information about a user by its username, including the hashed password.
-
-```python
-import nis
-
-username = "root"
-user_info = nis.getent_passwd(username)
-print(user_info)
-```
-
-### NIS Exception Handling
-
-The `nis` module raises exceptions when errors occur while interacting with the NIS database. You can catch these exceptions using a try-except block:
-
-```python
-try:
-    group_info = nis.getent_group(group_name)
-except Exception as e:
-    print(f"Error: {e}")
-```
-
-### Conclusion
-
-The `nis` module provides an interface to Sun's NIS, which is useful for interacting with the NIS database in Python. By using the functions and exception handling provided by this module, you can easily access information about hosts, networks, groups, users, and passwords.
-
-**Code Generation Output**
-```python
-import nis
-
-def get_group_info(group_name):
-    """Get information about a group by its name."""
     try:
-        return nis.getent_group(group_name)
-    except Exception as e:
-        print(f"Error: {e}")
+        # Retrieve NIS information
+        info = nis.niscat(domain, service)
 
-def get_host_info(hostname):
-    """Get information about a host by its hostname or IP address."""
-    try:
-        return nis.getent_host(hostname)
-    except Exception as e:
-        print(f"Error: {e}")
+        print(f"Domain: {domain}")
+        print(f"Service: {service}")
 
-def get_user_info(username):
-    """Get information about a user by its username."""
-    try:
-        return nis.getent_passwd(username)
-    except Exception as e:
-        print(f"Error: {e}")
+        # Iterate over the entries and print them
+        for entry in info:
+            print(entry)
 
-def get_password(hashed_password):
-    """Get the hashed password for a given username and password."""
-    try:
-        return nis.getent_password(username, password)
-    except Exception as e:
-        print(f"Error: {e}")
+    except nis.error as e:
+        # Handle errors that occur during NIS operations
+        print(f"Error accessing NIS: {e}")
 
-def get_user_info_by_username(username):
-    """Get information about a user by its username, including the hashed password."""
-    try:
-        return nis.getent_passwd(username)
-    except Exception as e:
-        print(f"Error: {e}")
+if __name__ == "__main__":
+    main()
 ```
-Note that this code generation output includes all the functions mentioned above. The actual functions and exceptions used in the `nis` module may vary depending on the Python version and system configuration.
+
+### Explanation:
+
+1. **Import the `nis` Module**: This module provides functions to interact with NIS services.
+
+2. **Define Domain and Service**: Specify the domain and service you want to access, such as `/etc/passwd.byname`.
+
+3. **Retrieve NIS Information**: Use `nis.niscat()` to retrieve data from the specified NIS server and service. This function returns a list of entries in the format `[key1, value1], [key2, value2], ...`.
+
+4. **Handle Exceptions**: Use a try-except block to handle any errors that may occur during the operation, such as connection issues or permission problems.
+
+5. **Iterate and Print Entries**: Loop through the retrieved entries and print them out.
+
+### Notes:
+
+- **NIS Deprecation**: It's important to note that NIS is an outdated protocol and should not be used for new applications due to its lack of security, performance, and modern features compared to LDAP or Active Directory.
+- **Alternative Solutions**: Consider using LDAP or Active Directory if you need to interact with a more robust network information system.
+
+This example provides a basic framework for interacting with NIS services. Depending on your specific requirements, you might need to extend this code to handle more complex scenarios or integrate it into a larger application.

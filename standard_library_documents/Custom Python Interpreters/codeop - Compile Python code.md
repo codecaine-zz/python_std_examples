@@ -1,121 +1,96 @@
-# codeop — Compile Python code
+# codeop - Compile Python code
 
-**CodeOp: A Python Code Compiler**
-=====================================
+The `codeop` module in Python is used to compile Python source code into bytecode, which can then be executed by the CPython interpreter. This can be useful for various purposes such as parsing and transforming code or optimizing it before execution.
 
-### Overview
+Here are comprehensive examples demonstrating different functionalities of the `codeop` module:
 
-`codeop` is a Python module that allows you to compile and execute Python code in various ways.
-
-### Importing the Module
-
-To use `codeop`, simply import it in your Python script:
 ```python
 import codeop
-```
-### Compiling Code
 
-You can use `codeop.compile()` to compile Python code into an executable file. Here's an example:
-```python
-# Compile a Python script into an executable file
-code = """
-def hello():
+# Function to compile a string of Python code into bytecode
+def compile_code(code_string):
+    # Use codeop.compile_command() to compile the code string
+    try:
+        compiled_code = codeop.compile_command(code_string)
+        return compiled_code
+    except SyntaxError as e:
+        print(f"Syntax error: {e}")
+        return None
+
+# Example usage of compile_code()
+code_to_compile = """
+def hello_world():
     print("Hello, World!")
-
-hello()
 """
 
-compiled_code = codeop.compile(code)
-print(compiled_code)  # Output: b'\x93\x01\x00\x00\x00\x04\x68\x65\x6c\x6c\x6f\n\x00\x05\x00\x00\x00\x0a\x62\x69\x6e\x74\x28\x29\x4e\x6f\x64\x61\x6c\x6c\x6f \x0a'
+compiled_result = compile_code(code_to_compile)
+
+if compiled_result:
+    # Execute the compiled bytecode
+    exec(compiled_result)
 ```
-The `compiled_code` variable now holds the compiled executable code as a bytes object.
 
-### Executing Compiled Code
+### Explanation:
 
-You can use `codeop.execute()` to execute the compiled code:
+1. **`compile_command()` Function**: This function is used to compile a string of Python code into a compiled object (a `code` instance). It processes the input string according to the rules of the Python grammar and compiles it into bytecode.
+
+2. **Error Handling**: The example includes basic error handling to catch and print syntax errors when the input code does not conform to Python's syntax rules.
+
+3. **Executing Compiled Code**: Once compiled, you can execute the bytecode using `exec()`. This function takes a compiled object and evaluates its contents in the current scope.
+
+### Additional Examples:
+
+#### Example 2: Compiling and Executing Multiple Statements
+
 ```python
-# Execute the compiled code
-result = codeop.execute(compiled_code)
-print(result)  # Output: None
-```
-The `result` variable now holds the result of executing the compiled code, which in this case is `None`.
-
-### Customizing Compilation Options
-
-You can customize the compilation options using the `codeop.compile()` function's optional arguments:
-```python
-# Compile a Python script with custom options
-code = """
-def hello():
-    print("Hello, World!")
-
-hello()
+# String containing multiple statements
+multiple_statements = """
+x = 10
+y = 20
+z = x + y
+print(z)
 """
 
-options = {
-    "optimize": True,
-    "minify": False,
-    "compress": True
-}
+compiled_result_multiple = compile_code(multiple_statements)
 
-compiled_code = codeop.compile(code, **options)
-print(compiled_code)  # Output: compiled code with optimized options
+if compiled_result_multiple:
+    exec(compiled_result_multiple)
 ```
-The `options` dictionary can contain various compilation options, such as:
 
-* `optimize`: Whether to optimize the compiled code for performance.
-* `minify`: Whether to minify the compiled code to reduce its size.
-* `compress`: Whether to compress the compiled code to reduce its size.
+#### Example 3: Using `compile()` Function
 
-### Compiling with Input
+The `codeop` module also provides a direct way to use the built-in `compile()` function from Python's standard library.
 
-You can compile Python code with input using the `codeop.compile()` function's `input` argument:
 ```python
-# Compile a Python script with input
-code = """
-def greet(name):
-    print(f"Hello, {name}!")
+# String containing Python code
+another_code = "a = [1, 2, 3]; b = a + [4, 5]; print(b)"
 
-greet("{input}")
+compiled_result_direct = compile(another_code, "<string>", "exec")
+
+if compiled_result_direct:
+    exec(compiled_result_direct)
+```
+
+#### Example 4: Compiling and Executing Code with Specific Mode
+
+You can specify the mode of compilation using the `mode` parameter in the `compile()` function. This allows you to differentiate between statement execution (`"exec"`), expression evaluation (`"eval"`), or module creation (`"single"`).
+
+```python
+# String containing Python code
+code_for_module = """
+def my_function():
+    return "Hello, from a module!"
 """
 
-compiled_code = codeop.compile(code)
-print(compiled_code)  # Output: compiled code with input
+compiled_result_module = compile(code_for_module, "<module>", "single")
 
-result = codeop.execute(compiled_code)
-print(result)  # Output: Hello, <input>
+if compiled_result_module:
+    # This will create a module object and execute the code inside it
+    exec(compiled_result_module)
 ```
-The `input` argument allows you to pass a string as input to the compiled code. The `<input>` placeholder will be replaced with the actual input value.
 
-### Compiling from File
+### Explanation:
 
-You can compile Python code from a file using the `codeop.compile()` function's `file` argument:
-```python
-# Compile a Python script from a file
-code_file = open("hello.py", "r")
-code = code_file.read()
-code_file.close()
+- **`mode` Parameter**: The `mode` parameter in the `compile()` function specifies how to interpret the input string. `"exec"` executes all statements, `"eval"` evaluates a single expression, and `"single"` creates a module object.
 
-compiled_code = codeop.compile(code, **options)
-print(compiled_code)  # Output: compiled code from file
-
-result = codeop.execute(compiled_code)
-print(result)  # Output: None
-```
-The `file` argument allows you to compile Python code from a file instead of reading it directly.
-
-### Error Handling
-
-You can use try-except blocks to handle errors that may occur during compilation or execution:
-```python
-try:
-    compiled_code = codeop.compile(code)
-except Exception as e:
-    print(f"Error compiling code: {e}")
-
-try:
-    result = codeop.execute(compiled_code)
-except Exception as e:
-    print(f"Error executing code: {e}")
-```
-This will catch any exceptions that occur during compilation or execution and print an error message.
+These examples demonstrate various ways to use the `codeop` module for compiling and executing Python code, covering different scenarios such as executing multiple statements, using built-in functions, and handling errors gracefully.

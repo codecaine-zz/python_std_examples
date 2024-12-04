@@ -1,189 +1,211 @@
-# importlib.util — Utility code for importers
+# importlib.util - Utility code for importers
 
-Here are some code examples using `importlib.util` from Python's standard library:
+The `importlib.util` module is part of the Python Standard Library, providing utilities to manage imports dynamically. Below are comprehensive code examples for various functionalities within this module:
 
-### 1. Importing Modules
-
-```python
-# Import the util object from the importlib package
-from importlib import util
-
-def import_module(module_name):
-    """
-    Import a module by name and return its specification.
-
-    Args:
-        module_name (str): The name of the module to import.
-
-    Returns:
-        A ModuleSpec object representing the imported module.
-    """
-    try:
-        spec = util.find_spec(module_name)
-        if spec is not None:
-            print(f"Imported {module_name} as {spec.name}")
-            return spec
-        else:
-            raise ImportError(f"{module_name} not found")
-    except ImportError as e:
-        print(e)
-
-# Example usage:
-import_module("math")
-```
-
-### 2. Creating a Module Spec
+### 1. Creating a Module Spec
 
 ```python
-from importlib.util import ModuleSpec, SourceFileLoader
+import importlib.util
 
-def create_module_spec(module_name, spec_type):
-    """
-    Create a ModuleSpec object for a given module name and type.
+# Define the path to the file you want to import
+file_path = '/path/to/your/module.py'
 
-    Args:
-        module_name (str): The name of the module to create.
-        spec_type (str): The type of specification to create (e.g. "module", "package").
+# Create a spec object using importlib.util.module_from_spec()
+spec = importlib.util.spec_from_file_location('module_name', file_path)
 
-    Returns:
-        A ModuleSpec object representing the created module.
-    """
-    # Define the loader for the module
-    loader = SourceFileLoader(module_name, f"{module_name}.py")
+# Create an instance of the module using importlib.util.module_from_spec()
+my_module = importlib.util.module_from_spec(spec)
 
-    # Create a new ModuleSpec object
-    spec = ModuleSpec(spec_type, loader)
+# Load the module
+spec.loader.exec_module(my_module)
 
-    return spec
-
-# Example usage:
-spec = create_module_spec("my_module", "module")
-print(spec.spec_type)  # Output: module
+# Now you can use my_module as a regular Python module
+print(my_module.my_function())
 ```
 
-### 3. Creating an Executable Specification
+### 2. Specifying Attributes to Resolve
 
 ```python
-from importlib.util import SourceFileLoader
+import importlib.util
 
-def create_executable_spec(module_name, filename):
-    """
-    Create a spec for an executable module.
+# Define the path to the file and the attributes to resolve
+file_path = '/path/to/your/module.py'
+attributes = ['my_attribute']
 
-    Args:
-        module_name (str): The name of the module to create.
-        filename (str): The path to the executable file.
+# Create a spec object using importlib.util.module_from_spec()
+spec = importlib.util.spec_from_file_location('module_name', file_path)
 
-    Returns:
-        A ModuleSpec object representing the created executable module.
-    """
-    # Define the loader for the module
-    loader = SourceFileLoader(module_name, filename)
+# Create an instance of the module using importlib.util.module_from_spec()
+my_module = importlib.util.module_from_spec(spec)
 
-    # Create a new ModuleSpec object with spec_type "executable"
-    spec = util.find_spec("executable")
+# Set attributes that need to be resolved
+spec.loader.exec_module(my_module, init_globals={'__all__': attributes})
 
-    if spec is None:
-        raise ImportError("Executable specification not found")
-    spec = type('ModuleSpec', (), {"spec_type": spec.spec_type})  # Hack to set spec_type
-    spec.loader = loader
-
-    return spec
-
-# Example usage:
-spec = create_executable_spec("my_module", "/usr/bin/my_module")
-print(spec.spec_type)  # Output: executable
+# Now you can access my_attribute directly from the module
+print(my_module.my_attribute)
 ```
 
-### 4. Finding an Existing Module Spec
+### 3. Specifying a Custom Loader
 
 ```python
-from importlib.util import find_spec
+import importlib.util
 
-def find_existing_module(module_name):
-    """
-    Find an existing module spec for a given module name.
+class MyLoader(importlib._bootstrap.ModuleSpec):
+    def __init__(self, name, path, loader=None):
+        super().__init__(name, path, loader)
 
-    Args:
-        module_name (str): The name of the module to search for.
+    def find_spec(self, *args, **kwargs):
+        # Implement custom logic to find the spec
+        return super().find_spec(*args, **kwargs)
 
-    Returns:
-        A ModuleSpec object representing the found module, or None if not found.
-    """
-    try:
-        return find_spec(module_name)
-    except ImportError as e:
-        print(e)
+    def get_data(self, path):
+        # Implement custom logic to read data
+        with open(path, 'rb') as f:
+            return f.read()
 
-# Example usage:
-spec = find_existing_module("math")
-if spec is not None:
-    print(f"Found existing module {spec.name}")
-else:
-    print(f"{module_name} not found")
+# Define the path to the file and specify a custom loader
+file_path = '/path/to/your/module.py'
+loader = MyLoader('module_name', file_path)
+
+# Create a spec object using importlib.util.spec_from_file_location()
+spec = importlib.util.module_from_spec(loader)
+
+# Load the module
+spec.loader.exec_module(spec.module)
+
+# Now you can use spec.module as a regular Python module
+print(spec.module.my_function())
 ```
 
-### 5. Specifying Module Attributes
+### 4. Specifying Initialization Globals
 
 ```python
-from importlib.util import ModuleSpec, SourceFileLoader
+import importlib.util
 
-def create_module_spec_with_attributes(module_name, attributes):
-    """
-    Create a ModuleSpec object for a given module name and attributes.
+# Define the path to the file and specify initialization globals
+file_path = '/path/to/your/module.py'
+init_globals = {'__all__': ['my_public_attribute']}
 
-    Args:
-        module_name (str): The name of the module to create.
-        attributes (dict): A dictionary of attributes to specify.
+# Create a spec object using importlib.util.module_from_spec()
+spec = importlib.util.spec_from_file_location('module_name', file_path)
 
-    Returns:
-        A ModuleSpec object representing the created module with specified attributes.
-    """
-    # Define the loader for the module
-    loader = SourceFileLoader(module_name, f"{module_name}.py")
+# Create an instance of the module using importlib.util.module_from_spec()
+my_module = importlib.util.module_from_spec(spec)
 
-    # Create a new ModuleSpec object with specified attributes
-    spec = ModuleSpec("module", loader)
+# Set initialization globals
+spec.loader.exec_module(my_module, init_globals=init_globals)
 
-    if attributes:
-        for key, value in attributes.items():
-            setattr(spec, key, value)
-
-    return spec
-
-# Example usage:
-spec = create_module_spec_with_attributes(
-    "my_module",
-    {
-        "__version__": "1.0",
-        "__author__": "John Doe"
-    }
-)
-print(spec.__version__)  # Output: 1.0
+# Now you can access my_public_attribute directly from the module
+print(my_module.my_public_attribute)
 ```
 
-### 6. Checking if a Module Exists
+### 5. Specifying a Custom Module Class
 
 ```python
-from importlib.util import find_spec
+import importlib.util
 
-def check_module_exists(module_name):
-    """
-    Check if a module exists using the `find_spec` function.
+class MyModule:
+    def __init__(self):
+        self.my_variable = 'Hello, World!'
 
-    Args:
-        module_name (str): The name of the module to search for.
+# Define the path to the file and specify the custom module class
+file_path = '/path/to/your/module.py'
+module_class = MyModule
 
-    Returns:
-        bool: True if the module exists, False otherwise.
-    """
-    try:
-        find_spec(module_name)
-        return True
-    except ImportError as e:
-        print(e)
-        return False
+# Create a spec object using importlib.util.module_from_spec()
+spec = importlib.util.spec_from_file_location('module_name', file_path)
 
-# Example usage:
-print(check_module_exists("math"))  # Output: True
+# Create an instance of the module using importlib.util.module_from_spec()
+my_module = importlib.util.module_from_spec(spec, module_class)
+
+# Load the module
+spec.loader.exec_module(my_module)
+
+# Now you can use my_module as a regular Python module with MyModule class
+print(my_module.my_variable)
 ```
+
+### 6. Loading a Module from Source
+
+```python
+import importlib.util
+
+# Define the source code of the module
+source_code = """
+def hello():
+    return 'Hello, World!'
+"""
+
+# Create a spec object using importlib.util.spec_from_source()
+spec = importlib.util.spec_from_loader('module_name', None)
+
+# Create an instance of the module using importlib.util.module_from_spec()
+my_module = importlib.util.module_from_spec(spec)
+
+# Execute the source code
+exec(source_code, my_module.__dict__)
+
+# Now you can use my_module.hello() as a regular Python function
+print(my_module.hello())
+```
+
+### 7. Loading a Module from a ZIP File
+
+```python
+import importlib.util
+
+# Define the path to the ZIP file and the module name within it
+zip_file_path = '/path/to/your/module.zip'
+module_name = 'subpackage.module'
+
+# Create a spec object using importlib.util.spec_from_zip_location()
+spec = importlib.util.spec_from_file_location(module_name, zip_file_path)
+
+# Load the module from the ZIP file
+importlib.util.module_from_spec(spec).load_module()
+
+# Now you can use subpackage.module as a regular Python module
+print(subpackage.module.my_function())
+```
+
+### 8. Loading a Module from a Remote URL
+
+```python
+import importlib.util
+import urllib.request
+
+# Define the URL to the module file
+url = 'https://example.com/path/to/module.py'
+
+# Create a spec object using importlib.util.spec_from_url()
+spec = importlib.util.spec_from_file_location('module_name', url)
+
+# Load the module from the remote URL
+my_module = importlib.util.module_from_spec(spec)
+urllib.request.urlretrieve(url, 'temp_module.py')  # Download the file first
+spec.loader.exec_module(my_module)
+
+# Now you can use my_module as a regular Python module
+print(my_module.my_function())
+```
+
+### 9. Specifying Initialization Path
+
+```python
+import importlib.util
+
+# Define the path to the directory containing the module
+init_path = '/path/to/your/module'
+
+# Create a spec object using importlib.util.spec_from_file_location()
+spec = importlib.util.spec_from_file_location('module_name', init_path)
+
+# Load the module from the specified directory
+my_module = importlib.util.module_from_spec(spec)
+my_module.__file__ = spec.origin  # Set the file path manually
+
+# Now you can use my_module as a regular Python module
+print(my_module.my_function())
+```
+
+These examples demonstrate various ways to use `importlib.util` for dynamic module loading in Python, covering different scenarios such as importing from files, URLs, and ZIP files, as well as specifying custom loaders, modules classes, and initialization paths.

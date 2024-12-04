@@ -1,154 +1,126 @@
 # platform - Access to underlying platform’s identifying data
 
-**Platform Module**
-====================
-
-The `platform` module provides access to underlying platform’s identifying data.
-
-**Module Contents:**
-
-*   `sysconf_names`: Returns a dictionary mapping named configuration options to their corresponding values.
-*   `sysconf_value`: Returns the value of a specific system configuration option.
-*   `machine`: Returns a string representing the machine type.
-*   `node`: Returns a string representing the node name.
-*   `release`: Returns a string representing the release version.
-*   `version`: Returns a tuple containing three values: major, minor, and patch versions.
-*   `processor`: Returns a string representing the processor type.
-
-**Code Examples:**
--------------------
-
-### 1. Accessing System Configuration Options
+Below is a comprehensive set of code examples for the `platform` module in Python, including comments explaining each step.
 
 ```python
 import platform
 
-# Get all available configuration options
-config_options = platform.sysconf_names()
-print(config_options)
+# Example 1: Get the system name
+system_name = platform.system()
+print(f"System Name: {system_name}")
 
-# Get the value of a specific configuration option
-cpu_freq = platform.sysconf_value('HZ')
-print(cpu_freq)
-```
-
-### 2. Identifying Machine Type and Node Name
-
-```python
-import platform
-
-machine_type = platform.machine()
-node_name = platform.node()
-
-print(f"Machine Type: {machine_type}")
-print(f"Node Name: {node_name}")
-```
-
-### 3. Obtaining Release Version and Processor Information
-
-```python
-import platform
-
+# Example 2: Get the release version of the operating system
 release_version = platform.release()
-processor_info = platform.processor()
-
 print(f"Release Version: {release_version}")
-print(f"Processor Info: {processor_info}")
+
+# Example 3: Get the architecture of the machine
+architecture = platform.architecture()[0]
+print(f"Architecture: {architecture}")
+
+# Example 4: Get the Python implementation name
+python_implementation = platform.python_implementation()
+print(f"Python Implementation: {python_implementation}")
+
+# Example 5: Get the Python version as a tuple (major, minor, micro)
+python_version_tuple = platform.version_info
+print(f"Python Version Tuple: {python_version_tuple}")
+
+# Example 6: Get the operating system name and release version as a string
+os_name_release = platform.platform()
+print(f"OS Name and Release: {os_name_release}")
+
+# Example 7: Check if Python is running in a virtual environment
+if platform.python_implementation() == "CPython":
+    is_virtualenv = hasattr(sys, 'real_prefix') or sys.prefix != sys.base_prefix
+else:
+    is_virtualenv = False
+
+print(f"Is Virtual Environment: {is_virtualenv}")
+
+# Example 8: Get the Python executable path
+python_executable = platform.python_executable
+print(f"Python Executable Path: {python_executable}")
+
+# Example 9: Get the current operating system as a string (e.g., 'Windows', 'Linux')
+os_name_short = platform.system()
+print(f"OS Name Short: {os_name_short}")
+
+# Example 10: Get the number of processors available
+number_of_processors = platform.processor()
+print(f"Number of Processors: {number_of_processors}")
+
+# Example 11: Get the operating system's version as a string
+os_version_str = platform.version()
+print(f"OS Version String: {os_version_str}")
+
+# Example 12: Get the Python version as a tuple (major, minor)
+python_version_tuple_short = platform.python_version_tuple()[:2]
+print(f"Python Version Tuple Short: {python_version_tuple_short}")
+
+# Example 13: Check if the operating system is Windows
+if os_name_short == "Windows":
+    print("Running on Windows")
+else:
+    print("Not running on Windows")
+
+# Example 14: Get the Python implementation as a string (e.g., 'CPython', 'PyPy')
+python_implementation_str = platform.python_implementation()
+print(f"Python Implementation String: {python_implementation_str}")
+
+# Example 15: Get the operating system's release version as a tuple
+os_release_tuple = platform.release_info
+print(f"OS Release Tuple: {os_release_tuple}")
+
+# Example 16: Check if Python is running in an environment that supports virtual environments
+is_virtualenv_supporting = hasattr(sys, 'real_prefix') or sys.prefix == sys.base_prefix
+print(f"Is Virtual Environment Supporting: {is_virtualenv_supporting}")
+
+# Example 17: Get the current operating system as a string (e.g., 'Windows', 'Linux')
+os_name_full = platform.uname().system
+print(f"OS Name Full: {os_name_full}")
+
+# Example 18: Get the Python version as a tuple (major, minor)
+python_version_tuple_long = platform.version_info[:2]
+print(f"Python Version Tuple Long: {python_version_tuple_long}")
+
+# Example 19: Check if the operating system is macOS
+if os_name_short == "Darwin":
+    print("Running on macOS")
+else:
+    print("Not running on macOS")
+
+# Example 20: Get the current operating system as a string (e.g., 'Windows', 'Linux')
+os_name_agnostic = platform.platform(aliased=True)
+print(f"OS Name Agnostic: {os_name_agnostic}")
+
+# Example 21: Get the Python implementation as a tuple
+python_implementation_tuple = platform.python_implementation_info()[:2]
+print(f"Python Implementation Tuple: {python_implementation_tuple}")
+
+# Example 22: Check if the operating system is POSIX-based (Linux, macOS)
+is_posix_based = os_name_short in ["Linux", "Darwin"]
+print(f"Is POSIX-Based: {is_posix_based}")
+
+# Example 23: Get the current operating system as a string (e.g., 'Windows', 'Linux')
+os_name_specific = platform.uname().system
+print(f"OS Name Specific: {os_name_specific}")
+
+# Example 24: Get the Python version as a tuple (major, minor)
+python_version_tuple_all = platform.version_info[:3]
+print(f"Python Version Tuple All: {python_version_tuple_all}")
+
+# Example 25: Check if the operating system is Windows or macOS
+is_windows_or_macos = os_name_short in ["Windows", "Darwin"]
+print(f"Is Windows or macOS: {is_windows_or_macos}")
 ```
 
-### 4. Accessing Major, Minor, and Patch Versions
+### Explanation:
 
-```python
-import platform
+- **System Information**: Examples include getting the system name, release version, architecture, and Python implementation.
+- **Environment Check**: The examples check if the environment is a virtual environment using `sys.real_prefix` or `sys.prefix`.
+- **OS Details**: The examples retrieve detailed OS information such as platform, full name, and version.
+- **Python Version**: Various ways to extract the Python version are shown, including tuple formats.
+- **Platform Detection**: Examples check if the operating system is Windows, macOS, or POSIX-based (Linux).
+- **Compatibility Checks**: Examples verify compatibility checks using `sys.real_prefix` for virtual environments.
 
-major_version, minor_version, patch_version = platform.version()
-
-print(f"Major Version: {major_version}")
-print(f"Minor Version: {minor_version}")
-print(f"Patch Version: {patch_version}")
-```
-
-**API Documentation:**
-
-### `platform.sysconf_names()`
-
-Returns a dictionary mapping named configuration options to their corresponding values.
-
-```python
-def sysconf_names():
-    # Returns a dictionary of available system configuration options
-    pass
-```
-
-### `platform.sysconf_value(name)`
-
-Returns the value of a specific system configuration option.
-
-```python
-def sysconf_value(name):
-    """
-    Returns the value of a specific system configuration option.
-
-    Args:
-        name (str): The name of the configuration option
-
-    Returns:
-        str: The value of the configuration option
-    """
-    pass
-```
-
-### `platform.machine()`
-
-Returns a string representing the machine type.
-
-```python
-def machine():
-    # Returns a string representing the machine type
-    pass
-```
-
-### `platform.node()`
-
-Returns a string representing the node name.
-
-```python
-def node():
-    # Returns a string representing the node name
-    pass
-```
-
-### `platform.release()`
-
-Returns a string representing the release version.
-
-```python
-def release():
-    # Returns a string representing the release version
-    pass
-```
-
-### `platform.version()`
-
-Returns a tuple containing three values: major, minor, and patch versions.
-
-```python
-def version():
-    """
-    Returns a tuple of three integers representing the major, minor, and patch versions.
-
-    Returns:
-        tuple: A tuple of three integers (major_version, minor_version, patch_version)
-    """
-    pass
-```
-
-### `platform.processor()`
-
-Returns a string representing the processor type.
-
-```python
-def processor():
-    # Returns a string representing the processor type
-    pass
-```
+These examples provide a comprehensive overview of how to use the `platform` module to gather system and Python-related information.

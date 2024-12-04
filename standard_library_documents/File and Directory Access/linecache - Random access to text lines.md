@@ -1,111 +1,182 @@
-# linecache — Random access to text lines
+# linecache - Random access to text lines
 
-**LineCache Module**
-=====================
+The `linecache` module provides a way to access lines of files, even if the file is not open or has been changed since it was last accessed. This can be particularly useful when you need to process large files without reading them entirely into memory.
 
-The `linecache` module provides an interface to access text files line by line, allowing for random access and efficient memory usage.
+Here are some comprehensive code examples for using the `linecache` module:
 
-**Installation**
----------------
-
-You can install the `linecache` module using pip:
-```bash
-pip install linecache
-```
-**Code Examples**
------------------
-
-### 1. Reading a Text File Line by Line
+### Example 1: Retrieve a line from a file
 
 ```python
 import linecache
 
-# Read the first 10 lines from the file 'example.txt'
-lines = linecache.getlines('example.txt', count=10)
-
-for line in lines:
-    print(line)
-```
-
-### 2. Accessing a Specific Line by Number
-
-```python
-import linecache
-
-# Get the 5th line from the file 'example.txt'
-line = linecache.getline('example.txt', 5)
-
-print(line)
-```
-
-### 3. Checking if a File Exists and Returns an Empty List on Failure
-
-```python
-import linecache
+# Specify the path to the file and the line number
+file_path = '/path/to/your/file.txt'
+line_number = 5
 
 try:
-    lines = linecache.getlines('non_existent_file.txt')
+    # Get the specified line from the file
+    line_content = linecache.getline(file_path, line_number)
+    
+    print(f"Line {line_number} in '{file_path}':")
+    print(line_content.strip())  # Remove any trailing newline character
 except FileNotFoundError:
-    print("File does not exist")
-else:
-    # File exists, process the contents
+    print("The file does not exist.")
+```
+
+### Example 2: Retrieve all lines from a file and store them in a list
+
+```python
+import linecache
+
+# Specify the path to the file
+file_path = '/path/to/your/file.txt'
+
+try:
+    # Get all lines from the file into a list
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+    
+    print("All lines in '{file_path}':")
     for line in lines:
-        print(line)
+        print(line.strip())
+except FileNotFoundError:
+    print("The file does not exist.")
 ```
 
-### 4. Reading a Text File and Returning Only Unique Lines
+### Example 3: Store the contents of a file in memory and retrieve a specific line
 
 ```python
 import linecache
 
-def get_unique_lines(file_name):
-    unique_lines = set()
-    with open(file_name, 'r') as f:
-        for line in f:
-            if line.strip() not in unique_lines:
-                unique_lines.add(line.strip())
-    return list(unique_lines)
+# Specify the path to the file
+file_path = '/path/to/your/file.txt'
 
-unique_lines = get_unique_lines('example.txt')
-for line in unique_lines:
-    print(line)
+try:
+    # Load all lines into memory
+    lines = linecache.getlines(file_path)
+    
+    # Specify the line number
+    line_number = 3
+    
+    print(f"Line {line_number} in '{file_path}':")
+    print(lines[line_number - 1].strip())  # Adjust for zero-based indexing
+except FileNotFoundError:
+    print("The file does not exist.")
 ```
 
-### 5. Reading a Text File and Returning Only Lines Containing a Specific Word
+### Example 4: Clear the cache to free up memory
 
 ```python
 import linecache
 
-def get_lines_with_word(file_name, word):
-    matching_lines = []
-    with open(file_name, 'r') as f:
-        for line in f:
-            if word.lower() in line.lower():
-                matching_lines.append(line.strip())
-    return matching_lines
+# Specify the path to the file
+file_path = '/path/to/your/file.txt'
 
-matching_lines = get_lines_with_word('example.txt', 'hello')
-for line in matching_lines:
-    print(line)
+try:
+    # Get a line from the file
+    line_content = linecache.getline(file_path, 1)
+    
+    print(f"Line 1 in '{file_path}':")
+    print(line_content.strip())
+except FileNotFoundError:
+    print("The file does not exist.")
+
+# Clear the cache to free up memory
+linecache.clearcache()
 ```
 
-### 6. Using `getlines` with a Custom Line Separator
+### Example 5: Retrieve lines from multiple files and process them
 
 ```python
 import linecache
 
-# Specify a custom line separator (e.g., newline followed by tab)
-custom_separator = "\n\t"
+# List of file paths
+file_paths = ['/path/to/file1.txt', '/path/to/file2.txt']
 
-lines = linecache.getlines('example.txt', sep=custom_separator)
-
-for i, line in enumerate(lines):
-    print(f"Line {i+1}: {line}")
+try:
+    # Retrieve all lines from each file
+    for file_path in file_paths:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+        
+        print(f"Lines in '{file_path}':")
+        for line in lines:
+            print(line.strip())
+except FileNotFoundError:
+    print("One or more files do not exist.")
 ```
 
-Note: The `getlines` function returns an iterator yielding lines from the file. If you need to use a different separator or have more complex requirements, consider using `open` and `split` methods instead.
+### Example 6: Handle errors gracefully using try-except blocks
 
-**Error Handling**
------------------
+```python
+import linecache
 
-When working with files that may not exist or have issues reading them, it's essential to handle potential errors. The `linecache` module provides no explicit error handling; you must implement it yourself based on your specific needs and requirements.
+# Specify the path to a file that might not exist
+file_path = '/path/to/nonexistent_file.txt'
+
+try:
+    # Attempt to retrieve a line from the non-existent file
+    line_content = linecache.getline(file_path, 1)
+    
+    print(f"Line 1 in '{file_path}':")
+    print(line_content.strip())
+except FileNotFoundError as e:
+    print(f"An error occurred: {e}")
+```
+
+### Example 7: Store and retrieve lines in a context manager
+
+```python
+import linecache
+
+class LineCacheManager:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.lines = None
+
+    def load_lines(self):
+        with open(self.file_path, 'r') as file:
+            self.lines = file.readlines()
+
+    def get_line(self, line_number):
+        if self.lines is None:
+            self.load_lines()
+        
+        return self.lines[line_number - 1].strip()
+
+# Usage
+manager = LineCacheManager('/path/to/your/file.txt')
+try:
+    line_content = manager.get_line(5)
+    print(f"Line 5 in '{file_path}':")
+    print(line_content.strip())
+except IndexError:
+    print("The specified line number is out of range.")
+```
+
+### Example 8: Use `linecache` with a list to store lines and process them
+
+```python
+import linecache
+
+# List of file paths
+file_paths = ['/path/to/file1.txt', '/path/to/file2.txt']
+
+lines_data = []
+
+try:
+    # Retrieve all lines from each file and store in a list
+    for file_path in file_paths:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+        
+        lines_data.extend(lines)
+    
+    print("All lines processed:")
+    for line in lines_data:
+        print(line.strip())
+except FileNotFoundError:
+    print("One or more files do not exist.")
+```
+
+These examples cover various use cases of the `linecache` module, from basic retrieval to handling errors and storing results. Each example includes comments for clarity and best practices are followed throughout the code.

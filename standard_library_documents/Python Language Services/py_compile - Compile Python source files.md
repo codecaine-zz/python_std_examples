@@ -1,188 +1,103 @@
-# py_compile — Compile Python source files
+# py_compile - Compile Python source files
 
-Here's an example of how you can use `compile` function from `py_compile` module:
+The `py_compile` module in Python's standard library provides a simple way to compile Python source files into bytecode using the built-in compiler. This is useful for distributing Python programs, as it allows you to distribute only the compiled bytecode instead of the source code. Below are several examples demonstrating various functionalities of the `py_compile` module.
 
-```python
-# Import the compile function from py_compile module
-from py_compile import compile
-
-def main():
-    # Create a string containing Python code
-    code = """
-    def add(a, b):
-        return a + b
-    
-    print(add(3, 4))
-    """
-
-    try:
-        # Compile the code with Python 3.9 as target Python version
-        compiled_code = compile(code, '<string>', 'exec', {'__builtins__': None})
-
-        # Execute the compiled code
-        exec(compiled_code)
-
-    except SyntaxError as e:
-        print(f"Syntax error: {e}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-if __name__ == "__main__":
-    main()
-```
-
-This example demonstrates how to compile a Python source string into bytecode and execute it.
-
-### Compiling and Running a Script
-
-To compile and run a Python script, you can use the following code:
+### Example 1: Compile a Single Source File
 
 ```python
-# Import the compile function from py_compile module
-from py_compile import compile
+import py_compile
 
-def main():
-    # Specify the path to your Python script
-    script_path = 'example.py'
+# Specify the source file and its output path (compiled bytecode)
+source_file = 'example.py'
+bytecode_file = 'example.pyc'
 
-    try:
-        # Open the script file in read mode
-        with open(script_path, 'r') as file:
-            # Read the contents of the script
-            code = file.read()
-
-        # Compile the code with Python 3.9 as target Python version
-        compiled_code = compile(code, script_path, 'exec')
-
-        # Execute the compiled code
-        exec(compiled_code)
-
-    except FileNotFoundError as e:
-        print(f"The file {script_path} was not found: {e}")
-    except SyntaxError as e:
-        print(f"Syntax error in {script_path}: {e}")
-    except Exception as e:
-        print(f"An error occurred while executing the script: {e}")
-
-if __name__ == "__main__":
-    main()
+try:
+    # Compile the source file into bytecode
+    py_compile.compile(source_file, outdir=bytecode_file)
+    print(f"Source file '{source_file}' compiled to '{bytecode_file}'.")
+except FileNotFoundError:
+    print(f"Error: Source file '{source_file}' not found.")
+except Exception as e:
+    print(f"An error occurred during compilation: {e}")
 ```
 
-This example compiles and executes a Python script by reading it from a file.
-
-### Compiling a Module
-
-To compile a Python module, you can use the following code:
+### Example 2: Compile Multiple Source Files in a Directory
 
 ```python
-# Import the compile function from py_compile module
-from py_compile import compile
+import py_compile
+import os
 
-def main():
-    # Specify the path to your Python module
-    module_path = 'example.py'
+# Specify the directory containing source files and the output directory for bytecode
+src_dir = 'src'
+bytecode_dir = 'build'
 
-    try:
-        # Compile the module with Python 3.9 as target Python version
-        compiled_module = compile(open(module_path).read(), module_path, 'exec')
+try:
+    # Ensure the output directory exists
+    if not os.path.exists(bytecode_dir):
+        os.makedirs(bytecode_dir)
 
-        # Execute the compiled module
-        exec(compiled_module)
-
-    except FileNotFoundError as e:
-        print(f"The file {module_path} was not found: {e}")
-    except SyntaxError as e:
-        print(f"Syntax error in {module_path}: {e}")
-    except Exception as e:
-        print(f"An error occurred while executing the module: {e}")
-
-if __name__ == "__main__":
-    main()
+    # Compile all .py files in the source directory into bytecode
+    for filename in os.listdir(src_dir):
+        if filename.endswith('.py'):
+            py_compile.compile(os.path.join(src_dir, filename), outdir=bytecode_dir)
+            print(f"Compiled {filename} to {os.path.join(bytecode_dir, filename)}")
+except FileNotFoundError:
+    print("Error: Source directory not found.")
+except Exception as e:
+    print(f"An error occurred during compilation: {e}")
 ```
 
-This example compiles a Python module and executes it.
-
-### Using compile with other Options
-
-You can use different options when compiling Python source files using `compile` function:
-
-*   `mode`: Specifies the execution mode. Options are `'exec'`, `'eval'`, and `'single'.
-*   `filenames`: A list of filenames to be compiled.
-*   `dumps`: If `True`, generates a byte string containing the compiled code.
-
-Here's an example using `compile` with different options:
+### Example 3: Compile a Source File with Specific Options
 
 ```python
-# Import the compile function from py_compile module
-from py_compile import compile
+import py_compile
 
-def main():
-    # Create a string containing Python code
-    code = """
-    def add(a, b):
-        return a + b
-    
-    print(add(3, 4))
-    """
+# Specify the source file and its output path (compiled bytecode)
+source_file = 'example.py'
+bytecode_file = 'example.pyc'
 
-    try:
-        # Compile the code with Python 3.9 as target Python version and 'exec' mode
-        compiled_code_exec = compile(code, '<string>', 'exec', {'__builtins__': None})
-
-        # Compile the code with Python 3.9 as target Python version and 'eval' mode
-        compiled_code_eval = compile(code, '<string>', 'eval', {'__builtins__': None})
-
-        # Compile the code with Python 3.9 as target Python version and 'single' mode
-        compiled_code_single = compile(code, '<string>', 'single')
-
-    except SyntaxError as e:
-        print(f"Syntax error: {e}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-if __name__ == "__main__":
-    main()
+try:
+    # Compile the source file into bytecode with optimization enabled
+    py_compile.compile(source_file, outdir=bytecode_dir, optimize=2)
+    print(f"Source file '{source_file}' compiled to '{bytecode_file}' with optimization level 2.")
+except FileNotFoundError:
+    print("Error: Source file not found.")
+except Exception as e:
+    print(f"An error occurred during compilation: {e}")
 ```
 
-This example demonstrates how to use `compile` function with different modes.
-
-### Compiling and Running a Script in a Loop
-
-You can compile and run a Python script in a loop using the following code:
+### Example 4: Check if a File is Already Compiled
 
 ```python
-# Import the compile function from py_compile module
-from py_compile import compile
+import py_compile
 
-def main():
-    # Specify the path to your Python script
-    script_path = 'example.py'
+# Specify the source and bytecode files
+source_file = 'example.py'
+bytecode_file = 'example.pyc'
 
-    try:
-        # Open the script file in read mode
-        with open(script_path, 'r') as file:
-            # Read the contents of the script
-            code = file.read()
-
-        # Compile the code with Python 3.9 as target Python version
-        compiled_code = compile(code, script_path, 'exec')
-
-        # Number of times to execute the script
-        num_executions = 5
-
-        for i in range(num_executions):
-            # Execute the compiled code
-            exec(compiled_code)
-
-    except FileNotFoundError as e:
-        print(f"The file {script_path} was not found: {e}")
-    except SyntaxError as e:
-        print(f"Syntax error in {script_path}: {e}")
-    except Exception as e:
-        print(f"An error occurred while executing the script: {e}")
-
-if __name__ == "__main__":
-    main()
+if py_compile.is_compiled(source_file):
+    print(f"{source_file} is already compiled to {bytecode_file}.")
+else:
+    print(f"{source_file} is not yet compiled.")
 ```
 
-This example compiles and executes a Python script multiple times.
+### Example 5: Compile a Source File with Specific Mode
+
+```python
+import py_compile
+
+# Specify the source file and its output path (compiled bytecode)
+source_file = 'example.py'
+bytecode_file = 'example.pyc'
+
+try:
+    # Compile the source file into bytecode using the standard compiler mode
+    py_compile.compile(source_file, outdir=bytecode_dir, modname='example')
+    print(f"Source file '{source_file}' compiled to '{bytecode_dir}/__pycache__/example.cpython-312-py3-none-any.pyc' with module name 'example'.")
+except FileNotFoundError:
+    print("Error: Source file not found.")
+except Exception as e:
+    print(f"An error occurred during compilation: {e}")
+```
+
+These examples cover basic use cases for the `py_compile` module, including compiling a single source file, multiple files in a directory, specifying optimization levels, checking if a file is already compiled, and using a specific mode for compilation. Each example includes error handling to manage potential issues such as missing files or compilation errors.

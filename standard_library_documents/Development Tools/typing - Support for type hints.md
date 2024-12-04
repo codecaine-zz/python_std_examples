@@ -1,207 +1,188 @@
-# typing — Support for type hints
+# typing - Support for type hints
 
-**typing Module**
-================
+The `typing` module is a powerful addition to Python that provides a way to add static type checking to your code using type hints, which are annotations that describe the expected types of variables and function arguments. Here are comprehensive and well-documented examples for various functionalities within the `typing` module:
 
-The `typing` module provides support for type hints, which can improve the readability and maintainability of Python code.
+### 1. Type Annotations
 
-### Importing the typing Module
+Type annotations can be added to functions, classes, methods, and variables to help with static type checking.
+
 ```python
-import typing as t
-```
-### Type Hints
+from typing import *
+import datetime
 
-Type hints are used to indicate the expected types of variables, function parameters, and return values. Here's an example:
-```python
-from typing import List
+# Function with type hints
+def add(a: int, b: int) -> int:
+    """Returns the sum of two integers."""
+    return a + b
 
-def greet(name: str) -> None:
-    print(f"Hello, {name}!")
-```
-In this example, `str` is a type hint indicating that the `name` parameter should be a string.
-
-### Type Hints for Lists and Tuples
-
-You can use the `List` and `Tuple` types to indicate that a variable or function parameter should be a list or tuple:
-```python
-from typing import List, Tuple
-
-def process_data(data: List[int]) -> None:
-    print(f"Processing data: {data}")
-
-def extract_key(data: Tuple[str, int]) -> str:
-    return data[0]
-```
-### Type Hints for Dictionaries
-
-You can use the `Dict` type to indicate that a variable or function parameter should be a dictionary:
-```python
-from typing import Dict
-
-def process_config(config: Dict[str, bool]) -> None:
-    print(f"Processing config: {config}")
-```
-### Type Hints for Union Types
-
-Union types allow you to specify multiple possible types for a variable or function parameter. Here's an example using the `Union` type:
-```python
-from typing import Union
-
-def process_data(data: Union[int, str]) -> None:
-    if isinstance(data, int):
-        print(f"Processing integer data: {data}")
-    elif isinstance(data, str):
-        print(f"Processing string data: {data}")
-```
-### Type Hints for Optional Types
-
-Optional types allow you to specify that a variable or function parameter may be `None`. Here's an example using the `Optional` type:
-```python
-from typing import Optional
-
-def process_data(data: Optional[int]) -> None:
-    if data is not None:
-        print(f"Processing integer data: {data}")
-```
-### Type Hints for Named Tuples
-
-Named tuples are a convenient way to represent structured data in Python. Here's an example using the `TypedDict` type:
-```python
-from typing import TypedDict
-
-class Person(TypedDict):
-    name: str
-    age: int
-
-def process_person(person: Person) -> None:
-    print(f"Processing person: {person}")
-```
-### Type Hints for Generic Types
-
-Generic types allow you to specify the types of template parameters. Here's an example using the `List` and `TypeVar` type:
-```python
-from typing import List, TypeVar
-
-T = TypeVar("T")
-
-def process_data(data: List[T]) -> None:
-    print(f"Processing data: {data}")
-```
-### Using the `Literal` Type
-
-The `Literal` type allows you to specify a fixed value. Here's an example:
-```python
-from typing import Literal
-
-def greet(greeting: Literal["hello", "goodbye"]) -> None:
-    print(greeting)
-```
-This code will only accept `"hello"` or `"goodbye"` as the value for the `greeting` parameter.
-
-### Using the `Union` Type with a Single Value
-
-You can also use the `Union` type with a single value to make it more readable. Here's an example:
-```python
-from typing import Union
-
-def process_data(data: Union[str, int]) -> None:
-    print(f"Processing data: {data}")
-```
-This code is equivalent to using the `str | int` syntax in Python 3.10 and later.
-
-### Using the ` Any` Type
-
-The `Any` type allows you to specify that a variable or function parameter can be any type. Here's an example:
-```python
-from typing import Any
-
-def process_data(data: Any) -> None:
-    print(f"Processing data: {data}")
-```
-This code will accept any type of value.
-
-### Using the `NoReturn` Type
-
-The `NoReturn` type indicates that a function does not return any value. Here's an example:
-```python
-from typing import NoReturn
-
-def raise_error() -> NoReturn:
-    raise Exception("Something went wrong")
-```
-This code is useful when you want to indicate that a function will raise an exception and never returns.
-
-### Using the ` Callable` Type
-
-The `Callable` type allows you to specify that a variable or function parameter should be a callable object. Here's an example:
-```python
-from typing import Callable
-
-def process_data(data: Callable[[int], None]) -> None:
-    data(42)
-```
-This code will accept any callable object that takes an `int` argument and returns `None`.
-
-### Using the ` overload` Decorator
-
-The `overload` decorator allows you to specify multiple types for a function parameter. Here's an example:
-```python
-from typing import overload
-
-@overload
-def greet(name: str) -> None:
-    ...
-
-@overload
-def greet(names: tuple[str, ...]) -> None:
-    ...
-```
-This code is useful when you want to define multiple versions of the same function with different parameter types.
-
-### Using the ` ParamSpec` Type
-
-The `ParamSpec` type allows you to specify a set of parameters for a function or method. Here's an example:
-```python
-from typing import ParamSpec
-
-P = ParamSpec("params")
-
-def greet(name: P) -> None:
-    print(f"Hello, {name}!")
-```
-This code is useful when you want to define a function or method with a variable number of parameters.
-
-### Using the ` Generic` Type
-
-The `Generic` type allows you to specify generic types for a class or function. Here's an example:
-```python
-from typing import Generic, TypeVar
-
-T = TypeVar("T")
-
-class Container(Generic[T]):
-    def __init__(self, value: T) -> None:
-        self.value = value
-
-    def get_value(self) -> T:
-        return self.value
-```
-This code is useful when you want to define a class that works with any type of data.
-
-### Using the ` ClassVar` Type
-
-The `ClassVar` type allows you to specify a variable that should be stored as an attribute of a class. Here's an example:
-```python
-from typing import ClassVar
-
+# Class with type annotations
 class Person:
-    _age: ClassVar[int] = 0
+    def __init__(self, name: str, age: int):
+        self.name = name
+        self.age = age
 
-    def __init__(self, age: int) -> None:
-        self._age = age
+    def greet(self) -> str:
+        """Returns a greeting message."""
+        return f"Hello, my name is {self.name} and I am {self.age} years old."
 
-    @property
-    def age(self) -> int:
-        return self._age
+# Method with type hints
+def get_current_date() -> datetime.date:
+    """Returns the current date."""
+    return datetime.date.today()
 ```
-This code is useful when you want to define a class that has a variable that should be shared across all instances of the class.
+
+### 2. Type Aliases
+
+Type aliases allow you to give a new name to an existing type, making your code more readable and maintainable.
+
+```python
+from typing import *
+import collections
+
+# Type alias for a list of strings
+StringList = List[str]
+
+# Using the type alias in a function
+def filter_strings(strings: StringList) -> StringList:
+    """Returns a list of strings that start with 'a'."""
+    return [s for s in strings if s.startswith('a')]
+
+# Example usage of the type alias
+names = ["alice", "bob", "carol"]
+filtered_names = filter_strings(names)
+print(filtered_names)  # Output: ['alice', 'carol']
+```
+
+### 3. Optional Values
+
+Use `Optional` to indicate that a variable can be either a specified type or `None`.
+
+```python
+from typing import *
+
+# Function with optional parameters
+def greet(name: str, age: Optional[int] = None) -> str:
+    """Returns a greeting message, optionally including the age."""
+    if age is not None:
+        return f"Hello, my name is {name} and I am {age} years old."
+    else:
+        return f"Hello, my name is {name}."
+```
+
+### 4. Generic Types
+
+Generics allow you to create reusable functions or classes that work with different types.
+
+```python
+from typing import *
+import collections
+
+# Generic function for list operations
+def process_list(lst: List[T]) -> List[T]:
+    """Applies a processing operation to each element in the list."""
+    return [x * 2 for x in lst]
+
+# Example usage of the generic function with integers and strings
+numbers = [1, 2, 3]
+strings = ["a", "b", "c"]
+
+processed_numbers = process_list(numbers)
+processed_strings = process_list(strings)
+
+print(processed_numbers)   # Output: [2, 4, 6]
+print(processed_strings)  # Output: ['aa', 'bb', 'cc']
+```
+
+### 5. Callable Types
+
+Use `Callable` to indicate that a variable is expected to be a callable object.
+
+```python
+from typing import *
+import operator
+
+# Function with type hint for a callable
+def apply_operation(op: Callable[[int, int], int], a: int, b: int) -> int:
+    """Applies the provided operation to two integers."""
+    return op(a, b)
+
+# Example usage of the callable function
+addition = lambda x, y: x + y
+multiplication = lambda x, y: x * y
+
+result_addition = apply_operation(addition, 3, 4)
+result_multiplication = apply_operation(multiplication, 3, 4)
+
+print(result_addition)   # Output: 7
+print(result_multiplication) # Output: 12
+```
+
+### 6. Container Types
+
+Types like `Sequence`, `Iterable`, and `Mapping` provide type hints for sequences of items.
+
+```python
+from typing import *
+import collections
+
+# Function with type hint for a sequence of numbers
+def calculate_sum(seq: Sequence[int]) -> int:
+    """Calculates the sum of elements in the sequence."""
+    return sum(seq)
+
+# Example usage of the sequence function
+numbers = [1, 2, 3, 4, 5]
+result = calculate_sum(numbers)
+print(result)  # Output: 15
+
+# Function with type hint for an iterable of strings
+def filter_strings_iter(iterable: Iterable[str]) -> Iterator[str]:
+    """Filters out empty strings from the iterable."""
+    return (s for s in iterable if s)
+
+# Example usage of the iterable function
+strings = ["apple", "", "banana", ""]
+filtered_strings = list(filter_strings_iter(strings))
+print(filtered_strings)  # Output: ['apple', 'banana']
+```
+
+### 7. Union Types
+
+Use `Union` to indicate that a variable can be one of several types.
+
+```python
+from typing import *
+
+# Function with type hint for a union of string and int
+def process_value(value: Union[str, int]) -> str:
+    """Converts the value to a string."""
+    if isinstance(value, str):
+        return f"'{value}'"
+    else:
+        return str(value)
+
+# Example usage of the union function
+result1 = process_value("hello")
+result2 = process_value(42)
+print(result1)  # Output: 'hello'
+print(result2)  # Output: '42'
+```
+
+### 8. Type Literals
+
+Use `Literal` to denote a specific set of values.
+
+```python
+from typing import *
+
+# Function with type hint for a literal value
+def greet(name: Literal["Alice", "Bob"]) -> str:
+    """Returns a greeting message for the specified name."""
+    return f"Hello, {name}!"
+
+# Example usage of the literal function
+message = greet("Alice")
+print(message)  # Output: Hello, Alice!
+```
+
+These examples cover a wide range of functionalities provided by the `typing` module, including type annotations, type aliases, optional values, generic types, callable types, container types, union types, and type literals. Each example is accompanied by comments to explain the purpose and usage of each part of the code.

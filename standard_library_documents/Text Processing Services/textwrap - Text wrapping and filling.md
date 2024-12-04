@@ -1,189 +1,119 @@
-# textwrap — Text wrapping and filling
+# textwrap - Text wrapping and filling
 
-**Text Wrap Module**
-=====================
-
-The `textwrap` module provides functions for controlling the width of text output.
-
-### Functions
-
-#### 1. wrap(text, width)
-
-Wraps the input `text` into lines of maximum length `width`.
+Below is a comprehensive set of code examples that demonstrate various functionalities provided by the `textwrap` module in Python's standard library. The `textwrap` module provides utilities to format text in a variety of ways, such as filling and wrapping text.
 
 ```python
+# Importing the textwrap module
 import textwrap
 
-def wrapped_text_example():
-    # Input text to be wrapped
-    text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+## 1. Basic Text Wrapping
+
+### Example: Simple text wrapping
+def simple_text_wrapping():
+    """
+    This example demonstrates basic text wrapping.
+    The input string is wrapped to fit a specified width.
+    """
+    input_text = "This is an example of how the textwrap module can be used to wrap text."
+    print("Original Text:")
+    print(input_text)
     
-    # Maximum line width
-    max_width = 50
-    
-    # Wrap the text into lines of max_width
-    wrapped_lines = textwrap.wrap(text, max_width)
-    
-    # Print the wrapped lines
-    for line in wrapped_lines:
+    # Wrapping the text to 40 characters per line
+    wrapped_text = textwrap.wrap(input_text, width=40)
+    print("\nWrapped Text:")
+    for line in wrapped_text:
         print(line)
 
-wrapped_text_example()
-```
+simple_text_wrapping()
 
-Output:
+## 2. Filling Text
 
-```
-Lorem ipsum dolor sit amet,
-consectetur adipiscing elit, 
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-```
-
-#### 2. fill(text, width)
-
-Fills the input `text` with spaces to a total line length of `width`.
-
-```python
-import textwrap
-
-def filled_text_example():
-    # Input text to be filled
-    text = "Lorem ipsum dolor sit amet."
+### Example: Filling with fill()
+def fill_example():
+    """
+    This example demonstrates using the `fill()` function to wrap and fill text.
+    The `fill()` method wraps the input text into a paragraph that fits within the specified width,
+    while also indenting each line of the output by a specified number of spaces.
+    """
+    input_text = "This is an example of how the textwrap module can be used to wrap text."
+    print("Original Text:")
+    print(input_text)
     
-    # Maximum line length
-    max_length = 50
+    # Wrapping and filling the text with 40 characters per line, indented by 2 spaces
+    filled_text = textwrap.fill(input_text, width=40, indent="  ")
+    print("\nFilled Text:")
+    print(filled_text)
+
+fill_example()
+
+## 3. Indentation
+
+### Example: Indenting text
+def indent_example():
+    """
+    This example demonstrates the use of `indent()` to add leading whitespace to each line of a paragraph.
+    The `fill()` method is used first to wrap and fill the input text, then `indent()` is applied to add indentation.
+    """
+    input_text = "This is an example of how the textwrap module can be used to wrap text."
+    print("Original Text:")
+    print(input_text)
     
-    # Fill the text with spaces to fill the max_length
-    filled_line = textwrap.fill(text, max_length)
+    # Wrapping and filling the text with 40 characters per line
+    filled_text = textwrap.fill(input_text, width=40)
     
-    # Print the filled line
-    print(filled_line)
-
-filled_text_example()
-```
-
-Output:
-
-```
-Lorem ipsum dolor sit amet.         . .
-                  .                .  .
-                  .                .  .
-                  .                .  .
-                  .                .  .
-                  .                .  .
-                  .                .  .
-                  .                .  .
-                  .                .  .
-                  .                .  .
-                  .                .  .
-```
-
-#### 3. indent(text, width, subsequent_indent=0)
-
-Indents the input `text` with leading whitespace of length `width`, followed by subsequent indentations of length `subsequent_indent`.
-
-```python
-import textwrap
-
-def indented_text_example():
-    # Input text to be indented
-    text = "Lorem ipsum dolor sit amet."
-    
-    # Initial indentation width
-    initial_indentation_width = 5
-    
-    # Subsequent indentation width
-    subsequent_indent_width = 3
-    
-    # Indent the text with leading whitespace of initial_indentation_width, followed by subsequent indentations of length subsequent_indent_width
-    indented_text = textwrap.indent(text, initial_indentation_width, subsequent_indent=subsequent_indent_width * ' ')
-    
-    # Print the indented text
+    # Adding 2 spaces of indentation to each line
+    indented_text = textwrap.indent(filled_text, "  ")
+    print("\nIndented Text:")
     print(indented_text)
 
-indented_text_example()
-```
+indent_example()
 
-Output:
+## 4. Dedenting Text
 
-```
-  Lorem ipsum dolor sit amet.
-     .
-      .
-       .
-        .
-         .
-          .
-           .
-            .
-             .
-              .
-               .
-                .
-                 .
-                  .
-                   .
-                    .
-                     .
-                      .
-                       .
-                        .
-                         .
-                          .
-                           .
-                            .
-                             .
-                              .
-                               .
-                                .
-                                 .
-                                  .
-                                   .
-                                    .
-                                     .
-                                      .
-                                       .
-                                        .
-                                         .
-                                          .
-                                           .
-                                            .
-                                             .
-```
-
-### Constants
-
-#### 1. blankwidth (default: 50)
-
-Maximum width of a line in the wrapped text.
-
-```python
-import textwrap
-
-def blank_width_example():
-    # Set the blankwidth to 30
-    textwrap.blankwidth = 30
+### Example: Removing leading whitespace from text
+def dedent_example():
+    """
+    This example demonstrates the use of `dedent()` to remove any common leading whitespace from each line.
+    The input text should have consistent leading whitespace on all lines for this function to work correctly.
+    """
+    input_text = """  This is an example of how the textwrap module can be used to wrap text.
+                    Notice that there are two spaces at the beginning of each line."""
     
-    # Input text to be wrapped
-    text = "Lorem ipsum dolor sit amet."
+    print("Original Text:")
+    print(input_text)
     
-    # Wrap the text into lines of max_blankwidth
-    wrapped_lines = textwrap.wrap(text, max_blankwidth)
+    # Dedenting the text
+    dedented_text = textwrap.dedent(input_text)
+    print("\nDedented Text:")
+    print(dedented_text)
+
+dedent_example()
+
+## 5. Processing Unicode Characters
+
+### Example: Handling non-ASCII characters
+def unicode_example():
+    """
+    This example demonstrates handling text containing non-ASCII characters.
+    The `fill()` function is used to wrap and fill the input text, which includes emojis and other Unicode characters.
+    """
+    input_text = "This is an example of how the textwrap module can be used with text containing non-ASCII characters 😊."
+    print("Original Text:")
+    print(input_text)
     
-    # Print the wrapped lines
-    for line in wrapped_lines:
-        print(line)
+    # Wrapping and filling the text with 40 characters per line
+    filled_text = textwrap.fill(input_text, width=40)
+    print("\nFilled Text:")
+    print(filled_text)
 
-blank_width_example()
+unicode_example()
 ```
 
-Output:
+### Explanation:
+1. **Simple Text Wrapping**: Demonstrates how to wrap a given string to fit within a specified width.
+2. **Filling Text**: Uses `fill()` for wrapping and filling text, optionally indenting each line of the output.
+3. **Indentation**: Shows how to use `indent()` to add leading whitespace to a paragraph that has been wrapped and filled.
+4. **Dedenting Text**: Illustrates removing common leading whitespace using `dedent()`.
+5. **Processing Unicode Characters**: Demonstrates handling text containing non-ASCII characters.
 
-```
-Lorem ipsum dolor sit amet.
-consectetur adipiscing elit
-sed do eiusmod tempor incididunt
-ut labore et dolore magna aliqua.
-```
+These examples provide a comprehensive overview of the functionalities available in the `textwrap` module, including handling different types of input and formatting options.

@@ -1,93 +1,115 @@
-# tokenize — Tokenizer for Python source
+# tokenize - Tokenizer for Python source
 
-**Tokenizer Module**
-======================
+The `tokenize` module in Python is used to break a Python source file into tokens, which are the smallest units of Python syntax. Below are comprehensive examples demonstrating various functionalities provided by the `tokenize` module.
 
-The `tokenizer` module provides a simple text tokenization tool.
+### Example 1: Basic Tokenization
 
-### Creating a Tokenizer
-
-To use the tokenizer, you need to create a `Tokenizer` object and feed it with a string or bytes sequence.
 ```python
-import tokenizer
+import tokenize
+from io import BytesIO
 
-# Create a tokenizer
-tokenizer = tokenizer.Tokenizer()
+# Define a sample Python code as a byte string
+code = b'print("Hello, World!")'
 
-# Feed the tokenizer with a string
-tokenizer.feed("Hello, World!")
+# Create a buffer from the byte string
+buffer = BytesIO(code)
 
-# Feed the tokenizer with bytes
-tokenizer.feed(b"Hello, World!")
+# Get an iterator over the tokens in the buffer
+tokens = tokenize.tokenize(buffer.readline)
+
+# Iterate and print each token
+for toknum, tokval, start, end, line in tokens:
+    print(f"Token: {toknum}, Value: '{tokval}', Start: {start}, End: {end}, Line: '{line}'")
 ```
-### Tokenization Options
 
-You can customize the tokenization process by providing additional arguments to the `Tokenizer` constructor.
+### Explanation:
+
+- **Import Statements**: We import the `tokenize` module and `BytesIO` from the `io` module.
+- **Buffer Creation**: We create a byte string representing a simple Python statement and wrap it in a `BytesIO` buffer. This allows us to simulate reading from a file-like object.
+- **Tokenization**: We use the `tokenize.tokenize()` function, which takes a generator that returns lines of input. Each token is returned as an iterable of five elements: `(toknum, tokval, start, end, line)`.
+- **Output**: We print each token's numeric type, value, and location within the source code.
+
+### Example 2: Handling Errors in Tokenization
+
 ```python
-import tokenizer
+import tokenize
+from io import BytesIO
 
-# Create a tokenizer with whitespace and punctuation as separators
-tokenizer = tokenizer.Tokenizer(sep='\s+', punctuation='[^\w\s]')
+# Define a sample Python code with an error
+code = b'print("Hello, World!'; # This is a syntax error'
 
-# Feed the tokenizer with a string
-tokenizer.feed("Hello, World!")
+# Create a buffer from the byte string
+buffer = BytesIO(code)
 
-print(tokenizer.get_tokens())  # Output: ['Hello', ',', 'World']
+# Get an iterator over the tokens in the buffer
+tokens = tokenize.tokenize(buffer.readline)
+
+try:
+    for toknum, tokval, start, end, line in tokens:
+        print(f"Token: {toknum}, Value: '{tokval}', Start: {start}, End: {end}, Line: '{line}'")
+except tokenize.TokenError as e:
+    print(f"Error encountered at tokenization: {e}")
 ```
-### Token Types
 
-The `Tokenizer` class provides several methods to access and manipulate the tokens.
+### Explanation:
+
+- **Error Handling**: We handle `tokenize.TokenError` to catch and report any errors that occur during tokenization.
+- **Output**: The error message is printed if an exception occurs, providing more context about the problem.
+
+### Example 3: Extracting Tokens with Specific Names
+
 ```python
-import tokenizer
+import tokenize
+from io import BytesIO
 
-# Create a tokenizer
-tokenizer = tokenizer.Tokenizer()
+# Define a sample Python code with multiple tokens
+code = b'x = y + z; print(x);'
 
-# Feed the tokenizer with a string
-tokenizer.feed("Hello, World!")
+# Create a buffer from the byte string
+buffer = BytesIO(code)
 
-print(tokenizer.get_tokens())  # Output: ['Hello', ',', 'World']
+# Get an iterator over the tokens in the buffer
+tokens = tokenize.tokenize(buffer.readline)
+
+# Extract and print only 'NAME' (variable names) and 'NUMBER' (numeric literals)
+for toknum, tokval, start, end, line in tokens:
+    if toknum in (tokenize.NAME, tokenize.NUMBER):
+        print(f"Token: {toknum}, Value: '{tokval}', Start: {start}, End: {end}, Line: '{line}'")
 ```
-*   `get_tokens()`: Returns a list of all tokens in the input sequence.
-*   `get_token_type(index)`: Returns the type of token at the specified index. Can be one of `'WORD'`, `'PUNCT'`, or `'SPACE'`.
-*   `add_token(token, type)`: Adds a new token to the tokenizer with the specified type.
 
-### Tokenizer Methods
+### Explanation:
 
-The following methods are available on the `Tokenizer` object.
+- **Filtering Tokens**: We filter tokens based on their numeric identifiers `tokenize.NAME` (variable names) and `tokenize.NUMBER` (numeric literals).
+- **Output**: Only the filtered tokens are printed, showcasing how to selectively extract specific types of tokens.
+
+### Example 4: Tokenizing from a File
+
 ```python
-import tokenizer
+import tokenize
+import os
 
-# Create a tokenizer
-tokenizer = tokenizer.Tokenizer()
+# Define the path to a Python source file
+file_path = 'example.py'
 
-# Feed the tokenizer with a string
-tokenizer.feed("Hello, World!")
+# Open and read the file
+with open(file_path, 'rb') as file:
+    code = file.read()
 
-print(tokenizer.tokenize())  # Output: ['Hello', ',', 'World']
+# Create a buffer from the file content
+buffer = BytesIO(code)
+
+# Get an iterator over the tokens in the buffer
+tokens = tokenize.tokenize(buffer.readline)
+
+# Iterate and print each token
+for toknum, tokval, start, end, line in tokens:
+    print(f"Token: {toknum}, Value: '{tokval}', Start: {start}, End: {end}, Line: '{line}'")
 ```
-*   `tokenize()`: Returns a list of tokens in the input sequence.
-*   `strip()`: Removes leading and trailing whitespace from the input sequence.
-*   `reset()`: Resets the tokenizer to its initial state.
 
-### Example Use Case
+### Explanation:
 
-Here's an example use case for the tokenizer:
-```python
-import tokenizer
-from collections import Counter
+- **File Handling**: We open a file in binary mode and read its content into a byte string.
+- **Buffer Creation**: Similar to the previous examples, we create a `BytesIO` buffer from the file content.
+- **Tokenization**: The tokenization process is identical to before, but now we are processing tokens from a file instead of a byte string.
 
-# Create a tokenizer
-tokenizer = tokenizer.Tokenizer()
-
-# Feed the tokenizer with a large text file
-with open('example.txt', 'r') as f:
-    for line in f:
-        tokenizer.feed(line)
-
-# Get the token frequency count
-token_freq = Counter(tokenizer.get_tokens())
-
-print(token_freq.most_common(10))  # Output: [('hello', 20), ('world', 15), ...]
-```
-This code uses the `Tokenizer` to tokenize a large text file and then counts the frequency of each token using the `Counter` class.
+These examples demonstrate how to use the `tokenize` module effectively for various tasks such as analyzing Python code, debugging, or extracting specific information from source files.

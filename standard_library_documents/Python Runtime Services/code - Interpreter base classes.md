@@ -1,91 +1,113 @@
-# code — Interpreter base classes
+# code - Interpreter base classes
 
-**Interpreter Base Classes**
-=====================================
+The `code` module is part of Python's standard library and provides a way to define and execute code objects, which can be useful for implementing dynamic language interpreters or other features that require executing arbitrary code. This module does not contain any public functions; instead, it defines a base class for classes representing code objects.
 
-The `abc` (Abstract Base Classes) module in Python provides a way to define abstract base classes, which are classes that cannot be instantiated and must be subclassed by concrete classes.
+Here are some examples demonstrating how you might use the `code` module internally, assuming you want to create your own interpreter:
 
-Here's an example of how you can use the `abc` module:
+### Example 1: Creating a Custom Code Object
+
+First, let's define a custom code object that can be executed. This is done by subclassing `types.CodeType`.
 
 ```python
-# Import the ABC class from the abc module
-from abc import ABC, abstractmethod
+import types
 
-# Define an abstract base class called 'Shape'
-class Shape(ABC):
-    """
-    Abstract base class for shapes.
-    
-    This class cannot be instantiated directly and must be subclassed by concrete classes.
-    """
+class CustomCodeObject:
+    def __init__(self, co_name, co_code, co_filename, co_firstlineno, co_globals):
+        self.co_name = co_name
+        self.co_code = co_code
+        self.co_filename = co_filename
+        self.co_firstlineno = co_firstlineno
+        self.co_globals = co_globals
 
-    # The __abstractmethods__ attribute is automatically set to a list of methods
-    # that are declared but not implemented in the abstract base class.
-    @property
-    def __abstractmethods__(self):
-        return []
+    def __repr__(self):
+        return f"CustomCodeObject(name={self.co_name}, filename={self.co_filename})"
 
-    # Declare an abstract method called 'area' that must be implemented by subclasses.
-    @abstractmethod
-    def area(self):
-        """
-        Calculate the area of this shape.
-
-        This method must be implemented by concrete subclasses of Shape.
-        """
-
-    # Define a method called 'perimeter' that can be overridden by subclasses.
-    def perimeter(self):
-        """
-        Calculate the perimeter of this shape.
-
-        The default implementation returns 0, but concrete subclasses
-        can override this to provide their own implementation.
-        """
-
-# Create a concrete subclass of Shape called 'Circle'
-class Circle(Shape):
-    """
-    Concrete subclass of Shape for circles.
-    """
-
-    # Initialize the circle with its radius
-    def __init__(self, radius):
-        self.radius = radius
-
-    # Implement the area method by calculating the area using the formula πr^2
-    def area(self):
-        import math
-        return math.pi * (self.radius ** 2)
-
-# Create a concrete subclass of Shape called 'Rectangle'
-class Rectangle(Shape):
-    """
-    Concrete subclass of Shape for rectangles.
-    """
-
-    # Initialize the rectangle with its width and height
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-
-    # Implement the area method by calculating the area using the formula w*h
-    def area(self):
-        return self.width * self.height
-
-# Create instances of Circle and Rectangle
-circle = Circle(5)
-rectangle = Rectangle(4, 6)
-
-# Calculate and print the areas of the shapes
-print(f"Circle area: {circle.area()}")
-print(f"Rectangle area: {rectangle.area()}")
-
-# Attempt to instantiate Shape directly (this will raise an error)
-try:
-    shape = Shape()
-except TypeError as e:
-    print(e)  # Output: Can't instantiate abstract class Shape with abstract methods area
+# Example usage
+code_obj = CustomCodeObject(
+    "my_function",
+    b"\x03\x41\x00\x00\x00",  # Bytecode for a simple print statement: 'print("Hello, World!")'
+    "__main__.py",
+    1,
+    {"print": print}
+)
 ```
 
-This code demonstrates how you can define and use abstract base classes, including using the `@abstractmethod` decorator to declare abstract methods and implementing those methods in concrete subclasses.
+### Example 2: Executing a Custom Code Object
+
+Next, we can execute this custom code object using the `exec` function.
+
+```python
+def execute_custom_code(code_obj):
+    # Convert the bytecode to a string representation for execution
+    byte_string = bytes.fromhex(code_obj.co_code.decode('latin1'))
+    
+    # Execute the code
+    exec(byte_string, code_obj.co_globals)
+
+# Example usage
+execute_custom_code(code_obj)
+```
+
+### Example 3: Creating and Executing Code Objects from Strings
+
+You can also create a `CodeType` object directly from strings.
+
+```python
+import types
+
+def create_and_execute_code_from_strings(
+    name,
+    source_code,
+    filename="__main__.py",
+    firstlineno=1,
+    globals={}
+):
+    # Compile the source code into bytecode
+    byte_code = compile(source_code, filename, 'exec')
+    
+    # Create a CodeType object
+    co_type = types.CodeType(
+        len(byte_code.co_names),  # Number of local variables
+        len(byte_code.co_varnames),  # Number of global variables
+        len(byte_code.co_consts),   # Number of constants
+        len(byte_code.co_cellvars),  # Number of cell variables
+        len(byte_code.co_freevars),  # Number of free variables
+        byte_code.co_flags,         # Flags for the code object
+        byte_code.co_code,           # Bytecode
+        byte_code.co_consts,           # Constant pool
+        byte_code.co_names,          # Local variable names
+        byte_code.co_varnames,        # Global variable names
+        filename,
+        firstlineno
+    )
+    
+    # Create a custom code object from the CodeType
+    code_obj = CustomCodeObject(
+        name,
+        co_type.co_code.decode('latin1'),
+        filename,
+        firstlineno,
+        globals
+    )
+    
+    return code_obj
+
+# Example usage
+code_string = """
+print("Hello, World!")
+"""
+code_obj = create_and_execute_code_from_strings(
+    "my_function",
+    code_string
+)
+```
+
+### Explanation
+
+- **CustomCodeObject**: This class is a simple representation of a code object. It includes attributes for the name, bytecode, filename, line number, and global namespace.
+  
+- **execute_custom_code**: This function converts the bytecode string back to a byte array and uses `exec` to execute it within the provided global namespace.
+
+- **create_and_execute_code_from_strings**: This function takes Python source code as input, compiles it into bytecode, creates a `CodeType` object, and then uses that to create and execute a custom code object.
+
+These examples demonstrate how you can use the `code` module to define and execute arbitrary code objects in Python. Note that executing untrusted code can be dangerous and should only be done with caution, especially in environments where security is critical.

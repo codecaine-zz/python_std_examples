@@ -1,64 +1,147 @@
-# xml.dom.pulldom — Support for building partial DOM trees
+# xml.dom.pulldom - Support for building partial DOM trees
 
-**Module: `xml.dom.pulldom`**
+The `xml.dom.pulldom` module in Python provides a way to parse XML documents without creating a full DOM tree in memory. This is particularly useful when dealing with large XML files or when you only need to access specific parts of the document. Below are comprehensive examples demonstrating various functionalities of the `xml.dom.pulldom` module.
 
-The `xml.dom.pulldom` module provides support for building partial DOM (Document Object Model) trees. This module is designed to be used in conjunction with the `xml.dom.minidom` module, which provides a way to parse and manipulate XML documents.
+### Example 1: Basic Usage of pulldom
 
-**Code Examples:**
 ```python
-import xml.dom.pulldom
+from xml.dom import pulldom
 
-# Create an empty document object
-doc = xml.dom.pulldom.Document()
+# Create a parser
+parser = pulldom.make_parser()
 
-# Append some elements to the document
-doc.appendChild(doc.createElement("root"))
-doc.documentElement.appendChild(doc.createElement("child1"))
-doc.documentElement.appendChild(doc.createElement("child2"))
+# Define handlers for different events
+handler = pulldom.ContentHandler()
+handler.startElement = lambda name, attrs: print(f"Start Element: {name}, Attributes: {attrs}")
+handler.endElement   = lambda name: print(f"End Element: {name}")
 
-# Get the first child element of the root element
-child1 = doc.getDocumentElement().firstChild
-print(child1.nodeValue)  # Output: ""
+# Parse an XML file
+with open('example.xml', 'r') as file:
+    for event, node in parser.parse(file):
+        handler.handleEvent(event, node)
 
-# Append a text node to the document
-doc.createTextNode("Hello, World!").appendChild(doc)
-
-# Create a new document object and start building it from scratch
-new_doc = xml.dom.pulldom.Document()
-new_element = new_doc.createElement("grandchild")
-new_element.appendChild(new_doc.createTextNode("This is a grandchild"))
-new_doc.documentElement.appendChild(new_element)
-
-# Convert the partial DOM tree to a string
-xml_string = doc.toprettyxml(indent="  ")
-print(xml_string)
-# Output:
-# <?xml version="1.0" ?>
-# <root>
-#   <child1 />
-#   <child2 />
-#   Hello, World!
-# </root>
-
-# Use an iterator to iterate over the elements in the document
-for elem in doc.iterElements():
-    print(elem.tagName, elem.nodeValue)
-
-# Get the parent element of a given element
-parent = new_doc.getElementsByTagName("grandchild")[0].parentNode
-print(parent.tagName)  # Output: "root"
+# Clear the parser after parsing to avoid memory leaks
+parser.clear()
 ```
-**Explanation of Key Functions and Methods:**
 
-*   `xml.dom.pulldom.Document()`: Creates an empty document object.
-*   `doc.createElement(elementName)`: Creates a new element with the specified name and appends it to the current document.
-*   `doc.appendChild(child)` : Appends the specified child element or text node to the end of the current document.
-*   `doc.toprettyxml(indent="  ")`: Converts the partial DOM tree to a string, formatting it for human readability.
-*   `iterElements()`: An iterator that yields the elements in the document in reverse topological order.
-*   `getElementsByTagName(elementName)`: Returns a list of elements with the specified name in the current document.
+### Example 2: Parsing Multiple Nodes
 
-**Tips and Tricks:**
+```python
+from xml.dom import pulldom
 
-*   The `pulldom` module is designed to be more memory-efficient than other DOM parsing libraries, making it suitable for large XML documents.
-*   You can use the `iterElements()` iterator to iterate over the elements in a document without loading the entire document into memory.
-*   The `toprettyxml()` method provides a convenient way to convert a partial DOM tree to a formatted string.
+# Create a parser
+parser = pulldom.make_parser()
+
+# Define handlers for different events
+handler = pulldom.ContentHandler()
+handler.startElement = lambda name, attrs: print(f"Start Element: {name}, Attributes: {attrs}")
+handler.endElement   = lambda name: print(f"End Element: {name}")
+
+# Parse an XML file
+with open('example.xml', 'r') as file:
+    for event, node in parser.parse(file):
+        handler.handleEvent(event, node)
+
+# Clear the parser after parsing to avoid memory leaks
+parser.clear()
+```
+
+### Example 3: Using a Callback Function
+
+```python
+from xml.dom import pulldom
+
+def handle_event(event, node):
+    if event == pulldom.START_ELEMENT:
+        print(f"Start Element: {node.nodeName}, Attributes: {node.attributes}")
+    elif event == pulldom.END_ELEMENT:
+        print(f"End Element: {node.nodeName}")
+
+# Create a parser
+parser = pulldom.make_parser()
+
+# Parse an XML file
+with open('example.xml', 'r') as file:
+    for event, node in parser.parse(file):
+        handle_event(event, node)
+
+# Clear the parser after parsing to avoid memory leaks
+parser.clear()
+```
+
+### Example 4: Parsing with Namespaces
+
+```python
+from xml.dom import pulldom
+
+def handle_event(event, node):
+    if event == pulldom.START_ELEMENT:
+        print(f"Start Element: {node.nodeName}, Attributes: {node.attributes}")
+        for name, value in node.getNamespaceMap().items():
+            print(f"Namespace: {name} -> {value}")
+    elif event == pulldom.END_ELEMENT:
+        print(f"End Element: {node.nodeName}")
+
+# Create a parser
+parser = pulldom.make_parser()
+
+# Parse an XML file with namespaces
+with open('example.xml', 'r') as file:
+    for event, node in parser.parse(file):
+        handle_event(event, node)
+
+# Clear the parser after parsing to avoid memory leaks
+parser.clear()
+```
+
+### Example 5: Parsing and Accessing Attributes
+
+```python
+from xml.dom import pulldom
+
+def handle_event(event, node):
+    if event == pulldom.START_ELEMENT:
+        attributes = {attr.nodeName: attr.nodeValue for attr in node.attributes}
+        print(f"Start Element: {node.nodeName}, Attributes: {attributes}")
+    elif event == pulldom.END_ELEMENT:
+        print(f"End Element: {node.nodeName}")
+
+# Create a parser
+parser = pulldom.make_parser()
+
+# Parse an XML file
+with open('example.xml', 'r') as file:
+    for event, node in parser.parse(file):
+        handle_event(event, node)
+
+# Clear the parser after parsing to avoid memory leaks
+parser.clear()
+```
+
+### Example 6: Parsing with Namespaces and Attributes
+
+```python
+from xml.dom import pulldom
+
+def handle_event(event, node):
+    if event == pulldom.START_ELEMENT:
+        attributes = {attr.nodeName: attr.nodeValue for attr in node.attributes}
+        print(f"Start Element: {node.nodeName}, Attributes: {attributes}")
+        for name, value in node.getNamespaceMap().items():
+            print(f"Namespace: {name} -> {value}")
+    elif event == pulldom.END_ELEMENT:
+        print(f"End Element: {node.nodeName}")
+
+# Create a parser
+parser = pulldom.make_parser()
+
+# Parse an XML file with namespaces and attributes
+with open('example.xml', 'r') as file:
+    for event, node in parser.parse(file):
+        handle_event(event, node)
+
+# Clear the parser after parsing to avoid memory leaks
+parser.clear()
+```
+
+These examples demonstrate various ways to use the `xml.dom.pulldom` module to parse XML documents and handle events such as start and end elements. Each example includes comments explaining the purpose of each part of the code, making it easy for readers to understand and modify as needed.

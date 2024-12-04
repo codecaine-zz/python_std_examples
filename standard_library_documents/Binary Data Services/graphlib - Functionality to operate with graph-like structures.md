@@ -1,83 +1,114 @@
-# graphlib — Functionality to operate with graph-like structures
+# graphlib - Functionality to operate with graph-like structures
 
-Here's an example of all possible use cases for the `graphlib` module in Python:
+The `graphlib` module is part of Python's standard library and provides an API for working with directed graphs. While it is not as commonly used as some other graph libraries like NetworkX, it can be useful for specific use cases where you need a simple, lightweight solution.
+
+Here are comprehensive code examples demonstrating various functionalities in the `graphlib` module:
 
 ```python
-import networkx as nx  # For creating and manipulating graphs
-from graphlib import CycleError, TopologicalSortError
-import matplotlib.pyplot as plt  # For visualizing the graph
+import graphlib
 
-# Create a new directed acyclic graph (DAG)
-G = nx.DiGraph()
+# Example 1: Creating and manipulating a DirectedGraph
 
-# Add nodes to the graph
-G.add_node('A')
-G.add_node('B')
-G.add_node('C')
+def create_and_manipulate_directed_graph():
+    """
+    This example demonstrates how to create a DirectedGraph and perform basic operations.
+    """
 
-# Add edges between nodes
-G.add_edge('A', 'B')
-G.add_edge('B', 'C')
-G.add_edge('C', 'A')  # This creates a cycle in the graph
+    # Create a new DirectedGraph instance
+    dg = graphlib.DirectedGraph()
 
-try:
-    # Attempt to perform topological sort on the graph
-    G_topo = nx.topological_sort(G)
-except TopologicalSortError as e:
-    print(f"Topological sort failed: {e}")
+    # Add nodes to the graph
+    dg.add_node('A')
+    dg.add_node('B')
+    dg.add_node('C')
 
-try:
-    # Perform DFS traversal on the graph
-    nx.dfs_tree(G)
-except CycleError as e:
-    print(f"Cycle detected in the graph: {e}")
+    # Add edges between nodes
+    dg.add_edge(('A', 'B'))
+    dg.add_edge(('B', 'C'))
 
-# Create a new undirected graph
-G_undir = nx.Graph()
+    # Print nodes and edges in the graph
+    print("Nodes:", list(dg.nodes()))
+    print("Edges:", list(dg.edges()))
 
-# Add nodes to the undirected graph
-G_undir.add_node('D')
-G_undir.add_node('E')
+    # Check if a node is in the graph
+    print("Node A exists:", dg.has_node('A'))
 
-# Add edges between nodes in the undirected graph
-G_undir.add_edge('D', 'E')
-G_undir.add_edge('E', 'D')
+    # Check if an edge exists between two nodes
+    print("Edge (A, B) exists:", dg.has_edge(('A', 'B')))
 
-try:
-    # Perform DFS traversal on the undirected graph
-    nx.dfs_tree(G_undir)
-except CycleError as e:
-    print(f"Cycle detected in the undirected graph: {e}")
+    # Remove a node and all its edges
+    dg.remove_node('B')
+    print("After removing node B:")
+    print("Nodes:", list(dg.nodes()))
+    print("Edges:", list(dg.edges()))
 
-# Create a new weighted directed acyclic graph (W-DAG)
-G_weighted = nx.DiGraph()
+# Example 2: Topological Sorting
 
-# Add nodes to the W-DAG
-G_weighted.add_node('F')
-G_weighted.add_node('G')
+def perform_topological_sort():
+    """
+    This example demonstrates how to perform a topological sort on a DirectedGraph.
+    """
 
-# Add edges between nodes with weights
-G_weighted.add_edge('F', 'G', weight=2)
+    # Create a new DirectedGraph instance
+    dg = graphlib.DirectedGraph()
 
-try:
-    # Perform topological sort on the W-DAG
-    nx.topological_sort(G_weighted)
-except TopologicalSortError as e:
-    print(f"Topological sort failed: {e}")
+    # Add nodes and edges
+    dg.add_node('A')
+    dg.add_node('B')
+    dg.add_node('C')
+    dg.add_edge(('A', 'B'))
+    dg.add_edge(('B', 'C'))
 
-# Visualize the graph using matplotlib
-pos = nx.spring_layout(G)
-nx.draw_networkx_nodes(G, pos, node_size=700, node_color='lightblue')
-nx.draw_networkx_labels(G, pos)
-nx.draw_networkx_edges(G, pos, edge_color='gray', arrowsize=20)
+    # Perform topological sort
+    try:
+        sorted_nodes = list(dg.toposort())
+        print("Topological Sort:", sorted_nodes)
+    except graphlib.CycleError as e:
+        print(f"Graph contains a cycle: {e}")
 
-plt.show()
+# Example 3: Finding Strongly Connected Components
+
+def find_strongly_connected_components():
+    """
+    This example demonstrates how to find strongly connected components in a DirectedGraph.
+    """
+
+    # Create a new DirectedGraph instance
+    dg = graphlib.DirectedGraph()
+
+    # Add nodes and edges
+    dg.add_node('A')
+    dg.add_node('B')
+    dg.add_node('C')
+    dg.add_edge(('A', 'B'))
+    dg.add_edge(('B', 'C'))
+    dg.add_edge(('C', 'A'))
+
+    # Find strongly connected components
+    scc = dg.strongly_connected_components()
+    print("Strongly Connected Components:", list(scc))
+
+# Run the examples
+if __name__ == "__main__":
+    create_and_manipulate_directed_graph()
+    perform_topological_sort()
+    find_strongly_connected_components()
 ```
 
-The above code snippet demonstrates the following use cases:
+### Explanation:
 
-*   Creating and manipulating directed acyclic graphs (DAGs) with `graphlib`.
-*   Attempting to perform topological sort on a graph.
-*   Performing depth-first search (DFS) traversal on a graph, including handling cycles in both DAGs and undirected graphs.
-*   Creating and manipulating weighted directed acyclic graphs (W-DAGs).
-*   Visualizing the structure of a graph using matplotlib.
+1. **Creating and Manipulating a DirectedGraph:**
+   - We create an instance of `graphlib.DirectedGraph`.
+   - We add nodes and edges to the graph.
+   - We print nodes, edges, and check for node and edge existence.
+   - We remove a node and verify the changes.
+
+2. **Topological Sorting:**
+   - We perform a topological sort on a DirectedGraph that does not contain cycles.
+   - We handle potential `CycleError` exceptions if the graph contains cycles.
+
+3. **Finding Strongly Connected Components:**
+   - We find strongly connected components in a DirectedGraph using the `strongly_connected_components` method.
+   - This method is useful for analyzing the structure of a directed graph to identify groups of nodes where each node can reach every other node within that group.
+
+These examples provide a basic understanding of how to use the `graphlib` module for various graph operations. You can further explore the documentation and additional methods available in the module for more advanced use cases.

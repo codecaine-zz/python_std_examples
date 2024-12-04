@@ -1,110 +1,137 @@
-# logging.config — Logging configuration
+# logging.config - Logging configuration
 
-**Logging Configuration Module**
-=====================================
+Below are comprehensive code examples for the `logging.config` module in Python's standard library, along with detailed explanations of each example.
 
-The `logging.config` module provides functions and classes for configuring logging, including loading configurations from files and setting up loggers.
-
-**Example Code**
----------------
+### 1. Basic Configuration using a Dictionary
 
 ```python
 import logging.config
 
-# Define a simple logger configuration
-logger_config = {
+# Define a dictionary configuration
+config = {
     'version': 1,
+    'disable_existing_loggers': False,
     'formatters': {
-        'simple': {'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s'},
+        'simple': {
+            'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        },
+        'detail': {
+            'format': '%(asctime)s - %(name)s - %(levelname)s - '
+                      '%(message)s - %(lineno)d - %(filename)s'
+        }
     },
     'handlers': {
         'console': {
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
+        },
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'app.log',
+            'formatter': 'detail'
         }
     },
-    'root': {
-        'level': 'INFO',
-        'handlers': ['console']
+    'loggers': {
+        'my_logger': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO'
+        }
     }
 }
 
-# Load the configuration
-logging.config.dictConfig(logger_config)
+# Apply the configuration
+logging.config.dictConfig(config)
 
-# Create a logger with the loaded configuration
-logger = logging.getLogger('example')
+# Get a logger instance
+logger = logging.getLogger('my_logger')
 
-# Set the log level
-logger.setLevel(logging.INFO)
-
-# Log some messages
-logger.info('This is an info message.')
-logger.warning('This is a warning message.')
-logger.error('This is an error message.')
+# Log messages at different levels
+logger.debug("This is a debug message")
+logger.info("This is an info message")
+logger.warning("This is a warning message")
+logger.error("This is an error message")
+logger.critical("This is a critical message")
 ```
 
-**Functions and Classes**
----------------------------
+### Explanation:
 
-### `logging.config.dictConfig()`
+- **Version**: Specifies the version of the configuration format.
+- **disable_existing_loggers**: Determines whether existing loggers should be disabled.
+- **formatters**: Defines custom formatting for different log levels and formats.
+  - `simple`: A basic format that includes timestamp, logger name, level, and message.
+  - `detail`: An extended format that includes line number and file name in addition to the simple format.
+- **handlers**: Specifies where logs should be sent.
+  - `console`: Sends logs to the console with a specified format.
+  - `file`: Writes logs to a file with a specific format.
+- **loggers**: Defines which loggers should use which handlers and what level of logging they should handle.
 
-*   Loads a logging configuration from a dictionary.
-*   The dictionary should contain the following keys:
-    *   `version`: The version of the logger configuration (required).
-    *   `formatters`, `handlers`, and `root`: Dictionaries containing log formatter and handler configurations.
+### 2. Configuration using a JSON File
 
-### `logging.config.fileConfig()`
-
-*   Loads a logging configuration from a file.
-*   Supports three formats: `.ini`, `.yaml`, and `.json`.
-*   The file should contain a valid logger configuration dictionary.
-
-### `logging.config.dictDefaults()`
-
-*   Returns a default logger configuration dictionary.
-*   This dictionary can be used as a starting point for creating custom log configurations.
-
-### `logging.config.yamlConfig()` and `logging.config.jsonConfig()`
-
-*   Loads a logging configuration from a YAML or JSON file, respectively.
-*   Supports the same formats as `fileConfig`.
-
-**Example Use Cases**
---------------------
-
-*   **Configure Logging with a File**: Load a logging configuration from an `.ini` file using `dictConfig`.
 ```python
 import logging.config
 
-logger_config = logging.config.fileConfig('logging.ini')
+# Load configuration from a JSON file
+with open('logging_config.json') as f:
+    config = json.load(f)
+
+# Apply the configuration
+logging.config.dictConfig(config)
+
+# Get a logger instance
+logger = logging.getLogger('my_logger')
+
+# Log messages at different levels
+logger.debug("This is a debug message")
+logger.info("This is an info message")
+logger.warning("This is a warning message")
+logger.error("This is an error message")
+logger.critical("This is a critical message")
 ```
-*   **Create a Custom Logger**: Create a logger with the loaded configuration and set its log level.
+
+### Explanation:
+
+- **JSON File**: Contains the same configuration as above but in JSON format.
+- **Loading from a file**: Uses Python's built-in `json` module to load the configuration from a file.
+
+### 3. Using a Configuration Module
+
+Create a separate Python file, e.g., `logging_config.py`, with the following content:
+
 ```python
 import logging.config
 
-# Load the configuration
-logging.config.dictConfig(logger_config)
+# Define a dictionary configuration
+config = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    # ... (same as above)
+}
 
-# Create a logger with the loaded configuration
-logger = logging.getLogger('example')
-logger.setLevel(logging.INFO)
+# Apply the configuration
+logging.config.dictConfig(config)
 ```
-*   **Configure Logging in an App**: Configure logging at application startup using `dictConfig`.
+
+Then, in your main application file, import and use this module:
+
 ```python
-import logging.config
+import logging_config
 
-def main():
-    # Load the configuration
-    logging.config.dictConfig(logger_config)
+# Get a logger instance
+logger = logging.getLogger('my_logger')
 
-    # Create loggers and set their levels
-    logger1 = logging.getLogger('logger1')
-    logger1.setLevel(logging.INFO)
-
-    logger2 = logging.getLogger('logger2')
-    logger2.setLevel(logging.WARNING)
-
-if __name__ == '__main__':
-    main()
+# Log messages at different levels
+logger.debug("This is a debug message")
+logger.info("This is an info message")
+logger.warning("This is a warning message")
+logger.error("This is an error message")
+logger.critical("This is a critical message")
 ```
+
+### Explanation:
+
+- **Separate Module**: Encapsulates the configuration in a separate file, promoting code organization and reusability.
+- **Importing from a module**: Imports the configuration from another Python file.
+
+These examples demonstrate how to configure logging using different methods, including dictionary-based configuration, JSON file loading, and external configuration modules. Each example follows best practices for clarity and maintainability.

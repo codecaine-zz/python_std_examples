@@ -1,166 +1,216 @@
-# pwd — The password database
+# pwd - The password database
 
-**Password Database Module: pwd**
-=====================================
+The `pwd` module in Python provides an interface to the system's password database, which contains user account information such as usernames, passwords, home directories, and shell programs.
 
-The `pwd` module provides access to Unix password management functionality.
+Below are comprehensive code examples demonstrating various functionalities of the `pwd` module:
 
-### Importing the Module
-```python
-import pwd
-```
-This line imports the `pwd` module, which can be used to retrieve information about user accounts on a Unix system.
+### 1. Getting a Password Database Entry by Username
 
-### Getting User Information
-```python
-# Get information about a specific user
-try:
-    user_info = pwd.getpwnam('username')
-    print(f"Username: {user_info.pw_name}")
-    print(f"Password: {user_info.pw_password}")
-except KeyError as e:
-    print(f"Error: User '{e}' not found")
-```
-This code retrieves information about a specific user using the `getpwnam` function. If the user is found, it prints their username and password (in hashed form). If the user is not found, it raises a `KeyError`.
-
-### Getting All Users
-```python
-# Get a list of all users in the system
-try:
-    all_users = pwd.getpwent()
-    while all_users:
-        print(f"Username: {all_users.pw_name}")
-        print(f"UID: {all_users.pw_uid}")
-        print(f"GID: {all_users.pw_gid}")
-        print(f"Password: {all_users.pw_password}")
-        all_users = pwd.getpwent()
-except Exception as e:
-    print(f"Error: {e}")
-```
-This code retrieves a list of all users in the system using the `getpwent` function. It prints each user's information, including their username, UID (user ID), GID (group ID), and hashed password.
-
-### Setting User Password
 ```python
 import pwd
 
-# Get a handle to the user account
+# Example: Get the password entry for a specific username
+username = 'example_user'
 try:
-    user_handle = pwd.getpwnam('username')
-except KeyError as e:
-    print(f"Error: User '{e}' not found")
-    exit(1)
-
-# Set the new password for the user
-new_password = input("Enter new password: ")
-user_handle.pw_password = new_password.encode()
-try:
-    # Use the `chpass` system call to set the new password
-    import os
-    os.system(f"chpass {user_handle.pw_name}")
-except Exception as e:
-    print(f"Error setting password: {e}")
+    pwd_entry = pwd.getpwnam(username)
+    print(f"User {username} found:")
+    print(f"Username: {pwd_entry.pw_name}")
+    print(f"Password Hash: {pwd_entry.pw_passwd}")
+    print(f"UID: {pwd_entry.pw_uid}")
+    print(f"GID: {pwd_entry.pw_gid}")
+    print(f"Home Directory: {pwd_entry.pw_dir}")
+    print(f"Shell Program: {pwd_entry.pw_shell}")
+except KeyError:
+    print(f"User {username} not found.")
 ```
-This code sets a new password for a user. It prompts the user to enter a new password, and then uses the `chpass` system call to set the new password.
 
-### Getting Group Information
+### 2. Getting a Password Database Entry by UID
+
 ```python
 import pwd
 
-# Get a list of all groups in the system
+# Example: Get the password entry for a specific UID
+uid = 1001
 try:
-    group_info = pwd.getgrall()
-    for group in group_info:
-        print(f"GroupName: {group.gr_name}")
-        print(f"GID: {group.gr_gid}")
-except Exception as e:
-    print(f"Error: {e}")
+    pwd_entry = pwd.getpwuid(uid)
+    print(f"User with UID {uid} found:")
+    print(f"Username: {pwd_entry.pw_name}")
+    print(f"Password Hash: {pwd_entry.pw_passwd}")
+    print(f"UID: {pwd_entry.pw_uid}")
+    print(f"GID: {pwd_entry.pw_gid}")
+    print(f"Home Directory: {pwd_entry.pw_dir}")
+    print(f"Shell Program: {pwd_entry.pw_shell}")
+except KeyError:
+    print(f"No user found with UID {uid}.")
 ```
-This code retrieves a list of all groups in the system using the `getgrall` function. It prints each group's information, including their name and GID.
 
-### Getting Group Information for a Specific User
+### 3. Listing All Users
+
 ```python
 import pwd
 
-# Get the ID of the user
-try:
-    user_id = pwd.getpwnam('username').pw_uid
-except KeyError as e:
-    print(f"Error: User '{e}' not found")
-    exit(1)
-
-# Get information about the group with that ID
-try:
-    group_info = pwd.getgrgid(user_id)
-    print(f"GroupName: {group_info.gr_name}")
-    print(f"GID: {group_info.gr_gid}")
-except KeyError as e:
-    print(f"Error: Group '{e}' not found")
+# Example: List all users in the system
+for user_info in pwd.getpwall():
+    print(f"Username: {user_info.pw_name}, UID: {user_info.pw_uid}")
 ```
-This code retrieves the ID of a user, and then uses that ID to get information about their primary group using the `getgrgid` function. It prints the group's name and GID.
 
-### Adding a New User
+### 4. Retrieving Group Information for a User
+
 ```python
+import grp
+
+# Example: Get the group information for a specific username
+username = 'example_user'
+try:
+    user_entry = pwd.getpwnam(username)
+    group_id = user_entry.pw_gid
+    group_info = grp.getgrgid(group_id)
+    print(f"User {username} belongs to group:")
+    print(f"Group Name: {group_info.gr_name}")
+    print(f"Group ID: {group_info.gr_gid}")
+    print(f"Group Members: {', '.join(group_info.gr_mem)}")
+except KeyError:
+    print(f"User {username} not found.")
+```
+
+### 5. Listing All Groups
+
+```python
+import grp
+
+# Example: List all groups in the system
+for group_info in grp.getgrall():
+    print(f"Group Name: {group_info.gr_name}, Group ID: {group_info.gr_gid}")
+```
+
+### 6. Retrieving User Information Using `os` Module
+
+```python
+import os
 import pwd
 
-# Create a new user account
+# Example: Get user information using os.getpwuid()
+username = 'example_user'
 try:
-    # Get a handle to the user account
-    user_handle = pwd.getpwnam('username')
-except KeyError as e:
-    print(f"Error: User '{e}' not found")
-    exit(1)
-
-# Set the user's UID, GID, and other information
-user_handle.pw_uid = 1000
-user_handle.pw_gid = 1000
-user_handle.pw_gecos = "John Doe <john@example.com>"
-user_handle.pw_dir = "/home/john"
-try:
-    # Use the `chown` system call to set the user's directory ownership
-    import os
-    os.system(f"chown {user_handle.pw_name} /home/{user_handle.pw_name}")
-except Exception as e:
-    print(f"Error: {e}")
+    user_id = os.getuid()
+    user_entry = pwd.getpwuid(user_id)
+    print(f"Current user {pwd.getlogin()} found:")
+    print(f"Username: {user_entry.pw_name}")
+    print(f"Password Hash: {user_entry.pw_passwd}")
+    print(f"UID: {user_entry.pw_uid}")
+    print(f"GID: {user_entry.pw_gid}")
+    print(f"Home Directory: {user_entry.pw_dir}")
+    print(f"Shell Program: {user_entry.pw_shell}")
+except KeyError:
+    print("No user information available.")
 ```
-This code creates a new user account and sets their UID, GID, and other information using the `getpwnam` function. It then uses the `chown` system call to set the user's directory ownership.
 
-### Changing Group Ownership
+### 7. Changing the Shell of a User
+
 ```python
 import pwd
+import os
 
-# Get a list of all users in the system
+# Example: Change the shell for a specific user
+username = 'example_user'
+shell_path = '/bin/bash'
 try:
-    all_users = pwd.getpwent()
-    while all_users:
-        print(f"Username: {all_users.pw_name}")
-        print(f"UID: {all_users.pw_uid}")
-        print(f"GID: {all_users.pw_gid}")
-        print(f"Password: {all_users.pw_password}")
-        all_users = pwd.getpwent()
-except Exception as e:
-    print(f"Error: {e}")
-
-# Get the ID of a user
-try:
-    user_id = 1000
-except Exception as e:
-    print(f"Error: {e}")
-    exit(1)
-
-# Get the ID of a group
-try:
-    group_id = 1000
-except Exception as e:
-    print(f"Error: {e}")
-    exit(1)
-
-try:
-    # Use the `chown` system call to change the group ownership of a file
-    import os
-    os.system(f"chown {user_id}:{group_id} /path/to/file")
-except Exception as e:
-    print(f"Error changing ownership: {e}")
+    user_entry = pwd.getpwnam(username)
+    # Check if the new shell exists
+    if os.path.exists(shell_path):
+        print(f"Changing shell for {username} to {shell_path}.")
+        user_entry.pw_shell = shell_path
+        pwd.setpwent()
+        try:
+            pwd.putpwent(user_entry)
+            pwd.endpwent()
+            print("Shell changed successfully.")
+        except PermissionError:
+            print("Permission denied to change the shell.")
+    else:
+        print(f"The specified shell {shell_path} does not exist.")
+except KeyError:
+    print(f"User {username} not found.")
 ```
-This code changes the group ownership of a file using the `chown` system call.
 
-Note that this is not an exhaustive list of all possible functions and methods provided by the `pwd` module. For more information, please refer to the [Python documentation](https://docs.python.org/3/library/pwd.html).
+### 8. Retrieving User and Group Information Using `getpass` Module
+
+```python
+import getpass
+
+# Example: Retrieve user information using getpass.getuser()
+print(f"The current user is: {getpass.getuser()}")
+
+# Example: Retrieve group information for the current user
+username = getpass.getuser()
+try:
+    user_entry = pwd.getpwnam(username)
+    print(f"Current user's group is:")
+    group_info = grp.getgrgid(user_entry.pw_gid)
+    print(f"Group Name: {group_info.gr_name}")
+    print(f"Group ID: {group_info.gr_gid}")
+    print(f"Group Members: {', '.join(group_info.gr_mem)}")
+except KeyError:
+    print("No user information available.")
+```
+
+### 9. Listing All Users and Their Groups
+
+```python
+import pwd
+import grp
+
+# Example: List all users and their groups
+for user_info in pwd.getpwall():
+    username = user_info.pw_name
+    try:
+        group_info = grp.getgrgid(user_info.pw_gid)
+        print(f"User {username} belongs to group(s):")
+        for member in group_info.gr_mem:
+            print(member)
+    except KeyError:
+        print(f"No information available for user {username}.")
+```
+
+### 10. Changing the Password of a User
+
+```python
+import pwd
+import crypt
+import os
+
+# Example: Change the password for a specific user (requires superuser privileges)
+username = 'example_user'
+new_password = 'securepassword'
+
+try:
+    user_entry = pwd.getpwnam(username)
+    # Check if the new password meets complexity requirements
+    if len(new_password) >= 8 and any(char.isdigit() for char in new_password):
+        print(f"Changing password for {username}.")
+        
+        # Hash the new password
+        salt = os.urandom(2).hex()
+        hashed_password = crypt.crypt(new_password, f'$6${salt}')
+
+        user_entry.pw_passwd = hashed_password
+
+        pwd.setpwent()
+        try:
+            pwd.putpwent(user_entry)
+            pwd.endpwent()
+            print("Password changed successfully.")
+        except PermissionError:
+            print("Permission denied to change the password.")
+    else:
+        print("The new password must be at least 8 characters long and contain at least one digit.")
+except KeyError:
+    print(f"User {username} not found.")
+```
+
+### Notes:
+- **Superuser Privileges**: Some of these examples require superuser privileges (`sudo`) due to operations like changing passwords or modifying user information.
+- **Password Hashing**: Passwords are hashed using the `crypt` module. The format `$6$<salt>$<hashed_password>` is used for bcrypt hashing, which provides strong password security.
+- **Error Handling**: Proper error handling is implemented to manage cases where users or groups do not exist or permissions are denied.
+
+These examples cover a range of functionalities available in the `pwd` module, providing clear and concise code that can be used as documentation or reference material.

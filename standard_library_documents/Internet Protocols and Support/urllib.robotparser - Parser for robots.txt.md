@@ -1,118 +1,157 @@
-# urllib.robotparser — Parser for robots.txt
+# urllib.robotparser - Parser for robots.txt
 
-**URllib Robot Parser**
-==========================
+The `urllib.robotparser` module is part of Python's standard library, and it provides tools to parse a `robots.txt` file, which specifies rules about which web pages search engines should or should not index. Below are comprehensive code examples that demonstrate various functionalities provided by the `urllib.robotparser` module.
 
-The `urllib.robotparser` module is used to parse and manipulate the `robots.txt` file, which is a text file that specifies rules for crawlers (like web spiders) accessing certain websites.
-
-### Creating an Instance of the RobotParser Class
------------------------------------------------
+### 1. Checking Robots.txt for Disallowed Paths
 
 ```python
-import urllib.robotparser
+from urllib.robotparser import RobotFileParser
 
-# Create an instance of the RobotParser class with default settings
-rp = urllib.robotparser.RobotFileParser()
+def check_disallowed_paths(url):
+    # Create a RobotFileParser instance and set the URL of the robots.txt file
+    robot_file = RobotFileParser()
+    robot_file.set_url(url)
 
-# Alternatively, create an instance with a custom settings dictionary
-rp = urllib.robotparser.RobotFileParser({'User-agent': '*'})
+    # Read the robots.txt file
+    robot_file.read()
+
+    # Define the URLs you want to check
+    urls_to_check = [
+        "http://example.com/page1",
+        "http://example.com/page2",
+        "http://example.com/disallowed-page"
+    ]
+
+    # Check which URLs are allowed or disallowed
+    for url in urls_to_check:
+        if robot_file.can_fetch('*', url):
+            print(f"Allowed: {url}")
+        else:
+            print(f"Disallowed: {url}")
+
+# Example usage
+check_disallowed_paths("http://example.com/robots.txt")
 ```
 
-### Parsing Robots.txt File
--------------------------
+### 2. Handling Different User Agents
 
 ```python
-import urllib.robotparser
+from urllib.robotparser import RobotFileParser
 
-def parse_robots_txt(url):
-    """
-    Parse the robots.txt file for the given URL.
+def check_user_agent(url, user_agent):
+    # Create a RobotFileParser instance and set the URL of the robots.txt file
+    robot_file = RobotFileParser()
+    robot_file.set_url(url)
 
-    Args:
-        url (str): The URL of the robots.txt file to be parsed.
+    # Read the robots.txt file
+    robot_file.read()
 
-    Returns:
-        RobotFileParser: An instance of the RobotFileParser class.
-    """
+    # Check if the specified user agent can access the page
+    if robot_file.can_fetch(user_agent, url):
+        print(f"User-Agent: {user_agent} - Allowed to access {url}")
+    else:
+        print(f"User-Agent: {user_agent} - Disallowed from accessing {url}")
 
-    rp = urllib.robotparser.RobotFileParser()
-    rp.set_url(url)
+# Example usage
+check_user_agent("http://example.com/robots.txt", "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")
+```
 
-    # Parse the robots.txt file
+### 3. Monitoring Changes to Robots.txt
+
+```python
+from urllib.robotparser import RobotFileParser, parse_robot_file
+import time
+
+def monitor_robots_txt(url):
+    # Create a RobotFileParser instance and set the URL of the robots.txt file
+    robot_file = RobotFileParser()
+    robot_file.set_url(url)
+
+    # Read the initial robots.txt file
+    robot_file.read()
+
+    # Store the parsed rules in a dictionary for later comparison
+    initial_rules = parse_robot_file(robot_file.get_url())
+
     try:
-        rp.read()
-    except Exception as e:
-        print(f"Error parsing robots.txt: {e}")
-        return None
+        while True:
+            # Wait for 10 seconds before checking again
+            time.sleep(10)
 
-    return rp
-```
+            # Read the updated robots.txt file
+            robot_file.read()
 
-### Disabling Crawling for a Specific URL or User Agent
----------------------------------------------------
+            # Parse the updated rules
+            updated_rules = parse_robot_file(robot_file.get_url())
 
-```python
-import urllib.robotparser
+            # Compare the initial and updated rules
+            if initial_rules != updated_rules:
+                print("robots.txt has been updated.")
+                initial_rules = updated_rules
 
-def disable_crawling(rp, url=None, user_agent=None):
-    """
-    Disable crawling for the specified URL or user agent.
-
-    Args:
-        rp (RobotFileParser): An instance of the RobotFileParser class.
-        url (str, optional): The URL to be excluded from crawling. Defaults to None.
-        user_agent (str, optional): The user agent to be excluded from crawling. Defaults to None.
-    """
-
-    if url and rp.can_fetch(user_agent, url):
-        # Disable crawling for the specified URL
-        rp.set_url(url)
-        rp.read()
-    elif user_agent:
-        # Disable crawling for the specified user agent
-        rp.user_agent = '*'
-        rp.read()
+    except KeyboardInterrupt:
+        print("Monitoring stopped.")
 
 # Example usage
-rp = urllib.robotparser.RobotFileParser()
-rp.set_url('https://example.com/robots.txt')
-
-disable_crawling(rp, url='https://example.com')
+monitor_robots_txt("http://example.com/robots.txt")
 ```
 
-### Checking if Crawling is Allowed for a Specific URL or User Agent
-----------------------------------------------------------------
+### 4. Parsing Robots.txt for Disallowed Paths with a List of URLs
 
 ```python
-import urllib.robotparser
+from urllib.robotparser import RobotFileParser
 
-def can_fetch(rp, url=None, user_agent=None):
-    """
-    Check if crawling is allowed for the specified URL or user agent.
+def check_disallowed_paths_for_list(urls):
+    # Create a RobotFileParser instance
+    robot_file = RobotFileParser()
 
-    Args:
-        rp (RobotFileParser): An instance of the RobotFileParser class.
-        url (str, optional): The URL to be checked. Defaults to None.
-        user_agent (str, optional): The user agent to be checked. Defaults to None.
+    # Define the URL of the robots.txt file
+    url = "http://example.com/robots.txt"
+    robot_file.set_url(url)
 
-    Returns:
-        bool: True if crawling is allowed, False otherwise.
-    """
+    # Read the robots.txt file
+    robot_file.read()
 
-    if rp.can_fetch(user_agent, url):
-        return True
-    elif user_agent:
-        # Check for disallowed user agents
-        disallowed_user_agents = ['*']
-        for agent in disallowed_user_agents:
-            if rp.can_fetch(agent, url):
-                return False
-
-    return True
+    # Check which URLs are allowed or disallowed
+    for url in urls:
+        if robot_file.can_fetch('*', url):
+            print(f"Allowed: {url}")
+        else:
+            print(f"Disallowed: {url}")
 
 # Example usage
-rp = urllib.robotparser.RobotFileParser()
-rp.set_url('https://example.com/robots.txt')
-
-print(can_fetch(rp))  # Output: False (due to the '*' disallowance)
+urls = [
+    "http://example.com/page1",
+    "http://example.com/page2",
+    "http://example.com/disallowed-page"
+]
+check_disallowed_paths_for_list(urls)
 ```
+
+### 5. Handling Custom Paths in Robots.txt
+
+```python
+from urllib.robotparser import RobotFileParser
+
+def check_custom_path(url):
+    # Create a RobotFileParser instance and set the URL of the robots.txt file
+    robot_file = RobotFileParser()
+    robot_file.set_url(url)
+
+    # Read the robots.txt file
+    robot_file.read()
+
+    # Define the path you want to check
+    path_to_check = "/page1"
+
+    # Check if the specified path is allowed or disallowed
+    if robot_file.can_fetch('*', path_to_check):
+        print(f"Path: {path_to_check} - Allowed")
+    else:
+        print(f"Path: {path_to_check} - Disallowed")
+
+# Example usage
+check_custom_path("http://example.com/robots.txt")
+```
+
+These examples demonstrate how to use the `urllib.robotparser` module to parse and check `robots.txt` files for access control. Each example includes comments explaining key steps and is designed to be clear and self-contained, suitable for integration into larger applications or documentation.

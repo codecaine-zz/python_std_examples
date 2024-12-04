@@ -1,214 +1,160 @@
-# multiprocessing — Process-based parallelism
+# multiprocessing - Process-based parallelism
 
-**Multiprocessing Module**
-==========================
+Below are comprehensive examples of how to use various functionalities provided by the `multiprocessing` module in Python, along with detailed comments explaining each step.
 
-The `multiprocessing` module provides support for spawning new Python processes and managing their resources.
-
-**Importing the Module**
-------------------------
+### 1. Basic Multiprocessing
 
 ```python
 import multiprocessing
+from multiprocessing import Pool
+
+def worker(x):
+    """Example function to be executed in a separate process."""
+    return x * x
+
+if __name__ == '__main__':
+    # Create a pool of worker processes
+    with Pool(processes=4) as pool:
+        # Use the map method to apply the worker function to a list of numbers
+        results = pool.map(worker, [1, 2, 3, 4, 5])
+    
+    print("Results:", results)
 ```
 
-**Creating a New Process**
----------------------------
-
-You can create a new process by creating a new `Process` object and passing it an callable function that will be executed in the new process:
+### 2. Using `Process` Class
 
 ```python
-def worker(num):
-    """Simulate some work"""
-    print(f"Worker {num} is working")
-    # Add your code here
+import multiprocessing
 
-if __name__ == "__main__":
-    # Create two processes, one for each worker
-    p1 = multiprocessing.Process(target=worker, args=(1,))
-    p2 = multiprocessing.Process(target=worker, args=(2,))
+def worker(x):
+    """Example function to be executed in a separate process."""
+    return x * x
 
-    # Start the processes
+if __name__ == '__main__':
+    # Define a target function for the Process class
+    def target_function():
+        print("Running in a separate process")
+
+    # Create a Process object and start it
+    p = multiprocessing.Process(target=target_function)
+    p.start()
+    p.join()  # Wait for the process to complete
+
+    print("Process completed")
+```
+
+### 3. Sharing Data Between Processes
+
+```python
+import multiprocessing
+from multiprocessing import Manager
+
+def modify_list(data):
+    """Function to modify a shared list."""
+    data.append(100)
+
+if __name__ == '__main__':
+    # Create a manager object for shared objects
+    with Manager() as manager:
+        # Use the list object from the manager
+        shared_data = manager.list([1, 2, 3])
+        
+        # Spawn a process to modify the shared data
+        p = multiprocessing.Process(target=modify_list, args=(shared_data,))
+        p.start()
+        p.join()
+
+        print("Shared data after modification:", shared_data)
+```
+
+### 4. Handling Exceptions in Processes
+
+```python
+import multiprocessing
+from multiprocessing import Pool
+
+def worker(x):
+    """Example function to be executed in a separate process."""
+    if x == 0:
+        raise ValueError("Division by zero")
+    return 1 / x
+
+if __name__ == '__main__':
+    with Pool(processes=2) as pool:
+        try:
+            results = pool.map(worker, [5, 0, 3])
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+        # Note: The second and third elements in the list are None because of the exception
+        print("Results:", results)
+```
+
+### 5. Using `Queue` for Inter-Process Communication
+
+```python
+import multiprocessing
+from multiprocessing import Queue
+
+def producer(q):
+    """Producer function to add items to a queue."""
+    q.put(10)
+    q.put(20)
+
+def consumer(q):
+    """Consumer function to retrieve items from the queue."""
+    while True:
+        item = q.get()
+        if item is None:
+            break
+        print("Received:", item)
+
+if __name__ == '__main__':
+    # Create a queue object
+    q = Queue()
+
+    # Start producer and consumer processes
+    p1 = multiprocessing.Process(target=producer, args=(q,))
+    p2 = multiprocessing.Process(target=consumer, args=(q,))
+
     p1.start()
     p2.start()
 
-    # Wait for both processes to finish
+    # Wait for all processes to complete
     p1.join()
-    p2.join()
-
-    print("All workers have finished")
-```
-
-**Using `Pool`**
------------------
-
-You can also use a `Pool` of worker processes to execute multiple tasks in parallel. The `Pool` class takes a list of callable functions as an argument and returns an object that you can call to execute the tasks:
-
-```python
-import multiprocessing
-
-def square(x):
-    """Return the square of x"""
-    return x ** 2
-
-if __name__ == "__main__":
-    # Create a pool of 4 worker processes
-    with multiprocessing.Pool(processes=4) as pool:
-        # Apply the square function to a list of numbers in parallel
-        results = pool.map(square, [1, 2, 3, 4])
-
-    print(results)
-```
-
-**Using `ProcessPoolExecutor`**
----------------------------------
-
-The `ProcessPoolExecutor` class is similar to the `Pool` class, but it provides more features and flexibility:
-
-```python
-import multiprocessing
-
-def square(x):
-    """Return the square of x"""
-    return x ** 2
-
-if __name__ == "__main__":
-    # Create a pool of 4 worker processes
-    with multiprocessing.ProcessPoolExecutor(max_workers=4) as executor:
-        # Submit tasks to the pool and retrieve the results
-        results = list(executor.map(square, [1, 2, 3, 4]))
-
-    print(results)
-```
-
-**Using `Pool.apply_async`**
------------------------------
-
-The `apply_async` method allows you to execute a task asynchronously in the pool:
-
-```python
-import multiprocessing
-
-def square(x):
-    """Return the square of x"""
-    return x ** 2
-
-if __name__ == "__main__":
-    # Create a pool of 4 worker processes
-    with multiprocessing.Pool(processes=4) as pool:
-        # Execute a task asynchronously in the pool
-        p = pool.apply_async(square, args=(5,))
-        print(f"Task started: {p.id}")
-
-        # Wait for the task to finish
-        p.get()
-```
-
-**Using `Pool.submit`**
--------------------------
-
-The `submit` method allows you to execute a task synchronously in the pool:
-
-```python
-import multiprocessing
-
-def square(x):
-    """Return the square of x"""
-    return x ** 2
-
-if __name__ == "__main__":
-    # Create a pool of 4 worker processes
-    with multiprocessing.Pool(processes=4) as pool:
-        # Execute a task synchronously in the pool
-        p = pool.submit(square, 5)
-        print(f"Task started: {p.id}")
-
-        # Wait for the task to finish and retrieve the result
-        result = p.result()
-```
-
-**Sharing Data Between Processes**
----------------------------------
-
-You can share data between processes using shared memory or queues:
-
-```python
-import multiprocessing
-
-def worker(q):
-    """Simulate some work"""
-    q.put("Worker has finished")
-
-if __name__ == "__main__":
-    # Create a queue to share data between processes
-    q = multiprocessing.Queue()
-
-    # Create two processes, one for each worker
-    p1 = multiprocessing.Process(target=worker, args=(q,))
-    p2 = multiprocessing.Process(target=worker, args=(q,))
-
-    # Start the processes
-    p1.start()
-    p2.start()
-
-    # Wait for both processes to finish
-    p1.join()
-    p2.join()
-
-    print(q.get())  # Should print "Worker has finished"
-```
-
-**Exiting a Process**
-------------------------
-
-You can exit a process using the `join` method:
-
-```python
-import multiprocessing
-
-def worker():
-    """Simulate some work"""
-    print("Worker is working")
-
-if __name__ == "__main__":
-    # Create a process for each worker
-    p1 = multiprocessing.Process(target=worker)
-    p2 = multiprocessing.Process(target=worker)
-
-    # Start the processes
-    p1.start()
-    p2.start()
-
-    # Wait for both processes to finish
-    p1.join()
+    q.put(None)  # Signal the consumer process to exit
     p2.join()
 ```
 
-**Process Termination**
--------------------------
-
-The `multiprocessing` module provides a number of methods and functions that can be used to terminate a process:
+### 6. Using `Lock` for Synchronization
 
 ```python
 import multiprocessing
+from multiprocessing import Lock
 
-def worker():
-    """Simulate some work"""
-    print("Worker is working")
+def shared_task(lock, counter):
+    """Function that increments a counter and prints its value."""
+    with lock:
+        print(f"Thread {multiprocessing.current_process().name}: Lock acquired")
+        counter.value += 1
+        print(f"Counter value: {counter.value}")
 
-if __name__ == "__main__":
-    # Create a process for each worker
-    p1 = multiprocessing.Process(target=worker)
-    p2 = multiprocessing.Process(target=worker)
+if __name__ == '__main__':
+    # Create a lock object
+    lock = Lock()
 
-    # Start the processes
-    p1.start()
-    p2.start()
+    # Define a counter using Value from the Manager class for shared data
+    with Manager() as manager:
+        counter = manager.Value('i', 0)
 
-    # Wait for both processes to finish
-    p1.join()
-    p2.join()
+        # Start multiple processes to increment the counter
+        processes = [multiprocessing.Process(target=shared_task, args=(lock, counter)) for _ in range(10)]
+        for p in processes:
+            p.start()
 
-    # Terminate the main process
-    exit(42)  # Exit with status code 42
+        # Wait for all processes to complete
+        for p in processes:
+            p.join()
 ```
+
+These examples cover a range of functionalities provided by the `multiprocessing` module, including creating and managing processes, sharing data between them, handling exceptions, using queues for inter-process communication, and synchronizing access to shared resources.

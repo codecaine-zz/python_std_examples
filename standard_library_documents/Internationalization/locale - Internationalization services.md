@@ -1,107 +1,89 @@
-# locale — Internationalization services
+# locale - Internationalization services
 
-Here's an example of how you can use the `locale` module in Python:
+Below are comprehensive code examples for the `locale` module in Python, covering various functionalities related to internationalization. Each example is accompanied by comments explaining each step.
+
 ```python
 import locale
 
-# Get the current locale
-def get_current_locale():
-    """Return the current locale"""
-    return locale.getlocale()
+# Set the default locale (system-dependent)
+try:
+    # Use the system's preferred locale settings
+    locale.setlocale(locale.LC_ALL, '')
+except locale.Error as e:
+    print(f"Failed to set locale: {e}")
 
-print("Current Locale:", get_current_locale())
+# Get information about available locales
+available_locales = locale.locale_alias.keys()
+print("Available locales:")
+for code in available_locales:
+    print(code)
 
-# Set a new locale
-def set_new_locale(locale_code, language_code):
-    """
-    Set a new locale.
+# Set a specific locale (example: French)
+try:
+    # Setting the locale for LC_ALL, ensuring all categories are affected
+    locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
+    print(f"Locale set to: {locale.getlocale(locale.LC_ALL)}")
+except locale.Error as e:
+    print(f"Failed to set locale: {e}")
 
-    Args:
-        locale_code (str): The full locale code (e.g. 'en_US.UTF-8')
-        language_code (str): The language code (e.g. 'en' for English)
+# Get the current locale settings
+current_locale = locale.getlocale()
+print("Current locale settings:")
+for category, value in current_locale:
+    print(f"{category}: {value}")
 
-    Returns:
-        bool: True if the locale was successfully set, False otherwise
-    """
-    try:
-        locale.setlocale(locale.LC_ALL, locale_code)
-        return True
-    except Exception as e:
-        print(f"Failed to set locale: {str(e)}")
-        return False
+# Format a number using a specific locale
+number = 123456.789
+formatted_number = locale.currency(number)
+print(f"Formatted currency: {formatted_number}")
 
-# Test setting a new locale
-print("Setting locale...")
-set_new_locale('en_US.UTF-8', 'en')
+# Format a string with localized date and time
+now = datetime.datetime.now()
+localized_date = now.strftime("%A, %B %d, %Y")
+localized_time = now.strftime("%I:%M %p")
+print(f"Localized Date: {localized_date}")
+print(f"Localized Time: {localized_time}")
 
-# Get the language and country codes from the locale code
-def get_language_and_country_code(locale_code):
-    """
-    Extract the language and country codes from the locale code.
+# Set the locale for LC_TIME to get localized date and time format
+try:
+    locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
+    localized_date = now.strftime("%A, %B %d, %Y")
+    localized_time = now.strftime("%I:%M %p")
+    print(f"Localized Date with LC_TIME: {localized_date}")
+    print(f"Localized Time with LC_TIME: {localized_time}")
+except locale.Error as e:
+    print(f"Failed to set locale: {e}")
 
-    Args:
-        locale_code (str): The full locale code
-
-    Returns:
-        tuple: A tuple containing the language code and the country code
-    """
-    parts = locale.getdefaultlocale()
-    if parts is None:
-        return None, None  # No suitable locale found
-    language_code = parts[0]
-    country_code = parts[1]
-    return language_code, country_code
-
-print("Language Code:", get_language_and_country_code('en_US.UTF-8'))
-print("Country Code:", get_language_and_country_code('fr_FR.UTF-8'))
-
-# Get the list of available locales
-def get_available_locales():
-    """Return a list of available locale codes"""
-    return locale.getlocale()[0]
-
-available_locales = get_available_locales()
-for locale in available_locales:
-    print(locale)
-
-# Use locale for date and number formatting
-import datetime
-
-def format_date(date_obj):
-    """
-    Format the given date object as per the current locale.
-
-    Args:
-        date_obj (datetime.date): The date object to be formatted
-
-    Returns:
-        str: The formatted date string
-    """
-    return locale.format_string('%B %d, %Y', date_obj)
-
-date_obj = datetime.date(2022, 12, 25)
-print("Formatted Date:", format_date(date_obj))
-
-def format_number(num):
-    """
-    Format the given number as per the current locale.
-
-    Args:
-        num (float): The number to be formatted
-
-    Returns:
-        str: The formatted number string
-    """
-    return locale.format_string('%d', num)
-
-num = 12345.6789
-print("Formatted Number:", format_number(num))
+# Reset the locale settings to default
+try:
+    locale.setlocale(locale.LC_ALL, '')
+    print(f"Locale reset to system default: {locale.getlocale(locale.LC_ALL)}")
+except locale.Error as e:
+    print(f"Failed to reset locale: {e}")
 ```
-This code demonstrates how you can use the `locale` module to:
 
-*   Get the current locale and set a new one
-*   Extract language and country codes from the locale code
-*   Get a list of available locales
-*   Use locale for date and number formatting
+### Explanation:
 
-Note that the behavior of some functions in the `locale` module can vary depending on the underlying operating system, so you may need to adjust your expectations or use platform-specific checks when working with these functions.
+1. **Setting the Default Locale**:
+   - The `locale.setlocale(locale.LC_ALL, '')` sets the locale according to the system's preferred settings. This is useful for applications that need to adapt to user preferences.
+
+2. **Available Locales**:
+   - `locale.locale_alias.keys()` returns a list of all available locales. This can be helpful for users or developers who need to understand what locales are supported on their system.
+
+3. **Setting a Specific Locale**:
+   - `locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')` sets the locale to French (France) using UTF-8 encoding. You can replace `'fr_FR.UTF-8'` with any other locale identifier available on your system.
+
+4. **Current Locale Settings**:
+   - `locale.getlocale()` retrieves the current locale settings for all categories (`LC_ALL`, `LC_CTYPE`, `LC_COLLATE`, etc.).
+
+5. **Formatting Numbers and Strings**:
+   - `locale.currency(number)` formats a number as currency using the specified locale.
+   - `strftime` is used to format dates and times according to the locale's date and time formatting rules.
+
+6. **Setting LC_TIME for Locale-Specific Date/Time Formatting**:
+   - Changing the locale to `LC_TIME` ensures that date and time formats are displayed according to the chosen locale, which can be useful for applications that need specific date/time formats.
+
+7. **Resetting Locale Settings**:
+   - `locale.setlocale(locale.LC_ALL, '')` resets the locale settings back to their system default, ensuring that the application runs without any locale-specific configurations.
+
+These examples cover a range of functionalities provided by the `locale` module, allowing for effective internationalization in Python applications.

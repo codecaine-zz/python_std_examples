@@ -1,241 +1,82 @@
-# __future__ — Future statement definitions
+# __future__ - Future statement definitions
 
-Here's an example of how to use the `__future__.nested_scopes` feature, which was added in Python 2.1:
+The `__future__` module in Python provides a way to specify features that are still experimental or may change in future versions of the language. These features can be enabled by using "future" statements at the top of your script or module. This module is part of Python's standard library, so it doesn't need to be installed separately.
+
+Here are some examples of how you might use `__future__` statements:
+
+### 1. Using Generators with Expressions
+In Python 3, generators can be used in expressions directly without parentheses. To enable this behavior in earlier versions of Python, you can use the `from __future__ import generator_expr`.
 
 ```python
-from __future__ import nested_scopes
+# Example using generator expressions before Python 3
+even_numbers = (x for x in range(10) if x % 2 == 0)
 
-# Define a function that uses nested scopes
-def outer_function():
-    """
-    This function demonstrates the use of nested scopes with the __future__.nested_scopes feature.
-    
-    In Python 2.x, this function would raise an IndentationError due to the use of an indented block inside the function definition.
-    """
-    # Inner function that uses nested scopes
-    def inner_function():
-        """
-        This inner function demonstrates the correct usage of nested scopes in Python 3.x.
-        
-        The indentation is now correctly used to denote the scope of the inner function.
-        """
-        print("Inner function called")
-    
-    # Call the inner function
-    inner_function()
+# Using generator expression with future statement in Python 2
+from __future__ import generator_expr
 
-# Call the outer function
-outer_function()
+even_numbers = (x for x in range(10) if x % 2 == 0)
 ```
 
-To use the `__future__.annotations` feature, which was added in Python 2.6:
+### 2. Unpacking Star Expressions
+In Python 3, you can use the `*` operator directly to unpack iterables into positional arguments without parentheses. To enable this behavior in earlier versions of Python, you can use the `from __future__ import star_args`.
 
 ```python
-from __future__ import annotations
+# Example using star expressions before Python 3
+def print_numbers(*args):
+    for num in args:
+        print(num)
 
-class Person:
-    """
-    This class demonstrates the use of type hints and annotations.
-    
-    In Python 3.x, this class uses type hints to indicate the expected types of its attributes and methods.
-    """
+numbers = [1, 2, 3]
+print_numbers(numbers)  # Output: 1 2 3
 
-    def __init__(self, name: str, age: int):
-        """
-        Initializes a new instance of the Person class.
-        
-        Args:
-            name (str): The person's name.
-            age (int): The person's age.
-        """
-        self.name = name
-        self.age = age
+# Using star expressions with future statement in Python 2
+from __future__ import star_args
 
-    def greet(self) -> None:
-        """
-        Prints out a greeting message with the person's name.
-        
-        Returns:
-            None
-        """
-        print(f"Hello, my name is {self.name} and I am {self.age} years old.")
+def print_numbers(*args):
+    for num in args:
+        print(num)
 
-# Create an instance of the Person class
-person = Person("John Doe", 30)
-
-# Call the greet method
-person.greet()
+numbers = [1, 2, 3]
+print_numbers(*numbers)  # Output: 1 2 3
 ```
 
-To use the `__future__.division` feature, which was added in Python 2.6:
+### 3. Division Behavior
+In Python 3, the division of two integers results in a float. However, in earlier versions, it performed integer division and returned an integer result. To enable the behavior of returning a float, you can use the `from __future__ import division`.
 
 ```python
+# Example of integer division before Python 3
+result = 5 / 2  # Output: 2
+
+# Using division with future statement in Python 2
 from __future__ import division
 
-def calculate_area(radius: float) -> float:
-    """
-    Calculates the area of a circle.
-    
-    Args:
-        radius (float): The radius of the circle.
-    
-    Returns:
-        float: The area of the circle.
-    """
-    # Use the / operator for true division
-    return 3.14 * radius ** 2 / 4
-
-# Call the calculate_area function
-radius = 5.0
-area = calculate_area(radius)
-print(f"The area of the circle with radius {radius} is {area:.2f}")
+result = 5 / 2  # Output: 2.5
 ```
 
-To use the `__future__.generators` feature, which was added in Python 2.3:
+### 4. Print Function Syntax
+In Python 3, the `print` function is a built-in function and does not require parentheses around its arguments. To enable this behavior in earlier versions of Python, you can use the `from __future__ import print_function`.
 
 ```python
-from __future__ import generators
+# Example using print function without parentheses before Python 3
+print("Hello", "World")
 
-# Define a generator function
-def fibonacci(n: int) -> int:
-    """
-    Generates the first n numbers in the Fibonacci sequence.
-    
-    Args:
-        n (int): The number of Fibonacci numbers to generate.
-    
-    Yields:
-        int: The next number in the Fibonacci sequence.
-    """
-    # Initialize the first two numbers in the Fibonacci sequence
-    a, b = 0, 1
-    
-    for _ in range(n):
-        yield a
-        a, b = b, a + b
-
-# Call the fibonacci function
-for num in fibonacci(10):
-    print(num)
-```
-
-To use the `__future__.print_function` feature, which was added in Python 2.6:
-
-```python
+# Using print function with future statement in Python 2
 from __future__ import print_function
 
-def add(a: int, b: int) -> int:
-    """
-    Adds two numbers together.
-    
-    Args:
-        a (int): The first number.
-        b (int): The second number.
-    
-    Returns:
-        int: The sum of the two numbers.
-    """
-    # Use the print function with parentheses
-    print("The sum of {} and {} is {}".format(a, b, a + b))
-
-# Call the add function
-add(2, 3)
+print("Hello", "World")
 ```
 
-To use the `__future__.unicode_literals` feature, which was added in Python 2.1:
+### 5. Float Division with `//`
+In Python 3, the floor division of two integers returns an integer result. To enable this behavior in earlier versions of Python, you can use the `from __future__ import floor_division`.
 
 ```python
-from __future__ import unicode_literals
+# Example of floor division before Python 3
+result = 5 // 2  # Output: 2
 
-def greet(name: str) -> None:
-    """
-    Prints out a greeting message with the person's name.
-    
-    Args:
-        name (str): The person's name.
-    """
-    # Use Unicode literals
-    print("Hello, {}".format(name))
+# Using floor division with future statement in Python 2
+from __future__ import floor_division
 
-# Call the greet function
-greet(u"John Doe")
+result = 5 // 2  # Output: 2
 ```
 
-To use the `__future__.absolute_import` feature, which was added in Python 2.5:
-
-```python
-from __future__ import absolute_import
-
-import math
-
-def calculate_square_root(n: int) -> float:
-    """
-    Calculates the square root of a number.
-    
-    Args:
-        n (int): The number to find the square root of.
-    
-    Returns:
-        float: The square root of the number.
-    """
-    # Use absolute imports
-    from math import sqrt
-    
-    return sqrt(n)
-
-# Call the calculate_square_root function
-n = 16
-result = calculate_square_root(n)
-print(f"The square root of {n} is {result:.2f}")
-```
-
-To use the `__future__.division` feature (again, because it's different in Python 3.x):
-
-```python
-from __future__ import division
-
-def calculate_area(radius: float) -> float:
-    """
-    Calculates the area of a circle.
-    
-    Args:
-        radius (float): The radius of the circle.
-    
-    Returns:
-        float: The area of the circle.
-    """
-    # Use the / operator for true division
-    return 3.14 * radius ** 2 / 4
-
-# Call the calculate_area function
-radius = 5.0
-area = calculate_area(radius)
-print(f"The area of the circle with radius {radius} is {area:.2f}")
-```
-
-To use the `__future__.nested_scopes` feature (again, because it's different in Python 3.x):
-
-```python
-from __future__ import nested_scopes
-
-def outer_function():
-    """
-    This function demonstrates the use of nested scopes with the __future__.nested_scopes feature.
-    
-    In Python 2.x, this function would raise an IndentationError due to the use of an indented block inside the function definition.
-    """
-    # Inner function that uses nested scopes
-    def inner_function():
-        """
-        This inner function demonstrates the correct usage of nested scopes in Python 3.x.
-        
-        The indentation is now correctly used to denote the scope of the inner function.
-        """
-        print("Inner function called")
-    
-    # Call the inner function
-    inner_function()
-
-# Call the outer function
-outer_function()
-```
+These examples demonstrate how to use `__future__` statements to leverage new features of Python without breaking compatibility with older versions. It's important to note that not all features are supported by the `__future__` module, and some may require additional imports or configuration depending on your specific use case and environment.

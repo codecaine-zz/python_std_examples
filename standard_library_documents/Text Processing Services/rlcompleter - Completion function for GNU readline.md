@@ -1,130 +1,213 @@
-# rlcompleter — Completion function for GNU readline
+# rlcompleter - Completion function for GNU readline
 
-**RLCompletter Function in Python**
-=====================================
+The `rlcompleter` module in Python provides a way to enable completion features for interactive shell sessions using the GNU Readline library. This can be particularly useful for enhancing productivity by providing auto-completion as you type commands or variable names.
 
-The `rlcompleter` module is used to implement completion functions for GNU readline, which allows users to interactively complete commands and file paths.
+Below are comprehensive code examples demonstrating various functionalities of the `rlcompleter` module:
 
-**Installation**
----------------
+### 1. Basic Completion
 
-To use the `rlcompleter` module, you don't need to install any additional packages. It's a built-in Python module.
+First, ensure that the GNU Readline library is installed on your system. You can install it using your package manager (e.g., `apt-get install libreadline-dev` for Ubuntu).
 
-**Example Usage**
------------------
+Here's a basic example of how to use `rlcompleter` in a Python script:
 
-Here's an example of how to create a simple completor that provides suggestions for a given input:
 ```python
+import readline
 import rlcompleter
 
-# Create a completer class that implements the complete function
-class MyCompleter(rlcompleter.Completer):
-    def complete(self, text, word, start):
-        # Provide suggestions based on the input 'text'
-        if text == '':
-            return ['file', 'dir', 'help']
-        elif text == 'file':
-            return ['file1.txt', 'file2.txt']
-        elif text == 'dir':
-            return ['dir1', 'dir2']
+# Set the completer function to use rlcompleter
+readline.set_completer(rlcompleter.Completer())
 
-# Create an instance of the completer class
-completer = MyCompleter()
+# Enable auto-completion
+readline.parse_and_bind('tab: complete')
 
-# Get user input from readline
-line = input('Enter a command: ')
+# Example usage of the completer
+def example_usage():
+    print("Type a string and press 'Tab' for completion:")
+    while True:
+        try:
+            input_string = input()
+            print(f"You entered: {input_string}")
+        except EOFError:
+            print("\nExiting...")
+            break
 
-# Call the complete function to get suggestions
-suggestions = completer.complete(line, None, 0)
-
-# Print the suggestions
-print(suggestions)
+if __name__ == "__main__":
+    example_usage()
 ```
-**Output**
-----------
 
-When you run this code and enter `file`, it will print:
+### 2. Custom Completion Function
+
+You can also create a custom completion function by subclassing `rlcompleter.Completer` and overriding the `_complete` method.
+
 ```python
-['file1.txt', 'file2.txt']
+import readline
+import rlcompleter
+
+class CustomCompleter(rlcompleter.Completer):
+    def _complete(self, text, state):
+        # Define your own completion logic here
+        matches = [item for item in dir() if item.startswith(text)]
+        return matches[state] if 0 <= state < len(matches) else None
+
+# Set the custom completer function to use rlcompleter
+readline.set_completer(CustomCompleter())
+
+# Enable auto-completion
+readline.parse_and_bind('tab: complete')
+
+# Example usage of the custom completer
+def example_usage():
+    print("Type a string and press 'Tab' for completion:")
+    while True:
+        try:
+            input_string = input()
+            print(f"You entered: {input_string}")
+        except EOFError:
+            print("\nExiting...")
+            break
+
+if __name__ == "__main__":
+    example_usage()
 ```
-**Customizing Completion Suggestions**
---------------------------------------
 
-To customize the completion suggestions, you can implement the `_complete` method in your completer class. This method takes three arguments: `text`, `word`, and `start`.
+### 3. Completion for Custom Objects
 
-Here's an example implementation:
+If you have custom objects and want to provide completion for them, you can override the `_complete` method again:
+
 ```python
-class MyCompleter(rlcompleter.Completer):
-    def complete(self, text, word, start):
-        # Provide suggestions based on the input 'text'
-        if text == '':
-            return ['file', 'dir', 'help']
-        elif text == 'file':
-            return [f'file{word}']
-        elif text == 'dir':
-            return [f'dir{word}']
+import readline
+import rlcompleter
 
-# Create an instance of the completer class
-completer = MyCompleter()
+class MyClass:
+    def __init__(self, name):
+        self.name = name
 
-# Get user input from readline
-line = input('Enter a command: ')
+def example_usage():
+    obj1 = MyClass("Object 1")
+    obj2 = MyClass("Object 2")
 
-# Call the complete function to get suggestions
-suggestions = completer.complete(line, None, 0)
+    # Set up completion for instances of MyClass
+    class_instance_completer = rlcompleter.Completer()
+    class_instance_completer.complete_instances = True
+    readline.set_completer(class_instance_completer)
 
-# Print the suggestions
-print(suggestions)
+    # Enable auto-completion
+    readline.parse_and_bind('tab: complete')
+
+    print("Type 'obj' and press 'Tab' for completion:")
+    while True:
+        try:
+            input_string = input()
+            obj = eval(input_string)
+            if isinstance(obj, MyClass):
+                print(f"You selected: {obj.name}")
+            else:
+                print("Invalid object")
+        except EOFError:
+            print("\nExiting...")
+            break
+
+if __name__ == "__main__":
+    example_usage()
 ```
-**Output**
-----------
 
-When you run this code and enter `file`, it will print:
+### 4. Using `readline.parse_and_bind` for Advanced Bindings
+
+You can use `readline.parse_and_bind` to bind custom key bindings, such as a command to execute a specific function:
+
 ```python
-['filea', 'fileb']
+import readline
+import rlcompleter
+
+# Set the completer function to use rlcompleter
+readline.set_completer(rlcompleter.Completer())
+
+# Bind a custom key binding (e.g., Ctrl+X Ctrl+C)
+readline.parse_and_bind('Ctrl-X Ctrl-C: exit')
+
+def example_usage():
+    print("Type 'exit' and press Ctrl+X Ctrl+C to quit.")
+    while True:
+        try:
+            input_string = input()
+            print(f"You entered: {input_string}")
+        except EOFError:
+            print("\nExiting...")
+            break
+
+if __name__ == "__main__":
+    example_usage()
 ```
-Note that the `_complete` method is called for each input character in the user's input. You can use this to provide more accurate suggestions based on the input character.
 
-**Extending Completion with Context**
--------------------------------------
+### 5. Completion for Specific Modules or Libraries
 
-To extend completion with context, you can modify the completer class to keep track of the previous command or file path. Here's an example implementation:
+If you want to limit the completion to specific modules or libraries, you can override the `_complete` method to filter based on module contents:
+
 ```python
-class MyCompleter(rlcompleter.Completer):
-    def __init__(self):
-        self.previous_input = ''
+import readline
+import rlcompleter
 
-    def complete(self, text, word, start):
-        # Use the previous input to provide suggestions
-        if self.previous_input == '':
-            return ['file', 'dir', 'help']
-        elif self.previous_input == 'file':
-            return [f'file{word}']
-        elif self.previous_input == 'dir':
-            return [f'dir{word}']
+class ModuleCompleter(rlcompleter.Completer):
+    def _complete(self, text, state):
+        # Define your own completion logic here
+        matches = [item for item in dir() if item.startswith(text) and item not in self.custom_blacklist]
+        return matches[state] if 0 <= state < len(matches) else None
 
-# Create an instance of the completer class
-completer = MyCompleter()
+# Set the custom completer function to use rlcompleter
+readline.set_completer(ModuleCompleter())
 
-# Get user input from readline
-line = input('Enter a command: ')
+# Enable auto-completion
+readline.parse_and_bind('tab: complete')
 
-# Update the previous input
-completer.previous_input = line
+# Example usage of the module-specific completer
+def example_usage():
+    print("Type 'math.' and press 'Tab' for completion:")
+    while True:
+        try:
+            input_string = input()
+            obj = eval(input_string)
+            if isinstance(obj, (int, float)):
+                print(f"You selected: {obj}")
+            else:
+                print("Invalid object")
+        except EOFError:
+            print("\nExiting...")
+            break
 
-# Call the complete function to get suggestions
-suggestions = completer.complete(line, None, 0)
-
-# Print the suggestions
-print(suggestions)
+if __name__ == "__main__":
+    example_usage()
 ```
-**Output**
-----------
 
-When you run this code and enter `file`, it will print:
+### 6. Using `readline.set_completer_delims` to Customize Delimiters
+
+You can customize the delimiters used by `rlcompleter` to affect how completion works:
+
 ```python
-['filea', 'fileb']
-```
-Note that the `_complete` method now uses the previous input to provide suggestions. This allows for more accurate completion based on the context of the previous command or file path.
+import readline
+import rlcompleter
 
-I hope this helps! Let me know if you have any questions or need further clarification.
+# Set the completer function to use rlcompleter
+readline.set_completer(rlcompleter.Completer())
+
+# Customize delimiters
+readline.set_completer_delims(' \t\n;:')
+
+# Enable auto-completion
+readline.parse_and_bind('tab: complete')
+
+# Example usage of custom delimiters
+def example_usage():
+    print("Type a string and press 'Tab' for completion:")
+    while True:
+        try:
+            input_string = input()
+            print(f"You entered: {input_string}")
+        except EOFError:
+            print("\nExiting...")
+            break
+
+if __name__ == "__main__":
+    example_usage()
+```
+
+These examples demonstrate how to use the `rlcompleter` module to enhance the interactive shell experience by providing auto-completion. Each example includes comments explaining key steps and functionalities, making it easy to understand and integrate into your own scripts.

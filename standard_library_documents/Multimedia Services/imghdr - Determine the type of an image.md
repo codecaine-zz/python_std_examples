@@ -1,90 +1,227 @@
-# imghdr — Determine the type of an image
+# imghdr - Determine the type of an image
 
-**Image Header Module**
-======================
+The `imghdr` module in Python is used to identify the format of image files by checking their first few bytes. This can be particularly useful when dealing with images where you need to programmatically determine the file type without relying on file extensions.
 
-The `imghdr` module is used to determine the type of an image.
+Below are comprehensive code examples for each functionality available in the `imghdr` module:
 
-### Code Examples
+### 1. `identify(filename)`
 
-#### 1. Checking the Image Type
+This function takes a filename as input and returns a tuple containing two elements: the image format (if recognized) and an error message if no format is recognized.
+
 ```python
 import imghdr
 
-# Open an image file
-with open('image.jpg', 'rb') as f:
-    # Read the first 4 bytes of the file (header)
-    header = f.read(4)
+def identify_image_format(filename):
+    result = imghdr.identify(filename)
+    if result:
+        format, error = result
+        print(f"Image format identified as: {format}")
+    else:
+        print("No image format found. Error:", error)
 
-# Check if the image is a JPEG
-if imghdr.what(header):
-    print("Image type: JPEG")
-else:
-    print("Unknown image type")
+# Example usage
+identify_image_format('example.jpg')
 ```
 
-#### 2. Checking Other Image Types
+### 2. `what(buf)`
+
+This function takes a bytes-like object containing the first few bytes of an image file and returns the image format if recognized, or `None` if no format is recognized.
+
 ```python
 import imghdr
 
-image_types = {
-    'JPEG': imghdr.JPEG,
-    'GIF': imghdr.GIF,
-    'PNG': imghdr.PNG,
+def identify_image_format_from_bytes(buffer):
+    result = imghdr.what(buffer)
+    if result:
+        print(f"Image format identified as: {result}")
+    else:
+        print("No image format found.")
+
+# Example usage
+buffer = b'\xFFD8\xFFE0\x00\x10JFIF\x00'
+identify_image_format_from_bytes(buffer)
+```
+
+### 3. `isgif(buf)`
+
+This function checks if the provided bytes-like object contains a GIF file.
+
+```python
+import imghdr
+
+def is_gif_file(buffer):
+    result = imghdr.isgif(buffer)
+    print(f"Is the buffer a GIF file? {result}")
+
+# Example usage
+buffer = b'\x47\x49\x46\x38\x39'
+is_gif_file(buffer)
+```
+
+### 4. `ispng(buf)`
+
+This function checks if the provided bytes-like object contains a PNG file.
+
+```python
+import imghdr
+
+def is_png_file(buffer):
+    result = imghdr.ispng(buffer)
+    print(f"Is the buffer a PNG file? {result}")
+
+# Example usage
+buffer = b'\x89PNG\r\n\x1a\n'
+is_png_file(buffer)
+```
+
+### 5. `issvg(buf)`
+
+This function checks if the provided bytes-like object contains an SVG file.
+
+```python
+import imghdr
+
+def is_svg_file(buffer):
+    result = imghdr.issvg(buffer)
+    print(f"Is the buffer an SVG file? {result}")
+
+# Example usage
+buffer = b'<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">'
+is_svg_file(buffer)
+```
+
+### 6. `istiff(buf)`
+
+This function checks if the provided bytes-like object contains a TIFF file.
+
+```python
+import imghdr
+
+def is_tiff_file(buffer):
+    result = imghdr.istiff(buffer)
+    print(f"Is the buffer a TIFF file? {result}")
+
+# Example usage
+buffer = b'II\x2a\x00\x16'
+is_tiff_file(buffer)
+```
+
+### 7. `iswebp(buf)`
+
+This function checks if the provided bytes-like object contains a WebP file.
+
+```python
+import imghdr
+
+def is_webp_file(buffer):
+    result = imghdr.iswebp(buffer)
+    print(f"Is the buffer a WebP file? {result}")
+
+# Example usage
+buffer = b'\x52\x49\x46\x50\x2A\x31\x2E\x30'
+is_webp_file(buffer)
+```
+
+### 8. `isspc(buf)`
+
+This function checks if the provided bytes-like object contains a SPARK file.
+
+```python
+import imghdr
+
+def is_spark_file(buffer):
+    result = imghdr.isspc(buffer)
+    print(f"Is the buffer a SPARK file? {result}")
+
+# Example usage
+buffer = b'\x53\x50\x42\x48'
+is_spark_file(buffer)
+```
+
+### 9. `iseps(buf)`
+
+This function checks if the provided bytes-like object contains an EPS (Encapsulated PostScript) file.
+
+```python
+import imghdr
+
+def is_eps_file(buffer):
+    result = imghdr.iseps(buffer)
+    print(f"Is the buffer an EPS file? {result}")
+
+# Example usage
+buffer = b'\x25\x21\x43\x0D\x0A\x0A'
+is_eps_file(buffer)
+```
+
+### 10. `isppm(buf)`
+
+This function checks if the provided bytes-like object contains a PPM (Portable Pixel Map) file.
+
+```python
+import imghdr
+
+def is_ppm_file(buffer):
+    result = imghdr.isppm(buffer)
+    print(f"Is the buffer a PPM file? {result}")
+
+# Example usage
+buffer = b'P3\n20 20\n150\n'
+is_ppm_file(buffer)
+```
+
+### 11. `ispbm(buf)`
+
+This function checks if the provided bytes-like object contains a PBM (Portable BitMap) file.
+
+```python
+import imghdr
+
+def is_pbm_file(buffer):
+    result = imghdr.ispbm(buffer)
+    print(f"Is the buffer a PBM file? {result}")
+
+# Example usage
+buffer = b'P1\n20 20'
+is_pbm_file(buffer)
+```
+
+### 12. `ispgm(buf)`
+
+This function checks if the provided bytes-like object contains a PGM (Portable GrayMap) file.
+
+```python
+import imghdr
+
+def is_pgm_file(buffer):
+    result = imghdr.ispgm(buffer)
+    print(f"Is the buffer a PGM file? {result}")
+
+# Example usage
+buffer = b'P5\n20 20\n150'
+is_pgm_file(buffer)
+```
+
+### 13. `isxpm(buf)`
+
+This function checks if the provided bytes-like object contains an XPM (X PixMap) file.
+
+```python
+import imghdr
+
+def is_xpm_file(buffer):
+    result = imghdr.isxpm(buffer)
+    print(f"Is the buffer an XPM file? {result}")
+
+# Example usage
+buffer = b'/* XPM */
+static char *xpm[] = {
+    "16 16 2 1",
+    "      c none",
+    ".     c black",
+    "................"
 }
-
-# Check the type of an image file
-for extension, type in image_types.items():
-    if imghdr.what(open('image.' + extension, 'rb').read(4)) == type:
-        print(f"Image type: {extension}")
+is_xpm_file(buffer)
 ```
 
-#### 3. Handling Unknown Image Types
-```python
-import imghdr
-
-try:
-    # Open an image file
-    with open('unknown.png', 'rb') as f:
-        # Read the first 4 bytes of the file (header)
-        header = f.read(4)
-
-    # Check if the image type is unknown
-    image_type = imghdr.what(header)
-    if image_type == imghdr.UNKNOWN:
-        print("Unknown image type")
-except FileNotFoundError:
-    print("File not found")
-```
-
-#### 4. Using `img HDR` for Multiple Image Files
-```python
-import imghdr
-
-image_files = ['image1.jpg', 'image2.png', 'unknown.png']
-
-for file in image_files:
-    try:
-        # Open an image file
-        with open(file, 'rb') as f:
-            # Read the first 4 bytes of the file (header)
-            header = f.read(4)
-
-        # Check if the image type is known
-        image_type = imghdr.what(header)
-        print(f"Image type: {image_type}")
-    except FileNotFoundError:
-        print("File not found")
-```
-
-### Explanation
-
-*   The `imghdr` module uses the first 4 bytes of an image file to determine its type.
-*   The `what()` function returns an integer representing the image type, which can be one of:
-    *   `JPEG` (for JPEG images)
-    *   `GIF` (for GIF images)
-    *   `PNG` (for PNG images)
-    *   `UNKNOWN` (for unknown or unsupported image types)
-*   By checking the first 4 bytes of an image file, you can determine its type without needing to read or parse the entire file.
-
-**Note:** The above examples are for illustration purposes only. In real-world applications, consider using established libraries and frameworks for handling images, such as Pillow (PIL) or OpenCV, which provide more comprehensive functionality and better performance than the `imghdr` module alone.
+These examples demonstrate how to use each function in the `imghdr` module to determine the format of image files. Each example includes comments explaining the purpose and usage of the function, making it easy to understand and integrate into larger projects.

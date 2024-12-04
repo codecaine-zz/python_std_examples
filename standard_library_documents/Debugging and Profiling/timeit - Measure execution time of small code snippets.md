@@ -1,136 +1,138 @@
-# timeit — Measure execution time of small code snippets
+# timeit - Measure execution time of small code snippets
 
-**Timeit Module**
-================
-
-The `timeit` module provides a simple way to measure the execution time of small code snippets.
-
-**Example Use Cases:**
-
-*   Measuring performance of different algorithms
-*   Comparing execution times of different code implementations
-*   Optimizing code for better performance
-
-**Code Examples:**
+The `timeit` module in Python is a simple timing interface that helps measure short durations by running a given statement multiple times. It's particularly useful for benchmarking and profiling Python code. Below are comprehensive and well-documented examples demonstrating various functionalities of the `timeit` module.
 
 ### 1. Basic Usage
 
 ```python
 import timeit
 
-# Define a simple function to measure
-def add_numbers(a, b):
-    return a + b
-
-# Create a timer object
-timer = timeit.Timer(lambda: add_numbers(2, 3))
-
-# Measure the execution time of the function
-execution_time = timer.timeit(number=1000000)
-
-print(f"Execution time: {execution_time:.6f} seconds")
+# Measure execution time of a simple addition
+result = timeit.timeit("a + b", globals=globals(), number=1000)
+print(f"Execution time: {result:.6f} seconds")
 ```
 
-### 2. Using Setup and Timeit
+#### Explanation:
+- **Function**: `timeit.timeit()`
+  - This function measures the execution time of a specified code snippet.
+  - The `stmt` parameter is the statement to be timed. It can include variables and functions defined in `globals` or `locals`.
+  - `number` specifies how many times the statement should be executed.
+
+### 2. Measuring Multiple Statements
 
 ```python
 import timeit
 
-# Define a simple setup for the measurement
-def add_numbers(a, b):
-    return a + b
-
-# Create a timer object with setup
-timer = timeit.Timer('add_numbers(2, 3)', 'a, b')
-
-# Measure the execution time of the function
-execution_time = timer.timeit(number=1000000)
-
-print(f"Execution time: {execution_time:.6f} seconds")
+# Measure execution time of multiple statements
+result = timeit.timeit("""
+a = [1, 2, 3]
+b = [4, 5, 6]
+result = list(map(lambda x, y: x + y, a, b))
+""", globals=globals(), number=1000)
+print(f"Execution time: {result:.6f} seconds")
 ```
 
-### 3. Using Loop and Timeit
+#### Explanation:
+- The `stmt` parameter can contain multiple statements separated by semicolons.
+- This example demonstrates using the `map` function to perform element-wise addition of two lists.
+
+### 3. Measuring Time for a Function
 
 ```python
 import timeit
 
-# Define a simple loop for the measurement
-def add_numbers(a, b):
-    result = 0
-    for i in range(1000000):
-        result += a + b
-    return result
+def my_function():
+    return [i * i for i in range(1000)]
 
-# Create a timer object with setup
-timer = timeit.Timer('add_numbers(2, 3)', 'a, b')
-
-# Measure the execution time of the function
-execution_time = timer.timeit(number=1)
-
-print(f"Execution time: {execution_time:.6f} seconds")
+# Measure execution time of a defined function
+result = timeit.timeit("my_function()", globals=globals(), number=1000)
+print(f"Execution time: {result:.6f} seconds")
 ```
 
-### 4. Using Timer Function
+#### Explanation:
+- You can define your own functions and measure their execution time directly.
+- This example demonstrates using a list comprehension to create a list of squares of numbers from 0 to 999.
+
+### 4. Using Timeit.Timer for Detailed Control
 
 ```python
 import timeit
 
-# Define a simple function to measure
-def add_numbers(a, b):
-    return a + b
+# Create a Timer object for more detailed control
+timer = timeit.Timer("a + b", globals=globals())
 
-# Use the timer function to measure execution time
-with timeit.timer('add_numbers(2, 3)') as timer:
-    for i in range(1000000):
-        result = add_numbers(2, 3)
+# Measure execution time in seconds
+result_seconds = timer.timeit(number=1000)
+print(f"Execution time (seconds): {result_seconds:.6f}")
 
-print(f"Execution time: {timer.total_time:.6f} seconds")
+# Measure execution time in number of loops
+result_loops = timer.repeat(3, 1000)  # Repeat the measurement 3 times with 1000 iterations each
+print("Execution times per repetition:", result_loops)
 ```
 
-### 5. Measuring Execution Time with Multiple Runs
+#### Explanation:
+- The `timeit.Timer` class provides more detailed control over timing.
+  - `timeit.timeit()` measures the execution time of a statement in seconds.
+  - `repeat(n, number)` repeats the measurement n times and returns a list of durations.
+
+### 5. Measuring Time for Multiple Statements with Timer
 
 ```python
 import timeit
 
-# Define a simple function to measure
-def add_numbers(a, b):
-    return a + b
+timer = timeit.Timer("""
+a = [1, 2, 3]
+b = [4, 5, 6]
+result = list(map(lambda x, y: x + y, a, b))
+""", globals=globals())
 
-# Create multiple timer objects with setup
-timers = [
-    timeit.Timer('add_numbers(2, 3)', 'a, b'),
-    timeit.Timer('add_numbers(2, 4)', 'a, b'),
-    timeit Timer('add_numbers(5, 6)', 'a, b')
-]
+# Measure execution time in seconds for multiple statements
+result_seconds = timer.timeit(number=1000)
+print(f"Execution time (seconds): {result_seconds:.6f}")
 
-# Measure the execution time of each function
-execution_times = [timer.timeit(number=1000000) for timer in timers]
-
-print(f"Execution times: {execution_times}")
+# Measure execution time in number of loops
+result_loops = timer.repeat(3, 1000)  # Repeat the measurement 3 times with 1000 iterations each
+print("Execution times per repetition:", result_loops)
 ```
 
-### 6. Using Setup and Timeit with Loop
+#### Explanation:
+- Using `timeit.Timer` allows you to measure multiple statements in a single block.
+- This example demonstrates measuring the execution time of an `if` statement and a list comprehension.
+
+### 6. Timing Code with Setup
 
 ```python
 import timeit
 
-# Define a simple setup for the measurement
-def add_numbers(a, b):
-    result = 0
-    for i in range(1000000):
-        result += a + b
-    return result
-
-# Create multiple timer objects with setup
-timers = [
-    timeit.Timer('add_numbers(2, 3)', 'a, b'),
-    timeit.Timer('add_numbers(4, 5)', 'a, b')
-]
-
-# Measure the execution time of each function
-execution_times = [timer.timeit(number=1) for timer in timers]
-
-print(f"Execution times: {execution_times}")
+# Measure execution time with setup code
+result = timeit.timeit("result = sum(a)", globals=globals(), number=1000, setup="a = [i for i in range(1000)]")
+print(f"Execution time: {result:.6f} seconds")
 ```
 
-Note that the `timeit` module uses a variety of techniques to measure execution time, including measuring the number of calls to a function, timing loops, and using benchmarking frameworks. The above examples demonstrate some of these techniques.
+#### Explanation:
+- The `setup` parameter allows you to define code that is executed before the timing starts.
+  - This example demonstrates setting up a list and measuring the execution time of the `sum()` function on it.
+
+### 7. Measuring Execution Time with Additional Options
+
+```python
+import timeit
+
+# Measure execution time with additional options
+result = timeit.timeit("result = sum(a)", globals=globals(), number=1000, repeat=3, setup="a = [i for i in range(1000)]")
+print(f"Execution times (seconds): {result:.6f}")
+```
+
+#### Explanation:
+- You can specify the number of repeats and additional options to control the measurement process.
+  - This example demonstrates repeating the measurement three times and setting up a list.
+
+### Conclusion
+
+The `timeit` module is a powerful tool for measuring the execution time of small code snippets in Python. It provides flexibility through the use of parameters like `number`, `setup`, and `repeat`, allowing you to control the timing behavior according to your needs. These examples cover basic usage, multiple statements, function execution, detailed control with `timeit.Timer`, and more, demonstrating its versatility for performance analysis and benchmarking.
+
+### Further Reading
+
+- [Python 3.12 Documentation: timeit Module](https://docs.python.org/3/library/timeit.html)
+
+This code is designed to be clear, concise, and suitable for inclusion in official documentation examples.

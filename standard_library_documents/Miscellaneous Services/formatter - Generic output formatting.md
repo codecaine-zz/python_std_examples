@@ -1,154 +1,58 @@
-# formatter — Generic output formatting
+# formatter - Generic output formatting
 
-**Formatter Module**
-=====================
+The `formatter` module in Python is not a part of the standard library itself, but rather a part of the `locale` module, which provides locale-aware functions and classes. This module does not include any generic output formatting functionality. Instead, it is used for handling locale-specific information and number formatting.
 
-The `formatter` module in Python provides functions for converting values into strings, and can be used for formatting data.
-
-**Functions**
--------------
-
-### 1. Format Specification Mini-Language
-
-The mini-language is a simple format specification syntax that allows you to specify the desired output format of a value.
+However, I can provide an example of how to use the `locale` module to format numbers in different locales. Here's a comprehensive guide on how you might achieve this:
 
 ```python
-import formatter
+import locale
 
-# Define a format specification string
-fmt_spec = "%(name)s: %(age)d"
+def format_number(number, locale_str):
+    """
+    Formats a given number into a string using the specified locale.
 
-# Convert values into strings using the format specification
-name = "John"
-age = 30
+    Parameters:
+    - number: The number to be formatted.
+    - locale_str: A string representing the locale (e.g., 'en_US.UTF-8', 'fr_FR.UTF-8').
 
-formatted_str = formatter.format(fmt_spec, name, age)
-print(formatted_str)  # Output: John: 30
+    Returns:
+    - A string representation of the number in the specified locale.
+    """
+    try:
+        # Set the locale
+        locale.setlocale(locale.LC_ALL, locale_str)
+        
+        # Format the number using the current locale
+        formatted_number = locale.format_string("%d", number, grouping=True)
+        
+        return formatted_number
+    except locale.Error as e:
+        print(f"Error setting locale: {e}")
+        return None
+
+# Example usage
+if __name__ == "__main__":
+    # List of locales to test
+    locales = ['en_US.UTF-8', 'fr_FR.UTF-8', 'de_DE.UTF-8']
+
+    # Number to format
+    number_to_format = 1234567
+
+    # Iterate over each locale and print the formatted number
+    for locale_str in locales:
+        formatted_number = format_number(number_to_format, locale_str)
+        if formatted_number is not None:
+            print(f"Number {number_to_format} formatted as '{formatted_number}' in {locale_str}.")
 ```
 
-### 2. Format Specification Mini-Language for Strings
+### Explanation:
 
-You can also use this mini-language to format strings.
+1. **Locale Setting**: The `locale.setlocale()` function is used to set the global locale for number formatting. This sets the locale for all categories, including numeric formats.
 
-```python
-import formatter
+2. **Formatting Numbers**: The `locale.format_string()` function is used to format numbers according to the current locale settings. The `%d` directive is used for integers, and `grouping=True` adds commas as thousands separators.
 
-# Define a format specification string
-fmt_spec = "%(name)s said %(quote)s."
+3. **Error Handling**: A try-except block is used to handle any errors that might occur when setting the locale, such as unsupported locales or missing data files.
 
-# Convert values into strings using the format specification
-name = "John"
-quote = "Hello, world!"
+4. **Example Usage**: The script demonstrates how to format the number 1234567 into strings for three different locales: US English, French, and German.
 
-formatted_str = formatter.format(fmt_spec, name, quote)
-print(formatted_str)  # Output: John said Hello, world!
-```
-
-### 3. Format Specification Mini-Language with Precision and Width
-
-You can use the `precision` and `width` parameters to control the output format of numbers.
-
-```python
-import formatter
-
-# Define a format specification string
-fmt_spec = "{name}: {age:>03d}"
-
-# Convert values into strings using the format specification
-name = "John"
-age = 30
-
-formatted_str = formatter.format(fmt_spec, name, age)
-print(formatted_str)  # Output: John: 030
-```
-
-### 4. Format Specification Mini-Language with Grouping and Flags
-
-You can use the `grouping` parameter to group numbers together, and flags to modify the output format.
-
-```python
-import formatter
-
-# Define a format specification string
-fmt_spec = "{name}: {age:+<03d}"
-
-# Convert values into strings using the format specification
-name = "John"
-age = -30
-
-formatted_str = formatter.format(fmt_spec, name, age)
-print(formatted_str)  # Output: John: -030
-```
-
-### 5. Format Specification Mini-Language with Floating-Point Numbers
-
-You can use the `precision` parameter to control the output format of floating-point numbers.
-
-```python
-import formatter
-
-# Define a format specification string
-fmt_spec = "{name}: {price:.2f}"
-
-# Convert values into strings using the format specification
-name = "John"
-price = 123.4567
-
-formatted_str = formatter.format(fmt_spec, name, price)
-print(formatted_str)  # Output: John: 123.46
-```
-
-### 6. Format Specification Mini-Language with Dates and Times
-
-You can use the `date` and `time` parameters to format dates and times.
-
-```python
-import formatter
-
-# Define a format specification string
-fmt_spec = "{name}: {date:%Y-%m-%d %H:%M:%S}"
-
-# Convert values into strings using the format specification
-name = "John"
-date = formatter.datetime.now()
-
-formatted_str = formatter.format(fmt_spec, name, date)
-print(formatted_str)  # Output: John: 2023-12-01 14:30:00
-```
-
-**Examples**
-------------
-
-Here are some more examples of using the `formatter` module:
-
-```python
-import formatter
-
-# Example 1:
-name = "John"
-age = 30
-formatted_str = formatter.format("{name}: {age} years old", name, age)
-print(formatted_str)  # Output: John: 30 years old
-
-# Example 2:
-name = "Jane"
-price = 123.4567
-formatted_str = formatter.format("{name}: ${price:.2f}", name, price)
-print(formatted_str)  # Output: Jane: $123.46
-
-# Example 3:
-date = formatter.datetime.now()
-formatted_str = formatter.format("{date:%Y-%m-%d %H:%M:%S}", date)
-print(formatted_str)  # Output: 2023-12-01 14:30:00
-```
-
-**Best Practices**
-------------------
-
-Here are some best practices to keep in mind when using the `formatter` module:
-
-* Always use the format specification mini-language to specify the desired output format of a value.
-* Use the `precision`, `width`, and `grouping` parameters to control the output format of numbers.
-* Use flags to modify the output format of values.
-* Use the `date` and `time` parameters to format dates and times.
-* Test your code thoroughly to ensure that it produces the desired output.
+This example provides a basic framework for using the `locale` module to handle number formatting in different locales, which is often necessary for applications that need to display numbers according to user preferences or specific standards.

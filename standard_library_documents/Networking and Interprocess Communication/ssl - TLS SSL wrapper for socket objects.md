@@ -1,124 +1,172 @@
 # ssl - TLS/SSL wrapper for socket objects
 
-**ssl Module Examples**
-==========================
+The `ssl` module in Python provides a way to create secure network connections using SSL/TLS protocols. It allows you to wrap existing socket objects with an encrypted layer, making it suitable for applications that require secure communication.
 
-The `ssl` module provides a way to access SSL/TLS support in Python's standard library.
+Below are some comprehensive code examples demonstrating various functionalities of the `ssl` module:
 
 ### 1. Creating an SSL Context
 
-An SSL context is used to specify the SSL/TLS parameters for a connection.
 ```python
 import ssl
-
-# Create a new SSL context
-context = ssl.create_default_context()
-
-# Get the default server certificate
-print(context.check_hostname('www.example.com'))  # Should print: True
-print(context.verify_mode)  # Should print: SSL_VERIFIED
-
-# Create an SSL connection
-with ssl.wrap_socket(socket.socket(socket.AF_INET), server_side=True, cert_reqs=ssl.CERT_REQUIRED, ca_certs=None) as s:
-    print(s.getpeercert())  # Should print the server's certificate
-```
-### 2. Creating a Client-Side Connection
-
-To create a client-side connection, you need to specify the SSL/TLS parameters and the server hostname.
-```python
-import ssl
-
-# Create an SSL context with custom parameters
-context = ssl.create_default_context()
-context.check_hostname('www.example.com')  # Should print: True
-context.verify_mode = ssl.CERT_REQUIRED
-context.load_verify_locations(cafile='path/to/ca.crt')
-
-# Create a client socket
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    # Wrap the socket with SSL/TLS
-    with context.wrap_socket(s, server_hostname='www.example.com') as ssl_s:
-        # Establish the connection
-        ssl_s.connect(('www.example.com', 443))
-```
-### 3. Creating a Server-Side Connection
-
-To create a server-side connection, you need to specify the SSL/TLS parameters and handle incoming connections.
-```python
 import socket
-import ssl
 
-# Create a server socket
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    # Bind the socket to a address and port
-    s.bind(('localhost', 443))
-    # Listen for incoming connections
-    s.listen(1)
+# Create a context object using the default settings
+context = ssl.create_default_context()
 
-    while True:
-        # Accept an incoming connection
-        with ssl.wrap_socket(s.accept()[0], server_side=True, cert_reqs=ssl.CERT_REQUIRED) as ssl_s:
-            print('Connection accepted')
-            while True:
-                # Receive data from the client
-                data = ssl_s.recv(1024)
-                if not data:
-                    break
-                print(data.decode())
+# Alternatively, create a context with specific options
+# context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+# context.verify_mode = ssl.CERT_REQUIRED
+# context.load_verify_locations('path/to/certificates')
+
+# Wrap an existing socket object with the SSL context
+with socket.create_connection(('example.com', 443)) as sock:
+    with context.wrap_socket(sock, server_hostname='example.com') as ssock:
+        print("SSL connection established successfully!")
 ```
-### 4. Verifying Server Certificates
 
-To verify a server's certificate, you can use the `check_hostname` method or `verify_mode`.
+### 2. Server-Side SSL Configuration
+
 ```python
 import ssl
+import socket
 
-# Create an SSL context with custom parameters
+# Create a secure socket object for the server
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Bind to an address and port
+server_socket.bind(('localhost', 443))
+
+# Set the socket to listen for incoming connections
+server_socket.listen(5)
+
+# Create an SSL context with specific options
 context = ssl.create_default_context()
-context.check_hostname('www.example.com')  # Should print: True
+context.load_cert_chain('path/to/cert.pem', 'path/to/key.pem')
+
+# Accept a connection and wrap it with SSL
+client_socket, addr = server_socket.accept()
+with context.wrap_socket(client_socket, server_side=True) as ssock:
+    print("SSL handshake completed:", ssock.version)
+```
+
+### 3. Client-Side Verification of Server Certificate
+
+```python
+import ssl
+import socket
+
+# Create a context object with certificate verification enabled
+context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
 context.verify_mode = ssl.CERT_REQUIRED
-context.load_verify_locations(cafile='path/to/ca.crt')
+context.load_verify_locations('path/to/certificates')
 
-try:
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        # Wrap the socket with SSL/TLS
-        with context.wrap_socket(s, server_hostname='www.example.com') as ssl_s:
-            # Establish the connection
-            ssl_s.connect(('www.example.com', 443))
-except ssl.SSLError:
-    print('Server certificate is invalid')
+# Wrap an existing socket object with the SSL context
+with socket.create_connection(('example.com', 443)) as sock:
+    with context.wrap_socket(sock, server_hostname='example.com') as ssock:
+        print("SSL connection established successfully!")
 ```
-### 5. Using TLS Certificates
 
-To use a custom TLS certificate, you can specify it when creating an SSL context.
+### 4. Using a Custom Certificate Store
+
 ```python
 import ssl
+import socket
 
-# Create an SSL context with custom parameters
+# Create a custom certificate store for the context
 context = ssl.create_default_context()
-context.load_cert_chain(certfile='path/to/client.crt', keyfile='path/to/client.key')
+context.load_verify_locations('path/to/custom/certs')
 
-try:
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        # Wrap the socket with SSL/TLS
-        with context.wrap_socket(s, server_hostname='www.example.com') as ssl_s:
-            # Establish the connection
-            ssl_s.connect(('www.example.com', 443))
-except ssl.SSLError:
-    print('Server certificate is invalid')
+# Wrap an existing socket object with the SSL context
+with socket.create_connection(('example.com', 443)) as sock:
+    with context.wrap_socket(sock, server_hostname='example.com') as ssock:
+        print("SSL connection established successfully!")
 ```
-### 6. Handling SSL/TLS Errors
 
-To handle SSL/TLS errors, you can use try-except blocks.
+### 5. Handling SSL Errors
+
 ```python
 import ssl
+import socket
+
+# Create a context object using default settings
+context = ssl.create_default_context()
 
 try:
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        # Wrap the socket with SSL/TLS
-        with context.wrap_socket(s, server_hostname='www.example.com') as ssl_s:
-            # Establish the connection
-            ssl_s.connect(('www.example.com', 443))
+    # Wrap an existing socket object with the SSL context
+    with socket.create_connection(('example.com', 443)) as sock:
+        with context.wrap_socket(sock, server_hostname='example.com') as ssock:
+            print("SSL connection established successfully!")
 except ssl.SSLError as e:
-    print(f'SSL/TLS error: {e}')
+    print(f"An SSL error occurred: {e}")
 ```
-Note: The above examples are for illustration purposes only and should not be used in production without proper testing and validation.
+
+### 6. Using a Specific SSL Protocol
+
+```python
+import ssl
+import socket
+
+# Create a context object for a specific SSL protocol version
+context = ssl.create_default_context(ssl.PROTOCOL_TLSv1_2)
+
+# Wrap an existing socket object with the SSL context
+with socket.create_connection(('example.com', 443)) as sock:
+    with context.wrap_socket(sock, server_hostname='example.com') as ssock:
+        print(f"SSL connection using TLSv1.2 established successfully!")
+```
+
+### 7. Server-Side Handling of Client Authentication
+
+```python
+import ssl
+import socket
+
+# Create a secure socket object for the server
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Bind to an address and port
+server_socket.bind(('localhost', 443))
+
+# Set the socket to listen for incoming connections
+server_socket.listen(5)
+
+# Create an SSL context with client authentication enabled
+context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+context.load_cert_chain('path/to/cert.pem', 'path/to/key.pem')
+context.verify_mode = ssl.CERT_REQUIRED
+context.load_verify_locations('path/to/certificates')
+
+# Accept a connection and wrap it with SSL
+client_socket, addr = server_socket.accept()
+with context.wrap_socket(client_socket, server_side=True) as ssock:
+    print("SSL handshake completed:", ssock.version)
+    # Check if the client provided a valid certificate
+    try:
+        peer_cert = ssock.getpeercert()
+        print("Client's certificate:", peer_cert)
+    except ssl.SSLError:
+        print("The client did not provide a valid certificate.")
+```
+
+### 8. Using SSL/TLS with SOCKS Proxy
+
+```python
+import ssl
+import socket
+import socks
+
+# Set up a SOCKS proxy (e.g., using PySocks)
+socks.set_default_proxy(socks.SOCKS5, 'proxy_host', 1080)
+
+# Create a context object for the default protocol
+context = ssl.create_default_context()
+
+# Wrap an existing socket object with the SSL context
+with socket.create_connection(('example.com', 443)) as sock:
+    with socks.socksocket(socket.AF_INET, socket.SOCK_STREAM) as ssock:
+        ssock.connect((socks.DEFAULT_PROXY_HOST, socks.DEFAULT_PROXY_PORT))
+        with context.wrap_socket(ssock) as ssl_sock:
+            print("SSL connection through SOCKS proxy established successfully!")
+```
+
+These examples cover a range of use cases for the `ssl` module, from basic server and client configurations to handling errors and using specific SSL protocols. Each example includes comments to help understand each step and is designed to be included in official documentation or tutorials.

@@ -1,150 +1,179 @@
-# mailbox — Manipulate mailboxes in various formats
+# mailbox - Manipulate mailboxes in various formats
 
-**Mailbox Module Code Generator**
+The `mailbox` module in Python provides a consistent interface to access mailboxes in several popular formats, including mbox, Maildir, IMAP4, and POP3. Below are comprehensive examples demonstrating how to use this module for different operations.
 
-Here's an example of how you can use the mailbox module to manipulate mailboxes in various formats:
+### Example 1: Reading an mbox mailbox
 
 ```python
-# Import the mailbox module
 import mailbox
 
-def create_imap_mailbox():
-    """
-    Create an IMAP mailbox object.
-    
-    Returns:
-        mailbox.IMAPMailbox: An IMAP mailbox object.
-    """
-    # Create a new IMAP mailbox object
-    imap_mailbox = mailbox.IMAPMailbox('imap-Mailbox')
-    return imap_mailbox
+# Open an existing mbox mailbox
+with mailbox.mbox('path/to/your/mailbox') as m:
+    # Iterate over all messages in the mailbox
+    for msg in m:
+        # Print the message ID and sender
+        print(f"Message ID: {msg['Message-ID']}, From: {msg['From']}")
 
-def create_pymime_mailbox():
-    """
-    Create a PyMIME mailbox object.
-    
-    Returns:
-        mailbox.PymimeMailbox: A PyMIME mailbox object.
-    """
-    # Create a new PyMIME mailbox object
-    pymime_mailbox = mailbox.PymimeMailbox('pymime-Mailbox')
-    return pymime_mailbox
-
-def create_gnus_mailbox():
-    """
-    Create a Gnus mailbox object.
-    
-    Returns:
-        mailbox.GnusMailbox: A Gnus mailbox object.
-    """
-    # Create a new Gnus mailbox object
-    gnus_mailbox = mailbox.GnusMailbox('gnus-Mailbox')
-    return gnus_mailbox
-
-def add_message(imap_mailbox):
-    """
-    Add a message to the IMAP mailbox.
-    
-    Args:
-        imap_mailbox (mailbox.IMAPMailbox): The IMAP mailbox object.
-    """
-    # Create a new email message
-    msg = imap_mailbox.append(b'From: sender@example.com\r\nTo: recipient@example.com\r\nSubject: Hello World!\r\n\r\nHello World!')
-    
-    return msg
-
-def add_message_pymime(pymime_mailbox):
-    """
-    Add a message to the PyMIME mailbox.
-    
-    Args:
-        pymime_mailbox (mailbox.PymimeMailbox): The PyMIME mailbox object.
-    """
-    # Create a new email message
-    msg = pymime_mailbox.append(b'From: sender@example.com\r\nTo: recipient@example.com\r\nSubject: Hello World!\r\n\r\nHello World!')
-    
-    return msg
-
-def add_message_gnus(gnus_mailbox):
-    """
-    Add a message to the Gnus mailbox.
-    
-    Args:
-        gnus_mailbox (mailbox.GnusMailbox): The Gnus mailbox object.
-    """
-    # Create a new email message
-    msg = gnus_mailbox.append(b'From: sender@example.com\r\nTo: recipient@example.com\r\nSubject: Hello World!\r\n\r\nHello World!')
-    
-    return msg
-
-def get_messages(imap_mailbox):
-    """
-    Get all messages from the IMAP mailbox.
-    
-    Args:
-        imap_mailbox (mailbox.IMAPMailbox): The IMAP mailbox object.
-    
-    Returns:
-        list: A list of message IDs.
-    """
-    # Get all messages from the IMAP mailbox
-    return imap_mailbox.get_all()
-
-def get_messages_pymime(pymime_mailbox):
-    """
-    Get all messages from the PyMIME mailbox.
-    
-    Args:
-        pymime_mailbox (mailbox.PymimeMailbox): The PyMIME mailbox object.
-    
-    Returns:
-        list: A list of message IDs.
-    """
-    # Get all messages from the PyMIME mailbox
-    return pymime_mailbox.get_all()
-
-def get_messages_gnus(gnus_mailbox):
-    """
-    Get all messages from the Gnus mailbox.
-    
-    Args:
-        gnus_mailbox (mailbox.GnusMailbox): The Gnus mailbox object.
-    
-    Returns:
-        list: A list of message IDs.
-    """
-    # Get all messages from the Gnus mailbox
-    return gnus_mailbox.get_all()
-
-# Example usage
-if __name__ == "__main__":
-    imap_mailbox = create_imap_mailbox()
-    pymime_mailbox = create_pymime_mailbox()
-    gnus_mailbox = create_gnus_mailbox()
-    
-    # Add a message to the IMAP mailbox
-    msg = add_message(imap_mailbox)
-    
-    # Print all messages from the IMAP mailbox
-    print(get_messages(imap_mailbox))
-    
-    # Create a new PyMIME mailbox
-    pymime_mailbox = create_pymime_mailbox()
-    
-    # Add a message to the PyMIME mailbox
-    msg = add_message_pymime(pymime_mailbox)
-    
-    # Print all messages from the PyMIME mailbox
-    print(get_messages_pymime(pymime_mailbox))
-    
-    # Create a new Gnus mailbox
-    gnus_mailbox = create_gnus_mailbox()
-    
-    # Add a message to the Gnus mailbox
-    msg = add_message_gnus(gnus_mailbox)
-    
-    # Print all messages from the Gnus mailbox
-    print(get_messages_gnus(gnus_mailbox))
+# Example output:
+# Message ID: <uuid@domain.com>, From: user@example.com
 ```
 
-This code generator creates mailbox objects for IMAP, PyMIME, and Gnus mailboxes. It provides methods to add messages to these mailboxes and retrieve all messages in them. The example usage demonstrates how to create a mailbox object, add a message, and retrieve the messages from each type of mailbox.
+### Example 2: Writing to an mbox mailbox
+
+```python
+import mailbox
+
+# Create a new empty mbox file for writing
+with mailbox.mbox('path/to/new_mailbox') as m:
+    # Create a new email message
+    msg = mailbox.Message()
+    msg['From'] = 'sender@example.com'
+    msg['To'] = 'recipient@example.com'
+    msg['Subject'] = 'Test Message'
+    msg.set_payload("This is the body of the test message.")
+
+    # Add the message to the mailbox
+    m.add(msg)
+
+# Example output: The message will be added to the mbox file.
+```
+
+### Example 3: Reading from a Maildir mailbox
+
+```python
+import mailbox
+
+# Open an existing Maildir mailbox
+with mailbox.Maildir('path/to/your/maildir') as m:
+    # Iterate over all messages in the mailbox
+    for msg in m:
+        # Print the message ID and subject
+        print(f"Message ID: {msg['Message-ID']}, Subject: {msg['Subject']}")
+
+# Example output:
+# Message ID: <uuid@domain.com>, Subject: Test Email
+```
+
+### Example 4: Writing to a Maildir mailbox
+
+```python
+import mailbox
+
+# Create a new empty Maildir directory for writing
+with mailbox.Maildir('path/to/new_maildir') as m:
+    # Create a new email message
+    msg = mailbox.Message()
+    msg['From'] = 'sender@example.com'
+    msg['To'] = 'recipient@example.com'
+    msg['Subject'] = 'Test Message'
+    msg.set_payload("This is the body of the test message.")
+
+    # Add the message to the Maildir mailbox
+    m.add(msg)
+
+# Example output: The message will be added to a new directory within the Maildir.
+```
+
+### Example 5: Reading from an IMAP4 mailbox
+
+```python
+import mailbox
+
+# Connect to an IMAP4 server and login
+imap = mailbox.IMAP4_SSL('imap.example.com', 993)
+imap.login('username@example.com', 'password')
+
+# Select a mailbox (e.g., INBOX)
+imap.select("INBOX")
+
+# Search for all messages
+status, data = imap.search(None, "ALL")
+for num in data[0].split():
+    # Fetch the email message by number
+    status, msg_data = imap.fetch(num, "(RFC822)")
+    msg = mailbox.Message(msg_data[1][1])
+    
+    # Print the sender and subject of the message
+    print(f"Sender: {msg['From']}, Subject: {msg['Subject']}")
+
+# Example output: The sender and subject of each email will be printed.
+```
+
+### Example 6: Writing to an IMAP4 mailbox
+
+```python
+import mailbox
+
+# Connect to an IMAP4 server and login
+imap = mailbox.IMAP4_SSL('imap.example.com', 993)
+imap.login('username@example.com', 'password')
+
+# Select a mailbox (e.g., INBOX)
+imap.select("INBOX")
+
+# Create a new email message
+msg = mailbox.Message()
+msg['From'] = 'sender@example.com'
+msg['To'] = 'recipient@example.com'
+msg['Subject'] = 'Test Message'
+msg.set_payload("This is the body of the test message.")
+
+# Append the message to the IMAP4 mailbox
+imap.append("INBOX", msg.as_bytes())
+
+# Example output: The message will be appended to the specified mailbox.
+```
+
+### Example 7: Reading from a POP3 mailbox
+
+```python
+import mailbox
+
+# Connect to a POP3 server and login
+pop = mailbox.POP3('pop.example.com', 110)
+pop.user('username@example.com')
+pop.pass_('password')
+
+# Retrieve all messages
+num_messages = pop.stat()[0]
+for i in range(num_messages):
+    # Retrieve the message by index
+    msg = mailbox.Message(pop.retr(i + 1)[1])
+    
+    # Print the sender and subject of the message
+    print(f"Sender: {msg['From']}, Subject: {msg['Subject']}")
+
+# Example output: The sender and subject of each email will be printed.
+```
+
+### Example 8: Writing to a POP3 mailbox
+
+```python
+import mailbox
+
+# Connect to a POP3 server and login
+pop = mailbox.POP3('pop.example.com', 110)
+pop.user('username@example.com')
+pop.pass_('password')
+
+# Create a new email message
+msg = mailbox.Message()
+msg['From'] = 'sender@example.com'
+msg['To'] = 'recipient@example.com'
+msg['Subject'] = 'Test Message'
+msg.set_payload("This is the body of the test message.")
+
+# Append the message to the POP3 mailbox
+pop.append("INBOX", msg.as_bytes())
+
+# Example output: The message will be appended to the specified mailbox.
+```
+
+### Explanation
+
+- **mbox**: Used for reading and writing mbox files. It supports basic mail handling operations.
+- **Maildir**: Used for reading and writing Maildir files, which are a directory structure for storing email messages.
+- **IMAP4**: Connects to an IMAP4 server and allows for search and retrieval of emails, as well as appending new ones.
+- **POP3**: Connects to a POP3 server and provides methods to retrieve and delete emails.
+
+These examples demonstrate how to use the `mailbox` module to interact with different types of mailboxes in various formats. Each example includes comments that explain key operations and outputs for clarity.

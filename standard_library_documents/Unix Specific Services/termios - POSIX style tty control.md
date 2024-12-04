@@ -1,146 +1,242 @@
-# termios — POSIX style tty control
+# termios - POSIX style tty control
 
-**Termios Module: POSIX Style TTY Control**
-=====================================================
+The `termios` module in Python provides a way to manipulate terminal-related information, such as input modes, output modes, line discipline settings, and more. This module allows you to interact directly with terminal devices using the POSIX interface.
 
-The `termios` module provides an interface to access and modify the terminal I/O settings.
+Here are some comprehensive code examples that demonstrate various functionalities of the `termios` module:
 
-**Importing the Termios Module**
--------------------------------
+### Example 1: Setting Terminal Modes
+
+This example shows how to set the terminal modes for raw input, disabling echo, and turning off canonical mode (which is typically enabled by default in interactive shells).
 
 ```python
 import termios
+import tty
+import sys
+
+def set_raw_mode(fd):
+    """Set the terminal into raw mode."""
+    try:
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        new_settings = old_settings.copy()
+
+        # Disable canonical mode and echo
+        new_settings[0] &= ~(termios.IGNBRK | termios.BRKINT | termios.PARMRK |
+                                termios.ISTRIP | termios.INLCR | termios. IGNCR |
+                                termios.ICRNL | termios.IMAXBEL)
+        new_settings[1] &= ~termios.ECHO
+        new_settings[2] &= ~(termios.OPOST)
+
+        termios.tcsetattr(fd, termios.TCSANOW, new_settings)
+    except Exception as e:
+        print(f"Error setting raw mode: {e}")
+
+def main():
+    try:
+        set_raw_mode(sys.stdin.fileno())
+        print("Terminal set to raw mode. Press any key to exit.")
+
+        # Read a character
+        input_char = sys.stdin.read(1)
+        print(f"You pressed: {input_char}")
+    finally:
+        # Restore the original terminal settings
+        termios.tcsetattr(sys.stdin.fileno(), termios.TCSANOW, termios.tcgetattr(sys.stdin.fileno()))
+
+if __name__ == "__main__":
+    main()
 ```
 
-**Getting the Current Terminal Settings**
------------------------------------------
+### Example 2: Changing Line Discipline
 
-You can get the current terminal settings using the `tcgetattr()` function, which returns a new file descriptor set containing the current settings.
+This example demonstrates how to change the line discipline of a terminal. For instance, you can set it to `NLDISC_MINIMAL` which is useful for terminals that do not require any special handling of newlines.
 
 ```python
-# Get the current terminal settings
-try:
-    # Create a copy of the current terminal settings
-    current_settings = termios.tcgetattr(sys.stdout)
-except OSError as e:
-    print(f"Error: {e}")
+import termios
+import tty
+import sys
+
+def set_line_discipline(fd, discipline):
+    """Set the terminal's line discipline."""
+    try:
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        new_settings = old_settings.copy()
+
+        # Set the line discipline
+        new_settings[6] = discipline
+
+        termios.tcsetattr(fd, termios.TCSANOW, new_settings)
+    except Exception as e:
+        print(f"Error setting line discipline: {e}")
+
+def main():
+    try:
+        set_line_discipline(sys.stdin.fileno(), termios.NLDISC_MINIMAL)
+        print("Line discipline set to MINIMAL.")
+    finally:
+        # Restore the original terminal settings
+        termios.tcsetattr(sys.stdin.fileno(), termios.TCSANOW, termios.tcgetattr(sys.stdin.fileno()))
+
+if __name__ == "__main__":
+    main()
 ```
 
-**Setting Terminal Settings**
----------------------------
+### Example 3: Reading and Writing Terminal Input
 
-You can set the terminal settings using the `tcsetattr()` function, which takes two arguments: the file descriptor to be modified and a new terminal settings.
+This example shows how to read input from a terminal in raw mode and write output back to it.
 
 ```python
-# Set terminal settings for standard output (sys.stdout)
-try:
-    # Create a copy of the current terminal settings
-    new_settings = termios.tcgetattr(sys.stdout)
+import termios
+import tty
+import sys
 
-    # Modify the settings as needed
-    # For example, set the terminal speed to 9600 baud and 8 bits per character
-    new_settings[5] = termios.B9600 | termios.CLOCAL | termios.CREAD
-    new_settings[6] = termios.O_NONBLOCK
+def set_raw_mode(fd):
+    """Set the terminal into raw mode."""
+    try:
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        new_settings = old_settings.copy()
 
-    # Apply the new settings
-    sys.stdout.write("\x1B[" + str(new_settings[2]) + "A")
-except OSError as e:
-    print(f"Error: {e}")
+        # Disable canonical mode and echo
+        new_settings[0] &= ~(termios.IGNBRK | termios.BRKINT | termios.PARMRK |
+                                termios.ISTRIP | termios.INLCR | termios. IGNCR |
+                                termios.ICRNL | termios.IMAXBEL)
+        new_settings[1] &= ~termios.ECHO
+        new_settings[2] &= ~(termios.OPOST)
+
+        termios.tcsetattr(fd, termios.TCSANOW, new_settings)
+    except Exception as e:
+        print(f"Error setting raw mode: {e}")
+
+def main():
+    try:
+        set_raw_mode(sys.stdin.fileno())
+        print("Terminal set to raw mode. Press a key followed by 'Enter'.")
+
+        # Read input
+        input_line = sys.stdin.readline().strip()
+        print(f"You entered: {input_line}")
+    finally:
+        # Restore the original terminal settings
+        termios.tcsetattr(sys.stdin.fileno(), termios.TCSANOW, termios.tcgetattr(sys.stdin.fileno()))
+
+if __name__ == "__main__":
+    main()
 ```
 
-**Special Values for Terminal Settings**
----------------------------------------
+### Example 4: Querying Terminal Attributes
 
-The `termios` module defines several special values that can be used to modify the terminal settings.
-
-*   `termios.TCSANOW`: Use the new setting immediately.
-*   `termios.TCSAFLUSH`: Flush the output buffer before applying the new setting.
-*   `termios.VMIN`: Minimum number of bytes required for input.
-*   `termios.VTIME`: Time in hundredths of a second to wait for input.
+This example shows how to query and print various attributes of the terminal.
 
 ```python
-# Set terminal settings with special values
-try:
-    # Create a copy of the current terminal settings
-    new_settings = termios.tcgetattr(sys.stdout)
+import termios
+import sys
 
-    # Modify the settings as needed
-    new_settings[5] = termios.B9600 | termios.CLOCAL | termios.CREAD
-    new_settings[6] = 0x1f80
+def get_terminal_attributes(fd):
+    """Retrieve and print terminal attributes."""
+    try:
+        fd = sys.stdin.fileno()
+        settings = termios.tcgetattr(fd)
 
-    # Apply the new settings with TCSANOW and VMIN=1, VTIME=100
-    sys.stdout.write("\x1B[" + str(new_settings[2]) + "A")
-except OSError as e:
-    print(f"Error: {e}")
+        # Print input modes
+        print(f"Input Modes: {settings[0]}")
+
+        # Print output modes
+        print(f"Output Modes: {settings[1]}")
+
+        # Print local flags
+        print(f"Local Flags: {settings[2]}")
+
+        # Print control characters
+        print(f"Control Characters: {settings[3]}")
+
+        # Print special character sets
+        print(f"Special Character Sets: {settings[4]}")
+
+        # Print current line discipline
+        print(f"Current Line Discipline: {settings[5]}")
+    except Exception as e:
+        print(f"Error querying terminal attributes: {e}")
+
+def main():
+    try:
+        get_terminal_attributes(sys.stdin.fileno())
+    finally:
+        pass
+
+if __name__ == "__main__":
+    main()
 ```
 
-**Example Use Cases**
---------------------
+### Example 5: Setting Special Character Sets
 
-*   Set terminal speed to 9600 baud and 8 bits per character.
-*   Set the minimum number of bytes required for input to 1.
-*   Set the time in hundredths of a second to wait for input to 100.
+This example demonstrates how to set special character sets in the terminal, which can be useful for configuring certain types of terminals or emulators.
 
 ```python
-# Example usage:
-try:
-    # Create a copy of the current terminal settings
-    new_settings = termios.tcgetattr(sys.stdout)
+import termios
+import tty
+import sys
 
-    # Modify the settings as needed
-    new_settings[5] = termios.B9600 | termios.CLOCAL | termios.CREAD
-    new_settings[6] = 0x1f80
+def set_special_character_sets(fd):
+    """Set special character sets."""
+    try:
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        new_settings = old_settings.copy()
 
-    # Apply the new settings with TCSANOW and VMIN=1, VTIME=100
-except OSError as e:
-    print(f"Error: {e}")
+        # Set a specific special character set (e.g., ASCII 0x81 for IBM PC compatibility)
+        new_settings[4] = bytearray([2])  # Byte to represent the special character set
+
+        termios.tcsetattr(fd, termios.TCSANOW, new_settings)
+    except Exception as e:
+        print(f"Error setting special character sets: {e}")
+
+def main():
+    try:
+        set_special_character_sets(sys.stdin.fileno())
+        print("Special character sets set.")
+    finally:
+        # Restore the original terminal settings
+        termios.tcsetattr(sys.stdin.fileno(), termios.TCSANOW, termios.tcgetattr(sys.stdin.fileno()))
+
+if __name__ == "__main__":
+    main()
 ```
 
-**Best Practices**
-------------------
+### Example 6: Changing Input Modes
 
-*   Always handle exceptions when working with terminal settings.
-*   Use the `tcgetattr()` function to get a copy of the current terminal settings before modifying them.
-*   Use special values such as `TCSANOW` and `TCFLUSH` to apply changes immediately or flush the output buffer, respectively.
+This example shows how to change the input modes of the terminal. For instance, you can disable canonical mode and enable canonical mode.
 
 ```python
-# Best practice:
-try:
-    # Get a copy of the current terminal settings
-    new_settings = termios.tcgetattr(sys.stdout)
+import termios
+import tty
+import sys
 
-    # Modify the settings as needed
-    new_settings[5] = termios.B9600 | termios.CLOCAL | termios.CREAD
+def set_input_mode(fd, mode):
+    """Set the terminal's input mode."""
+    try:
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        new_settings = old_settings.copy()
 
-    # Apply the new setting immediately with TCSANOW
-except OSError as e:
-    print(f"Error: {e}")
+        # Set the input mode
+        new_settings[0] |= mode  # Enable or disable canonical mode
+
+        termios.tcsetattr(fd, termios.TCSANOW, new_settings)
+    except Exception as e:
+        print(f"Error setting input mode: {e}")
+
+def main():
+    try:
+        set_input_mode(sys.stdin.fileno(), termios.ICANON)  # Enable canonical mode
+        print("Input mode set to CANON.")
+    finally:
+        # Restore the original terminal settings
+        termios.tcsetattr(sys.stdin.fileno(), termios.TCSANOW, termios.tcgetattr(sys.stdin.fileno()))
+
+if __name__ == "__main__":
+    main()
 ```
 
-```python
-# Best practice for flushing output buffer:
-try:
-    # Get a copy of the current terminal settings
-    new_settings = termios.tcgetattr(sys.stdout)
-
-    # Modify the settings as needed
-    new_settings[5] = termios.B9600 | termios.CLOCAL | termios.CREAD
-
-    # Apply the new setting immediately with TCSFLUSH and flush output buffer
-except OSError as e:
-    print(f"Error: {e}")
-```
-
-```python
-# Best practice for waiting for input:
-try:
-    # Get a copy of the current terminal settings
-    new_settings = termios.tcgetattr(sys.stdout)
-
-    # Modify the settings as needed
-    new_settings[5] = termios.B9600 | termios.CLOCAL | termios.CREAD
-
-    # Apply the new setting with VTIME=100 and wait for input
-except OSError as e:
-    print(f"Error: {e}")
-```
+These examples cover a range of functionalities in the `termios` module, from setting basic terminal modes to querying and modifying various aspects of terminal attributes. Each example is designed to be clear and self-contained, providing a practical demonstration of how to use the `termios` module for controlling terminal behavior in Python applications.

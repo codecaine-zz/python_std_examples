@@ -1,130 +1,125 @@
-# unicodedata — Unicode Database
+# unicodedata - Unicode Database
 
-**unicodedata Module**
-=======================
+Below are comprehensive and well-documented code examples for the `unicodedata` module in Python, which provides access to a comprehensive database of Unicode characters.
 
-The `unicodedata` module provides functions and classes to normalize, decompose, and encode strings in a way that is useful for text processing.
-
-### Functions
-
-#### 1. `unicodedata.category(char)` 
-
-Returns the Unicode category of a given character.
+### Example 1: Retrieve Character Name
+This example demonstrates how to retrieve the name of a character using its Unicode code point.
 
 ```python
 import unicodedata
 
-# Test the function
-print(unicodedata.category('a'))  # Output: Lo
+# Define a Unicode code point
+code_point = ord('A')
+
+# Retrieve and print the character name
+character_name = unicodedata.name(chr(code_point))
+print(f"The name of character U+{code_point:04X} is {character_name}")
 ```
 
-#### 2. `unicodedata.decimal()` 
-
-Decomposes a string into its base characters and diacritics.
+### Example 2: Check Character Properties
+This example checks if a character has specific properties like being an uppercase letter, lowercase letter, or digit.
 
 ```python
 import unicodedata
 
-# Test the function
-text = 'café'
-print(unicodedata.decimal(text))  # Output: (c, é)
+# Define a Unicode code point
+code_point = ord('A')
+
+# Check if the character is an uppercase letter
+is_uppercase = unicodedata.category(chr(code_point)).startswith('Lu')
+print(f"Character U+{code_point:04X} is uppercase: {is_uppercase}")
+
+# Check if the character is a lowercase letter
+is_lowercase = unicodedata.category(chr(code_point)).startswith('Ll')
+print(f"Character U+{code_point:04X} is lowercase: {is_lowercase}")
+
+# Check if the character is a digit
+is_digit = unicodedata.category(chr(code_point)).startswith('Nd')
+print(f"Character U+{code_point:04X} is a digit: {is_digit}")
 ```
 
-#### 3. `unicodedata.normalize(form)` 
-
-Normalizes a string to its standard form. The possible values for the `form` parameter are:
-
-*   `NFD`: Decompose into base characters and diacritics.
-*   `NFC`: Normalize to a standardized form, with diacritics removed.
+### Example 3: Normalize Text
+This example demonstrates how to normalize text using different normalization forms provided by the `unicodedata` module.
 
 ```python
 import unicodedata
 
-text = 'café'
+# Define some text with combining characters
+text = "éclair"
 
-# Normalization to NFD
-print(unicodedata.normalize('NFD', text))  # Output: c\u00e1f\u00e9
+# Normalize text to NFC (Canonical Decomposition followed by Canonical Composition)
+nfc_normalized = unicodedata.normalize('NFC', text)
+print(f"Normalized using NFC: {nfc_normalized}")
 
-# Normalization to NFC
-print(unicodedata.normalize('NFC', text))  # Output: café
+# Normalize text to NFD (Canonical Decomposition)
+nfd_normalized = unicodedata.normalize('NFD', text)
+print(f"Normalized using NFD: {nfd_normalized}")
+
+# Normalize text to NFKC (Compatibility Decomposition followed by Canonical Composition)
+nfkc_normalized = unicodedata.normalize('NFKC', text)
+print(f"Normalized using NFKC: {nfkc_normalized}")
+
+# Normalize text to NFKD (Compatibility Decomposition)
+nfkd_normalized = unicodedata.normalize('NFKD', text)
+print(f"Normalized using NFKD: {nfkd_normalized}")
 ```
 
-#### 4. `unicodedata.name(char)` 
-
-Returns the name of a given character in the Unicode standard.
+### Example 4: Extract Combining Characters
+This example extracts combining characters from a given string.
 
 ```python
 import unicodedata
 
-# Test the function
-print(unicodedata.name('a'))  # Output: LETTER Lowercase Letter
+# Define a string with combining characters
+text = "éclair"
+
+# Extract and print combining characters
+combining_characters = ''.join(
+    chr(c) for c in range(0x300, 0x37F) if any(
+        unicodedata.category(chr(c)).startswith('Me') and unicodedata.decomposition(chr(c)) is not None
+    )
+)
+print(f"Combining characters in '{text}': {combining_characters}")
 ```
 
-### Classes
-
-#### 1. `unicodedata.CaseMapper` 
-
-A mapping class that maps characters to their uppercase or lowercase equivalents.
+### Example 5: Convert Character to Emoji Sequence
+This example demonstrates how to convert a character to its corresponding emoji sequence using the `emoji` module, which is often used alongside `unicodedata`.
 
 ```python
 import unicodedata
 
-class CaseMapper:
-    def __init__(self):
-        self.mapping = {
-            'A': 'a',
-            'B': 'b',
-            # Add more mappings as needed
-        }
+# Define a Unicode code point for an emoji
+code_point = ord('😊')
 
-    def map(self, char):
-        return self.mapping.get(char.upper(), char)
+# Get the character's name
+character_name = unicodedata.name(chr(code_point))
+print(f"Character U+{code_point:04X} is '{character_name}'")
 
-# Test the class
-case_mapper = CaseMapper()
-print(case_mapper.map('A'))  # Output: a
+# Convert to emoji sequence (assuming you have the `emoji` module installed)
+import emoji
+
+emoji_sequence = emoji.emojize(character_name)
+print(f"Emoji sequence for {character_name}: {emoji_sequence}")
 ```
 
-#### 2. `unicodedata.Decomposition` 
-
-A mapping class that maps characters to their decomposed equivalents.
+### Example 6: Check Character Bidirectional Properties
+This example checks if a character has bidirectional properties like being left-to-right, right-to-left, or neutral.
 
 ```python
 import unicodedata
 
-class Decomposition:
-    def __init__(self):
-        self.mapping = {
-            'é': '\u00e9',  # e with acute
-            'à': '\u00e0',  # a with acute
-            # Add more mappings as needed
-        }
+# Define a Unicode code point
+code_point = ord('A')
 
-    def map(self, char):
-        return self.mapping.get(char, char)
+# Check bidirectional property
+is_left_to_right = unicodedata.bidirectional(chr(code_point)) == 'L'
+print(f"Character U+{code_point:04X} is left-to-right: {is_left_to_right}")
 
-# Test the class
-decomposition = Decomposition()
-print(decomposition.map('é'))  # Output: é -> \u00e9 (no change)
+is_right_to_left = unicodedata.bidirectional(chr(code_point)) == 'R'
+print(f"Character U+{code_point:04X} is right-to-left: {is_right_to_left}")
+
+is_neutral = unicodedata.bidirectional(chr(code_point)) in ('LRE', 'LRO', 'PDF', 'NSM', 'AL')
+print(f"Character U+{code_point:04X} is neutral: {is_neutral}")
 ```
 
-### Example Use Case
-
-```python
-import unicodedata
-
-def normalize_string(text):
-    """Normalize a string to its standard form."""
-    return unicodedata.normalize('NFC', text)
-
-def decompose_string(text):
-    """Decompose a string into its base characters and diacritics."""
-    return unicodedata.decimal(text)
-
-# Test the functions
-text = 'café'
-print(normalize_string(text))  # Output: café
-print(decompose_string(text))  # Output: (c, é)
-```
-
-Note that these examples only demonstrate a few of the many functions and classes available in the `unicodedata` module. For more information, please refer to the [official Python documentation](https://docs.python.org/3/library/unicodedata.html).
+These examples cover a range of functionalities provided by the `unicodedata` module, including retrieving character names, checking properties, normalizing text, extracting combining characters, converting to emoji sequences, and checking bidirectional properties.

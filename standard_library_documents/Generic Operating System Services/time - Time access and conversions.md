@@ -1,160 +1,93 @@
-# time — Time access and conversions
+# time - Time access and conversions
 
-**Time Module Code Generation**
-=====================================
+The `time` module in Python provides a portable way of using operating system-dependent functionality such as time access, conversion of time to human-readable formats, and delay execution.
 
-The `time` module provides various time-related functions.
-
-### 1. Time Functions
+Here are comprehensive code examples for all functionalities available in the `time` module:
 
 ```python
 import time
 
-# Get current time in seconds since the epoch (January 1, 1970)
+# Example 1: Retrieve the current time in seconds since the epoch (January 1, 1970)
 current_time = time.time()
-print(f"Current time: {current_time}")
+print(f"Current time in seconds since epoch: {current_time}")
 
-# Get current time as a float in fractional seconds
-current_time_float = time.time()
-print(f"Current time (float): {current_time_float}")
+# Example 2: Sleep for a specified number of seconds
+seconds_to_sleep = 5
+print("Sleeping for 5 seconds...")
+time.sleep(seconds_to_sleep)  # This is an I/O-bound sleep, use threading for CPU-bound tasks
+print("Time has elapsed!")
 
-# Get the number of microseconds since the epoch
-microseconds = int(time.time() * 1e6)
-print(f"Microseconds: {microseconds}")
+# Example 3: Get the current time as a tuple representing local time
+local_time_tuple = time.localtime()
+print(f"Current local time tuple: {local_time_tuple}")
 
-# Sleep for 5 seconds
-time.sleep(5)
+# Example 4: Format the current time as a string
+formatted_time = time.strftime("%Y-%m-%d %H:%M:%S", local_time_tuple)
+print(f"Formatted current local time: {formatted_time}")
 
-# Get the current date and time
-now = time.localtime()
-print("Current Date and Time:")
-print(f"Year: {now.tm_year}")
-print(f"Month: {now.tm_mon}")
-print(f"Day: {now.tm_mday}")
-print(f"Hour: {now.tm_hour}")
-print(f"Minute: {now.tm_min}")
-print(f"Second: {now.tm_sec}")
+# Example 5: Convert seconds since epoch to a struct_time object
+epoch_to_local_time = time.localtime(current_time)
+print(f"Epoch time converted to local time tuple: {epoch_to_local_time}")
 
-# Convert time to UTC
-utc_now = time.gmtime()
-print("UTC Current Date and Time:")
-print(f"Year: {utc_now.tm_year}")
-print(f"Month: {utc_now.tm_mon}")
-print(f"Day: {utc_now.tm_mday}")
-print(f"Hour: {utc_now.tm_hour}")
-print(f"Minute: {utc_now.tm_min}")
-print(f"Second: {utc_now.tm_sec}")
+# Example 6: Get the number of seconds until January 1, 2038 (the year 2038 problem)
+year_2038_seconds = (time.struct_time((31, 12, 31, 23, 59, 59, 4, 365)) - time.localtime()).total_seconds()
+print(f"Seconds until January 1, 2038: {year_2038_seconds}")
 
-# Convert time to local
-local_now = time.localtime()
-print("Local Current Date and Time:")
-print(f"Year: {local_now.tm_year}")
-print(f"Month: {local_now.tm_mon}")
-print(f"Day: {local_now.tm_mday}")
-print(f"Hour: {local_now.tm_hour}")
-print(f"Minute: {local_now.tm_min}")
-print(f"Second: {local_now.tm_sec}")
+# Example 7: Sleep for a specific amount of time using datetime.timedelta
+from datetime import timedelta
 
-# Get the time zone offset in seconds
-offset = time.tzname()
-print("Time Zone Offset:")
-print(offset)
+sleep_duration = timedelta(seconds=10)
+time.sleep(sleep_duration.total_seconds())
+print("Time has elapsed with timedelta!")
 
-# Convert time to string format (HH:MM)
-time_str = time.strftime("%H:%M")
-print(f"Time String: {time_str}")
+# Example 8: Convert a given timestamp to UTC and back
+timestamp = 1632456000.0  # Example timestamp in seconds
+utc_time = time.gmtime(timestamp)
+print(f"UTC time tuple from epoch: {utc_time}")
+local_time = time.localtime(timestamp)
+print(f"Local time tuple from epoch: {local_time}")
+
+# Example 9: Measure the execution time of a block of code using perf_counter
+import sys
+
+start_time = time.perf_counter()
+# Code to measure
+for i in range(1000000):
+    pass
+end_time = time.perf_counter()
+execution_time = end_time - start_time
+print(f"Execution time of the loop: {execution_time:.4f} seconds")
+
+# Example 10: Format a timestamp into a human-readable string with timezone information
+from pytz import timezone
+
+timestamp = 1632456000.0
+local_tz = timezone('US/Eastern')
+dt_local = local_tz.localize(time.localtime(timestamp))
+formatted_time_with_timezone = dt_local.strftime("%Y-%m-%d %H:%M:%S %Z%z")
+print(f"Formatted current local time with timezone: {formatted_time_with_timezone}")
+
+# Example 11: Get the number of days in a given month
+days_in_month = time.monthrange(2023, 2)
+print(f"Days in February 2023: {days_in_month[1]}")
+
+# Example 12: Get the day of the week for a specific date
+day_of_week = time.strftime("%A", time.strptime("2023-10-01", "%Y-%m-%d"))
+print(f"Day of the week for October 1, 2023: {day_of_week}")
+
+# Example 13: Get the day of the year
+day_of_year = time.strftime("%j", time.strptime("2023-10-01", "%Y-%m-%d"))
+print(f"Day of the year for October 1, 2023: {day_of_year}")
+
+# Example 14: Get the Julian day number
+jd = time.gmtime(1632456000.0).tm_yday + 1
+print(f"Julian Day Number for January 1, 2023: {jd}")
 ```
 
-### 2. Timezone Functions
+### Key Points:
+- **I/O-bound Sleep**: Use `time.sleep()` for I/O operations or delays that do not involve significant CPU usage.
+- **CPU-bound Sleep**: For longer delays in CPU-bound tasks, consider using threading or multiprocessing to avoid blocking the main thread.
+- **Time Zones**: The examples demonstrate how to handle time zones using the `pytz` library, which is a popular library for timezone-aware datetime objects.
+- **Performance Measurement**: `time.perf_counter()` is suitable for measuring short durations in floating-point seconds.
 
-```python
-import time
-import pytz
-
-# Set the timezone to UTC
-utc_now = time.tzlocal()
-utc_tz = pytz.UTC
-utc_now_tz = utc_tz.localize(time.time())
-print("UTC Current Date and Time:")
-print(f"Year: {utc_now_tz.tm_year}")
-print(f"Month: {utc_now_tz.tm_mon}")
-print(f"Day: {utc_now_tz.tm_mday}")
-print(f"Hour: {utc_now_tz.tm_hour}")
-print(f"Minute: {utc_now_tz.tm_min}")
-print(f"Second: {utc_now_tz.tm_sec}")
-
-# Set the timezone to local
-local_tz = pytz.timezone("US/Pacific")
-local_time = time.localtime()
-local_time_tz = local_tz.localize(local_time)
-print("Local Current Date and Time:")
-print(f"Year: {local_time_tz.tm_year}")
-print(f"Month: {local_time_tz.tm_mon}")
-print(f"Day: {local_time_tz.tm_mday}")
-print(f"Hour: {local_time_tz.tm_hour}")
-print(f"Minute: {local_time_tz.tm_min}")
-print(f"Second: {local_time_tz.tm_sec}")
-
-# Get the timezone offset in seconds
-offset = local_time_tz.utcoffset(time.time()).total_seconds()
-print("Time Zone Offset:")
-print(offset)
-```
-
-### 3. Date and Time Functions
-
-```python
-import time
-from datetime import datetime
-
-# Create a date and time object from the current time
-now = datetime.now()
-print(f"Current Date and Time: {now}")
-
-# Get the year, month, day, hour, minute, second values from the current date and time
-year = now.year
-month = now.month
-day = now.day
-hour = now.hour
-minute = now.minute
-second = now.second
-print(f"Year: {year}")
-print(f"Month: {month}")
-print(f"Day: {day}")
-print(f"Hour: {hour}")
-print(f"Minute: {minute}")
-print(f"Second: {second}")
-
-# Create a date and time object from the string format (YYYY-MM-DD HH:MM:SS)
-date_time_str = "2022-01-01 12:30:00"
-date_time_obj = datetime.strptime(date_time_str, "%Y-%m-%d %H:%M:%S")
-print(f"Date and Time Object: {date_time_obj}")
-```
-
-### 4. Calendar Functions
-
-```python
-import time
-from calendar import monthrange
-
-# Get the number of days in a month
-month = 12
-days_in_month = monthrange(2022, month)[1]
-print(f"Days in {month} 2022: {days_in_month}")
-
-# Get the weekday (0-6) and day (1-31) for a specific date
-year = 2022
-month = 1
-day = 1
-weekday = time.strptime(f"{year}-{month}-{day}", "%Y-%m-%d").tm_wday
-print(f"Weekday: {weekday}")
-day = monthrange(year, month)[1]
-print(f"Day: {day}")
-
-# Get the day of the week (Monday=0, Sunday=6) for a specific date
-year = 2022
-month = 1
-day = 1
-week_day = time.strptime(f"{year}-{month}-{day}", "%Y-%m-%d").tm_wday
-print(f"Day of Week: {week_day}")
-```
+These examples cover a broad range of functionalities provided by the `time` module, making them useful for various applications, including system monitoring, performance tuning, and time-sensitive operations.

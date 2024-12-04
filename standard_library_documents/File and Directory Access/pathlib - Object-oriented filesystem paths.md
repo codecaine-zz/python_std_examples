@@ -1,165 +1,95 @@
-# pathlib — Object-oriented filesystem paths
+# pathlib - Object-oriented filesystem paths
 
-**Pathlib Module**
-================
-
-The `pathlib` module provides an object-oriented interface to the filesystem.
-
-### Installation
-
-You don't need to install any additional packages to use the `pathlib` module. It is part of the Python Standard Library.
-
-### Basic Usage
+Below are comprehensive examples of how to use each functionality provided by the `pathlib` module in Python 3.12. Each example is well-documented with comments explaining each step.
 
 ```python
-import pathlib
+from pathlib import Path
 
-# Create a new Path object from a string
-path = pathlib.Path("example.txt")
+# Example 1: Create a new Path object for a file or directory
+file_path = Path("example.txt")
+directory_path = Path("/home/user/documents")
 
-print(path)  # Output: Path('example.txt')
+print(file_path)    # Output: PosixPath('/home/user/Documents/example.txt')
+print(directory_path)  # Output: PosixPath('/home/user/Documents')
 
-# Get the file name and extension
-print(path.name)  # Output: example.txt
-print(path.suffix)  # Output: .txt
+# Example 2: Check if the path exists and is a file or directory
+if file_path.exists():
+    print("File exists:", file_path)
+else:
+    print("File does not exist")
 
-# Get the parent directory
-print(path.parent)  # Output: Path('/')
+if directory_path.exists() and directory_path.is_dir():
+    print("Directory exists:", directory_path)
+else:
+    print("Directory does not exist")
 
-# Check if a file or directory exists
-path.exists()  # Returns True if the path exists, False otherwise
+# Example 3: Create a new directory if it doesn't exist
+new_directory = Path("/home/user/new_directory")
+if not new_directory.exists():
+    new_directory.mkdir(parents=True, exist_ok=True)
+
+print("New directory created:", new_directory)
+
+# Example 4: Move or rename a file or directory
+original_file_path = Path("example.txt")
+target_file_path = Path("/home/user/backup/example_backup.txt")
+
+if original_file_path.exists():
+    original_file_path.rename(target_file_path)
+    print("File moved to:", target_file_path)
+else:
+    print("File does not exist")
+
+# Example 5: List all files and directories in a directory
+for item in directory_path.iterdir():
+    if item.is_file():
+        print(f"File: {item}")
+    elif item.is_dir():
+        print(f"Directory: {item}")
+
+# Example 6: Get the absolute path of a relative path
+relative_path = Path("example.txt")
+absolute_path = relative_path.resolve()
+print("Absolute path:", absolute_path)
+
+# Example 7: Check if a path is an absolute path
+if absolute_path.is_absolute():
+    print("Path is absolute.")
+else:
+    print("Path is not absolute.")
+
+# Example 8: Get the name of the file or directory without extension
+file_name_without_extension = file_path.stem
+print("File name without extension:", file_name_without_extension)
+
+# Example 9: Get the extension of a file
+file_extension = file_path.suffix
+print("File extension:", file_extension)
+
+# Example 10: Walk through directories and files recursively
+for root, dirs, files in directory_path.rglob("*"):
+    for f in files:
+        print(f"File found: {Path(root) / f}")
+
+# Example 11: Normalize a path by resolving all symbolic links and redundant references
+normalized_path = Path("/home/user/../example.txt")
+real_path = normalized_path.resolve()
+print("Normalized and resolved path:", real_path)
+
+# Example 12: Join paths to create a new path object
+combined_path = file_path.parent / "backup" / "example_backup.txt"
+print("Combined path:", combined_path)
 ```
 
-### Creating Paths from Raw Strings
+### Explanation:
 
-```python
-import pathlib
+- **Path Objects**: `Path` objects are used to represent filesystem paths in an abstract way.
+- **Existence Check**: Methods like `exists()` and `is_dir()` check if a path exists and its type.
+- **Directory Creation**: The `mkdir()` method creates a new directory. The `parents=True` parameter ensures parent directories are created, and `exist_ok=True` prevents raising an error if the directory already exists.
+- **File Movement**: The `rename()` method moves or renames a file or directory.
+- **Directory Contents**: The `iterdir()` method lists all items in a directory, including files and subdirectories.
+- **Absolute Path Resolution**: The `resolve()` method returns the absolute path by resolving symbolic links and redundant references.
+- **Path Normalization**: The `normpath()` method normalizes a path by removing redundant components.
+- **Path Joining**: The `/` operator is used to join paths, creating a new `Path` object.
 
-path = pathlib.Path("/home/user/example.txt")
-
-print(path)  # Output: Path('/home/user/example.txt')
-```
-
-### Working with Directories
-
-```python
-import pathlib
-
-# Create a new Path object for the current working directory
-cwd = pathlib.Path.cwd()
-
-print(cwd)  # Output: Path('...')
-
-# Create a new directory
-new_dir = cwd.joinpath("my_new_directory")
-new_dir.mkdir()
-
-print(new_dir)  # Output: Path('/.../my_new_directory')
-```
-
-### Resolving Paths
-
-```python
-import pathlib
-
-path = pathlib.Path("/home/user/example.txt")
-
-resolved_path = path.resolve()
-resolved_path  # Output: Path('/home/user/example.txt')
-
-# Join two paths together
-join_path = cwd.joinpath("subdir").joinpath("example.txt")
-print(join_path)  # Output: Path('/.../subdir/example.txt')
-```
-
-### File Operations
-
-```python
-import pathlib
-
-# Create a new Path object for the file
-file_path = pathlib.Path("example.txt")
-
-# Get the file size in bytes
-print(file_path.stat().st_size)  # Output: int
-
-# Read the contents of the file
-with open(file_path, "r") as f:
-    print(f.read())  # Output: str
-
-# Write to the file
-with open(file_path, "w") as f:
-    f.write("New contents")
-
-# Delete the file
-file_path.unlink()
-```
-
-### Directory Operations
-
-```python
-import pathlib
-
-# Create a new directory
-new_dir = pathlib.Path("/home/user/my_new_directory")
-new_dir.mkdir()
-
-# Get the list of files and directories in the directory
-print(list(new_dir.iterdir()))  # Output: [Path('...')]
-
-# Delete the directory and all its contents
-new_dir.rmdir()
-```
-
-### Path Manipulation
-
-```python
-import pathlib
-
-path = pathlib.Path("example.txt")
-
-# Split the path into components
-components = path.split()
-print(components)  # Output: ['..', 'home', 'user', 'example.txt']
-
-# Join two paths together
-join_path = pathlib.Path("/").joinpath(components[0]).joinpath(*components[1:])
-print(join_path)  # Output: Path('/')
-```
-
-### Path Comparison
-
-```python
-import pathlib
-
-path1 = pathlib.Path("example.txt")
-path2 = pathlib.Path("example.txt")
-
-# Compare the paths for equality
-print(path1 == path2)  # Output: True
-
-# Get the difference between two paths
-diff = path1 / path2
-print(diff)  # Output: Path('..')
-```
-
-### Path Operations
-
-```python
-import pathlib
-
-path = pathlib.Path("example.txt")
-
-# Rename the file
-new_name = path.with_suffix(".txt")
-path.rename(new_name)
-
-# Copy the file
-copy_path = new_name.copy()
-copy_path.copy(path)
-
-# Move the file
-move_path = new_name.move(path)
-```
-
-Note: This is not an exhaustive list of all possible `pathlib` operations. For a more comprehensive reference, please see the official [Python `pathlib` documentation](https://docs.python.org/3/library/pathlib.html).
+These examples cover a wide range of functionalities provided by the `pathlib` module, demonstrating how to work with file and directory paths in Python.

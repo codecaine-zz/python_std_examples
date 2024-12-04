@@ -1,139 +1,161 @@
-# xml.sax.handler — Base classes for SAX handlers
+# xml.sax.handler - Base classes for SAX handlers
 
-**XmlSaxHandler Example Code**
-=====================================
+The `xml.sax.handler` module is part of the Python Standard Library's XML parsing capabilities, providing a foundation for writing event-driven parsers using the Simple API for XML (SAX). This module includes several base classes and interfaces that allow you to define custom behavior when parsing an XML document. Below are comprehensive code examples demonstrating various functionalities in this module.
 
-The `xml.sax.handler` module provides base classes for creating custom SAX (Simple API for XML) handlers.
+### Example 1: Implementing a Basic SAX Handler
 
 ```python
-import xml.sax
+import xml.sax.handler as sax_handler
 
-# Define a basic handler class
-class BasicHandler(xml.sax.ContentHandler):
-    """
-    A simple handler that prints the parsed XML content.
-    """
-
+class SimpleContentHandler(sax_handler.ContentHandler):
     def __init__(self):
-        self.content = []
+        self.text = []
+
+    def characters(self, data):
+        # This method is called for each chunk of text found in the XML document.
+        self.text.append(data)
 
     def startElement(self, name, attrs):
-        """
-        Called when an element starts.
-
-        Args:
-            name (str): The element name.
-            attrs (xml.sax.xmlAttributes): Attributes of the element.
-        """
-        print(f"Start Element: {name}")
-        self.content.append(name)
+        # This method is called when an element starts.
+        print(f"Start Element: {name}, Attributes: {attrs}")
 
     def endElement(self, name):
-        """
-        Called when an element ends.
-
-        Args:
-            name (str): The element name.
-        """
+        # This method is called when an element ends.
         print(f"End Element: {name}")
+        # Join the collected text and print it
+        if self.text:
+            print("Text:", ''.join(self.text))
+            self.text = []
 
-# Define a handler class that handles start and end tags
-class TagHandler(xml.sax.ContentHandler):
-    """
-    A handler that handles both start and end tags of elements.
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.content = []
-
-    def startElement(self, name, attrs):
-        """
-        Called when an element starts.
-
-        Args:
-            name (str): The element name.
-            attrs (xml.sax.xmlAttributes): Attributes of the element.
-        """
-        print(f"Start Element: {name}")
-        self.content.append(name)
-
-    def endElement(self, name):
-        """
-        Called when an element ends.
-
-        Args:
-            name (str): The element name.
-        """
-        print(f"End Element: {name}")
-
-# Define a handler class that handles specific tags
-class SpecificTagHandler(xml.sax.DTDHandler, xml.sax.ContentHandler):
-    """
-    A handler that handles specific tags and ignores others.
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.dtd = {
-            "tag": ["tag1", "tag2"],
-            "content": ["content1", "content2"]
-        }
-
-    def startElement(self, name, attrs):
-        """
-        Called when an element starts.
-
-        Args:
-            name (str): The element name.
-            attrs (xml.sax.xmlAttributes): Attributes of the element.
-
-        Returns:
-            bool: True if the element is one of the specific tags, False otherwise.
-        """
-        return name in self.dtd["tag"]
-
-    def endElement(self, name):
-        """
-        Called when an element ends.
-
-        Args:
-            name (str): The element name.
-
-        Returns:
-            bool: True if the element is one of the specific tags, False otherwise.
-        """
-        return name in self.dtd["content"]
-
-# Define a main function to test the handlers
-def main():
-    # Create an XML string
-    xml_string = "<root><tag1>content1</tag1><tag2>content2</tag2></root>"
-
-    # Parse the XML string using the BasicHandler
-    handler = BasicHandler()
-    sax.parse(xml_string, handler)
-
-    # Print the parsed content
-    print("Parsed Content:", handler.content)
-
+# Example usage
 if __name__ == "__main__":
-    main()
+    xml_data = """
+    <book>
+        <title>Python Programming</title>
+        <author>Sue Snellings</author>
+        <year>2021</year>
+    </book>
+    """
 
+    handler = SimpleContentHandler()
+    sax_handler.parseString(xml_data, handler)
 ```
 
-**Explanation**
+### Example 2: Handling Namespace Events
 
-*   We define three types of handlers:
-    *   `BasicHandler`: A simple handler that prints the parsed XML content.
-    *   `TagHandler`: A handler that handles both start and end tags of elements.
-    *   `SpecificTagHandler`: A handler that handles specific tags and ignores others.
-*   Each handler class has an `__init__` method to initialize the content, and methods for handling start and end elements (`startElement`, `endElement`).
-*   The `specific_tag_handler` uses a dictionary to store the specific tags and their corresponding content. It returns True if the element is one of the specific tags, False otherwise.
-*   In the `main` function, we create an XML string and parse it using each handler class.
+```python
+import xml.sax.handler as sax_handler
 
-**Example Use Cases**
+class NamespacedHandler(sax_handler.ContentHandler):
+    def __init__(self):
+        self.namespaces = {}
 
-*   Creating custom SAX handlers for parsing XML files or streams.
-*   Handling specific XML tags or elements in a parser.
-*   Integrating with other libraries that use SAX to handle XML parsing.
+    def startElementNS(self, name, qname, attrs):
+        # This method is called when an element starts, including namespace information.
+        prefix, local_name = name
+        print(f"Start Element with Namespace: {prefix}:{local_name}, Attributes: {attrs}")
+        if prefix:
+            self.namespaces[local_name] = f"{prefix}:{qname}"
+
+    def endElementNS(self, name, qname):
+        # This method is called when an element ends.
+        prefix, local_name = name
+        print(f"End Element with Namespace: {prefix}:{local_name}")
+
+# Example usage
+if __name__ == "__main__":
+    xml_data = """
+    <book xmlns:bk="http://example.com/book">
+        <bk:title>Python Programming</bk:title>
+        <bk:author>Sue Snellings</bk:author>
+    </book>
+    """
+
+    handler = NamespacedHandler()
+    sax_handler.parseString(xml_data, handler)
+```
+
+### Example 3: Implementing an ErrorHandler
+
+```python
+import xml.sax.handler as sax_handler
+
+class BasicErrorHandler(sax_handler.ErrorHandler):
+    def error(self, exception):
+        # This method is called for each parsing error.
+        print(f"Error: {exception}")
+
+    def fatalError(self, exception):
+        # This method is called for each fatal parsing error.
+        print(f"Fatal Error: {exception}")
+        # Exit the program
+        import sys
+        sys.exit(1)
+
+# Example usage
+if __name__ == "__main__":
+    xml_data = """
+    <book>
+        <title>Python Programming</title>
+        <author>Sue Snellings</author>
+        </book>
+    """
+
+    handler = BasicErrorHandler()
+    sax_handler.parseString(xml_data, handler)
+```
+
+### Example 4: Handling XML Processing Instructions
+
+```python
+import xml.sax.handler as sax_handler
+
+class PIHandler(sax_handler.ContentHandler):
+    def processingInstruction(self, target, data):
+        # This method is called for each XML processing instruction found in the document.
+        print(f"Processing Instruction: Target={target}, Data={data}")
+
+# Example usage
+if __name__ == "__main__":
+    xml_data = """
+    <?xml version="1.0"?>
+    <book>
+        <title>Python Programming</title>
+        <!-- This is a comment -->
+        <?xml-stylesheet type="text/xsl" href="style.xsl"?>
+        </book>
+    """
+
+    handler = PIHandler()
+    sax_handler.parseString(xml_data, handler)
+```
+
+### Example 5: Using NamespaceResolver
+
+```python
+import xml.sax.handler as sax_handler
+
+class CustomNamespaceResolver(sax_handler.NamespaceResolver):
+    def getPrefix(self, uri):
+        # This method is called to resolve a namespace URI.
+        if uri == 'http://example.com/book':
+            return 'bk'
+        else:
+            return None
+
+# Example usage
+if __name__ == "__main__":
+    xml_data = """
+    <book xmlns:bk="http://example.com/book">
+        <bk:title>Python Programming</bk:title>
+        <bk:author>Sue Snellings</bk:author>
+    </book>
+    """
+
+    resolver = CustomNamespaceResolver()
+    handler = sax_handler.ContentHandler()
+    handler.setNamespaceResolver(resolver)
+    sax_handler.parseString(xml_data, handler)
+```
+
+These examples demonstrate how to implement various handlers using the `xml.sax.handler` module. Each example covers a specific functionality and provides clear instructions on how to use it effectively.

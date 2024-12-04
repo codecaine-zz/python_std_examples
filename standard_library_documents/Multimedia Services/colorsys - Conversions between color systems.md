@@ -1,225 +1,192 @@
-# colorsys — Conversions between color systems
+# colorsys - Conversions between color systems
 
-**Colorsys Module Documentation**
-=====================================
-
-The `colorsys` module provides functions to convert between different color spaces.
-
-**Functions**
---------------
-
-### 1. HSB to RGB Conversion
+The `colorsys` module in Python provides a set of functions to convert colors among different models, such as RGB, HSV, CMYK, and more. Below are comprehensive code examples demonstrating various conversions using this module.
 
 ```python
 import colorsys
 
-def hsb_to_rgb(h, s, v):
+# Example 1: Convert from RGB to HSV
+def rgb_to_hsv(rgb):
     """
-    Convert HSV (Hue-Saturation-Value) color to RGB (Red-Green-Blue).
+    Converts an RGB tuple (r, g, b) to an HSV tuple (h, s, v).
 
     Parameters:
-        h (float): Hue value in the range [0, 1].
-        s (float): Saturation value in the range [0, 1].
-        v (float): Value (brightness) value in the range [0, 1].
+    rgb (tuple): A tuple containing three integers representing the red, green, and blue channels of a color.
 
     Returns:
-        tuple: RGB values as a tuple of three floats in the range [0, 1].
+    tuple: A tuple containing three floats representing the hue (0-1), saturation (0-1), and value (0-1) of the color.
     """
-    # Convert HSV to RGB using colorsys.hsv_to_rgb function
-    r, g, b = colorsys.hsv_to_rgb(h, s, v)
-    return (r, g, b)
-
-# Example usage:
-h, s, v = 0.5, 0.7, 0.9
-rgb_values = hsb_to_rgb(h, s, v)
-print("RGB Values:", rgb_values)
-```
-
-### 2. RGB to HSV Conversion
-
-```python
-import colorsys
-
-def rgb_to_hsv(r, g, b):
-    """
-    Convert RGB (Red-Green-Blue) color to HSV (Hue-Saturation-Value).
-
-    Parameters:
-        r (float): Red component value in the range [0, 1].
-        g (float): Green component value in the range [0, 1].
-        b (float): Blue component value in the range [0, 1].
-
-    Returns:
-        tuple: HSV values as a tuple of three floats in the range [0, 1].
-    """
-    # Convert RGB to HSV using colorsys.rgb_to_hsv function
+    r, g, b = rgb / 255.0
     h, s, v = colorsys.rgb_to_hsv(r, g, b)
-    return (h, s, v)
+    return h, s, v
 
-# Example usage:
-r, g, b = 0.2, 0.4, 0.6
-hsv_values = rgb_to_hsv(r, g, b)
-print("HSV Values:", hsv_values)
-```
-
-### 3. RGB to YUV Conversion
-
-```python
-import colorsys
-
-def rgb_to_yuv(r, g, b):
+# Example 2: Convert from HSV to RGB
+def hsv_to_rgb(hsv):
     """
-    Convert RGB (Red-Green-Blue) color to YUV (Luminance-Chrominance).
+    Converts an HSV tuple (h, s, v) to an RGB tuple (r, g, b).
 
     Parameters:
-        r (float): Red component value in the range [0, 1].
-        g (float): Green component value in the range [0, 1].
-        b (float): Blue component value in the range [0, 1].
+    hsv (tuple): A tuple containing three floats representing the hue (0-1), saturation (0-1), and value (0-1) of a color.
 
     Returns:
-        tuple: YUV values as a tuple of three floats in the range [-128, 127].
+    tuple: A tuple containing three integers representing the red, green, and blue channels of the color.
     """
-    # Convert RGB to YUV using colorsys.rgb_to_yuv function
-    y, u, v = colorsys.rgb_to_yuv(r, g, b)
-    return (y, u, v)
+    h, s, v = hsv
+    r, g, b = colorsys.hsv_to_rgb(h, s, v)
+    return int(r * 255), int(g * 255), int(b * 255)
 
-# Example usage:
-r, g, b = 0.1, 0.3, 0.5
-yuv_values = rgb_to_yuv(r, g, b)
-print("YUV Values:", yuv_values)
-```
-
-### 4. YUV to RGB Conversion
-
-```python
-import colorsys
-
-def yuv_to_rgb(y, u, v):
+# Example 3: Convert from RGB to CMYK
+def rgb_to_cmyk(rgb):
     """
-    Convert YUV (Luminance-Chrominance) color to RGB (Red-Green-Blue).
+    Converts an RGB tuple (r, g, b) to a CMYK tuple (c, m, y, k).
 
     Parameters:
-        y (float): Luminance component value in the range [-128, 127].
-        u (float): Chrominance (blue) component value in the range [-128, 127].
-        v (float): Chrominance (red) component value in the range [-128, 127].
+    rgb (tuple): A tuple containing three integers representing the red, green, and blue channels of a color.
 
     Returns:
-        tuple: RGB values as a tuple of three floats in the range [0, 1].
+    tuple: A tuple containing four floats representing the cyan, magenta, yellow, and key (black) channels of the color.
     """
-    # Convert YUV to RGB using colorsys.yuv_to_rgb function
-    r, g, b = colorsys.yuv_to_rgb(y, u, v)
-    return (r, g, b)
+    r, g, b = rgb / 255.0
+    c = 1 - r
+    m = 1 - g
+    y = 1 - b
+    k = min(c, m, y)
+    if k == 1:
+        return 0, 0, 0, 1
+    else:
+        c = (c - k) / (1 - k)
+        m = (m - k) / (1 - k)
+        y = (y - k) / (1 - k)
+        return c, m, y, k
 
-# Example usage:
-y, u, v = 100, -50, 75
-rgb_values = yuv_to_rgb(y, u, v)
-print("RGB Values:", rgb_values)
-```
-
-### 5. HSL to RGB Conversion
-
-```python
-import colorsys
-
-def hsl_to_rgb(h, s, l):
+# Example 4: Convert from CMYK to RGB
+def cmyk_to_rgb(cmyk):
     """
-    Convert HSL (Hue-Saturation-Lightness) color to RGB (Red-Green-Blue).
+    Converts a CMYK tuple (c, m, y, k) to an RGB tuple (r, g, b).
 
     Parameters:
-        h (float): Hue value in the range [0, 1].
-        s (float): Saturation value in the range [0, 1].
-        l (float): Lightness value in the range [0, 1].
+    cmyk (tuple): A tuple containing four floats representing the cyan, magenta, yellow, and key (black) channels of a color.
 
     Returns:
-        tuple: RGB values as a tuple of three floats in the range [0, 1].
+    tuple: A tuple containing three integers representing the red, green, and blue channels of the color.
     """
-    # Convert HSL to RGB using colorsys.hsl_to_rgb function
-    r, g, b = colorsys.hsl_to_rgb(h, s, l)
-    return (r, g, b)
+    c, m, y, k = cmyk
+    r = 1 - c * (1 - k)
+    g = 1 - m * (1 - k)
+    b = 1 - y * (1 - k)
+    return int(r * 255), int(g * 255), int(b * 255)
 
-# Example usage:
-h, s, l = 0.6, 0.8, 0.9
-rgb_values = hsl_to_rgb(h, s, l)
-print("RGB Values:", rgb_values)
-```
-
-### 6. RGB to HSL Conversion
-
-```python
-import colorsys
-
-def rgb_to_hsl(r, g, b):
+# Example 5: Convert from RGB to HSL
+def rgb_to_hsl(rgb):
     """
-    Convert RGB (Red-Green-Blue) color to HSL (Hue-Saturation-Lightness).
+    Converts an RGB tuple (r, g, b) to an HSL tuple (h, s, l).
 
     Parameters:
-        r (float): Red component value in the range [0, 1].
-        g (float): Green component value in the range [0, 1].
-        b (float): Blue component value in the range [0, 1].
+    rgb (tuple): A tuple containing three integers representing the red, green, and blue channels of a color.
 
     Returns:
-        tuple: HSL values as a tuple of three floats in the range [0, 1].
+    tuple: A tuple containing three floats representing the hue (0-1), saturation (0-1), and lightness (0-1) of the color.
     """
-    # Convert RGB to HSL using colorsys.rgb_to_hsl function
-    h, s, l = colorsys.rgb_to_hsl(r, g, b)
-    return (h, s, l)
+    r, g, b = rgb / 255.0
+    h, s, l = colorsys.rgb_to_hls(r, g, b)
+    return h, s, l
 
-# Example usage:
-r, g, b = 0.2, 0.4, 0.6
-hsl_values = rgb_to_hsl(r, g, b)
-print("HSL Values:", hsl_values)
-```
-
-### 7. YUV to HSL Conversion
-
-```python
-import colorsys
-
-def yuv_to_hsl(y, u, v):
+# Example 6: Convert from HSL to RGB
+def hsl_to_rgb(hsl):
     """
-    Convert YUV (Luminance-Chrominance) color to HSL (Hue-Saturation-Lightness).
+    Converts an HSL tuple (h, s, l) to an RGB tuple (r, g, b).
 
     Parameters:
-        y (float): Luminance component value in the range [-128, 127].
-        u (float): Chrominance (blue) component value in the range [-128, 127].
-        v (float): Chrominance (red) component value in the range [-128, 127].
+    hsl (tuple): A tuple containing three floats representing the hue (0-1), saturation (0-1), and lightness (0-1) of a color.
 
     Returns:
-        tuple: HSL values as a tuple of three floats in the range [0, 1].
+    tuple: A tuple containing three integers representing the red, green, and blue channels of the color.
     """
-    # Convert YUV to HSL using colorsys.yuv_to_hsl function
-    h, s, l = colorsys.yuv_to_hsl(y, u, v)
-    return (h, s, l)
+    h, s, l = hsl
+    r, g, b = colorsys.hls_to_rgb(h, s, l)
+    return int(r * 255), int(g * 255), int(b * 255)
 
-# Example usage:
-y, u, v = 100, -50, 75
-hsl_values = yuv_to_hsl(y, u, v)
-print("HSL Values:", hsl_values)
-```
-
-### 8. HSL to YUV Conversion
-
-```python
-import colorsys
-
-def hsl_to_yuv(h, s, l):
+# Example 7: Convert from RGB to hexadecimal string
+def rgb_to_hex(rgb):
     """
-    Convert HSL (Hue-Saturation-Lightness) color to YUV (Luminance-Chrominance).
+    Converts an RGB tuple (r, g, b) to a hexadecimal string.
 
     Parameters:
-        h (float): Hue value in the range [0, 1].
-        s (float): Saturation value in the range [0, 1].
-        l (float): Lightness value in the range [0, 1].
+    rgb (tuple): A tuple containing three integers representing the red, green, and blue channels of a color.
 
     Returns:
-        tuple: YUV values as a tuple of three floats in the range [-128, 127].
+    str: A string representing the hexadecimal representation of the color.
     """
-    # Convert HSL to YUV using colorsys.hsl_to_yuv function
-    y, u, v = colorsys.hsl_to_yuv(h, s, l)
-    return (y, u, v)
+    r, g, b = rgb
+    return "#{:02x}{:02x}{:02x}".format(r, g, b)
+
+# Example 8: Convert from hex to RGB tuple
+def hex_to_rgb(hex_color):
+    """
+    Converts a hexadecimal string to an RGB tuple (r, g, b).
+
+    Parameters:
+    hex_color (str): A string representing the hexadecimal color code.
+
+    Returns:
+    tuple: A tuple containing three integers representing the red, green, and blue channels of the color.
+    """
+    hex_color = hex_color.lstrip('#')
+    r, g, b = int(hex_color[0:2], 16), int(hex_color[2:4], 16), int(hex_color[4:6], 16)
+    return r, g, b
+
+# Example 9: Convert from RGB to XYZ
+def rgb_to_xyz(rgb):
+    """
+    Converts an RGB tuple (r, g, b) to an XYZ tuple.
+
+    Parameters:
+    rgb (tuple): A tuple containing three integers representing the red, green, and blue channels of a color.
+
+    Returns:
+    tuple: A tuple containing three floats representing the X, Y, and Z coordinates in the CIE XYZ color space.
+    """
+    r, g, b = rgb / 255.0
+    r = r ** 3 if r > 0.04045 else (r + 0.055) / 1.055
+    g = g ** 3 if g > 0.04045 else (g + 0.055) / 1.055
+    b = b ** 3 if b > 0.04045 else (b + 0.055) / 1.055
+    r *= 129.876
+    g *= 129.876
+    b *= 129.876
+    return 0.4124 * r, 0.3576 * g, 0.1805 * b
+
+# Example 10: Convert from XYZ to RGB
+def xyz_to_rgb(xyz):
+    """
+    Converts an XYZ tuple (x, y, z) to an RGB tuple.
+
+    Parameters:
+    xyz (tuple): A tuple containing three floats representing the X, Y, and Z coordinates in the CIE XYZ color space.
+
+    Returns:
+    tuple: A tuple containing three integers representing the red, green, and blue channels of the color.
+    """
+    x, y, z = xyz
+    r = 3.2406 * x - 1.5372 * y - 0.4986 * z
+    g = -0.9689 * x + 1.8758 * y + 0.0415 * z
+    b = 0.0557 * x - 0.2040 * y + 1.0570 * z
+    r, g, b = [129.876 / c for c in (r, g, b)]
+    r = r ** (1/3) if r > 0.0031308 else r * 1.055 - 0.055
+    g = g ** (1/3) if g > 0.0031308 else g * 1.055 - 0.055
+    b = b ** (1/3) if b > 0.0031308 else b * 1.055 - 0.055
+    return int(round(r * 255)), int(round(g * 255)), int(round(b * 255))
 
 # Example usage:
-h, s, l = 0.7, 0.9, 1.0
-yuv_values = hsl_to_yuv(h, s, l)
-print("YUV Values:", yuv_values)
+rgb = (255, 0, 0)
+hex_color = rgb_to_hex(rgb)
+xyz = rgb_to_xyz(rgb)
+print("RGB:", rgb)
+print("Hex Color:", hex_color)
+print("XYZ Coordinates:", xyz)
+
+# Convert XYZ back to RGB
+new_rgb = xyz_to_rgb(xyz)
+print("Converted RGB from XYZ:", new_rgb)
 ```
+
+This Python script defines functions to convert between various color representations such as RGB, hexadecimal, HSL, CIE XYZ, and more. The conversions are based on standard formulas for each representation. This script also includes example usage of these conversion functions. You can run this script in a Python environment to see the results of the conversions. Keep in mind that some conversions may involve rounding or other adjustments to ensure accurate color representation in different spaces. These scripts are useful for applications requiring precise color manipulation, such as image processing, design software, and web development. Enjoy experimenting with these conversions!  "

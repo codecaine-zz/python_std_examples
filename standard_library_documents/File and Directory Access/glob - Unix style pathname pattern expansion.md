@@ -1,59 +1,83 @@
-# glob — Unix style pathname pattern expansion
+# glob - Unix style pathname pattern expansion
 
-**Glob Module**
-===============
+The `glob` module in Python provides a function called `glob()` that is used to expand Unix-style pathname patterns into a list of matching file names. This can be very useful for finding files based on specific naming conventions or patterns.
 
-The `glob` module provides utilities for expanding Unix shell-style pathname patterns.
-
-**Example Code**
-----------------
+Below are comprehensive examples demonstrating various functionalities and use cases of the `glob` module:
 
 ```python
 import glob
 
-# Match all files with a `.txt` extension in the current directory
-matched_files = glob.glob('*.txt')
-print(matched_files)  # Output: ['file1.txt', 'file2.txt']
+# Example 1: Basic usage
+# Find all .txt files in the current directory
+print(glob.glob("*.txt"))
 
-# Match all directories with names containing `data`
-matched_dirs = glob.glob('data*/')
-print(matched_dirs)  # Output: ['/path/to/data/dir', '/another/path/data/dir']
+# Example 2: Search for files in a specific directory
+# Find all .pdf files in the '/home/user/documents' directory
+print(glob.glob("/home/user/documents/*.pdf"))
 
-# Match all files with a `.txt` extension in the current working directory
-matched_files_cwd = glob.glob('./*.txt')
-print(matched_files_cwd)  # Output: ['file1.txt', 'file2.txt']
+# Example 3: Use wildcards to match multiple file extensions
+# Find all files with any of the following extensions: txt, pdf, docx
+print(glob.glob("*.txt *.pdf *.docx"))
 
-# Match all patterns, including the full pattern and relative paths
-matched_patterns = glob.glob('**/*')
-print(matched_patterns)  # Output: ['/path/to/file1.txt', '/another/path/file2.txt', ...]
+# Example 4: Find files with a specific prefix and suffix
+# Find all files starting with 'report' and ending with '.doc'
+print(glob.glob("report*.doc"))
 
-# Use `glob.iglob` for iterator-based expansion (more memory-efficient)
-file_iterator = glob.iglob('*.txt')
-for file in file_iterator:
-    print(file)
+# Example 5: Find files in multiple directories
+# Use an absolute path to find all .py files in the home directory and its subdirectories
+print(glob.glob("/home/user/**/*.py", recursive=True))
 
-# Use `glob.os_path_matches` to check if a pattern matches the current path
-import os
-if glob.os_path_matches(os.getcwd(), 'my_directory'):
-    print("Current directory is 'my_directory'")
+# Example 6: Find files with a specific pattern in their names
+# Find all files containing 'summary' in their name
+print(glob.glob("*summary*"))
 
-# Use `glob.os_pathnormpath` to normalize a path for pattern matching
-normalized_path = glob.os_pathnormpath('/path/to/directory')
-print(normalized_path)  # Output: '/path/to/directory'
+# Example 7: Using shell-style wildcards
+# Use ! to exclude specific patterns
+print(glob.glob("*.txt !(*.log)"))  # Exclude .log files
+
+# Example 8: Finding hidden files (files starting with a dot)
+# Find all hidden files in the current directory
+print(glob.glob(".?*"))
+
+# Example 9: Using glob() with a function to filter results
+def is_text_file(file_path):
+    return file_path.endswith(".txt")
+
+# Use filter function to find .txt files
+for txt_file in glob.filter(glob.iglob("*.txt"), is_text_file):
+    print(txt_file)
+
+# Example 10: Using glob() with a generator to handle large directories efficiently
+def find_large_files(directory, size_threshold):
+    for file_path in glob.iglob(f"{directory}/**/*", recursive=True):
+        if os.path.getsize(file_path) > size_threshold:
+            yield file_path
+
+# Find all files larger than 10MB in the '/home/user/documents' directory
+for large_file in find_large_files("/home/user/documents", 10 * 1024 * 1024):
+    print(large_file)
 ```
 
-**Common Functions**
---------------------
+### Explanation of Examples:
 
-*   `glob.glob(pattern[, recursive][, strict])`: Expand the file name pattern `pattern` to a list of pathnames. If `recursive` is `True`, it also searches in parent directories.
-*   `glob.iglob(pattern[, strict])`: Return an iterator that yields each match of the pattern. If `strict` is `True`, the function will only return matches if they exactly match the pattern, without any filename or pathname changes (for example, from `/path/to/file.txt` to `/path/to/file.txt`).
-*   `glob.os_path_matches(path, pattern)`: Return `True` if `pattern` matches `path`, and `False` otherwise. The argument `path` is a full pathname.
-*   `glob.os_pathnormpath(path)`: Normalize the path by removing any redundant separators or parent directory references.
+1. **Basic Usage**: This example demonstrates the simplest use case where you want to list all files with a specific extension in the current directory.
 
-**Best Practices**
-------------------
+2. **Search in Specific Directory**: Shows how to search for files in a particular directory using an absolute path.
 
-*   Use `glob.glob()` for simple pattern matching, as it's more memory-efficient than using `glob.iglob()`.
-*   Use `glob.iglob()` when you need to iterate over the matches instead of collecting them all in a list.
-*   Be cautious with `recursive=True`, as it can lead to infinite loops if not used carefully.
-*   Always check for file existence and permissions before attempting to open or read files using patterns from `glob`.
+3. **Multiple File Extensions**: Demonstrates finding files with multiple extensions at once.
+
+4. **Prefix and Suffix Patterns**: Searches for files that match both a prefix and a suffix.
+
+5. **Recursive Search**: Uses `recursive=True` to find files in all subdirectories of a specified directory.
+
+6. **Pattern Matching**: Uses wildcards like `*` and `?` to match filenames based on patterns.
+
+7. **Excluding Files with Specific Patterns**: Demonstrates how to exclude certain files using the `!` wildcard.
+
+8. **Hidden Files**: Finds files that start with a dot, which are typically hidden in Unix-like systems.
+
+9. **Filtering Results**: Uses a filter function to apply custom logic for selecting matching files.
+
+10. **Generator for Large Datasets**: Utilizes generators and `os.path.getsize()` to efficiently handle large datasets without loading everything into memory at once.
+
+These examples cover a wide range of use cases for the `glob` module, demonstrating its flexibility and power in file path expansion.

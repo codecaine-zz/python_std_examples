@@ -1,137 +1,123 @@
-# bisect — Array bisection algorithm
+# bisect - Array bisection algorithm
 
-Here's an example of how you can use the `bisect` module in Python:
+The `bisect` module in Python provides a set of functions that perform binary search on sorted arrays. This module is particularly useful when you need to efficiently find the position where an item should be inserted into a list to maintain its sorted order.
 
-**Module: bisect**
+Here are comprehensive code examples for each functionality provided by the `bisect` module:
+
+### Example 1: Bisection Search
 
 ```python
 import bisect
 
-def binary_search(arr, target):
-    """
-    Perform a binary search on a sorted array.
+# List of numbers
+numbers = [1, 3, 5, 7, 9]
 
-    Args:
-        arr (list): A sorted list of elements.
-        target (int): The element to be searched for.
+# Element to search for
+search_value = 6
 
-    Returns:
-        int: The index of the target element if found, -1 otherwise.
-    """
-    # Find the insertion point for the target in the array
-    idx = bisect.bisect_left(arr, target)
-    
-    # Check if the target is at the insertion point
-    if arr[idx] == target:
-        return idx
-    
-    # If not, it means the target is not in the array
-    return -1
+# Find the position where the element should be inserted to maintain sorted order
+insert_position = bisect.bisect_left(numbers, search_value)
 
-def sorted_search(arr, target):
-    """
-    Perform a search on a sorted array.
-
-    Args:
-        arr (list): A sorted list of elements.
-        target (int): The element to be searched for.
-
-    Returns:
-        int: The index of the target element if found, -1 otherwise.
-    """
-    # Find the insertion point for the target in the array
-    idx = bisect.bisect_right(arr, target)
-    
-    # Check if the target is at the insertion point
-    if arr[idx] == target:
-        return idx
-    
-    # If not, it means the target is not in the array
-    return -1
-
-def insertion_sort_search(arr, target):
-    """
-    Perform a search on an unsorted array using insertion sort.
-
-    Args:
-        arr (list): The unsorted list of elements.
-        target (int): The element to be searched for.
-
-    Returns:
-        int: The index of the target element if found, -1 otherwise.
-    """
-    # Initialize the insertion point
-    idx = 0
-    
-    # Iterate over the array
-    while idx < len(arr):
-        # Check if the current element is greater than the target
-        if arr[idx] > target:
-            break
-        
-        # Move to the next element
-        idx += 1
-    
-    # If we've reached the end of the array, it means the target is not there
-    if idx == len(arr):
-        return -1
-    
-    # Check if the current element matches the target
-    if arr[idx] == target:
-        return idx
-    
-    # Otherwise, continue searching
-    while idx < len(arr) and arr[idx] <= target:
-        # Move to the next element
-        idx += 1
-    
-    # If we've reached a point where the target is not there, it means it's not in the array
-    if idx == len(arr):
-        return -1
-    
-    # Otherwise, check if the current element matches the target
-    if arr[idx] == target:
-        return idx
-    
-    # If we've found the insertion point for a potential match, but not a match itself,
-    # continue searching on the left side of the array
-    while idx > 0 and arr[idx-1] <= target:
-        # Move to the previous element
-        idx -= 1
-    
-    # Check if the current element matches the target
-    if arr[idx] == target:
-        return idx
-    
-    # If we've found a match, but it's not at the insertion point, move to the next index
-    while idx < len(arr) and arr[idx] <= target:
-        # Move to the next element
-        idx += 1
-    
-    # Check if the current element matches the target
-    if arr[idx] == target:
-        return idx
-
-# Example usage:
-arr = [1, 3, 5, 7, 9]
-target = 6
-
-print(binary_search(arr, target))  # Output: -1
-print(sorted_search(arr, target))  # Output: -1
-print(insertion_sort_search(arr, target))  # Output: -1
-
-arr = [1, 3, 5, 7, 9]
-target = 9
-
-print(binary_search(arr, target))  # Output: 4
-print(sorted_search(arr, target))  # Output: 4
-print(insertion_sort_search(arr, target))  # Output: 4
+print(f"The element {search_value} can be inserted at index {insert_position} to maintain the list in sorted order.")
 ```
 
-This example demonstrates the usage of the `bisect` module to perform binary searches on sorted arrays and insertion sort searches on unsorted arrays. The code includes three different search functions:
+### Example 2: Bisection Search Using `bisect_right` or `bisect`
 
-*   `binary_search`: Performs a binary search on a sorted array.
-*   `sorted_search`: Performs a search on a sorted array using the `bisect` module's `bisect_right` function.
-*   `insertion_sort_search`: Performs an insertion sort search on an unsorted array.
+The `bisect_right` function is similar to `bisect_left`, but it returns the insertion point where the element should be inserted to maintain sorted order, ensuring that duplicates are added at the rightmost position.
 
-Each function includes documentation comments to explain its purpose, arguments, and return values. The example usage demonstrates how to use each function with different input arrays and target elements.
+```python
+import bisect
+
+# List of numbers with duplicates
+numbers = [1, 2, 2, 3, 4, 5]
+
+# Element to search for
+search_value = 2
+
+# Find the position where the element should be inserted
+insert_position_right = bisect.bisect(numbers, search_value)
+
+print(f"The element {search_value} can be inserted at index {insert_position_right} to maintain the list in sorted order.")
+```
+
+### Example 3: Bisection Search for Insertion
+
+```python
+import bisect
+
+# List of numbers
+numbers = [1, 2, 3, 4, 5]
+
+# Element to insert
+insert_value = 7
+
+# Find the position where the element should be inserted to maintain sorted order
+insert_position_insert = bisect.bisect_left(numbers, insert_value)
+
+# Insert the element at the found position
+numbers.insert(insert_position_insert, insert_value)
+
+print(f"List after inserting {insert_value}: {numbers}")
+```
+
+### Example 4: Bisection Search for Deletion
+
+```python
+import bisect
+
+# List of numbers
+numbers = [1, 2, 3, 4, 5]
+
+# Element to delete
+delete_value = 3
+
+# Find the position where the element should be deleted
+insert_position_delete = bisect.bisect_left(numbers, delete_value)
+
+# Delete the element if it exists
+if insert_position_delete < len(numbers) and numbers[insert_position_delete] == delete_value:
+    del numbers[insert_position_delete]
+
+print(f"List after deleting {delete_value}: {numbers}")
+```
+
+### Example 5: Bisection Search with Key Function
+
+You can also use a key function to perform the bisect operation on custom keys.
+
+```python
+import bisect
+
+# List of tuples where each tuple is (value, index)
+tuples = [(1, 'a'), (2, 'b'), (3, 'c')]
+
+# Element and its corresponding key for search
+search_value = 3
+key_func = lambda x: x[0]
+
+# Find the position where the element should be inserted based on the key function
+insert_position_key = bisect.bisect_left(tuples, (search_value, ''), key=key_func)
+
+print(f"The element {search_value} can be inserted at index {insert_position_key} based on the key function.")
+```
+
+### Example 6: Bisection Search for Rightmost Position
+
+The `bisect_right` function is useful when you need to find the rightmost position where an element should be inserted to maintain sorted order.
+
+```python
+import bisect
+
+# List of numbers with duplicates
+numbers = [1, 2, 2, 3, 4, 5]
+
+# Element to search for
+search_value = 2
+
+# Find the position where the element should be inserted
+insert_position_right = bisect.bisect_right(numbers, search_value)
+
+print(f"The rightmost occurrence of {search_value} is at index {insert_position_right}.")
+```
+
+These examples cover various use cases of the `bisect` module, demonstrating its versatility in maintaining sorted lists and performing efficient binary searches.

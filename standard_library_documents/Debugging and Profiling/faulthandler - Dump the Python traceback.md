@@ -1,62 +1,137 @@
-# faulthandler — Dump the Python traceback
+# faulthandler - Dump the Python traceback
 
-Here's an example of how you can use `functools` and `traceback` modules to dump the Python traceback.
+The `faulthandler` module in Python is used to enable a core dump of the Python interpreter on segmentation faults, errors, or other unhandled exceptions. This can be particularly useful for debugging and recovering from crashes. Below are some comprehensive code examples that demonstrate various functionalities of the `faulthandler` module.
 
-```python
-# Import necessary modules
-import functools
-import traceback
-
-def exception_handler(exctype, value, tb):
-    """
-    Custom exception handler to print the entire traceback.
-    """
-    # Print the exception type and value
-    print(f"Exception Type: {exctype.__name__}")
-    print(f"Value: {value}")
-
-    # Get the entire traceback
-    tb = traceback.format_tb(tb)
-
-    # Combine the exception type, value, and traceback into a single string
-    tb_str = exctype.__name__ + ":\n" + str(value) + "\n" + "".join(tb)
-
-    print(tb_str)
-
-
-# Create a custom exception handler
-exception_handler_func = functools.partial(exception_handler, None, None, sys.exc_info()[2])
-
-def main():
-    try:
-        # Code that might raise an exception
-        x = 1 / 0
-
-    except Exception as e:
-        # Use the custom exception handler
-        print("An error occurred:")
-        exception_handler_func(e)
-
-if __name__ == "__main__":
-    main()
-```
-
-However, in Python 3.12 and later versions, you can use `functools.set_trace()` to set a breakpoint that will dump the traceback.
+### 1. Basic Usage
 
 ```python
-# Import necessary modules
-import functools
+import faulthandler
 
-def main():
-    try:
-        # Code that might raise an exception
-        x = 1 / 0
-    except Exception as e:
-        print("An error occurred:")
-        print(functools.format_traceback(e))
+# Enable core dump generation
+faulthandler.enable()
 
-if __name__ == "__main__":
-    main()
+try:
+    # Code that might cause a crash
+    import sys
+    sys.exit(0)
+except Exception as e:
+    print("An error occurred:", e)
 ```
 
-In this example, when the exception occurs, `functools.format_traceback()` will dump the traceback.
+### 2. Customizing Core Dump Generation
+
+```python
+import faulthandler
+
+# Enable core dump generation with custom options
+faulthandler.enable(file="core", all_threads=True, chain=False)
+
+try:
+    # Code that might cause a crash
+    import sys
+    sys.exit(0)
+except Exception as e:
+    print("An error occurred:", e)
+```
+
+### 3. Disabling Core Dump Generation
+
+```python
+import faulthandler
+
+# Disable core dump generation
+faulthandler.disable()
+
+try:
+    # Code that might cause a crash
+    import sys
+    sys.exit(0)
+except Exception as e:
+    print("An error occurred:", e)
+```
+
+### 4. Listing Enabled Core Dump Filenames
+
+```python
+import faulthandler
+
+# List all core dump filenames enabled by the program
+print(faulthandler.get_enabled())
+```
+
+### 5. Setting Custom Dump Directory
+
+```python
+import faulthandler
+
+# Set a custom directory for saving core dumps
+faulthandler.set_dump_dir("/path/to/directory")
+
+try:
+    # Code that might cause a crash
+    import sys
+    sys.exit(0)
+except Exception as e:
+    print("An error occurred:", e)
+```
+
+### 6. Listing All Supported Formats
+
+```python
+import faulthandler
+
+# List all supported formats for dumping the traceback
+print(faulthandler.get_dump_formats())
+```
+
+### 7. Setting Custom Format
+
+```python
+import faulthandler
+
+# Set a custom format for dumping the traceback
+faulthandler.set_dump_format("c")
+
+try:
+    # Code that might cause a crash
+    import sys
+    sys.exit(0)
+except Exception as e:
+    print("An error occurred:", e)
+```
+
+### 8. Listing All Threads
+
+```python
+import faulthandler
+
+# List all threads in the current process
+print(faulthandler.get_all_threads())
+```
+
+### 9. Dumping Traceback for a Specific Thread
+
+```python
+import faulthandler
+
+# Get a specific thread object
+thread = faulthandler.get_thread(123)
+
+if thread:
+    # Dump the traceback for the specified thread
+    print("Dumping traceback for thread", thread.ident)
+    faulthandler.dump_traceback(thread)
+else:
+    print("Thread not found")
+```
+
+### 10. Printing a Stack Trace
+
+```python
+import faulthandler
+
+# Print the current stack trace
+faulthandler.print_stack()
+```
+
+These examples cover various aspects of using the `faulthandler` module, from enabling and disabling core dump generation to customizing options and handling exceptions. Each example includes comments explaining key steps and uses standard library functions and modules effectively.

@@ -1,165 +1,265 @@
-# unittest.mock — mock object library
+# unittest.mock - mock object library
 
-Here's an example of how you can use `unittest.mock` to mock objects in your tests:
+The `unittest.mock` module is a powerful tool for creating test doubles in Python, allowing you to isolate parts of your code that interact with external systems or dependencies. This module provides several useful functions and classes to help you simulate various scenarios in your tests.
+
+Below are comprehensive examples for each functionality provided by the `unittest.mock` module:
+
+### Example 1: Basic Usage
 
 ```python
 import unittest
-from unittest import mock
-from your_module import YourClass  # Import the class you want to test
+from unittest.mock import Mock, patch
 
-class TestYourClass(unittest.TestCase):
+class TestMockExample(unittest.TestCase):
+    def test_basic_usage(self):
+        # Create a mock object
+        mock_object = Mock()
 
-    @mock.patch('your_module.your_function')
-    def test_your_function(self, mock_your_function):
-        """
-        Mocking a function and verifying its behavior.
-        
-        In this example, we're mocking `your_function` from `your_module`.
-        We then call the mocked function and verify that it was called with
-        the correct arguments.
-        """
-        mock_your_function.return_value = 'Mocked return value'
-        your_class = YourClass()
-        result = your_class.your_function()
-        self.assertEqual(result, 'Mocked return value')
+        # Call the mock object
+        mock_object.method_name()
 
-    @mock.patch('your_module.your_other_function')
-    def test_your_other_function(self, mock_your_other_function):
-        """
-        Mocking another function and verifying its behavior.
-        
-        In this example, we're mocking `your_other_function` from `your_module`.
-        We then call the mocked function and verify that it was called with
-        the correct arguments and returned the expected value.
-        """
-        mock_your_other_function.return_value = 'Mocked return value'
-        your_class = YourClass()
-        result = your_class.your_other_function()
-        self.assertEqual(result, 'Mocked return value')
+        # Check if the method was called
+        self.assertTrue(mock_object.method_name.called)
 
-    @mock.patch('your_module.YourClass')
-    def test_inheritance(self, mock_YourClass):
-        """
-        Mocking a class and verifying its behavior.
-        
-        In this example, we're mocking `YourClass` from `your_module`.
-        We then create an instance of the mocked class and verify that it
-        behaves as expected.
-        """
-        mock_YourClass.return_value = YourClass()
-        your_class = mock_YourClass.return_value
-        self.assertIsInstance(your_class, YourClass)
+        # Get the arguments passed to the method
+        args, kwargs = mock_object.method_name.call_args
+
+        # Assert that no additional calls were made
+        self.assertFalse(mock_object.method_name.called_more_than_once())
 
 if __name__ == '__main__':
     unittest.main()
 ```
 
-In this example, we're using `@mock.patch` to create a mock object for `your_function` and verify its behavior. We're also mocking another function and verifying that it behaves as expected.
-
-Here are some key things to note:
-
-*   The `@mock.patch` decorator is used to create a mock object for the specified module or function.
-*   You can use the `return_value` attribute of the mock object to specify the value that should be returned when the mocked function is called.
-*   You can use the `side_effect` attribute of the mock object to specify the value(s) that should be returned when the mocked function is called multiple times or raises an exception.
-*   The `assertIsInstance` method is used to verify that a mock object behaves like the original class.
-
-**Mocking Exceptions**
-
-You can also use `@mock.patch` to mock exceptions:
+### Example 2: Mocking Functions
 
 ```python
-@mock.patch('your_module.your_function')
-def test_your_function(self, mock_your_function):
-    """
-    Mocking an exception and verifying its behavior.
-    
-    In this example, we're mocking `your_function` from `your_module`.
-    We then call the mocked function and verify that it raises the expected exception.
-    """
-    mock_your_function.side_effect = Exception('Mocked exception')
-    with self.assertRaises(Exception):
-        your_class.your_function()
+import unittest
+from unittest.mock import patch, MagicMock
+
+class TestMockFunction(unittest.TestCase):
+    def test_mock_function(self):
+        # Use a partial to mock a function from another module
+        with patch('module_name.function_name') as mock_func:
+            mock_func.return_value = "Mocked Output"
+            result = module_name.function_name()
+            self.assertEqual(result, "Mocked Output")
+            mock_func.assert_called_once()
+
+    def test_mocking_builtin_function(self):
+        # Mock the built-in `open` function
+        with patch('builtins.open', return_value=MagicMock()) as mock_open:
+            mock_file_obj = mock_open.return_value
+            mock_file_obj.read.return_value = "Mocked File Content"
+            content = open("example.txt").read()
+            self.assertEqual(content, "Mocked File Content")
+            mock_open.assert_called_once_with('example.txt')
+
+if __name__ == '__main__':
+    unittest.main()
 ```
 
-In this example, we're using the `side_effect` attribute of the mock object to specify an exception. We then use a `with` statement to ensure that the mocked function raises the expected exception.
-
-**Mocking Methods**
-
-You can also use `@mock.patch` to mock methods:
+### Example 3: Mocking Classes
 
 ```python
-class TestYourClass(unittest.TestCase):
+import unittest
+from unittest.mock import patch, MagicMock
 
-    @mock.patch('your_module.your_class')
-    def test_your_method(self, mock_your_class):
-        """
-        Mocking a method and verifying its behavior.
-        
-        In this example, we're mocking the `your_method` of `your_class`.
-        We then call the mocked method and verify that it behaves as expected.
-        """
-        mock_your_class.return_value.your_method.return_value = 'Mocked return value'
-        your_class = YourClass()
-        result = your_class.your_method()
-        self.assertEqual(result, 'Mocked return value')
+class TestMockClass(unittest.TestCase):
+    def test_mock_class(self):
+        # Create a mock class instance
+        with patch('module_name.MyClass') as mock_cls:
+            mock_obj = mock_cls.return_value
+            mock_obj.method_name.return_value = "Mocked Method Output"
+            result = MyClass().method_name()
+            self.assertEqual(result, "Mocked Method Output")
+            mock_obj.method_name.assert_called_once()
 
-    @mock.patch('your_module.YourClass')
-    def test_inheritance(self, mock_YourClass):
-        """
-        Mocking a method and verifying its behavior.
-        
-        In this example, we're mocking the `your_method` of `YourClass`.
-        We then create an instance of the mocked class and verify that it
-        behaves as expected.
-        """
-        mock_YourClass.return_value.your_method.return_value = 'Mocked return value'
-        your_class = mock_YourClass.return_value
-        self.assertEqual(your_class.your_method(), 'Mocked return value')
+    def test_mock_subclass(self):
+        # Mock a subclass of a class
+        with patch('module_name.BaseClass') as mock_base:
+            mock_base.return_value = MagicMock(spec=BaseClass)
+            mock_base.instance_method.return_value = "Mocked Instance Method Output"
+            instance = BaseClass()
+            result = instance.instance_method()
+            self.assertEqual(result, "Mocked Instance Method Output")
+            mock_base.assert_called_once()
+
+if __name__ == '__main__':
+    unittest.main()
 ```
 
-In this example, we're using the `return_value` attribute of the mock object to specify a value for the mocked method. We then call the mocked method and verify that it behaves as expected.
-
-**Resetting Mocks**
-
-After a test has completed, you may want to reset the mocks to restore their original state:
+### Example 4: Mocking with Arguments
 
 ```python
-@mock.patch('your_module.your_function')
-def test_your_function(self, mock_your_function):
-    """
-    Mocking an object and verifying its behavior.
-    
-    In this example, we're mocking `your_function` from `your_module`.
-    We then call the mocked function and verify that it behaves as expected.
-    After the test completes, we reset the mock to restore its original state.
-    """
-    mock_your_function.return_value = 'Mocked return value'
-    your_class = YourClass()
-    result = your_class.your_function()
-    self.assertEqual(result, 'Mocked return value')
-    mock_your_function.assert_called_once_with('some_args')
+import unittest
+from unittest.mock import patch
+
+class TestMockWithArguments(unittest.TestCase):
+    def test_mock_with_arguments(self):
+        # Create a mock object and specify the expected arguments
+        mock_object = Mock()
+
+        # Call the mock object with specific arguments
+        mock_object.method_name('arg1', arg2='value2')
+
+        # Check if the method was called with the correct arguments
+        args, kwargs = mock_object.method_name.call_args
+
+        self.assertEqual(args[0], 'arg1')
+        self.assertEqual(kwargs['arg2'], 'value2')
+
+    def test_mock_with_mixed_arguments(self):
+        # Create a mock object and specify expected keyword arguments
+        mock_object = Mock()
+
+        # Call the mock object with both positional and keyword arguments
+        mock_object.method_name('arg1', arg2='value2')
+
+        # Check if the method was called with the correct arguments
+        args, kwargs = mock_object.method_name.call_args
+
+        self.assertEqual(args[0], 'arg1')
+        self.assertEqual(kwargs['arg2'], 'value2')
+
+if __name__ == '__main__':
+    unittest.main()
 ```
 
-In this example, we're using the `assert_called_once_with` method to verify that the mocked function was called once with the correct arguments. After the test completes, we're using the `assert_called_once_with` method again to ensure that the mock is in its original state.
-
-**Using a Mock Factory**
-
-Instead of creating mocks directly, you can use a mock factory to create mocks programmatically:
+### Example 5: Mocking with Side Effects
 
 ```python
-@mock.patch('your_module.your_function', side_effect=Exception('Mocked exception'))
-def test_your_function(self):
-    """
-    Using a mock factory to create a mock object.
-    
-    In this example, we're using the `@mock.patch` decorator to create a mock
-    object for `your_function`. We then use the `@patch.object` context manager
-    to patch the `your_function` attribute of `your_class`.
-    """
-    with patch.object(YourClass, 'your_function', side_effect=Exception('Mocked exception')):
-        your_class = YourClass()
-        result = your_class.your_function()
-        self.assertEqual(result, Exception('Mocked exception'))
+import unittest
+from unittest.mock import patch, MagicMock
+
+class TestMockSideEffects(unittest.TestCase):
+    def test_mock_side_effects(self):
+        # Create a mock object and define a side effect function
+        mock_object = Mock(side_effect=lambda x: x * 2)
+
+        # Call the mock object with different inputs
+        result1 = mock_object(3)
+        result2 = mock_object('a')
+
+        # Check if the results match the expected outputs
+        self.assertEqual(result1, 6)
+        self.assertEqual(result2, 'aa')
+
+    def test_mock_with_raising_side_effects(self):
+        # Create a mock object and define a side effect that raises an exception
+        mock_object = Mock(side_effect=Exception("Mocked Exception"))
+
+        # Call the mock object to see if it raises an exception
+        with self.assertRaises(Exception) as context:
+            mock_object()
+
+        # Check if the exception matches the expected message
+        self.assertEqual(str(context.exception), "Mocked Exception")
+
+if __name__ == '__main__':
+    unittest.main()
 ```
 
-In this example, we're using the `@patch.object` context manager to create a mock object for `your_function`. We then use the `side_effect` attribute of the mock object to specify an exception.
+### Example 6: Mocking with Return Values
+
+```python
+import unittest
+from unittest.mock import patch, MagicMock
+
+class TestMockReturnValues(unittest.TestCase):
+    def test_mock_return_values(self):
+        # Create a mock object and define the return value for different calls
+        mock_object = Mock(return_value="Initial Return")
+
+        # First call to get the initial return value
+        result1 = mock_object()
+        self.assertEqual(result1, "Initial Return")
+
+        # Second call to use the default side effect (returns 0)
+        result2 = mock_object()
+        self.assertEqual(result2, 0)
+
+    def test_mock_with_mixed_return_values(self):
+        # Create a mock object and define different return values for specific inputs
+        mock_object = Mock(side_effect=lambda x: {
+            1: "One",
+            2: "Two"
+        }.get(x, 3))
+
+        # Call the mock object with different inputs
+        result1 = mock_object(1)
+        result2 = mock_object(2)
+        result3 = mock_object(3)
+
+        # Check if the results match the expected outputs
+        self.assertEqual(result1, "One")
+        self.assertEqual(result2, "Two")
+        self.assertEqual(result3, 3)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+### Example 7: Mocking with Return Value Count
+
+```python
+import unittest
+from unittest.mock import patch, MagicMock
+
+class TestMockReturnValueCount(unittest.TestCase):
+    def test_mock_return_value_count(self):
+        # Create a mock object and set the return value count
+        mock_object = Mock(return_value="Initial Return", side_effect=1)
+
+        # Call the mock object multiple times to check the return values
+        result1 = mock_object()
+        result2 = mock_object()
+
+        # Check if the first call returns the initial return value, and subsequent calls raise an exception
+        self.assertEqual(result1, "Initial Return")
+        with self.assertRaises(ValueError):
+            mock_object()
+
+    def test_mock_with_mixed_return_value_count(self):
+        # Create a mock object and set different return values for specific inputs and a side effect count
+        mock_object = Mock(return_value="Initial Return", side_effect=[lambda x: x * 2, lambda x: x + 1])
+
+        # Call the mock object with different inputs to check the return values
+        result1 = mock_object(1)
+        result2 = mock_object(2)
+
+        # Check if the results match the expected outputs
+        self.assertEqual(result1, 2)  # Double of input 1
+        self.assertEqual(result2, 3)  # Input 2 plus 1
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+### Example 8: Mocking with Side Effect and Return Value Count
+
+```python
+import unittest
+from unittest.mock import patch, MagicMock
+
+class TestMockSideEffectAndReturnValueCount(unittest.TestCase):
+    def test_mock_side_effect_and_return_value_count(self):
+        # Create a mock object and set the side effect and return value count
+        mock_object = Mock(side_effect=[lambda x: x * 2, lambda x: x + 1], return_value="Initial Return", side_effect_count=2)
+
+        # Call the mock object multiple times to check the return values and exceptions
+        result1 = mock_object(1)
+        result2 = mock_object(2)
+        result3 = mock_object(3)
+
+        # Check if the results match the expected outputs and subsequent calls raise an exception
+        self.assertEqual(result1, 2)  # Double of input 1
+        self.assertEqual(result2, 3)  # Input 2 plus 1
+        with self.assertRaises(ValueError):
+            mock_object()
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+These examples demonstrate various ways to use the `unittest.mock` module to create and configure mock objects for testing in Python. Each example includes comments explaining key points, such as setting return values, mocking function calls, handling side effects, and checking argument counts.

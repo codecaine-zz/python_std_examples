@@ -1,104 +1,204 @@
-# bdb — Debugger framework
+# bdb - Debugger framework
 
-**bdb Module Documentation**
-==========================
+The `bdb` module in Python is a debugging framework that allows you to debug programs interactively at the source code level. Below are comprehensive examples of how to use each of the main functions and classes provided by this module. These examples cover basic usage, common debugging scenarios, and best practices for integrating bdb into your applications.
 
-The `bdb` module provides a basic implementation of a debugger framework.
+### 1. Basic Usage
 
-### Importing the Module
+First, ensure you have a script or function that you want to debug. For simplicity, let's create a simple script:
 
 ```python
-import bdb as pdb
+# example_script.py
+def add(a, b):
+    result = a + b
+    return result
+
+result = add(5, 3)
+print("Result:", result)
 ```
 
-### Using the Debugger
-
-Here's an example of how to use the `pdb` module:
+To use `bdb` for debugging this script, you can start by setting up the debugger and stepping through the code:
 
 ```python
-# Create a simple function to test the debugger
+import bdb
+import sys
+
+# Define a custom exception to handle the breakpoint
+class BreakpointException(Exception):
+    pass
+
+def break_here():
+    raise BreakpointException("Break here!")
+
+if __name__ == "__main__":
+    try:
+        exec(open('example_script.py').read())
+    except BreakpointException as e:
+        bdb.set_trace()
+        print(e)
+```
+
+### 2. Customizing the Debugger
+
+You can customize the behavior of `bdb` by subclassing the `Bdb` class and overriding methods to add custom functionality:
+
+```python
+class MyBdb(bdb.Bdb):
+    def post_mortem(self, frame):
+        # Override post-mortem to show a custom message
+        print("Post-mortem debugging started.")
+        bdb.Bdb.post_mortem(self, frame)
+
+def my_main():
+    try:
+        exec(open('example_script.py').read())
+    except Exception as e:
+        my_bdb = MyBdb()
+        my_bdb.set_trace()
+        print(f"Error: {e}")
+
+if __name__ == "__main__":
+    my_main()
+```
+
+### 3. Debugging Interactive Input
+
+`bdb` can also be used to debug interactive input:
+
+```python
+import bdb
+import sys
+
+def prompt_for_input(prompt):
+    return input(prompt)
+
+def process_input(input_value):
+    result = prompt_for_input("Enter a number: ")
+    try:
+        num = float(result)
+        print(f"The processed number is: {num}")
+    except ValueError:
+        raise ValueError("Invalid input. Please enter a valid number.")
+
+if __name__ == "__main__":
+    try:
+        process_input(input())
+    except bdb.Breakpoint as e:
+        print(e)
+```
+
+### 4. Using `bdb.set_trace()` in an Interactive Session
+
+You can use `bdb.set_trace()` directly in an interactive session to start debugging a script:
+
+```python
+import bdb
+
 def add(a, b):
-    return a + b
+    result = a + b
+    return result
+
+# Start the debugger at this point
+result = add(5, 3)
+print("Result:", result)
 
 try:
-    result = add(2, 3)
+    exec(open('example_script.py').read())
 except Exception as e:
-    # Start the debugger when an exception occurs
-    pdb.set_trace()
+    bdb.set_trace()
+    print(f"Error: {e}")
 ```
 
-In this example, when an exception occurs in the `add` function, the debugger will be triggered.
+### 5. Debugging Nested Functions
 
-### Debugger Commands
-
-The following are some common commands that can be used with the debugger:
-
-*   `n(ext)`: Continue execution until the next line.
-*   `s(tep)`: Continue execution until the next unhandled exception or until a breakpoint is hit.
-*   `c(ontinue)`: Continue execution without hitting any breakpoints.
-*   `(break)` : Set a breakpoint at the current location.
-*   `l(inepath)`: Display the source code of the current file.
-*   `w(here)`: Show the current command history.
-*   `p(expression)`: Evaluate an expression and print the result.
-*   `q(uit)`: Quit the debugger.
+When dealing with nested functions, you can use `bdb` to step into them:
 
 ```python
-def add(a, b):
-    return a + b
+import bdb
+import sys
+
+def outer_function():
+    def inner_function(a):
+        return a * 2
+
+    result = inner_function(3)
+    print("Result:", result)
+
+# Start the debugger at this point
+outer_function()
 
 try:
-    result = add(2, 3)
+    exec(open('example_script.py').read())
 except Exception as e:
-    # Start the debugger when an exception occurs
-    pdb.set_trace()
-
-# Set a breakpoint at the start of the function
-pdb.set_trace()
+    bdb.set_trace()
+    print(f"Error: {e}")
 ```
 
-### Disabling Breakpoints
+### 6. Customizing Output
 
-By default, breakpoints are enabled. To disable them, you can use the `set_trace()` function with the `breakpoint=False` argument:
+You can customize the output of `bdb` by overriding methods in your custom subclass:
 
 ```python
-def add(a, b):
-    return a + b
+class MyBdb(bdb.Bdb):
+    def do_print(self, arg):
+        # Override print to show a custom message
+        print("Custom print statement:", arg)
 
-try:
-    result = add(2, 3)
-except Exception as e:
-    # Start the debugger when an exception occurs
-    import pdb; pdb.set_trace(breakpoint=False)  # Disable breakpoints
+def my_main():
+    try:
+        exec(open('example_script.py').read())
+    except Exception as e:
+        my_bdb = MyBdb()
+        my_bdb.set_trace()
+        print(f"Error: {e}")
+
+if __name__ == "__main__":
+    my_main()
 ```
 
-### Installing Breakpoints Manually
+### 7. Debugging with a Custom Breakpoint
 
-If you want to install breakpoints manually, you can use the `set_trace()` function with the `breakpoint=True` argument:
+You can define a custom breakpoint by subclassing `bdb.Breakpoint`:
 
 ```python
-def add(a, b):
-    return a + b
+class CustomBreakpoint(bdb.Breakpoint):
+    def __init__(self, frame, code):
+        super().__init__(frame, code)
+        self.message = "Custom breakpoint triggered."
 
-# Set a breakpoint at the start of the function
-import pdb; pdb.set_trace(breakpoint=True)  # Enable breakpoints
+def my_main():
+    try:
+        exec(open('example_script.py').read())
+    except Exception as e:
+        custom_bp = CustomBreakpoint(None, None)
+        custom_bp.__call__()
+        print(f"Error: {e}")
+
+if __name__ == "__main__":
+    my_main()
 ```
 
-### Using Breakpoints with Conditional Statements
+### 8. Debugging with Logging
 
-Breakpoints can also be used with conditional statements. Here's an example:
+You can use `bdb` to log debugging information:
 
 ```python
-def add(a, b):
-    if a > b:
-        return a + b
-    else:
-        raise ValueError("a is not greater than b")
+import bdb
+import logging
 
-try:
-    result = add(2, 3)
-except Exception as e:
-    # Start the debugger when an exception occurs
-    import pdb; pdb.set_trace(breakpoint=True)  # Enable breakpoints
+# Set up basic configuration for logging
+logging.basicConfig(level=logging.DEBUG)
+
+def add(a, b):
+    result = a + b
+    logging.debug(f"Adding {a} and {b}, got {result}")
+    return result
+
+if __name__ == "__main__":
+    try:
+        exec(open('example_script.py').read())
+    except Exception as e:
+        bdb.set_trace()
+        print(f"Error: {e}")
 ```
 
-In this example, a breakpoint will be triggered if `a` is not greater than `b`.
+These examples demonstrate various aspects of using the `bdb` module, from basic debugging to more advanced customization options. By integrating these techniques into your development workflow, you can effectively debug complex programs and scripts in Python.

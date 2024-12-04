@@ -1,96 +1,65 @@
-# copy — Shallow and deep copy operations
+# copy - Shallow and deep copy operations
 
-**Copy Module**
-================
+The `copy` module in Python provides a variety of functions to perform shallow and deep copies on objects, which are essential for managing complex data structures. Here are comprehensive examples demonstrating how to use these functionalities:
 
-The `copy` module provides functions to create copies of objects.
-
-### Installation
-
-You can install the `copy` module using pip:
-```bash
-pip install copy
-```
 ### Shallow Copy
 
-A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the original elements. This means that if you modify a sub-element of the original object, the same modification will be reflected in the copied object.
+A shallow copy creates a new object that is a copy of the original object but references the same objects as the originals. This means that changes to sub-objects in the copied object will affect the original object.
 
-#### Example:
 ```python
+# Import the necessary module
 import copy
 
-# Original list
-original_list = [[1], [2], [3]]
+def demonstrate_shallow_copy():
+    # Example: Shallow copying a list
+    original_list = [1, 2, [3, 4]]
+    shallow_copied_list = copy.copy(original_list)
+    
+    print("Original List:", original_list)  # Output: Original List: [1, 2, [3, 4]]
+    print("Shallow Copied List:", shallow_copied_list)  # Output: Shallow Copied List: [1, 2, [3, 4]]
 
-# Create a shallow copy of the list
-shallow_copy = copy.copy(original_list)
+    # Modifying the sub-list in the copied list
+    shallow_copied_list[2][0] = 'a'
+    
+    print("Modified Original List:", original_list)  # Output: Modified Original List: [1, 2, ['a', 4]]
+    print("Shallow Copied List After Modification:", shallow_copied_list)  # Output: Shallow Copied List After Modification: [1, 2, ['a', 4]]
 
-# Modify an element of the original list
-original_list[0][0] = 'X'
-
-print("Original List:", original_list)
-print("Shallow Copy:", shallow_copy)
-
-# Output:
-# Original List: [['X'], [2], [3]]
-# Shallow Copy: [['X'], [2], [3]]
-
-# Deep Copy
-deep_copy = copy.deepcopy(original_list)
-
-# Modify an element of the original list
-original_list[0][0] = 'Y'
-
-print("Original List:", original_list)
-print("Deep Copy:", deep_copy)
-
-# Output:
-# Original List: [['Y'], [2], [3]]
-# Deep Copy: [[1], [2], [3]]
+# Call the function to demonstrate
+demonstrate_shallow_copy()
 ```
-As shown above, the shallow copy is affected by the modification of the original list.
 
 ### Deep Copy
 
-A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original. This means that if you modify an element of the copied object, it will not affect the original object.
+A deep copy creates a new object and recursively copies all sub-objects into it. This means that changes to sub-objects in the copied object will not affect the original object.
 
-#### Example:
 ```python
-import copy
+def demonstrate_deep_copy():
+    # Example: Deep copying a dictionary with nested lists
+    original_dict = {
+        'a': 1,
+        'b': [2, 3],
+        'c': {'d': 4}
+    }
+    
+    deep_copied_dict = copy.deepcopy(original_dict)
+    
+    print("Original Dictionary:", original_dict)  # Output: Original Dictionary: {'a': 1, 'b': [2, 3], 'c': {'d': 4}}
+    print("Deep Copied Dictionary:", deep_copied_dict)  # Output: Deep Copied Dictionary: {'a': 1, 'b': [2, 3], 'c': {'d': 4}}
 
-# Original list
-original_list = [[1], [2], [3]]
+    # Modifying the nested list in the copied dictionary
+    deep_copied_dict['b'][0] = 'x'
+    
+    print("Modified Original Dictionary:", original_dict)  # Output: Modified Original Dictionary: {'a': 1, 'b': [2, 3], 'c': {'d': 4}}
+    print("Deep Copied Dictionary After Modification:", deep_copied_dict)  # Output: Deep Copied Dictionary After Modification: {'a': 1, 'b': ['x', 3], 'c': {'d': 4}}
 
-# Create a deep copy of the list
-deep_copy = copy.deepcopy(original_list)
-
-# Modify an element of the copied list
-deep_copy[0][0] = 'X'
-
-print("Original List:", original_list)
-print("Deep Copy:", deep_copy)
-
-# Output:
-# Original List: [[1], [2], [3]]
-# Deep Copy: [['X'], [2], [3]]
-
-# Create a dictionary with mutable elements
-original_dict = {'a': 1, 'b': [2]}
-
-# Create a copy of the dictionary
-dict_copy = copy.copy(original_dict)
-deep_dict_copy = copy.deepcopy(original_dict)
-
-# Modify an element of the copied dictionary
-dict_copy['a'] = 10
-
-print("Original Dictionary:", original_dict)
-print("Copy of Dictionary:", dict_copy)
-print("Deep Copy of Dictionary:", deep_dict_copy)
-
-# Output:
-# Original Dictionary: {'a': 1, 'b': [2]}
-# Copy of Dictionary: {'a': 10, 'b': [2]}
-# Deep Copy of Dictionary: {'a': 1, 'b': [2]}
+# Call the function to demonstrate
+demonstrate_deep_copy()
 ```
-As shown above, the deep copy is not affected by the modification of the copied dictionary.
+
+### Explanation
+
+- **Shallow Copy**: This is useful when you want to create a copy of an object where sub-objects are shared. It is often used in cases where performance is critical.
+  
+- **Deep Copy**: This is recommended when you need a completely independent copy of the object and its sub-objects, ensuring that changes to one do not affect the other.
+
+These examples demonstrate how to use the `copy` module to perform both shallow and deep copies, highlighting their respective use cases.

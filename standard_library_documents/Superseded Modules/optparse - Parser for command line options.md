@@ -1,34 +1,53 @@
-# optparse — Parser for command line options
+# optparse - Parser for command line options
 
-**Optparse Code Examples**
-==========================
+The `optparse` module is a simple way to handle command-line options in Python, similar to how `getopt` works in C. It provides a flexible framework for parsing command-line options and arguments.
 
-The `optparse` module provides support for parsing command-line options and arguments.
-
-### Example 1: Basic Usage
+Below are comprehensive code examples that cover various functionalities of the `optparse` module:
 
 ```python
 import optparse
 
 def main():
     # Create an OptionParser object
-    parser = optparse.OptionParser("Usage: python script.py [options]")
+    parser = optparse.OptionParser()
 
-    # Add options
-    parser.add_option("--foo", action="store_true", dest="foo",
-                      help="Show foo")
-    parser.add_option("--bar", action="store_true", dest="bar",
-                      help="Show bar")
-    parser.add_option("-v", "--verbose", action="store_true", dest="verbose",
-                      help="Verbose mode")
+    # Define command-line options
+    # long_opt: --option
+    # short_opt: -o
+    # dest: variable to store the option's value
+    # help: description of the option
+    parser.add_option("--input", "-i", dest="input_file", help="Input file path")
 
-    # Parse the command-line options
+    parser.add_option("--output", "-o", dest="output_file", help="Output file path")
+
+    parser.add_option(
+        "--verbose",
+        "-v",
+        action="store_true",
+        dest="verbose",
+        help="Enable verbose mode"
+    )
+
+    # Parse the command-line options and arguments
     (options, args) = parser.parse_args()
 
-    if options.foo:
-        print("Option foo is set")
-    if options.bar:
-        print("Option bar is set")
+    # Check if required options are provided
+    if not options.input_file:
+        print("Error: Input file path is required")
+        parser.print_help()
+        return
+
+    if not options.output_file:
+        print("Error: Output file path is required")
+        parser.print_help()
+        return
+
+    # Process the parsed options and arguments
+    process_options(options, args)
+
+def process_options(options, args):
+    print(f"Input File: {options.input_file}")
+    print(f"Output File: {options.output_file}")
     if options.verbose:
         print("Verbose mode is enabled")
 
@@ -36,108 +55,32 @@ if __name__ == "__main__":
     main()
 ```
 
-### Example 2: Positional Arguments
+### Explanation:
 
-```python
-import optparse
+1. **OptionParser Initialization**:
+   - We create an `OptionParser` object which is used to define and parse the command-line options.
 
-def main():
-    # Create an OptionParser object
-    parser = optparse.OptionParser("Usage: python script.py [options] <filename>")
+2. **Defining Options**:
+   - `add_option` method is used to define various types of command-line options:
+     - `--input` or `-i`: A long option with a short alias.
+     - `--output` or `-o`: Another long option with a short alias.
+     - `--verbose` or `-v`: A boolean flag that stores a True/False value.
 
-    # Add options
-    parser.add_option("--foo", action="store_true", dest="foo",
-                      help="Show foo")
-    parser.add_option("--bar", action="store_true", dest="bar",
-                      help="Show bar")
-    parser.add_option("-v", "--verbose", action="store_true", dest="verbose",
-                      help="Verbose mode")
+3. **Parsing Options and Arguments**:
+   - The `parse_args()` method is called to parse the command-line arguments. It returns a tuple containing two elements: a namespace object (`options`) with attributes set from the parsed options, and a list of remaining arguments (`args`).
 
-    # Parse the command-line options
-    (options, args) = parser.parse_args()
+4. **Validation**:
+   - We check if both input and output file paths are provided. If not, we print an error message and help information using `parser.print_help()`.
 
-    if len(args) != 1:
-        parser.error("Please provide a filename")
+5. **Processing Options**:
+   - The `process_options` function demonstrates how to use the parsed options. It prints the values of the input and output files and checks if verbose mode is enabled.
 
-    filename = args[0]
-    print(f"Loaded file: {filename}")
+### Usage:
 
-if __name__ == "__main__":
-    main()
+To run this script from the command line, you can use the following commands:
+
+```bash
+python script.py --input=input.txt --output=output.txt -v
 ```
 
-### Example 3: Grouping Options
-
-```python
-import optparse
-
-def main():
-    # Create an OptionParser object
-    parser = optparse.OptionParser("Usage: python script.py [options]")
-
-    # Add options grouped by section
-    group = parser.add_option_group(
-        "Configuration Options",
-        "These are configuration-related options")
-    group.add_option("--config-level", action="store", dest="config_level",
-                     help="Set the config level (e.g., DEBUG, INFO, WARNING, ERROR)")
-    group.add_option("--config-file", action="store", dest="config_file",
-                     help="Path to the configuration file")
-
-    # Parse the command-line options
-    (options, args) = parser.parse_args()
-
-    print(f"Config Level: {options.config_level}")
-    print(f"Config File: {options.config_file}")
-
-if __name__ == "__main__":
-    main()
-```
-
-### Example 4: Default Values
-
-```python
-import optparse
-
-def main():
-    # Create an OptionParser object
-    parser = optparse.OptionParser("Usage: python script.py [options]")
-
-    # Add options with default values
-    parser.add_option("--foo", action="store_true", dest="foo",
-                      help="Show foo (default: False)")
-    parser.add_option("--bar", action="store", type="int", dest="bar",
-                      help="Show bar (default: 0)")
-
-    # Parse the command-line options
-    (options, args) = parser.parse_args()
-
-    print(f"Option foo is set: {options.foo}")
-    print(f"Option bar is set to {options.bar}")
-
-if __name__ == "__main__":
-    main()
-```
-
-### Example 5: Help Message
-
-```python
-import optparse
-
-def main():
-    # Create an OptionParser object
-    parser = optparse.OptionParser("Usage: python script.py [options]")
-
-    # Add options
-    parser.add_option("--foo", action="store_true", dest="foo",
-                      help="Show foo")
-    parser.add_option("--bar", action="store", type="int", dest="bar",
-                      help="Show bar (default: 0)")
-
-    # Print the help message
-    print("Options:")
-    parser.print_help()
-
-if __name__ == "__main__":
-    main()
-```
+This will execute the script with the specified options.

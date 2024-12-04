@@ -1,124 +1,124 @@
-# json — JSON encoder and decoder
+# json - JSON encoder and decoder
 
-**JSON Encoder and Decoder**
-====================================
+Below are comprehensive code examples for various functionalities of the `json` module in Python, along with detailed comments explaining each step.
 
-The `json` module in Python provides methods for encoding and decoding JSON data.
-
-### Importing the json Module
 ```python
+# Importing the json module
 import json
-```
 
-### Encoding JSON Data
--------------------------
-
-To encode Python data structures into a JSON string, you can use the `dumps()` function.
-```python
-# Define a dictionary to encode
-data = {'name': 'John', 'age': 30}
-
-# Encode the dictionary into a JSON string
-json_string = json.dumps(data)
-
-print(json_string)  # Output: '{"name": "John", "age": 30}'
-```
-
-### Decoding JSON Data
--------------------------
-
-To decode a JSON string into a Python data structure, you can use the `loads()` function.
-```python
-# Define a JSON string to decode
-json_string = '{"name": "Jane", "age": 25}'
-
-# Decode the JSON string into a dictionary
-data = json.loads(json_string)
-
-print(data)  # Output: {'name': 'Jane', 'age': 25}
-```
-
-### JSON Encoding Options
----------------------------
-
-The `dumps()` function can be customized with various options to control the encoding process. Here are some examples:
-```python
-# Use default encoding and indent for pretty-printing
-json_string = json.dumps(data, indent=4)
-
-print(json_string)  # Output: {
+# Example 1: Encoding a simple dictionary to JSON
+data = {
     "name": "John",
-    "age": 30
+    "age": 30,
+    "city": "New York"
 }
 
-# Use strict mode to raise an error on invalid JSON data
+# Using json.dumps() to convert the dictionary to a JSON string
+json_data = json.dumps(data)
+print("Encoded JSON:", json_data)
+
+# Example 2: Encoding a Python object (list) to JSON
+data_list = ["apple", "banana", "cherry"]
+json_list = json.dumps(data_list)
+print("Encoded list as JSON:", json_list)
+
+# Example 3: Decoding a JSON string back to a dictionary
+json_encoded_string = '{"name": "John", "age": 30, "city": "New York"}'
+decoded_data = json.loads(json_encoded_string)
+print("Decoded data from JSON:", decoded_data)
+
+# Example 4: Encoding with specific indentation for readability
+data_with_indentation = {
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown"
+    }
+}
+json_with_indent = json.dumps(data_with_indentation, indent=4)
+print("Encoded data with indentation:", json_with_indent)
+
+# Example 5: Encoding to a file
+with open('data.json', 'w') as file:
+    json.dump(data, file, indent=4)
+print("Data written to data.json")
+
+# Example 6: Decoding from a file
+with open('data.json', 'r') as file:
+    decoded_data_from_file = json.load(file)
+print("Decoded data from data.json:", decoded_data_from_file)
+
+# Example 7: Handling JSON with special characters (ensure correct encoding)
+special_characters_data = {"name": "John Doe", "address": "123 Main St, New York, USA"}
+json_special_chars = json.dumps(special_characters_data)
+print("Encoded data with special characters:", json_special_chars)
+
+# Example 8: Encoding to a file in binary mode
+with open('binary_data.json', 'wb') as file:
+    json.dump(data, file)
+print("Binary data written to binary_data.json")
+
+# Example 9: Decoding from a file in binary mode
+with open('binary_data.json', 'rb') as file:
+    decoded_binary_data = json.load(file)
+print("Decoded binary data:", decoded_binary_data)
+
+# Example 10: Handling errors during encoding or decoding
 try:
-    json_string = json.dumps({'invalid': 'data'}, ensure_ascii=False)
-except json.JSONDecodeError as e:
-    print(e)  # Output: Expecting value: line 1 column 6 (char 19)
+    # Attempt to encode a non-serializable object
+    json.dumps([{"name": "John", "age": 30}, None, {"nested": [1, 2, 3]}])
+except TypeError as e:
+    print("Error:", e)
 
-# Use the default string type for non-integer values
-json_string = json.dumps(data, default=str)
+# Example 11: Encoding with custom serialization (if needed)
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
 
-print(json_string)  # Output: '{"name": "John", "age": 30}'
-```
+def person_to_dict(person):
+    return {"name": person.name, "age": person.age}
 
-### JSON Decoding Options
----------------------------
+person = Person("Jane", 25)
+json_person = json.dumps(person, default=person_to_dict)
+print("Encoded custom object:", json_person)
 
-The `loads()` function can also be customized with various options to control the decoding process. Here are some examples:
-```python
-# Use strict mode to raise an error on invalid JSON data
+# Example 12: Handling errors during encoding with custom serialization
+class InvalidPerson:
+    def __init__(self, name):
+        self.name = name
+
 try:
-    json_string = '{"invalid": "data"}'
-    data = json.loads(json_string, strict=False)
-except json.JSONDecodeError as e:
-    print(e)  # Output: Expecting value: line 1 column 2 (char 0)
-
-# Use the string type for non-integer values
-try:
-    json_string = '{"name": "Jane", "age": 25}'
-    data = json.loads(json_string, object_hook=lambda d: {k: str(v) for k, v in d.items()})
-except json.JSONDecodeError as e:
-    print(e)  # Output: Expecting value: line 1 column 5 (char 19)
+    # Attempt to encode an invalid custom object
+    json.dumps([{"name": "John", "age": 30}, InvalidPerson("Jane")])
+except TypeError as e:
+    print("Error:", e)
 ```
 
-### Custom JSON Encoder
--------------------------
+### Explanation:
 
-You can create a custom JSON encoder by defining a function that takes a Python object and returns its equivalent JSON representation.
-```python
-def custom_encoder(obj):
-    if isinstance(obj, dict):
-        return {k: json.dumps(v) for k, v in obj.items()}
-    elif isinstance(obj, (int, float)):
-        return str(obj)
-    else:
-        raise ValueError("Unsupported type")
+1. **Encoding and Decoding**:
+   - `json.dumps()` converts a Python dictionary or list to a JSON string.
+   - `json.loads()` parses a JSON string back into a Python object (dictionary, list).
 
-# Use the custom encoder to encode data
-data = {'name': 'John', 'age': 30}
-json_string = json.dumps(data, default=custom_encoder)
+2. **Indentation for Readability**:
+   - The `indent` parameter in `json.dumps()` can be used to format the output with indentation for better readability.
 
-print(json_string)  # Output: '{"name": "John", "age": 30}'
-```
+3. **Encoding to and Decoding from Files**:
+   - Use `open()` to write to or read from files.
+   - `json.dump()` writes a Python object to a file.
+   - `json.load()` reads a JSON formatted file and converts it back into a Python object.
 
-### Custom JSON Decoder
--------------------------
+4. **Special Characters and Encoding**:
+   - Ensure that special characters are properly encoded by using the correct encoding when writing to or reading from files.
 
-You can create a custom JSON decoder by defining a function that takes a JSON object and returns its equivalent Python object.
-```python
-def custom_decoder(obj):
-    if isinstance(obj, str):
-        return int(obj)
-    elif obj == 'null':
-        return None
-    else:
-        raise ValueError("Unsupported type")
+5. **Binary Mode**:
+   - Use binary mode (`'wb'` for writing and `'rb'` for reading) when dealing with binary data.
 
-# Use the custom decoder to decode data
-json_string = '{"name": "Jane", "age": 25}'
-data = json.loads(json_string, object_hook=custom_decoder)
+6. **Error Handling**:
+   - Catch `TypeError` exceptions when attempting to encode non-serializable objects.
+   - Implement custom serialization functions to handle complex objects or types that are not natively serializable by Python's default JSON encoder.
 
-print(data)  # Output: {'name': 'Jane', 'age': 25}
-```
+7. **Custom Serialization**:
+   - Define a function to convert custom objects into a format that can be serialized by the `json` module.
+
+These examples cover various aspects of the `json` module, providing a comprehensive guide for using it in different scenarios.

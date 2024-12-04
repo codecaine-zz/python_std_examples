@@ -1,75 +1,232 @@
-# tkinter.scrolledtext — Scrolled Text Widget
+# tkinter.scrolledtext - Scrolled Text Widget
 
-**Scrolled Text Widget (tkinter.scrolledtext)**
-====================================================
+The `scrolledtext` module in Python's standard library provides a `ScrolledText` widget, which is similar to the `Text` widget but with added support for scrolling. This widget is particularly useful when you need a text entry area that can handle large amounts of text and provide easy navigation through it.
 
-The `tkinter.scrolledtext` module provides a widget that allows for editing of text, with additional functionality for scrolling.
+Below are comprehensive examples for each functionality provided by the `scrolledtext` module:
 
-### Example Use Cases:
+### Example 1: Basic Scrolled Text Widget
 
-1. Creating a scrolled text area for displaying log messages or error logs.
-2. Building an email client interface with a large text area for composing and viewing emails.
-
-### Code Examples:
 ```python
 import tkinter as tk
 from tkinter import scrolledtext
 
-# Create the main window
-root = tk.Tk()
-root.title("Scrolled Text Widget")
+def create_scrolled_text_window():
+    # Create the main window
+    root = tk.Tk()
+    root.title("Basic Scrolled Text Widget")
 
-# Create a frame to hold the widget
-frame = tk.Frame(root)
-frame.pack(padx=10, pady=10)
+    # Create a ScrolledText widget with fixed width and height
+    st = scrolledtext.ScrolledText(root, width=40, height=10)
+    st.pack(padx=10, pady=10)
 
-# Create a scrolled text area with a fixed width and height
-text_area = scrolledtext.ScrolledText(frame,
-                                    width=60,
-                                    height=20,
-                                    wrap=tk.WORD)
-text_area.pack()
+    # Insert some initial text into the widget
+    st.insert(tk.INSERT, "This is a basic example of a ScrolledText widget.")
 
-# Add some sample text to the widget
-sample_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-text_area.insert(tk.INSERT, sample_text)
+    # Start the GUI event loop
+    root.mainloop()
 
-# Create a button to insert new text into the widget
-def insert_new_text():
-    new_text = input("Enter new text: ")
-    text_area.insert(tk.END, new_text)
-
-button = tk.Button(frame, text="Insert New Text", command=insert_new_text)
-button.pack()
-
-# Run the application
-root.mainloop()
+# Call the function to create and display the window
+create_scrolled_text_window()
 ```
 
-### Usage:
+### Example 2: Customizing Scrollbar Appearance
 
-1. Import the `scrolledtext` module from the `tkinter` library.
-2. Create a `ScrolledText` widget by passing the required arguments (width, height, and wrap mode) to its constructor.
-3. Use the `insert` method to add text to the widget at the specified location.
-4. Use the `delete` method to delete text from the widget.
+```python
+import tkinter as tk
+from tkinter import scrolledtext
 
-### Methods:
+def customize_scrollbar():
+    # Create the main window
+    root = tk.Tk()
+    root.title("Customized Scrolled Text Widget")
 
-*   `insert(location, text)`: Inserts the given text at the specified location in the widget.
-*   `delete(start, stop)`: Deletes the text between the start and stop indices in the widget.
-*   `get(from_idx, to_idx)`: Returns the text contained within the specified range of indices.
+    # Configure the appearance of the scrollbar
+    custom_scrollbar = ttk.Scrollbar(root, orient=tk.VERTICAL)
+    custom_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-### Attributes:
+    # Use the scrollbar with a ScrolledText widget
+    st = scrolledtext.ScrolledText(root, width=40, height=10, yscrollcommand=custom_scrollbar.set)
+    st.pack(padx=10, pady=10)
 
-*   `width` (int): The width of the widget's text area.
-*   `height` (int): The height of the widget's text area.
-*   `wrap` (tkinter.WORD | tkinter.NONE | tkinter.ALL): Specifies how to wrap the text in the widget. Can be set to `tkinter.WORD`, `tkinter.NONE`, or `tkinter.ALL`.
+    # Insert some initial text into the widget
+    st.insert(tk.INSERT, "This example demonstrates how to customize the scrollbar appearance.")
 
-### Event-Driven Programming:
+    # Configure the scrolling command for the scrollbar
+    custom_scrollbar.config(command=st.yview)
 
-The `ScrolledText` widget raises several events when the user interacts with it, including:
+    # Start the GUI event loop
+    root.mainloop()
 
-*   `key_press`: Raised when a key is pressed while focusing on the widget.
-*   `key_release`: Raised when a key is released while focusing on the widget.
-*   `focus_in`: Raised when the widget receives focus.
-*   `focus_out`: Raised when the widget loses focus.
+# Call the function to create and display the window
+customize_scrollbar()
+```
+
+### Example 3: Handling Text Events
+
+```python
+import tkinter as tk
+from tkinter import scrolledtext, messagebox
+
+def handle_text_events():
+    # Create the main window
+    root = tk.Tk()
+    root.title("Text Event Handling")
+
+    # Create a ScrolledText widget with a simple text event handler
+    st = scrolledtext.ScrolledText(root, width=40, height=10)
+    st.pack(padx=10, pady=10)
+
+    # Define an event handler function
+    def on_text_change(event):
+        messagebox.showinfo("Event Details", f"Changed at position: {event.x}, {event.y}")
+
+    # Bind the text change event to the ScrolledText widget
+    st.bind("<KeyRelease>", on_text_change)
+
+    # Insert some initial text into the widget
+    st.insert(tk.INSERT, "This example demonstrates how to handle text events.")
+
+    # Start the GUI event loop
+    root.mainloop()
+
+# Call the function to create and display the window
+handle_text_events()
+```
+
+### Example 4: Configuring Text Formatting
+
+```python
+import tkinter as tk
+from tkinter import scrolledtext, messagebox
+
+def configure_text_formatting():
+    # Create the main window
+    root = tk.Tk()
+    root.title("Text Formatting")
+
+    # Create a ScrolledText widget with formatting options
+    st = scrolledtext.ScrolledText(root, width=40, height=10)
+    st.pack(padx=10, pady=10)
+
+    # Define functions to apply different formatting styles
+    def bold_text():
+        st.tag_add("bold", "sel.first", "sel.last")
+
+    def italic_text():
+        st.tag_add("italic", "sel.first", "sel.last")
+
+    def set_font(font_family, font_size):
+        st.tag_config("customfont", font=(font_family, font_size))
+
+    # Create buttons to apply formatting
+    bold_button = tk.Button(root, text="Bold", command=bold_text)
+    bold_button.pack(side=tk.LEFT, padx=5)
+
+    italic_button = tk.Button(root, text="Italic", command=italic_text)
+    italic_button.pack(side=tk.LEFT, padx=5)
+
+    font_family_label = tk.Label(root, text="Font Family:")
+    font_family_label.pack(side=tk.LEFT, padx=5)
+
+    font_family_entry = tk.Entry(root, width=10)
+    font_family_entry.pack(side=tk.LEFT, padx=5)
+
+    font_size_label = tk.Label(root, text="Font Size:")
+    font_size_label.pack(side=tk.LEFT, padx=5)
+
+    font_size_entry = tk.Entry(root, width=5)
+    font_size_entry.pack(side=tk.LEFT, padx=5)
+
+    set_font_button = tk.Button(root, text="Set Font", command=lambda: set_font(font_family_entry.get(), int(font_size_entry.get())))
+    set_font_button.pack(side=tk.LEFT, padx=5)
+
+    # Insert some initial text into the widget
+    st.insert(tk.INSERT, "This example demonstrates how to configure text formatting.")
+
+    # Start the GUI event loop
+    root.mainloop()
+
+# Call the function to create and display the window
+configure_text_formatting()
+```
+
+### Example 5: Customizing Text Colors
+
+```python
+import tkinter as tk
+from tkinter import scrolledtext, messagebox
+
+def customize_text_colors():
+    # Create the main window
+    root = tk.Tk()
+    root.title("Custom Text Colors")
+
+    # Create a ScrolledText widget with color customization
+    st = scrolledtext.ScrolledText(root, width=40, height=10)
+    st.pack(padx=10, pady=10)
+
+    # Define functions to change text colors
+    def set_red_color():
+        st.tag_config("red", foreground="red")
+
+    def set_green_color():
+        st.tag_config("green", foreground="green")
+
+    def set_blue_color():
+        st.tag_config("blue", foreground="blue")
+
+    # Create buttons to apply color changes
+    red_button = tk.Button(root, text="Red", command=set_red_color)
+    red_button.pack(side=tk.LEFT, padx=5)
+
+    green_button = tk.Button(root, text="Green", command=set_green_color)
+    green_button.pack(side=tk.LEFT, padx=5)
+
+    blue_button = tk.Button(root, text="Blue", command=set_blue_color)
+    blue_button.pack(side=tk.LEFT, padx=5)
+
+    # Insert some initial text into the widget
+    st.insert(tk.INSERT, "This example demonstrates how to customize text colors.")
+
+    # Start the GUI event loop
+    root.mainloop()
+
+# Call the function to create and display the window
+customize_text_colors()
+```
+
+### Example 6: Handling Text Selection
+
+```python
+import tkinter as tk
+from tkinter import scrolledtext, messagebox
+
+def handle_text_selection():
+    # Create the main window
+    root = tk.Tk()
+    root.title("Text Selection")
+
+    # Create a ScrolledText widget with selection handling
+    st = scrolledtext.ScrolledText(root, width=40, height=10)
+    st.pack(padx=10, pady=10)
+
+    # Define functions to handle text selections
+    def select_text():
+        selected_text = st.get("sel.first", "sel.last")
+        messagebox.showinfo("Selected Text", f"Selected text: {selected_text}")
+
+    # Create a button to select text
+    select_button = tk.Button(root, text="Select Text", command=select_text)
+    select_button.pack(side=tk.LEFT, padx=5)
+
+    # Insert some initial text into the widget
+    st.insert(tk.INSERT, "This example demonstrates how to handle text selections.")
+
+    # Start the GUI event loop
+    root.mainloop()
+
+# Call the function to create and display the window
+handle_text_selection()
+```
+
+These examples cover various functionalities of the `scrolledtext` module, including basic usage, customizing widget appearance, handling text events, configuring text formatting, customizing text colors, and managing text selections. Each example is designed to be self-contained and can be run independently as a standalone script.

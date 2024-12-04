@@ -1,114 +1,150 @@
-# pprint — Data pretty printer
+# pprint - Data pretty printer
 
-Here's an example of how you can use the `pprint` function from Python's standard library:
+Below are comprehensive code examples for using the `pprint` module in Python, along with detailed explanations of each example.
+
+### Example 1: Basic Usage
 
 ```python
 import pprint
 
-# Define a simple data structure (a dictionary)
+# Define a sample data structure
 data = {
     'name': 'John Doe',
     'age': 30,
+    'is_student': False,
+    'courses': ['Math', 'Science', 'English'],
     'address': {
         'street': '123 Main St',
         'city': 'Anytown',
-        'state': 'US',
+        'state': 'CA',
         'zip': '12345'
-    },
-    'interests': ['reading', 'hiking', 'coding']
+    }
 }
 
-# Pretty print the data structure
+# Use pprint.pprint() to pretty-print the data
 pprint.pprint(data)
+```
 
-# Pretty print a nested list
-nested_list = [1, 2, [3, 4], {'a': 5}]
-pprint.pprint(nested_list)
+**Explanation:**
+- The `pprint` module provides a way to print complex data structures in a readable format.
+- The `pprint.pprint()` function takes an object and prints it with indentation, making it easier to read.
 
-# Pretty print a dictionary with values that are lists or dictionaries themselves
-data_with_nested_values = {
-    'name': 'Jane Doe',
-    'age': 25,
+### Example 2: Customizing Output
+
+```python
+import pprint
+
+# Define a sample data structure
+data = {
+    'name': 'Jane Smith',
+    'age': 35,
+    'is_student': True,
+    'courses': ['Biology', 'Chemistry'],
     'address': {
         'street': '456 Elm St',
         'city': 'Othertown',
-        'state': 'Canada',
+        'state': 'NY',
         'zip': '67890'
-    },
-    'interests': ['reading', 'traveling']
+    }
 }
-pprint.pprint(data_with_nested_values)
+
+# Create a PrettyPrinter instance with custom settings
+pp = pprint.PrettyPrinter(indent=2, width=50)
+
+# Use the custom PrettyPrinter to print the data
+pp.pprint(data)
 ```
 
-Output:
+**Explanation:**
+- The `PrettyPrinter` class allows for more customization of the output.
+- You can specify the number of spaces per indentation level with the `indent` parameter.
+- The maximum line length is controlled by the `width` parameter.
 
-```python
-{'age': 30, 
- 'address': {'city': 'Anytown', 
-  'state': 'US', 
-  'street': '123 Main St', 
-  'zip': '12345'}, 
- 'interests': ['reading', 'hiking', 'coding'], 
- 'name': 'John Doe'}
-
-[1, 2, [3, 4], {'a': 5}]
-
-{'age': 25, 
- 'address': {'city': 'Othertown', 
-  'state': 'Canada', 
-  'street': '456 Elm St', 
-  'zip': '67890'}, 
- 'interests': ['reading', 'traveling'], 
- 'name': 'Jane Doe'}
-```
-
-This function is useful for printing data structures in a human-readable format, making it easier to debug and understand complex data.
-
-Here's an example of how you can customize the pretty print:
+### Example 3: Handling Large Data Structures
 
 ```python
 import pprint
 
+# Define a large sample data structure
 data = {
-    'name': 'John Doe',
-    'age': 30,
-    'address': {
-        'street': '123 Main St',
-        'city': 'Anytown',
-        'state': 'US',
-        'zip': '12345'
-    },
-    'interests': ['reading', 'hiking', 'coding']
+    'employees': [
+        {'name': 'Alice Johnson', 'department': 'Sales'},
+        {'name': 'Bob Brown', 'department': 'Marketing'},
+        {'name': 'Charlie Smith', 'department': 'IT'}
+    ],
+    'orders': [
+        {'order_id': 101, 'amount': 29.99},
+        {'order_id': 102, 'amount': 45.75},
+        {'order_id': 103, 'amount': 69.49}
+    ]
 }
 
-# Use the default pretty print settings
+# Use pprint.pprint() to pretty-print the large data structure
 pprint.pprint(data)
-
-# Define a custom pretty print setting with indentation and max width
-pprint.PrettyPrinter(indent=4, width=50).pprint(data)
 ```
 
-Output:
+**Explanation:**
+- The `pprint` module is particularly useful for handling large or complex data structures.
+- It automatically breaks lines and adjusts the indentation to fit within a specified width, which can be helpful when dealing with extensive data.
 
-```python    {'age': 30, 
-     'address': {'city': 'Anytown', 
-                  'state': 'US', 
-                  'street': '123 Main St', 
-                  'zip': '12345'}, 
-     'interests': ['reading', 'hiking', 'coding'], 
-     'name': 'John Doe'}
-```
+### Example 4: Using PrettyPrinter for Files
 
 ```python
-    {'age': 30, 
-     'address': {
-       'city': 'Anytown', 
-       'state': 'US', 
-       'street': '123 Main St', 
-       'zip': '12345'
-      }, 
-     'interests': ['reading', 'hiking', 'coding'], 
-     'name': 'John Doe'}
+import pprint
+
+# Define a sample data structure
+data = {
+    'name': 'David Wilson',
+    'age': 28,
+    'is_student': False,
+    'courses': ['History', 'Literature'],
+    'address': {
+        'street': '789 Oak St',
+        'city': 'Somewhere',
+        'state': 'TX',
+        'zip': '56789'
+    }
+}
+
+# Open a file for writing and use PrettyPrinter to write the data
+with open('data.txt', 'w') as file:
+    pp = pprint.PrettyPrinter(indent=2)
+    pp.pprint(data, stream=file)
 ```
 
-Note that the `width` parameter controls the maximum width of each line in the pretty print, and the `indent` parameter controls the indentation level.
+**Explanation:**
+- You can also use the `PrettyPrinter` instance to print to a file instead of the console.
+- The `stream` parameter is used to specify where the output should be written.
+
+### Example 5: Pretty Printing JSON-like Structures
+
+```python
+import pprint
+import json
+
+# Define a sample data structure
+data = {
+    'name': 'Eve Johnson',
+    'age': 22,
+    'is_student': True,
+    'courses': ['Physics', 'Astrophysics'],
+    'address': {
+        'street': '101 Pine St',
+        'city': 'Somewhere Else',
+        'state': 'FL',
+        'zip': '43210'
+    }
+}
+
+# Convert the data structure to a JSON string
+json_data = json.dumps(data, indent=2)
+
+# Use pprint.pprint() to pretty-print the JSON-like structure
+pprint.pprint(json_data)
+```
+
+**Explanation:**
+- The `json` module can be used to convert data structures into JSON format.
+- You can then use the `pprint` module to print this JSON string in a readable format.
+
+These examples demonstrate various ways to use the `pprint` module, from basic usage to more complex scenarios. By following these examples, you can effectively leverage the `pprint` module to enhance the readability of your data structures in Python.

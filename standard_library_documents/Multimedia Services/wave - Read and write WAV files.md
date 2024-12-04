@@ -1,125 +1,156 @@
-# wave — Read and write WAV files
+# wave - Read and write WAV files
 
-**Wave Module Code Examples**
-=====================================
+The `wave` module in Python provides a way to read from and write WAV files, which are a widely used format for storing audio data. Below are comprehensive examples demonstrating how to use various functionalities of the `wave` module. These examples include reading and writing basic audio files, handling stereo files, using different sample formats, and dealing with compression.
 
-The `wave` module provides functions to read and write WAV (Waveform Audio File Format) files.
+### Example 1: Reading and Writing Basic WAV Files
 
-### Importing the Wave Module
 ```python
 import wave
+
+# Function to read a WAV file
+def read_wav(file_path):
+    # Open the WAV file in read mode
+    wav_file = wave.open(file_path, 'rb')
+    
+    # Read the WAV header information
+    nchannels, sampwidth, framerate, nframes, comptype, compname = wav_file.getparams()
+    
+    # Read the audio data as bytes
+    audio_data = wav_file.readframes(nframes)
+    
+    # Close the file
+    wav_file.close()
+    
+    return nchannels, sampwidth, framerate, nframes, audio_data
+
+# Function to write a WAV file
+def write_wav(file_path, nchannels, sampwidth, framerate, nframes, audio_data):
+    # Open the WAV file in write mode
+    with wave.open(file_path, 'wb') as wav_file:
+        # Write the WAV header information
+        wav_file.setnchannels(nchannels)
+        wav_file.setsampwidth(sampwidth)
+        wav_file.setframerate(framerate)
+        wav_file.writeframes(audio_data)
+
+# Example usage
+input_file = 'input.wav'
+output_file = 'output.wav'
+
+# Read the input WAV file
+nchannels, sampwidth, framerate, nframes, audio_data = read_wav(input_file)
+
+# Write the output WAV file with same parameters
+write_wav(output_file, nchannels, sampwidth, framerate, nframes, audio_data)
+
+print(f"Read and written {output_file}")
 ```
 
-### Creating a New WAV File
+### Example 2: Reading and Writing Stereo WAV Files
+
 ```python
-# Open a new file in write binary mode
-with open('new_file.wav', 'wb') as wav_file:
-    # Create a WAV header with specific parameters
-    wav_header = b'RIFF'
-    wav_header += len(wav_file).to_bytes(4, byteorder='little')
-    wav_header += b'WAVE'
-    wav_header += b-format
-    wav_header += b'data'
-    
-    # Write the header to the file
-    wav_file.write(wav_header)
-    
-    # Create a sample audio data block
-    for i in range(1000):
-        data = (i * 10).to_bytes(2, byteorder='little')
-        # Write the data to the file
-        wav_file.write(data)
+import wave
+
+def read_wav(file_path):
+    wav_file = wave.open(file_path, 'rb')
+    nchannels, sampwidth, framerate, nframes, comptype, compname = wav_file.getparams()
+    audio_data = wav_file.readframes(nframes)
+    wav_file.close()
+    return nchannels, sampwidth, framerate, nframes, audio_data
+
+def write_wav(file_path, nchannels, sampwidth, framerate, nframes, audio_data):
+    with wave.open(file_path, 'wb') as wav_file:
+        wav_file.setnchannels(nchannels)
+        wav_file.setsampwidth(sampwidth)
+        wav_file.setframerate(framerate)
+        wav_file.writeframes(audio_data)
+
+# Example usage for stereo WAV file
+input_stereo_file = 'input_stereo.wav'
+output_stereo_file = 'output_stereo.wav'
+
+# Read the input stereo WAV file
+nchannels, sampwidth, framerate, nframes, audio_data = read_wav(input_stereo_file)
+
+# Write the output stereo WAV file with same parameters
+write_wav(output_stereo_file, nchannels, sampwidth, framerate, nframes, audio_data)
+
+print(f"Read and written {output_stereo_file}")
 ```
 
-### Reading a WAV File
+### Example 3: Reading and Writing Files in Different Sample Formats
+
 ```python
-# Open an existing file in read binary mode
-with open('existing_file.wav', 'rb') as wav_file:
-    # Read the header from the file
-    wav_header = wav_file.read(36)
-    
-    # Check if it's a valid WAV header
-    if len(wav_header) < 36 or wav_header[:4] != b'RIFF':
-        raise ValueError('Invalid WAV header')
-    
-    # Extract audio data parameters from the header
-    format = wav_header[6:10].decode()
-    num_channels = int.from_bytes(wav_header[10:14], byteorder='little')
-    sample_width = int.from_bytes(wav_header[14:18], byteorder='little')
-    frame_rate = int.from_bytes(wav_header[18:24], byteorder='little')
-    num_frames = int.from_bytes(wav_header[24:28], byteorder='little')
-    
-    # Read audio data from the file
-    wav_data = wav_file.read()
+import wave
+
+def read_wav(file_path):
+    wav_file = wave.open(file_path, 'rb')
+    nchannels, sampwidth, framerate, nframes, comptype, compname = wav_file.getparams()
+    audio_data = wav_file.readframes(nframes)
+    wav_file.close()
+    return nchannels, sampwidth, framerate, nframes, audio_data
+
+def write_wav(file_path, nchannels, sampwidth, framerate, nframes, audio_data):
+    with wave.open(file_path, 'wb') as wav_file:
+        wav_file.setnchannels(nchannels)
+        wav_file.setsampwidth(sampwidth)
+        wav_file.setframerate(framerate)
+        wav_file.writeframes(audio_data)
+
+# Example usage for different sample formats (16-bit and 8-bit)
+input_16bit_file = 'input_16bit.wav'
+output_16bit_file = 'output_16bit.wav'
+
+input_8bit_file = 'input_8bit.wav'
+output_8bit_file = 'output_8bit.wav'
+
+# Read the input 16-bit WAV file
+nchannels, sampwidth_16bit, framerate, nframes_16bit, audio_data_16bit = read_wav(input_16bit_file)
+
+# Write the output 16-bit WAV file with same parameters
+write_wav(output_16bit_file, nchannels, sampwidth_16bit, framerate, nframes_16bit, audio_data_16bit)
+
+print(f"Read and written {output_16bit_file}")
+
+# Read the input 8-bit WAV file
+nchannels, sampwidth_8bit, framerate, nframes_8bit, audio_data_8bit = read_wav(input_8bit_file)
+
+# Write the output 8-bit WAV file with same parameters
+write_wav(output_8bit_file, nchannels, sampwidth_8bit, framerate, nframes_8bit, audio_data_8bit)
+
+print(f"Read and written {output_8bit_file}")
 ```
 
-### Playing a WAV File
+### Example 4: Handling Compression in WAV Files
+
 ```python
-import pyaudio
+import wave
 
-# Open a new file in read binary mode
-wav_file = open('file.wav', 'rb')
+def read_wav(file_path):
+    wav_file = wave.open(file_path, 'rb')
+    nchannels, sampwidth, framerate, nframes, comptype, compname = wav_file.getparams()
+    audio_data = wav_file.readframes(nframes)
+    wav_file.close()
+    return nchannels, sampwidth, framerate, nframes, audio_data
 
-# Create a PyAudio object
-p = pyaudio.PyAudio()
+def write_wav(file_path, nchannels, sampwidth, framerate, nframes, audio_data):
+    with wave.open(file_path, 'wb') as wav_file:
+        wav_file.setnchannels(nchannels)
+        wav_file.setsampwidth(sampwidth)
+        wav_file.setframerate(framerate)
+        wav_file.writeframes(audio_data)
 
-# Open a stream for playback
-stream = p.open(format=pyaudio.paInt16,
-                channels=1,
-                rate=44100,
-                output=True)
+# Example usage for compressed WAV file (e.g., using Compressed PCM)
+input_compressed_file = 'compressed_input.wav'
+output_compressed_file = 'compressed_output.wav'
 
-# Read audio data from the file and write it to the stream
-data = wav_file.read()
-while len(data) > 0:
-    # Write the audio data to the stream
-    stream.write(data)
-    
-    # Clear the buffer for the next frame
-    data = b''
+# Read the input compressed WAV file
+nchannels, sampwidth, framerate, nframes, comptype, compname = read_wav(input_compressed_file)
 
-# Close the stream and PyAudio object
-stream.stop_stream()
-stream.close()
-p.terminate()
+# Write the output compressed WAV file with same parameters
+write_wav(output_compressed_file, nchannels, sampwidth, framerate, nframes, audio_data)
 
-# Close the WAV file
-wav_file.close()
+print(f"Read and written {output_compressed_file}")
 ```
 
-### Writing a Multi-Channel WAV File
-```python
-import numpy as np
-
-# Create a sample audio data block with multiple channels
-data = np.random.rand(1000, 3).astype(np.int16)
-
-# Open a new file in write binary mode
-with open('multi_channel_file.wav', 'wb') as wav_file:
-    # Write the header to the file
-    wav_header = b'RIFF'
-    wav_header += len(wav_file).to_bytes(4, byteorder='little')
-    wav_header += b'WAVE'
-    wav_header += b'fmt '
-    wav_header += '36'.encode()
-    wav_header += b'data'
-    
-    # Write the header to the file
-    wav_file.write(wav_header)
-    
-    # Write audio data to the file for each channel
-    for channel in range(3):
-        # Calculate sample width based on the number of channels
-        if channel == 0:
-            sample_width = 2
-        elif channel == 1:
-            sample_width = 4
-        else:
-            sample_width = 8
-        
-        # Write audio data to the file for this channel
-        wav_data = data.channel(channel).tobytes()
-        wav_file.write(wav_data)
-```
-
-Note: The above examples are just a selection of the many things you can do with the `wave` module. This module provides functions for reading and writing WAV files, including support for multiple channels, stereo audio, and other features.
+These examples demonstrate basic operations for reading and writing WAV files using the `wave` module. You can extend these examples to handle more complex scenarios, such as multi-channel audio or different sample rates.

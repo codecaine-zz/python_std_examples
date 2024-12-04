@@ -1,1291 +1,176 @@
-# concurrent.futures — Launching parallel tasks
+# concurrent.futures - Launching parallel tasks
 
-**concurrent.futures Example Code**
-=====================================
+Below are comprehensive code examples for the `concurrent.futures` module, which provides a high-level interface for asynchronously executing callables. The examples include various ways to use the module to launch parallel tasks.
 
-The `concurrent.futures` module provides a high-level interface for asynchronously executing callables.
+### 1. Using ThreadPoolExecutor
 
-### 1. Threading Pool Executor
-
-A thread pool executor is a type of executor that maintains a pool of worker threads that can be reused across multiple tasks.
-
-```python
-import concurrent.futures
-import time
-from threading import Thread
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads
-with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    for future in concurrent.futures.as_completed(futures):
-        future.result()
-```
-
-### 2. Process Pool Executor
-
-A process pool executor is a type of executor that maintains a pool of worker processes.
+The `ThreadPoolExecutor` class allows you to run multiple functions in separate threads. This is useful for I/O-bound operations where each task can be executed independently of others.
 
 ```python
 import concurrent.futures
 import time
 
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
+def worker(number):
+    """Worker function that takes an integer and returns its square."""
+    print(f"Worker {number} starting")
+    result = number * number
+    print(f"Worker {number} finished, result: {result}")
+    return result
 
-# Create a process pool executor with 5 worker processes
-with concurrent.futures.ProcessPoolExecutor(max_workers=5) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    for future in concurrent.futures.as_completed(futures):
-        future.result()
-```
-
-### 3. Thread Pool Executor with Timeout
-
-A thread pool executor can be configured to timeout on completion.
-
-```python
-import concurrent.futures
-import time
-from threading import Thread
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(3)
-    try:
-        # This will raise a TimeoutError after 2 seconds
-        result = yield from future
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-    else:
-        print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    for future in concurrent.futures.as_completed(futures):
-        try:
-            future.result()
-        except concurrent.futures.TimeoutError as e:
-            print(f"Timeout: {e}")
-```
-
-### 4. Process Pool Executor with Timeout
-
-A process pool executor can also be configured to timeout on completion.
-
-```python
-import concurrent.futures
-import time
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(3)
-    try:
-        # This will raise a TimeoutError after 2 seconds
-        result = yield from future
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-    else:
-        print(f"Task {num} finished")
-
-# Create a process pool executor with 5 worker processes and a timeout of 2 seconds
-with concurrent.futures.ProcessPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    for future in concurrent.futures.as_completed(futures):
-        try:
-            future.result()
-        except concurrent.futures.TimeoutError as e:
-            print(f"Timeout: {e}")
-```
-
-### 5. Asyncio-Based Executor
-
-The `concurrent.futures` module also supports asyncio-based executors.
-
-```python
-import concurrent.futures
-import asyncio
-
-async def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    await asyncio.sleep(2)
-    print(f"Task {num} finished")
-
-# Create an asyncio-based executor with 5 worker tasks
-with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    await concurrent.futures.as_completed(futures)
-```
-
-### 6. Asyncio-Based Process Executor
-
-The `concurrent.futures` module also supports asyncio-based process executors.
-
-```python
-import concurrent.futures
-import asyncio
-
-async def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    await asyncio.sleep(2)
-    print(f"Task {num} finished")
-
-# Create an asyncio-based process executor with 5 worker processes
-with concurrent.futures.ProcessPoolExecutor(max_workers=5) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    await concurrent.futures.as_completed(futures)
-```
-
-### 7. Executor with Cancellation
-
-Executors can be configured to cancel ongoing tasks.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads
-with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for 2 seconds and cancel ongoing tasks
-    time.sleep(2)
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            future.cancel()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 8. Executor with Deadline
-
-Executors can be configured to timeout on completion.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
+def main():
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+        # Submit tasks to the executor
+        future_to_number = {executor.submit(worker, i): i for i in range(10)}
+        
+        # Process results
+        for future in concurrent.futures.as_completed(future_to_number):
+            number = future_to_number[future]
+            try:
+                result = future.result()
+            except Exception as exc:
+                print(f"Worker {number} generated an exception: {exc}")
             else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
+                print(f"Worker {number} completed with result: {result}")
+
+if __name__ == "__main__":
+    main()
 ```
 
-### 9. Executor with Deadline and Cancellation
+### 2. Using ProcessPoolExecutor
 
-Executors can be configured to timeout on completion or cancel ongoing tasks.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for 1 second and cancel ongoing tasks
-    time.sleep(1)
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-                future.cancel()
-            else:
-                print(f"Task {future.result()}")
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 10. Executor with Deadline, Cancellation and Thread Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a thread pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 11. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
+The `ProcessPoolExecutor` class allows you to run multiple functions in separate processes. This is useful for CPU-bound operations where tasks are independent and can be executed concurrently.
 
 ```python
 import concurrent.futures
 import time
-from functools import partial
 
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
+def worker(number):
+    """Worker function that takes an integer and returns its square."""
+    print(f"Worker {number} starting")
+    result = number * number
+    print(f"Worker {number} finished, result: {result}")
+    return result
 
-# Create a process pool executor with 5 worker processes and a timeout of 2 seconds
-with concurrent.futures.ProcessPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
+def main():
+    with concurrent.futures.ProcessPoolExecutor(max_workers=3) as executor:
+        # Submit tasks to the executor
+        future_to_number = {executor.submit(worker, i): i for i in range(10)}
+        
+        # Process results
+        for future in concurrent.futures.as_completed(future_to_number):
+            number = future_to_number[future]
+            try:
+                result = future.result()
+            except Exception as exc:
+                print(f"Worker {number} generated an exception: {exc}")
             else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
+                print(f"Worker {number} completed with result: {result}")
+
+if __name__ == "__main__":
+    main()
 ```
 
-### 12. Executor with Deadline, Cancellation and Thread Pool
+### 3. Using ThreadPoolExecutor for I/O-bound Tasks
 
-Executors can be configured to timeout on completion or cancel ongoing tasks in a thread pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 13. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
+The `ThreadPoolExecutor` can also be used for I/O-bound tasks by ensuring that each task does not require a lot of CPU resources.
 
 ```python
 import concurrent.futures
 import time
-from functools import partial
 
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a process pool executor with 5 worker processes and a timeout of 2 seconds
-with concurrent.futures.ProcessPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
+def worker(number):
+    """Worker function that takes an integer and sleeps for it."""
+    print(f"Worker {number} starting")
+    time.sleep(number)
+    print(f"Worker {number} finished")
     
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
+def main():
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+        # Submit tasks to the executor
+        future_to_number = {executor.submit(worker, i): i for i in range(10)}
+        
+        # Process results
+        for future in concurrent.futures.as_completed(future_to_number):
+            number = future_to_number[future]
+            try:
+                result = future.result()
+            except Exception as exc:
+                print(f"Worker {number} generated an exception: {exc}")
             else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
+                print(f"Worker {number} completed with result: {result}")
+
+if __name__ == "__main__":
+    main()
 ```
 
-### 14. Executor with Deadline, Cancellation and Thread Pool
+### 4. Using ProcessPoolExecutor for CPU-bound Tasks
 
-Executors can be configured to timeout on completion or cancel ongoing tasks in a thread pool.
+For CPU-bound tasks, you might want to use `ProcessPoolExecutor` because each process has its own memory space.
 
 ```python
 import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
+import math
 
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
+def worker(data):
+    """Worker function that takes a list of numbers and calculates their sum."""
+    print(f"Worker processing data with {len(data)} elements")
+    result = sum(data)
+    print(f"Worker completed processing, total: {result}")
+    return result
 
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
+def main():
+    data_chunks = [range(1000), range(1000), range(1000)]
     
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
+    with concurrent.futures.ProcessPoolExecutor(max_workers=3) as executor:
+        # Submit tasks to the executor
+        future_to_data = {executor.submit(worker, chunk): chunk for chunk in data_chunks}
+        
+        # Process results
+        for future in concurrent.futures.as_completed(future_to_data):
+            chunk = future_to_data[future]
+            try:
+                result = future.result()
+            except Exception as exc:
+                print(f"Worker processing {chunk} generated an exception: {exc}")
             else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
+                print(f"Worker processed {chunk} with total: {result}")
+
+if __name__ == "__main__":
+    main()
 ```
 
-### 15. Executor with Deadline, Cancellation and Process Pool
+### 5. Using ThreadPoolExecutor and Future Objects
 
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a process pool executor with 5 worker processes and a timeout of 2 seconds
-with concurrent.futures.ProcessPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 16. Executor with Deadline, Cancellation and Thread Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a thread pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 17. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
+You can also use `Future` objects to manage the results of asynchronous tasks.
 
 ```python
 import concurrent.futures
 import time
-from functools import partial
 
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
+def worker(number):
+    """Worker function that takes an integer and returns its square."""
+    print(f"Worker {number} starting")
+    time.sleep(number)
+    result = number * number
+    print(f"Worker {number} finished, result: {result}")
+    return result
 
-# Create a process pool executor with 5 worker processes and a timeout of 2 seconds
-with concurrent.futures.ProcessPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
+def main():
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+        # Submit tasks to the executor
+        future_list = [executor.submit(worker, i) for i in range(10)]
+        
+        # Process results
+        for future in concurrent.futures.as_completed(future_list):
+            try:
+                result = future.result()
+            except Exception as exc:
+                print(f"Worker finished with an exception: {exc}")
             else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
+                print(f"Worker completed with result: {result}")
+
+if __name__ == "__main__":
+    main()
 ```
 
-### 18. Executor with Deadline, Cancellation and Thread Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a thread pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 19. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a process pool executor with 5 worker processes and a timeout of 2 seconds
-with concurrent.futures.ProcessPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 20. Executor with Deadline, Cancellation and Thread Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a thread pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 21. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 22. Executor with Deadline, Cancellation and Thread Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a thread pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 23. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 24. Executor with Deadline, Cancellation and Thread Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a thread pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 25. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 26. Executor with Deadline, Cancellation and Thread Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a thread pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 27. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 28. Executor with Deadline, Cancellation and Thread Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a thread pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 29. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 30. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 31. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 32. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 33. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 34. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 35. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 36. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 37. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 38. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 39. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
-
-### 40. Executor with Deadline, Cancellation and Process Pool
-
-Executors can be configured to timeout on completion or cancel ongoing tasks in a process pool.
-
-```python
-import concurrent.futures
-from threading import Thread
-import time
-from functools import partial
-
-def task(num):
-    """Simulate a task that takes some time to complete"""
-    print(f"Task {num} started")
-    # Simulate a delay
-    time.sleep(2)
-    print(f"Task {num} finished")
-
-# Create a thread pool executor with 5 worker threads and a timeout of 2 seconds
-with concurrent.futures.ThreadPoolExecutor(max_workers=5, timeout=2) as executor:
-    # Submit tasks to the executor
-    futures = [executor.submit(task, i) for i in range(10)]
-    
-    # Wait for all tasks to complete
-    try:
-        for future in concurrent.futures.as_completed(futures):
-            if not future.done():
-                print("Timeout: Task is still running")
-            else:
-                future.result()
-    except concurrent.futures.TimeoutError as e:
-        print(f"Timeout: {e}")
-```
+These examples demonstrate how to use `concurrent.futures` for launching parallel tasks in Python, including both thread-based and process-based execution. Each example includes comments explaining the purpose of each part of the code.

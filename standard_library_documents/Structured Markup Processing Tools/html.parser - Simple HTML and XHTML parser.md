@@ -1,135 +1,113 @@
-# html.parser — Simple HTML and XHTML parser
+# html.parser - Simple HTML and XHTML parser
 
-**HTMLParser Example**
-==========================
+Certainly! Below are comprehensive and well-documented examples for using the `html.parser` module in Python, which is part of the standard library. This module provides a simple way to parse HTML and XHTML documents.
 
-The `html.parser` module is a simple HTML and XHTML parser in Python's standard library.
+### Example 1: Basic Parsing with `HTMLParser`
 
-### Importing the Module
-
-```python
-import html.parser
-```
-
-### Defining a HTML Parser Class
-
-To use the `html.parser` module, we need to define a class that inherits from `html.parser.HtmlParser`. This class will override the methods defined in the base class to handle specific HTML tags and attributes.
+This example demonstrates how to use the `HTMLParser` class from the `html.parser` module to extract text from an HTML document.
 
 ```python
-class MyHTMLParser(html.parser.HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.handle_starttag = []
-        self.handle_endtag = []
-        self.handle_data = []
+from html.parser import HTMLParser
 
-    def handle_starttag(self, tag, attrs):
-        """
-        Handle the start of an HTML tag.
-
-        Args:
-            tag (str): The name of the HTML tag.
-            attrs (list[tuple[str, str]]): A list of tuples containing the tag's attributes and their values.
-        """
-        self.handle_starttag.append((tag, attrs))
-
-    def handle_endtag(self, tag):
-        """
-        Handle the end of an HTML tag.
-
-        Args:
-            tag (str): The name of the HTML tag.
-        """
-        self.handle_endtag.append(tag)
-
+class MyHTMLParser(HTMLParser):
     def handle_data(self, data):
-        """
-        Handle the data between HTML tags.
+        # This method is called for each block of plain text in the document
+        print(data)
 
-        Args:
-            data (str): The text data between HTML tags.
-        """
-        self.handle_data.append(data)
+def parse_html(html_content):
+    parser = MyHTMLParser()
+    parser.feed(html_content)
+    return parser.data
+
+# Example usage
+html_content = """
+<html>
+<head>
+    <title>Sample HTML</title>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>This is a sample paragraph.</p>
+</body>
+</html>
+"""
+
+parsed_data = parse_html(html_content)
+print(parsed_data)
 ```
 
-### Parsing HTML
+### Explanation:
+- **`MyHTMLParser` Class**: This class inherits from `HTMLParser` and overrides the `handle_data` method to print any plain text found in the HTML.
+- **`parse_html` Function**: This function creates an instance of `MyHTMLParser`, feeds it the HTML content, and then returns the extracted data.
+- **Example Usage**: The HTML content is defined as a string, and the `parse_html` function is called to extract and print all text from the document.
 
-We can now create an instance of our `MyHTMLParser` class and use it to parse some HTML:
+### Example 2: Extracting Links with `BeautifulSoup`
+
+For more complex parsing tasks, you might use `BeautifulSoup`, which provides a more powerful interface for working with HTML and XML documents.
 
 ```python
-parser = MyHTMLParser()
+from bs4 import BeautifulSoup
 
-# Assuming the following HTML string:
-html_string = "<p>This is a paragraph with <span>bold</span> text.</p><img src='image.jpg'>"
+def extract_links(html_content):
+    soup = BeautifulSoup(html_content, 'html.parser')
+    links = [a['href'] for a in soup.find_all('a', href=True)]
+    return links
 
-# Feed the HTML string into our parser
-parser.feed(html_string)
+# Example usage
+html_content = """
+<html>
+<head>
+    <title>Sample HTML</title>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>This is a sample paragraph.</p>
+    <a href="https://www.example.com">Visit Example</a>
+    <a href="https://www.python.org">Python Website</a>
+</body>
+</html>
+"""
 
-# Get the parsed data
-print("Start tags:", parser.handle_starttag)
-print("End tags:", parser.handle_endtag)
-print("Data:", parser.handle_data)
+links = extract_links(html_content)
+print(links)
 ```
 
-### Output
+### Explanation:
+- **`BeautifulSoup`**: This class is part of the `bs4` module and provides methods to parse HTML and XML documents.
+- **`extract_links` Function**: This function uses `BeautifulSoup` to create a parsed representation of the HTML content. It then finds all `<a>` tags with an `href` attribute and extracts their href values.
+- **Example Usage**: The same HTML content is used, and the function returns a list of links found in the document.
+
+### Example 3: Parsing Attributes
+
+You can also extract attributes from specific elements using BeautifulSoup.
 
 ```python
-Start tags: [('p', ['class']), ('span', [])] ['img', []]
-End tags: ['p']
-Data: This is a paragraph with bold text.
+from bs4 import BeautifulSoup
+
+def extract_title(html_content):
+    soup = BeautifulSoup(html_content, 'html.parser')
+    title = soup.find('title').get_text()
+    return title
+
+# Example usage
+html_content = """
+<html>
+<head>
+    <title>Sample HTML</title>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>This is a sample paragraph.</p>
+</body>
+</html>
+"""
+
+title = extract_title(html_content)
+print(title)
 ```
 
-This output shows the start and end tags of each HTML element, as well as any data between those elements.
+### Explanation:
+- **`find` Method**: This method searches for the first occurrence of an element in the parsed document.
+- **`get_text` Method**: This method returns the text content of the found element, which is useful for extracting titles or other simple text data.
 
-### Using `html.parser.HTMLParser` without subclassing
-
-We can also use the `HTMLParser` class directly to parse HTML without subclassing:
-
-```python
-import html.parser
-
-class MyHTMLParser(html.parser.HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.handle_starttag = []
-        self.handle_endtag = []
-        self.handle_data = []
-
-    def handle_starttag(self, tag, attrs):
-        """
-        Handle the start of an HTML tag.
-
-        Args:
-            tag (str): The name of the HTML tag.
-            attrs (list[tuple[str, str]]): A list of tuples containing the tag's attributes and their values.
-        """
-        self.handle_starttag.append((tag, attrs))
-
-    def handle_endtag(self, tag):
-        """
-        Handle the end of an HTML tag.
-
-        Args:
-            tag (str): The name of the HTML tag.
-        """
-        self.handle_endtag.append(tag)
-
-    def handle_data(self, data):
-        """
-        Handle the data between HTML tags.
-
-        Args:
-            data (str): The text data between HTML tags.
-        """
-        self.handle_data.append(data)
-
-parser = MyHTMLParser()
-
-html_string = "<p>This is a paragraph with <span>bold</span> text.</p><img src='image.jpg'>"
-parser.feed(html_string)
-print("Start tags:", parser.handle_starttag)
-print("End tags:", parser.handle_endtag)
-print("Data:", parser.handle_data)
-```
-
-This code does the same thing as the previous example, but uses the `HTMLParser` class directly instead of subclassing it.
+These examples demonstrate how to use different parsing techniques with `html.parser` and `BeautifulSoup`, covering basic extraction, more complex operations like link extraction, and attribute access.

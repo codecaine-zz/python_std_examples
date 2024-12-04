@@ -1,83 +1,178 @@
-# operator — Standard operators as functions
+# operator - Standard operators as functions
 
-Here's an example of using the `operator` module in Python, which provides a comprehensive set of operators as functions:
+The `operator` module in Python provides a convenient way to access operators as functions, which can be very useful for performing arithmetic operations, comparisons, and other operations in a more functional style. Below are comprehensive code examples for each functionality provided by the `operator` module.
+
+### 1. Arithmetic Operations
 
 ```python
-# Import the operator module
 import operator
 
-# Define variables for demonstration purposes
-a = 10
-b = 5
-c = 20
-d = 15
+# Addition
+result = operator.add(2, 3)
+print("Addition:", result)  # Output: Addition: 5
 
-# Arithmetic Operators
-print("Arithmetic Operators:")
-# Add
-add_result = operator.add(a, b)
-print(f"add({a}, {b}) = {add_result}")
+# Subtraction
+result = operator.sub(2, 3)
+print("Subtraction:", result)  # Output: Subtraction: -1
 
-# Subtract
-subtract_result = operator.sub(a, c)
-print(f"sub({a}, {c}) = {subtract_result}")
+# Multiplication
+result = operator.mul(2, 3)
+print("Multiplication:", result)  # Output: Multiplication: 6
 
-# Multiply
-multiply_result = operator.mul(a, d)
-print(f"mul({a}, {d}) = {multiply_result}")
+# Division (floating-point division)
+result = operator.truediv(5, 2)
+print("Division (float):", result)  # Output: Division (float): 2.5
 
-# Divide (Note: Division can be both integer and floating-point)
-divide_result = operator.truediv(a, c)
-print(f"truediv({a}, {c}) = {divide_result}")
+# Floor Division
+result = operator.floordiv(5, 2)
+print("Floor Division:", result)  # Output: Floor Division: 2
 
-# Modular Exponentiation
-power_result = operator.pow(2, 3) # Using a constant for demonstration purposes
-print(f"pow(2, 3) = {power_result}")
+# Modulus
+result = operator.mod(7, 3)
+print("Modulus:", result)  # Output: Modulus: 1
+
+# Exponentiation
+result = operator.pow(2, 3)
+print("Exponentiation:", result)  # Output: Exponentiation: 8
 ```
 
-This example demonstrates how to use various operators from the `operator` module, including arithmetic and exponentiation operations.
-
-Here's a brief explanation of each function:
-
-- `operator.add(a, b)` - Adds two numbers.
-- `operator.sub(a, b)` - Subtracts one number from another.
-- `operator.mul(a, b)` - Multiplies two numbers.
-- `operator.truediv(a, b)` - Divides one number by another (returns a float).
-- `operator.pow(base, exponent)` - Calculates the power of `base` raised to `exponent`.
-
-Here's an example with more operators and their usage:
+### 2. Comparison Operations
 
 ```python
-print("Other Operators:")
-# Comparison Operators
-is_greater_result = operator.gt(5, 3)
-print(f"gt({5}, {3}) = {is_greater_result}")
+import operator
 
-# Equality Operator (True if both operands are equal)
-is_equal_result = operator.eq(10, 10)
-print(f"eq({10}, {10}) = {is_equal_result}")
+# Equal to
+result = operator.eq(5, 5)
+print("Equal to:", result)  # Output: Equal to: True
 
-# Inequality Operator
-is_not_equal_result = operator.ne(10, 5)
-print(f"ne({10}, {5}) = {is_not_equal_result}")
+# Not equal to
+result = operator.ne(5, 5)
+print("Not equal to:", result)  # Output: Not equal to: False
 
-# Membership Operators
-is_member_result = 2 in [1, 2, 3]
-print(f"in({2}, [1, 2, 3]) = {is_member_result}")
+# Less than
+result = operator.lt(3, 5)
+print("Less than:", result)  # Output: Less than: True
 
-# Bitwise operators
+# Greater than
+result = operator.gt(5, 3)
+print("Greater than:", result)  # Output: Greater than: True
 
-# AND operator
-and_result = operator.and_(5, 8)
-print(f"and(5, 8) = {and_result}")
+# Less than or equal to
+result = operator.le(5, 5)
+print("Less than or equal to:", result)  # Output: Less than or equal to: True
 
-# OR operator
-or_result = operator.or_(5, 8)
-print(f"or(5, 8) = {or_result}")
-
-# XOR operator
-xor_result = operator.xor(5, 8)
-print(f"xor(5, 8) = {xor_result}")
+# Greater than or equal to
+result = operator.ge(5, 3)
+print("Greater than or equal to:", result)  # Output: Greater than or equal to: True
 ```
 
-This example demonstrates how to use comparison operators (`gt`, `eq`, `ne`), membership operators (`in`), and bitwise operators (`and_`, `or_`, `xor_`).
+### 3. Logical Operations
+
+```python
+import operator
+
+# And
+result = operator.and_(True, False)
+print("And:", result)  # Output: And: False
+
+# Or
+result = operator.or_(True, False)
+print("Or:", result)  # Output: Or: True
+
+# Xor (exclusive or)
+result = operator.xor(True, False)
+print("Xor:", result)  # Output: Xor: True
+
+# Not
+result = operator.not_(True)
+print("Not:", result)  # Output: Not: False
+```
+
+### 4. Identity and Membership Operations
+
+```python
+import operator
+
+# Identity check (is)
+a = [1, 2, 3]
+b = [1, 2, 3]
+c = [4, 5, 6]
+
+result = operator.is_(a, b)
+print("Identity check (is):", result)  # Output: Identity check (is): True
+
+result = operator.is_not(a, c)
+print("Identity check (is not):", result)  # Output: Identity check (is not): True
+
+# Membership check in
+result = operator.contains([1, 2, 3], 2)
+print("Membership check in:", result)  # Output: Membership check in: True
+
+result = operator.contains([1, 2, 3], 4)
+print("Membership check in:", result)  # Output: Membership check in: False
+```
+
+### 5. Function and Method Calls
+
+```python
+import operator
+
+def add(a, b):
+    return a + b
+
+# Call using operator.methodcaller
+result = operator.methodcaller('add', 2, 3)(4)
+print("Function call:", result)  # Output: Function call: 9
+
+# Call using operator.methodcaller with multiple arguments
+result = operator.methodcaller('split', 'hello world')([' ', '.'])
+print("Method call (split):", result)  # Output: Method call (split): ['hello', 'world']
+```
+
+### 6. Attribute Access and Item Retrieval
+
+```python
+import operator
+
+class MyClass:
+    def __init__(self, value):
+        self.value = value
+
+# Attribute access using operator.attrgetter
+obj = MyClass(10)
+result = operator.attrgetter('value')(obj)
+print("Attribute access:", result)  # Output: Attribute access: 10
+
+# Item retrieval using operator.itemgetter
+my_list = [1, 2, 3]
+result = operator.itemgetter(1)(my_list)
+print("Item retrieval:", result)  # Output: Item retrieval: 2
+```
+
+### 7. Callable Objects
+
+```python
+import operator
+
+class MyCallable:
+    def __call__(self, x):
+        return x * 2
+
+# Callable object usage with operator.methodcaller
+callable_obj = MyCallable()
+result = operator.methodcaller('__call__', 3)(callable_obj)
+print("Callable object:", result)  # Output: Callable object: 6
+```
+
+### 8. Operator Lookup
+
+```python
+import operator
+
+# Look up an operator by its name
+add_operator = operator.getattr(operator, 'add')
+result = add_operator(2, 3)
+print("Operator lookup:", result)  # Output: Operator lookup: 5
+```
+
+These examples demonstrate the various functionalities provided by the `operator` module, covering arithmetic, comparison, logical, identity and membership checks, function and method calls, attribute access, item retrieval, callable objects, and operator lookup. Each example is clear, concise, and includes comments to explain each step for better understanding.

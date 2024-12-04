@@ -1,115 +1,336 @@
 # selectors - High-level I/O multiplexing
 
-**Selectors in Python**
-=====================================
+Below is a comprehensive set of code examples demonstrating various functionalities of the `selectors` module in Python 3.12, along with comments explaining each step.
 
-The `select` module in Python provides an interface to the Unix file descriptor selector, allowing you to wait for multiple file descriptors to become ready.
-
-### Importing the Module
+### 1. Basic Usage
 
 ```python
-import select
-```
+import selectors
 
-### Creating a Selector Object
+# Create a selector instance
+sel = selectors.DefaultSelector()
 
-To use the `select` module, you need to create a selector object, passing in three lists of file descriptors:
+def accept(sock, mask):
+    # Accept a new connection
+    conn, addr = sock.accept()
+    print(f'Accepted {addr}')
+    
+    # Register the connection with the selector
+    sel.register(conn, selectors.EVENT_READ, read)
 
-*   `rlist`: A list of file descriptors that can be read from.
-*   `wlist`: A list of file descriptors that can be written to.
-*   `xlist`: A list of file descriptors that have exceptional events (e.g., errors).
-
-```python
-import socket
-
-# Create a socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# List of file descriptors for reading, writing, and exceptions
-rlist = [sock]
-wlist = []
-xlist = []
-
-# Create the selector object
-s = select.select(rlist, wlist, xlist)
-```
-
-### Using the Selector Object
-
-The `select` function takes three lists of file descriptors as input and returns a tuple containing:
-
-*   A list of readable file descriptors.
-*   A list of writable file descriptors.
-*   A list of file descriptors with exceptional events.
-
-You can use this information to perform I/O operations on the corresponding file descriptors.
-
-```python
-# Iterate over the selectors
-for r, w, x in s:
-    # Handle read operation
-    data = sock.recv(1024)
+def read(conn, mask):
+    # Read data from the connection
+    data = conn.recv(1024)
     if data:
-        print("Received:", data.decode())
+        print('Received', repr(data))
+        conn.sendall(data)  # Echo back to client
+    else:
+        print('Closing connection')
+        sel.unregister(conn)
+        conn.close()
+
+def main():
+    # Create a TCP/IP socket
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
-    # Handle write operation
-    sock.sendall(b"Hello, world!")
-```
-
-### Example Use Case: Web Server
-
-Here's an example of using the `select` module in a simple web server:
-
-```python
-import socket
-import select
-
-# Create a socket and bind it to a port
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind(("localhost", 8080))
-sock.listen(5)
-
-# List of file descriptors for reading, writing, and exceptions
-rlist = [sock]
-wlist = []
-xlist = []
-
-while True:
-    # Wait for I/O operations to become ready
-    s = select.select(rlist, wlist, xlist)
+    # Bind the socket to the address and port
+    server_socket.bind(('localhost', 12345))
     
-    # Handle read operation
-    for r in s[0]:
-        conn, addr = r.accept()
-        print("New connection:", addr)
+    # Enable reuse of the socket address
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    
+    # Listen for incoming connections
+    server_socket.listen(10)
+    print('Server listening on port 12345')
+    
+    # Register the server socket with the selector
+    sel.register(server_socket, selectors.EVENT_READ, accept)
+
+    while True:
+        # Wait for an event to occur on one of the registered file descriptors
+        events = sel.select(timeout=None)
         
-        # Add the new connection to the lists of file descriptors
-        rlist.append(conn)
-        wlist.append(None)
-        xlist.append(None)
+        for key, mask in events:
+            callback = key.data
+            callback(key.fileobj, mask)
 
-    # Handle write operations
-    for w in s[1]:
-        if w is not None:
-            data = sock.recv(1024)
-            if data:
-                print("Sending:", data.decode())
+if __name__ == '__main__':
+    main()
 ```
 
-This example demonstrates how the `select` module can be used to create a simple web server that handles multiple connections concurrently.
-
-### Error Handling
-
-When using the `select` module, you should always handle errors properly. Here's an example of how to do this:
+### 2. Using `EventLoop` and `Selector`
 
 ```python
-try:
-    # Wait for I/O operations to become ready
-    s = select.select(rlist, wlist, xlist)
-except KeyboardInterrupt:
-    print("Exiting...")
-except socket.error as e:
-    print("Socket error:", e)
+import selectors
+
+class EchoServer:
+    def __init__(self):
+        self.sel = selectors.DefaultSelector()
+
+    def run(self, host='localhost', port=12345):
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        
+        # Bind the socket to the address and port
+        server_socket.bind((host, port))
+        
+        # Enable reuse of the socket address
+        server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        
+        # Listen for incoming connections
+        server_socket.listen(10)
+        print(f'Server listening on {host}:{port}')
+        
+        # Register the server socket with the selector
+        self.sel.register(server_socket, selectors.EVENT_READ, self.accept)
+
+    def accept(self, sock, mask):
+        # Accept a new connection
+        conn, addr = sock.accept()
+        print(f'Accepted {addr}')
+        
+        # Register the connection with the selector
+        self.sel.register(conn, selectors.EVENT_READ | selectors.EVENT_WRITE, self.read_write)
+
+    def read_write(self, conn, mask):
+        if mask & selectors.EVENT_READ:
+            # Read data from the connection
+            data = conn.recv(1024)
+            if data:
+                print('Received', repr(data))
+                conn.sendall(data)  # Echo back to client
+            else:
+                print('Closing connection')
+                self.sel.unregister(conn)
+                conn.close()
+
+    def main(self):
+        import asyncio
+
+        loop = asyncio.get_event_loop()
+        server_task = loop.run_until_complete(
+            self.sel.serve_forever(host='localhost', port=12345)
+        )
+
+if __name__ == '__main__':
+    EchoServer().run()
 ```
 
-This code catches `KeyboardInterrupt` exceptions and `socket.error` exceptions, providing a better user experience.
+### 3. Handling Multiple Sockets and Events
+
+```python
+import selectors
+import socket
+
+def handle_socket(server_socket, mask):
+    if mask & selectors.EVENT_READ:
+        # Accept a new connection
+        conn, addr = server_socket.accept()
+        print(f'Accepted {addr}')
+        
+        # Register the connection with the selector
+        sel.register(conn, selectors.EVENT_READ | selectors.EVENT_WRITE, read_write)
+
+def read_write(conn, mask):
+    if mask & selectors.EVENT_READ:
+        # Read data from the connection
+        data = conn.recv(1024)
+        if data:
+            print('Received', repr(data))
+            conn.sendall(data)  # Echo back to client
+        else:
+            print('Closing connection')
+            sel.unregister(conn)
+            conn.close()
+    elif mask & selectors.EVENT_WRITE:
+        # Write some data to the connection
+        conn.send(b'Hello, client!')
+
+def main():
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    # Bind the socket to the address and port
+    server_socket.bind(('localhost', 12345))
+    
+    # Enable reuse of the socket address
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    
+    # Listen for incoming connections
+    server_socket.listen(10)
+    print(f'Server listening on port 12345')
+    
+    sel = selectors.DefaultSelector()
+    
+    # Register the server socket with the selector
+    sel.register(server_socket, selectors.EVENT_READ, handle_socket)
+
+    while True:
+        # Wait for an event to occur on one of the registered file descriptors
+        events = sel.select(timeout=None)
+        
+        for key, mask in events:
+            callback = key.data
+            callback(key.fileobj, mask)
+
+if __name__ == '__main__':
+    main()
+```
+
+### 4. Using `Selector` with Non-Blocking Sockets
+
+```python
+import selectors
+import socket
+
+def handle_socket(sock, mask):
+    if mask & selectors.EVENT_READ:
+        # Read data from the connection
+        data = sock.recv(1024)
+        if data:
+            print('Received', repr(data))
+            sock.sendall(data)  # Echo back to client
+        else:
+            print('Closing connection')
+            sel.unregister(sock)
+            sock.close()
+
+def main():
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    # Bind the socket to the address and port
+    server_socket.bind(('localhost', 12345))
+    
+    # Enable reuse of the socket address
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    
+    # Listen for incoming connections
+    server_socket.listen(10)
+    print(f'Server listening on port 12345')
+    
+    sel = selectors.DefaultSelector()
+    
+    # Register the server socket with the selector
+    sel.register(server_socket, selectors.EVENT_READ, handle_socket)
+
+    while True:
+        # Wait for an event to occur on one of the registered file descriptors
+        events = sel.select(timeout=None)
+        
+        for key, mask in events:
+            callback = key.data
+            callback(key.fileobj, mask)
+
+if __name__ == '__main__':
+    main()
+```
+
+### 5. Using `Selector` with Timed Events
+
+```python
+import selectors
+import socket
+import time
+
+def handle_socket(sock, mask):
+    if mask & selectors.EVENT_READ:
+        # Read data from the connection
+        data = sock.recv(1024)
+        if data:
+            print('Received', repr(data))
+            sock.sendall(data)  # Echo back to client
+        else:
+            print('Closing connection')
+            sel.unregister(sock)
+            sock.close()
+
+def check_timeouts(events):
+    for key, mask in events:
+        callback = key.data
+        try:
+            callback()
+        except Exception as e:
+            print(f'Error from {key.fileobj}: {e}')
+            sel.unregister(key.fileobj)
+
+def main():
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    # Bind the socket to the address and port
+    server_socket.bind(('localhost', 12345))
+    
+    # Enable reuse of the socket address
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    
+    # Listen for incoming connections
+    server_socket.listen(10)
+    print(f'Server listening on port 12345')
+    
+    sel = selectors.DefaultSelector()
+    
+    # Register the server socket with the selector
+    sel.register(server_socket, selectors.EVENT_READ, handle_socket)
+
+    while True:
+        # Wait for an event to occur on one of the registered file descriptors
+        events = sel.select(timeout=1)
+        
+        # Check if any timed out callbacks need to be executed
+        check_timeouts(events)
+
+if __name__ == '__main__':
+    main()
+```
+
+### 6. Using `Selector` with Priority Queues
+
+```python
+import selectors
+import socket
+
+def handle_socket(sock, mask):
+    if mask & selectors.EVENT_READ:
+        # Read data from the connection
+        data = sock.recv(1024)
+        if data:
+            print('Received', repr(data))
+            sock.sendall(data)  # Echo back to client
+        else:
+            print('Closing connection')
+            sel.unregister(sock)
+            sock.close()
+
+def main():
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    # Bind the socket to the address and port
+    server_socket.bind(('localhost', 12345))
+    
+    # Enable reuse of the socket address
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    
+    # Listen for incoming connections
+    server_socket.listen(10)
+    print(f'Server listening on port 12345')
+    
+    sel = selectors.DefaultSelector()
+    
+    # Register the server socket with the selector
+    sel.register(server_socket, selectors.EVENT_READ, handle_socket)
+
+    while True:
+        # Wait for an event to occur on one of the registered file descriptors
+        events = sel.select(timeout=None)
+        
+        # Process events in order of priority (if needed)
+        for key, mask in events:
+            callback = key.data
+            try:
+                callback()
+            except Exception as e:
+                print(f'Error from {key.fileobj}: {e}')
+                sel.unregister(key.fileobj)
+
+if __name__ == '__main__':
+    main()
+```
+
+These examples demonstrate various use cases for the `selectors` module in Python, including handling multiple connections with different types of events (read, write, etc.), using timed events, and prioritizing event processing. Each example is designed to illustrate a specific feature or scenario within the `selectors` API.

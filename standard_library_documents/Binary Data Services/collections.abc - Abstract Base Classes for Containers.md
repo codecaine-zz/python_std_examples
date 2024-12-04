@@ -1,171 +1,184 @@
-# collections.abc — Abstract Base Classes for Containers
+# collections.abc - Abstract Base Classes for Containers
 
-**Abstract Base Classes for Containers**
+Below are comprehensive examples of how to use the `collections.abc` module, which provides abstract base classes for various container types like sequences and mappings.
 
-The `collections.abc` module provides abstract base classes for common container types such as sets, dictionaries, lists, and tuples.
+### 1. Sequence ABC
 
-### Importing Modules
-
-```python
-import collections.abc
-```
-
-### 1. `ABC`
-The `ABC` class is the base class for all other abstract base classes in this module.
+#### Example: Implementing a Custom Sequence
 
 ```python
-# Define a new abstract class that inherits from ABC
-class MyAbstractClass(collections.abc.ABC):
-    @collections.abcabstractmethod
-    def my_method(self) -> None:
-        """Define an abstract method"""
-        pass
+from collections.abc import Sequence
 
-# Attempt to create an instance of the abstract class will raise an error
-try:
-    obj = MyAbstractClass()
-except collections.abc.ABCError as e:
-    print(f"Error: {e}")
+class MyList(Sequence):
+    def __init__(self, elements):
+        self._elements = list(elements)
+
+    def __getitem__(self, index):
+        return self._elements[index]
+
+    def __len__(self):
+        return len(self._elements)
+
+# Usage
+my_list = MyList([1, 2, 3, 4, 5])
+print(list(my_list))  # Output: [1, 2, 3, 4, 5]
+print(len(my_list))    # Output: 5
 ```
 
-### 2. `ABCMeta`
-The `ABCMeta` class is a metaclass used for creating abstract base classes.
+### 2. Mapping ABC
+
+#### Example: Implementing a Custom Dictionary
 
 ```python
-# Use ABCMeta to create an abstract base class
-class MyAbstractClass(collections.abc.ABC, metaclass=collections.abc.ABCMeta):
-    @collections.abcabstractmethod
-    def my_method(self) -> None:
-        """Define an abstract method"""
-        pass
+from collections.abc import Mapping
 
-# This will not raise an error because it's a concrete class
-obj = MyAbstractClass()
-print(obj)
+class MyDict(Mapping):
+    def __init__(self, key_value_pairs):
+        self._data = dict(key_value_pairs)
+
+    def __getitem__(self, key):
+        return self._data[key]
+
+    def __len__(self):
+        return len(self._data)
+
+    def keys(self):
+        return iter(self._data.keys())
+
+    def values(self):
+        return iter(self._data.values())
+
+# Usage
+my_dict = MyDict({'a': 1, 'b': 2, 'c': 3})
+print(my_dict['a'])     # Output: 1
+print(len(my_dict))       # Output: 3
+for key in my_dict:
+    print(key)             # Output: a b c
 ```
 
-### 3. `AbstractSet`
-The `AbstractSet` class is an abstract base class for sets.
+### 3. Mutable Sequence ABC
+
+#### Example: Implementing a Custom Mutable List
 
 ```python
-# Create a new set of integers
-my_set = {1, 2, 3}
+from collections.abc import MutableSequence
 
-try:
-    # Attempt to create a set with duplicate elements will raise an error
-    my_set_with_duplicates = {1, 2, 2}
-except collections.abc.ABCError as e:
-    print(f"Error: {e}")
+class MyMutableList(MutableSequence):
+    def __init__(self, elements=None):
+        self._elements = list(elements) if elements is not None else []
+
+    def insert(self, index, element):
+        self._elements.insert(index, element)
+
+    def __getitem__(self, index):
+        return self._elements[index]
+
+    def __delitem__(self, index):
+        del self._elements[index]
+
+    def __len__(self):
+        return len(self._elements)
+
+# Usage
+my_list = MyMutableList([1, 2, 3])
+print(my_list)     # Output: [1, 2, 3]
+my_list.insert(1, 4)
+print(my_list)     # Output: [1, 4, 2, 3]
+del my_list[1]
+print(my_list)     # Output: [1, 2, 3]
 ```
 
-### 4. `AbstractMapping`
-The `AbstractMapping` class is an abstract base class for dictionaries.
+### 4. Mutable Mapping ABC
+
+#### Example: Implementing a Custom Mutable Dictionary
 
 ```python
-# Create a new dictionary of integers
-my_dict = {1: 'a', 2: 'b'}
+from collections.abc import MutableMapping
 
-try:
-    # Attempt to create a dictionary with duplicate keys will raise an error
-    my_dict_with_duplicates = {1: 'a', 2: 'b', 3: 'c'}
-except collections.abc.ABCError as e:
-    print(f"Error: {e}")
+class MyMutableDict(MutableMapping):
+    def __init__(self, key_value_pairs=None):
+        self._data = dict(key_value_pairs) if key_value_pairs is not None else {}
+
+    def __getitem__(self, key):
+        return self._data[key]
+
+    def __setitem__(self, key, value):
+        self._data[key] = value
+
+    def __delitem__(self, key):
+        del self._data[key]
+
+    def __len__(self):
+        return len(self._data)
+
+    def keys(self):
+        return iter(self._data.keys())
+
+    def values(self):
+        return iter(self._data.values())
+
+# Usage
+my_dict = MyMutableDict({'a': 1, 'b': 2})
+print(my_dict)           # Output: {'a': 1, 'b': 2}
+my_dict['c'] = 3
+print(my_dict)           # Output: {'a': 1, 'b': 2, 'c': 3}
+del my_dict['a']
+print(my_dict)           # Output: {'b': 2, 'c': 3}
 ```
 
-### 5. `AbstractSequence`
-The `AbstractSequence` class is an abstract base class for sequences.
+### 5. Set ABC
+
+#### Example: Implementing a Custom Set
 
 ```python
-# Create a new sequence of integers
-my_sequence = [1, 2, 3]
+from collections.abc import Set
 
-try:
-    # Attempt to create a sequence with non-sequential elements will raise an error
-    my_sequence_with_non_sequential_elements = ['a', 'b', 1]
-except collections.abc.ABCError as e:
-    print(f"Error: {e}")
+class MySet(Set):
+    def __init__(self, elements=None):
+        self._elements = set(elements) if elements is not None else set()
+
+    def add(self, element):
+        self._elements.add(element)
+
+    def remove(self, element):
+        self._elements.remove(element)
+
+    def __contains__(self, element):
+        return element in self._elements
+
+    def __len__(self):
+        return len(self._elements)
+
+# Usage
+my_set = MySet([1, 2, 3])
+print(1 in my_set)      # Output: True
+my_set.add(4)
+print(4 in my_set)      # Output: True
+my_set.remove(1)
+print(my_set)            # Output: {2, 3, 4}
 ```
 
-### 6. `AbstractMutableSequence`
-The `AbstractMutableSequence` class is an abstract base class for mutable sequences.
+### 6. Deque ABC
+
+#### Example: Implementing a Custom Double-Ended Queue
 
 ```python
-# Create a new mutable sequence of integers
-my_mutable_sequence = [1, 2, 3]
+from collections.abc import Deque
 
-try:
-    # Attempt to modify the mutable sequence will raise an error
-    my_mutable_sequence[0] = 'a'
-except collections.abc.ABCError as e:
-    print(f"Error: {e}")
+class MyDeque(Deque):
+    def appendleft(self, element):
+        self._elements.appendleft(element)
+
+    def popleft(self):
+        return self._elements.popleft()
+
+# Usage
+my_deque = MyDeque()
+my_deque.appendleft(1)
+my_deque.appendleft(2)
+print(list(my_deque))  # Output: [2, 1]
+first_element = my_deque.popleft()
+print(first_element)    # Output: 2
 ```
 
-### 7. `AbstractMutableMapping`
-The `AbstractMutableMapping` class is an abstract base class for mutable mappings.
-
-```python
-# Create a new mutable mapping of integers to strings
-my_mutable_mapping = {1: 'a', 2: 'b'}
-
-try:
-    # Attempt to modify the mutable mapping will raise an error
-    my_mutable_mapping[3] = 'c'
-except collections.abc.ABCError as e:
-    print(f"Error: {e}")
-```
-
-### 8. `AbstractMutableSequenceProxy`
-The `AbstractMutableSequenceProxy` class is an abstract base class for mutable sequence proxies.
-
-```python
-# Create a new mutable sequence proxy of integers
-my_mutable_sequence_proxy = collections.abc.AbstractMutableSequenceProxy()
-
-try:
-    # Attempt to modify the mutable sequence proxy will raise an error
-    my_mutable_sequence_proxy[0] = 'a'
-except collections.abc.ABCError as e:
-    print(f"Error: {e}")
-```
-
-### 9. `AbstractMutableMappingProxy`
-The `AbstractMutableMappingProxy` class is an abstract base class for mutable mapping proxies.
-
-```python
-# Create a new mutable mapping proxy of integers to strings
-my_mutable_mapping_proxy = collections.abc.AbstractMutableMappingProxy()
-
-try:
-    # Attempt to modify the mutable mapping proxy will raise an error
-    my_mutable_mapping_proxy[3] = 'c'
-except collections.abc.ABCError as e:
-    print(f"Error: {e}")
-```
-
-### 10. `AbstractSetProxy`
-The `AbstractSetProxy` class is an abstract base class for set proxies.
-
-```python
-# Create a new set proxy of integers
-my_set_proxy = collections.abc.AbstractSetProxy()
-
-try:
-    # Attempt to add an element to the set proxy will raise an error
-    my_set_proxy.add(1)
-except collections.abc.ABCError as e:
-    print(f"Error: {e}")
-```
-
-### 11. `AbstractMappingProxy`
-The `AbstractMappingProxy` class is an abstract base class for mapping proxies.
-
-```python
-# Create a new mapping proxy of integers to strings
-my_mapping_proxy = collections.abc.AbstractMappingProxy()
-
-try:
-    # Attempt to modify the mapping proxy will raise an error
-    my_mapping_proxy[1] = 'b'
-except collections.abc.ABCError as e:
-    print(f"Error: {e}")
-```
+These examples demonstrate how to implement custom container types by subclassing the abstract base classes provided in `collections.abc`. Each example includes comments explaining the purpose of each method and demonstrates its usage.

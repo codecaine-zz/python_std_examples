@@ -1,102 +1,148 @@
-# signal — Set handlers for asynchronous events
+# signal - Set handlers for asynchronous events
 
-**Signal Module Code Generation**
-=====================================
+The `signal` module in Python provides a way to handle signals raised by the operating system, such as SIGINT (CTRL+C) or SIGHUP (hangup). These signals can be used to interrupt running processes, request termination, or perform cleanup actions before exiting.
 
-The `signal` module provides an interface for setting up signal handlers, which are functions that will be executed in response to specific system signals.
+Here are comprehensive examples of how to use the `signal` module:
 
-### Importing Signal Module
+### Example 1: Handling SIGINT (Ctrl+C)
+
 ```python
 import signal
+
+def handle_sigint(signum, frame):
+    print("Received SIGINT (CTRL+C), cleaning up...")
+    # Perform any necessary cleanup operations here
+    # For example, closing file handles, releasing resources, etc.
+
+# Register the handler for SIGINT
+signal.signal(signal.SIGINT, handle_sigint)
+
+print("Press Ctrl+C to send a SIGINT signal.")
+input()  # This will block until the user presses CTRL+C
 ```
 
-### Setting Up a Default Handler for SIGINT (Interrupt)
---------------------------------------------------------
+### Example 2: Handling SIGHUP
 
-When the program receives a SIGINT signal, Python normally terminates. We can set a handler function to catch this signal and perform an alternative action.
 ```python
-def default_handler(sig, frame):
-    """Default handler function for SIGINT signal."""
-    print("Caught SIGINT signal. Exiting...")
-    # Add code here that you want to execute instead of exiting
+import signal
 
-# Register the default handler with Python's signal module
-signal.signal(signal.SIGINT, default_handler)
+def handle_sighup(signum, frame):
+    print("Received SIGHUP (hangup), performing graceful termination...")
+    # Perform any necessary shutdown or cleanup operations here
+    # For example, saving data to a file, releasing connections, etc.
+
+# Register the handler for SIGHUP
+signal.signal(signal.SIGHUP, handle_sighup)
+
+print("This program will continue running until you terminate it manually.")
+input()  # This will block until the user terminates the program
 ```
 
-### Setting Up a Custom Handler for SIGALRM (Alarm)
-----------------------------------------------------
+### Example 3: Sending Signals to a Process
 
-We can also set a custom handler function to be executed when the alarm timer expires.
+You can send signals to another process using the `os.kill()` function from the `os` module. Here's an example:
+
 ```python
-import time
+import os
+import signal
 
-def alarm_handler(signum, frame):
-    """Custom handler function for SIGALRM signal."""
-    print("Alarm went off!")
-    # Add code here that you want to execute when the alarm timer expires
-    signal.alrm(0)  # Cancel the alarm
-
-# Set up an alarm after 5 seconds
-signal.alarm(5)
-
-# Register the custom handler with Python's signal module
-signal.signal(signal.SIGALRM, alarm_handler)
-```
-
-### Deregistering a Signal Handler
----------------------------------
-
-When we're done with a signal handler, we should deregister it to prevent memory leaks.
-```python
-def clean_up():
-    """Deregister the default handler for SIGINT signal."""
-    signal.signal(signal.SIGINT, signal.SIG_DFL)  # Reset to default behavior
-
-# Call the clean-up function when your program exits
-import atexit
-atexit.register(clean_up)
-```
-
-### Example Use Cases
----------------------
-
-*   Handling system signals in a multithreaded application:
-    ```python
-import threading
-import time
-
-def signal_handler(sig, frame):
-    print("Caught", sig.name, "signal. Exiting...")
-
-# Register the handler with Python's signal module
-signal.signal(signal.SIGINT, signal_handler)
-
-def worker():
+# Function to simulate a simple server that listens for SIGINT and prints messages
+def server_process():
     while True:
-        # Code that might raise a SIGINT signal
-        time.sleep(1)
+        try:
+            print("Server is running...")
+            # Simulate some work
+            import time
+            time.sleep(2)
+        except KeyboardInterrupt:
+            print("Server received SIGINT, stopping gracefully.")
+            break
 
-thread = threading.Thread(target=worker)
-thread.start()
-```
+# Start the server process in a separate thread or process
+import threading
+server_thread = threading.Thread(target=server_process)
+server_thread.start()
 
-*   Implementing an alarm timer in a long-running task:
-    ```python
-import signal
-
-def long_task():
+# Function to send SIGINT to the server process
+def send_sigint_to_server():
     try:
-        # Long-running task code here...
-        while True:
-            pass
-    except KeyboardInterrupt:
-        print("Caught SIGINT signal. Canceling...")
-        return False
+        # Find the process ID of the server thread
+        server_pid = os.getpid(server_thread.ident)
+        
+        # Send SIGINT to the server process
+        print(f"Sending SIGINT to PID {server_pid}")
+        os.kill(server_pid, signal.SIGINT)
+    except OSError as e:
+        print(f"Error sending SIGINT: {e}")
 
-# Set up an alarm after 10 seconds
-signal.alarm(10)
+# Simulate a user pressing CTRL+C on the server
+send_sigint_to_server()
 
-if not long_task():
-    print("Task was interrupted by SIGINT signal")
+# Wait for the server process to finish
+server_thread.join()
 ```
+
+### Example 4: Handling Signals in a Multi-Threaded Application
+
+In a multi-threaded application, you can handle signals differently depending on whether they should be propagated to all threads or only to the main thread.
+
+```python
+import signal
+import threading
+
+def handler(signum, frame):
+    print(f"Received signal {signum}, handling it in the main thread.")
+
+# Register the handler for SIGINT
+signal.signal(signal.SIGINT, handler)
+
+def worker_thread():
+    try:
+        while True:
+            print("Worker thread is running...")
+            # Simulate some work
+            import time
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("Worker thread received SIGINT, stopping gracefully.")
+
+# Create and start the worker thread
+worker_thread = threading.Thread(target=worker_thread)
+worker_thread.start()
+
+input()  # This will block until the user presses CTRL+C
+
+print("Main thread is handling the signal.")
+```
+
+### Example 5: Handling Signals with a Custom Signal Class
+
+You can create a custom class to manage signal handlers more elegantly:
+
+```python
+class SignalManager:
+    def __init__(self):
+        self.handlers = {}
+
+    def register(self, signum, handler):
+        if isinstance(signum, int) and callable(handler):
+            self.handlers[signum] = handler
+            signal.signal(signum, self._handler)
+        else:
+            raise ValueError("Signum must be an integer and handler must be a callable function.")
+
+    def _handler(self, signum, frame):
+        if signum in self.handlers:
+            self.handlers[signum](signum, frame)
+
+# Example usage
+signal_manager = SignalManager()
+def custom_handler(signum, frame):
+    print(f"Custom handler for signal {signum}")
+
+signal_manager.register(signal.SIGINT, custom_handler)
+print("Press Ctrl+C to send a SIGINT signal.")
+input()  # This will block until the user presses CTRL+C
+```
+
+These examples demonstrate various ways to handle signals in Python using the `signal` module. Each example includes comments explaining key parts of the code, ensuring clarity and ease of understanding for developers.

@@ -1,102 +1,203 @@
-# math — Mathematical functions
+# math - Mathematical functions
 
-**Math Module Code Examples**
-=====================================
+The `math` module is a fundamental part of Python's standard library, providing a wide range of mathematical functions and constants. Below are comprehensive code examples for each functionality within the `math` module. These examples are designed to be clear, concise, and suitable for inclusion in official documentation.
 
-The math module provides access to mathematical functions.
+### 1. **Trigonometric Functions**
 
-### Importing the Math Module
 ```python
-# Import the math module
 import math
 
-# Print the version of the math module
-print(math.version)
+# Calculate the sine of an angle (in radians)
+angle = math.pi / 4
+sine_value = math.sin(angle)
+print(f"Sine of {angle} radians: {sine_value}")
 
-# Alternatively, you can also import the math module using 'from math import *'
-# from math import *
+# Calculate the cosine of an angle (in radians)
+cosine_value = math.cos(angle)
+print(f"Cosine of {angle} radians: {cosine_value}")
 
-# Access a specific function from the math module
-# print(math.sin(30))  # Calculate sine of 30 degrees
+# Calculate the tangent of an angle (in radians)
+tangent_value = math.tan(angle)
+print(f"Tangent of {angle} radians: {tangent_value}")
 ```
 
-### Basic Math Functions
+### 2. **Logarithmic Functions**
+
 ```python
-# Trigonometric functions
-print(math.sin(0))  # Sine of 0 degrees
-print(math.cos(0))  # Cosine of 0 degrees
-print(math.tan(0))  # Tangent of 0 degrees
-
-print(math.sin(math.pi/2))  # Sine of pi/2 radians (90 degrees)
-
-# Exponential and logarithmic functions
 import math
+
+# Calculate the natural logarithm of a number
 x = 10
-exp_x = math.exp(x)  # Calculate exponential of x
-log_x = math.log(x)   # Calculate natural logarithm of x
+natural_log = math.log(x)
+print(f"Natural logarithm of {x}: {natural_log}")
 
-# Power function
-print(math.pow(2, 3))  # Square the number 2
-
-# Absolute value
-print(abs(-5))  # Calculate absolute value of -5
-
-# Round a number to a specific decimal place
-print(round(10.1234, 2))  # Round 10.1234 to 2 decimal places
+# Calculate the base-10 logarithm of a number
+base_10_log = math.log10(x)
+print(f"Base-10 logarithm of {x}: {base_10_log}")
 ```
 
-### Hyperbolic Functions
+### 3. **Exponential and Power Functions**
+
 ```python
 import math
 
-# Hyperbolic sine (hyperbolic arc sine)
-y = math.sinh(1)  # Calculate hyperbolic sine of 1
+# Calculate e raised to the power of x
+e_x = math.exp(1)  # This is equivalent to math.e ** x
+print(f"e^1: {e_x}")
 
-# Hyperbolic cosine (hyperbolic arc cosine)
-z = math.cosh(0)  # Calculate hyperbolic cosine of 0
-
-# Hyperbolic tangent (hyperbolic arc tangent)
-t = math.tanh(0.5)  # Calculate hyperbolic tangent of 0.5
+# Raise a number to the power of another number
+base = 2
+exponent = 3
+result = base ** exponent
+print(f"{base} raised to the power of {exponent}: {result}")
 ```
 
-### Rounding and Remainder Functions
+### 4. **Square Root and Floor/Ceiling Functions**
+
+```python
+import math
+
+# Calculate the square root of a number
+number = 16
+sqrt_value = math.sqrt(number)
+print(f"Square root of {number}: {sqrt_value}")
+
+# Calculate the floor of a number (rounds down to the nearest integer)
+x = 4.7
+floor_value = math.floor(x)
+print(f"Floor of {x}: {floor_value}")
+
+# Calculate the ceiling of a number (rounds up to the nearest integer)
+y = 4.2
+ceiling_value = math.ceil(y)
+print(f"Ceiling of {y}: {ceiling_value}")
+```
+
+### 5. **Constants**
+
+```python
+import math
+
+# Access mathematical constants
+pi = math.pi
+e = math.e
+inf = math.inf
+nan = math.nan
+
+print(f"Value of π: {pi}")
+print(f"Value of e: {e}")
+print(f"Infinity: {inf}")
+print(f"Not a Number (NaN): {nan}")
+```
+
+### 6. **Rounding Functions**
+
 ```python
 import math
 
 # Round a number to the nearest integer
-print(math.ceil(10.1234))  # Round 10.1234 to the nearest integer
-print(math.floor(10.1234))  # Round 10.1234 to the nearest lower integer
+x = 4.75
+rounded_value = round(x)
+print(f"Rounded value of {x}: {rounded_value}")
 
-# Calculate remainder of division
-a = 17
-b = 5
-remainder = a % b  # Calculate remainder of 17 divided by 5
+# Round a number up to the nearest even integer (bankers' rounding)
+y = 3.5
+round_up_even = math.floor(y + 0.5) if y % 1 == 0.5 else math.ceil(y - 0.5)
+print(f"Rounded up to nearest even integer of {y}: {round_up_even}")
 ```
 
-### Math Constants
+### 7. **Factorial and Gamma Function**
+
 ```python
 import math
 
-print(math.pi)  # Pi constant
-print(math.e)   # Euler's number (approximately 2.71828)
+# Calculate the factorial of a number
+factorial_5 = math.factorial(5)
+print(f"Factorial of 5: {factorial_5}")
+
+# Calculate the gamma function (which is related to factorials for positive integers)
+gamma_3 = math.gamma(3)
+print(f"Gamma function of 3: {gamma_3}")
 ```
 
-### Math Degrees to Radians Conversion Function
+### 8. **Modular Arithmetic Functions**
+
 ```python
 import math
 
-def deg_to_rad(degrees):
-    """
-    Convert degrees to radians.
-    
-    Parameters:
-    degrees (float): Angle in degrees
-    
-    Returns:
-    float: Angle in radians
-    """
-    return degrees * math.pi / 180
+# Calculate the greatest common divisor using Euclid's algorithm
+a, b = 48, 18
+gcd_value = math.gcd(a, b)
+print(f"GCD of {a} and {b}: {gcd_value}")
 
-# Test the function
-print(deg_to_rad(30))  # Output: pi/6
+# Calculate the least common multiple (LCM) using the formula LCM(x, y) = |x * y| / GCD(x, y)
+lcm_value = abs(a * b) // math.gcd(a, b)
+print(f"LCM of {a} and {b}: {lcm_value}")
 ```
+
+### 9. **Hyperbolic Functions**
+
+```python
+import math
+
+# Calculate the hyperbolic sine of an angle (in radians)
+hyperbolic_sine = math.sinh(1)
+print(f"Hyperbolic sine of 1 radian: {hyperbolic_sine}")
+
+# Calculate the hyperbolic cosine of an angle (in radians)
+hyperbolic_cosine = math.cosh(1)
+print(f"Hyperbolic cosine of 1 radian: {hyperbolic_cosine}")
+
+# Calculate the hyperbolic tangent of an angle (in radians)
+hyperbolic_tangent = math.tanh(1)
+print(f"Hyperbolic tangent of 1 radian: {hyperbolic_tangent}")
+```
+
+### 10. **Error Functions and Complementary Error Function**
+
+```python
+import math
+
+# Calculate the error function (erf) for a real argument x
+x = 0.5
+error_function_value = math.erf(x)
+print(f"Error function of {x}: {error_function_value}")
+
+# Calculate the complementary error function (erfc) for a real argument x
+complementary_error_function_value = math.erfc(x)
+print(f"Complementary error function of {x}: {complementary_error_function_value}")
+```
+
+### 11. **Constants and Special Values**
+
+```python
+import math
+
+# Access special values defined in the math module
+pi_over_4 = math.pi / 4
+negative_zero = -0.0
+inf_pos = math.inf
+inf_neg = -math.inf
+nan_val = math.nan
+
+print(f"π/4: {pi_over_4}")
+print(f"Negative zero: {negative_zero}")
+print(f"Infinity (positive): {inf_pos}")
+print(f"Infinity (negative): {inf_neg}")
+print(f"Not a Number (NaN): {nan_val}")
+```
+
+### 12. **Pi and E Constants**
+
+```python
+import math
+
+# Access the mathematical constants π and e
+pi_value = math.pi
+e_value = math.e
+
+print(f"Value of π: {pi_value}")
+print(f"Value of e: {e_value}")
+```
+
+These examples cover a wide range of functionalities provided by the `math` module, demonstrating how to use various mathematical operations effectively in Python. Each example includes comments explaining the purpose and usage of each function or constant, ensuring clarity for beginners and advanced users alike.

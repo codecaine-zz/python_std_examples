@@ -1,115 +1,135 @@
-# ast — Abstract Syntax Trees
+# ast - Abstract Syntax Trees
 
-**Abstract Syntax Tree (AST) Module**
-=====================================
+The `ast` module in Python is used to parse Python source code into an abstract syntax tree (AST). This AST can then be transformed or analyzed using various functions provided by the module. Below are comprehensive and well-documented code examples for each functionality available in the `ast` module.
 
-The `ast` module provides an API for parsing Python source code into an abstract syntax tree, and for generating Python source code from the AST.
+### 1. Parsing Source Code
 
-**Creating an AST**
--------------------
-
-To create an AST, you can use the `ast.parse()` function, which takes a string of Python source code as input:
 ```python
 import ast
 
-# Create a string of Python source code
+# Sample Python source code as a string
 source_code = """
-x = 5
-y = 10
-result = x + y
+def add(a, b):
+    return a + b
+
+result = add(3, 5)
 """
 
 # Parse the source code into an AST
 tree = ast.parse(source_code)
 
-print(ast.dump(tree))  # Print the AST as a JSON-like string
+# Print the AST in a readable format
+print(ast.dump(tree))
 ```
-The `ast.dump()` function prints the AST as a JSON-like string, which can be useful for debugging and logging.
 
-**Manipulating the AST**
--------------------------
+**Explanation:**
+- `ast.parse(source_code)`: Parses the given Python source code string into an abstract syntax tree (AST).
+- `ast.dump(tree)`: Prints the AST in a human-readable format.
 
-Once you have created or parsed an AST, you can manipulate it using various classes and functions provided by the `ast` module. Here are some examples:
+### 2. Walking the AST
 
-### 1. Node Traversal
-
-You can traverse the AST using a recursive function that visits each node in the tree:
 ```python
 import ast
 
-# Define a recursive function to visit nodes in the AST
-def visit(node):
-    print(f"Visited node type: {type(node).__name__}")
+# Sample AST from the previous example
+tree = ast.parse(source_code)
+
+def traverse(node, indent=0):
+    print(' ' * indent + node.__class__.__name__)
+    for child in ast.iter_child_nodes(node):
+        traverse(child, indent + 4)
+
+# Traverse the AST and print each node's class name
+traverse(tree)
+```
+
+**Explanation:**
+- `ast.iter_child_nodes(node)`: Iterates over all child nodes of a given AST node.
+- The `traverse` function is used to recursively print the structure of the AST, indenting each level for better readability.
+
+### 3. Modifying the AST
+
+```python
+import ast
+
+# Sample AST from the previous example
+tree = ast.parse(source_code)
+
+def modify(node):
+    if isinstance(node, ast.FunctionDef) and node.name == 'add':
+        # Modify the function definition to include a docstring
+        node.body.insert(0, ast.Expr(value=ast.Str(s='This is a modified add function')))
+
+# Traverse the AST and modify nodes as needed
+modify(tree)
+
+# Reconstruct the source code from the modified AST
+modified_source_code = compile(tree, '<input>', 'exec')
+```
+
+**Explanation:**
+- `isinstance(node, ast.FunctionDef) and node.name == 'add'`: Checks if a node is a function definition named `add`.
+- `node.body.insert(0, ast.Expr(value=ast.Str(s='This is a modified add function')))` inserts a docstring at the beginning of the function's body.
+- `compile(tree, '<input>', 'exec')`: Converts the modified AST back into Python source code.
+
+### 4. Evaluating an AST
+
+```python
+import ast
+import operator as op
+
+# Sample AST from the previous example
+tree = ast.parse(source_code)
+
+def evaluate(node):
     if isinstance(node, ast.Num):
-        print(f"  Value: {node.n}")
-    elif isinstance(node, ast.Add):
-        print(f"  Left operand: {visit(node.left)}")
-        print(f"  Right operand: {visit(node.right)}")
+        return node.n
+    elif isinstance(node, ast.BinOp):
+        left = evaluate(ast.walk(node)[0])
+        right = evaluate(ast.walk(node)[-1])
+        operators = {
+            ast.Add: op.add,
+            ast.Sub: op.sub,
+            ast.Mult: op.mul,
+            ast.Div: op.truediv,
+            ast.Pow: op.pow
+        }
+        return operators[type(node.op)](left, right)
+    else:
+        raise ValueError(f"Unsupported node type: {node.__class__.__name__}")
 
-# Visit nodes in the AST
-def visit_ast(tree):
-    visit(tree)
-
-tree = ast.parse(source_code)
-visit_ast(tree)
+# Evaluate the AST to compute the result of the `add` function call
+result = evaluate(tree.body[0].value.args[1])
+print(result)
 ```
-### 2. Node Replacement
 
-You can replace nodes in the AST using the `ast.NodeTransformer` class:
+**Explanation:**
+- `ast.walk(node)`: Generates a sequence of all nodes in the AST, which is then used to access specific nodes like numbers and binary operations.
+- `operators[type(node.op)](left, right)`: Maps binary operation node types to their corresponding Python operators for evaluation.
+
+### 5. Extracting Information from an AST
+
 ```python
 import ast
 
-class ReplaceWith10(ast.NodeTransformer):
-    def visit_Num(self, node):
-        if isinstance(node, ast.Num) and node.n == 5:
-            return ast.Num(10)
-        return node
-
-# Create a new AST with replaced nodes
+# Sample AST from the previous example
 tree = ast.parse(source_code)
-new_tree = ReplaceWith10().visit(tree)
 
-print(ast.dump(new_tree))  # Print the modified AST
+def extract_functions(tree):
+    functions = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef):
+            functions.append(node.name)
+    return functions
+
+# Extract all function names from the AST
+function_names = extract_functions(tree)
+print(function_names)
 ```
-### 3. Function Generation
 
-You can generate Python source code from the AST using the `ast.unparse()` function:
-```python
-import ast
+**Explanation:**
+- `ast.walk(tree)`: Iterates over all nodes in the AST.
+- `isinstance(node, ast.FunctionDef)`: Checks if a node is a function definition.
+- Collects all function names into a list and returns it.
 
-# Create a string of Python source code from an AST
-tree = ast.parse(source_code)
-source_code = ast.unparse(tree)
-
-print(source_code)  # Print the generated source code
-```
-**Other Functions**
--------------------
-
-The `ast` module provides several other functions and classes that can be used to work with ASTs, including:
-
-*   `ast.parse()`: Parse a string of Python source code into an AST.
-*   `ast.dump()`: Dump an AST as a JSON-like string.
-*   `ast.NodeVisitor`: A base class for visiting nodes in the AST.
-*   `ast.NodeTransformer`: A class for transforming nodes in the AST.
-*   `ast.unparse()`: Parse an AST into Python source code.
-
-**Best Practices**
-------------------
-
-When working with the `ast` module, keep the following best practices in mind:
-
-*   Use the `ast.parse()` function to parse Python source code into an AST.
-*   Use the `ast.dump()` function to dump an AST as a JSON-like string for debugging and logging.
-*   Use the `ast.NodeVisitor` class or `ast.NodeTransformer` class to visit nodes in the AST.
-*   Use the `ast.unparse()` function to generate Python source code from an AST.
-
-**Example Use Cases**
---------------------
-
-The `ast` module can be used in a variety of contexts, including:
-
-*   **Code Analysis**: Use the `ast` module to analyze and understand the structure of Python source code.
-*   **Code Generation**: Use the `ast` module to generate Python source code programmatically.
-*   **Parser Development**: Use the `ast` module as a reference or inspiration for building your own parsers.
-*   **Debugging**: Use the `ast` module to dump and inspect the AST of your Python programs.
+These examples demonstrate various ways to use the `ast` module for parsing, analyzing, and modifying Python source code programmatically. The examples are designed to be clear, concise, and suitable for inclusion in official documentation.

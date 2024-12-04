@@ -1,190 +1,126 @@
-# base64 — Base16, Base32, Base64, Base85 Data Encodings
+# base64 - Base16, Base32, Base64, Base85 Data Encodings
 
-**Base64 Module**
-================
+The `base64` module in Python provides functions to encode and decode data using various encoding standards such as Base16, Base32, Base64, and Base85. Below are comprehensive examples of how to use these functionalities.
 
-The `base64` module provides functions for encoding and decoding binary data using various base64 encodings.
+### Base16 Encoding
 
-### Functions
-
-#### encode()
-
-Encodes a string into bytes using the specified encoding.
+**Example 1: Encode a string to Base16**
 
 ```python
 import base64
 
-def encoded_bytes(s, encoding='utf-8'):
-    """
-    Encode a string into bytes using the specified encoding.
-    
-    Args:
-        s (str): The string to be encoded.
-        encoding (str): The encoding scheme. Defaults to 'utf-8'.
-    
-    Returns:
-        bytes: The encoded bytes.
-    """
-    return base64.b64encode(s.encode(encoding))
+# Original string
+data = "Hello, World!"
+
+# Convert bytes to Base16 encoded bytes
+base16_bytes = base64.b16encode(data.encode('utf-8'))
+
+# Decode the Base16 bytes back to a string
+base16_string = base16_bytes.decode('utf-8')
+
+print(f"Base16 Encoded: {base16_string}")
 ```
 
-#### decode()
+**Explanation:**
+- We first encode the input string `"Hello, World!"` into bytes using UTF-8 encoding.
+- The `base64.b16encode()` function then encodes these bytes to Base16 format.
+- Finally, we decode the resulting Base16 bytes back into a string.
 
-Decodes a bytes object into a string using the specified encoding.
+### Base32 Encoding
 
-```python
-def decoded_string(b, encoding='utf-8'):
-    """
-    Decode a bytes object into a string using the specified encoding.
-    
-    Args:
-        b (bytes): The bytes to be decoded.
-        encoding (str): The decoding scheme. Defaults to 'utf-8'.
-    
-    Returns:
-        str: The decoded string.
-    """
-    return base64.b64decode(b).decode(encoding)
-```
-
-#### urlsafe_b64encode()
-
-Encodes a bytes object into a URL-safe Base64-encoded bytes.
+**Example 2: Encode a string to Base32**
 
 ```python
 import base64
 
-def url_safe_encoded_bytes(b):
-    """
-    Encode a bytes object into a URL-safe Base64-encoded bytes.
-    
-    Args:
-        b (bytes): The bytes to be encoded.
-    
-    Returns:
-        bytes: The URL-safe Base64-encoded bytes.
-    """
-    return base64.urlsafe_b64encode(b)
+# Original string
+data = "Hello, World!"
+
+# Convert bytes to Base32 encoded bytes
+base32_bytes = base64.b32encode(data.encode('utf-8'))
+
+# Decode the Base32 bytes back to a string
+base32_string = base32_bytes.decode('utf-8')
+
+print(f"Base32 Encoded: {base32_string}")
 ```
 
-#### urlsafe_b64decode()
+**Explanation:**
+- Similar to Base16, we first encode the input string into bytes.
+- The `base64.b32encode()` function converts these bytes to Base32 format.
+- We then decode the resulting Base32 bytes back into a string.
 
-Decodes a URL-safe Base64-encoded bytes into a bytes object.
+### Base64 Encoding
+
+**Example 3: Encode a string to Base64**
 
 ```python
 import base64
 
-def url_safe_decoded_bytes(c):
-    """
-    Decode a URL-safe Base64-encoded bytes into a bytes object.
-    
-    Args:
-        c (bytes): The URL-safe Base64-encoded bytes.
-    
-    Returns:
-        bytes: The decoded bytes.
-    """
-    return base64.urlsafe_b64decode(c)
+# Original string
+data = "Hello, World!"
+
+# Convert bytes to Base64 encoded bytes
+base64_bytes = base64.b64encode(data.encode('utf-8'))
+
+# Decode the Base64 bytes back to a string
+base64_string = base64_bytes.decode('utf-8')
+
+print(f"Base64 Encoded: {base64_string}")
 ```
 
-#### gcd()
+**Explanation:**
+- The `base64.b64encode()` function is used to encode the input string into Base64 format.
+- We then decode the resulting Base64 bytes back into a string.
 
-Computes the greatest common divisor (GCD) of two integers.
+### Base85 Encoding
 
-```python
-import math
-
-def gcd(a, b):
-    """
-    Compute the greatest common divisor (GCD) of two integers.
-    
-    Args:
-        a (int): The first integer.
-        b (int): The second integer.
-    
-    Returns:
-        int: The GCD of the two integers.
-    """
-    return math.gcd(a, b)
-```
-
-#### getbase()
-
-Returns a string representing the specified base.
+**Example 4: Encode a string to Base85**
 
 ```python
 import base64
 
-def get_base(n):
-    """
-    Return a string representing the specified base.
-    
-    Args:
-        n (int): The base to be represented as a string.
-    
-    Returns:
-        str: A string representation of the base.
-    """
-    if n == 2:
-        return 'binary'
-    elif n == 8:
-        return 'octal'
-    else:
-        return ''
+# Original string
+data = "Hello, World!"
+
+# Convert bytes to Base85 encoded bytes
+base85_bytes = base64.b85encode(data.encode('utf-8'))
+
+# Decode the Base85 bytes back to a string
+base85_string = base85_bytes.decode('utf-8')
+
+print(f"Base85 Encoded: {base85_string}")
 ```
 
-#### isbase64()
+**Explanation:**
+- The `base64.b85encode()` function encodes the input string into Base85 format.
+- We then decode the resulting Base85 bytes back into a string.
 
-Checks whether a bytes object represents valid Base64-encoded data.
+### Handling Large Data
+
+For handling very large data, ensure that you use streaming or chunked encoding to avoid memory issues:
 
 ```python
 import base64
 
-def is_base64(b):
-    """
-    Check whether a bytes object represents valid Base64-encoded data.
-    
-    Args:
-        b (bytes): The bytes to be checked.
-    
-    Returns:
-        bool: True if the bytes represent valid Base64-encoded data, False otherwise.
-    """
-    try:
-        base64.b64decode(b)
-        return True
-    except ValueError:
-        return False
+# Original string
+data = "This is a very long string that we want to encode using Base64."
+
+# Encode in chunks
+encoded_chunks = []
+chunk_size = 1024 * 8  # 8KB
+for i in range(0, len(data), chunk_size):
+    encoded_chunk = base64.b64encode(data[i:i+chunk_size].encode('utf-8'))
+    encoded_chunks.append(encoded_chunk.decode('utf-8'))
+
+# Join the chunks to form the complete Base64 string
+encoded_string = ''.join(encoded_chunks)
+
+print(f"Base64 Encoded: {encoded_string}")
 ```
 
-### Example Usage
+**Explanation:**
+- In this example, we encode the data in chunks of 8KB. This approach is useful for large datasets that cannot fit into memory at once.
+- We concatenate the encoded chunks into a single string.
 
-```python
-# Encode a string into bytes using the 'utf-8' encoding scheme
-encoded_bytes = encoded_bytes('Hello, World!')
-print(encoded_bytes)
-
-# Decode a bytes object into a string using the 'utf-8' decoding scheme
-decoded_string = decoded_string(b'QXV0aGUgbGFzdCBpcyBhIHNpbmdz')
-print(decoded_string)
-
-# Encode a bytes object into a URL-safe Base64-encoded bytes
-url_safe_encoded_bytes = url_safe_encoded_bytes(b'Hello, World!')
-print(url_safe_encoded_bytes)
-
-# Decode a URL-safe Base64-encoded bytes into a bytes object
-url_safe_decoded_bytes = url_safe_decoded_bytes(c=b'SGVsbG8gd29ybGQ=')
-print(url_safe_decoded_bytes)
-
-# Compute the greatest common divisor (GCD) of two integers
-gcd_value = gcd(12, 15)
-print(gcd_value)
-
-# Return a string representing the specified base
-base_string = get_base(2)
-print(base_string)
-
-# Check whether a bytes object represents valid Base64-encoded data
-is_valid_base64 = is_base64(b'QXV0aGUgbGFzdCBpcyBhIHNpbmdz')
-print(is_valid_base64)
-```
+These examples demonstrate how to use the `base64` module to encode strings and handle large amounts of data efficiently.

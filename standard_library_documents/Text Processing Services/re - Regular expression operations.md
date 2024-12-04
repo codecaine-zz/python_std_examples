@@ -1,117 +1,142 @@
-# re — Regular expression operations
+# re - Regular expression operations
 
-**Regular Expression Operations using re Module**
-=====================================================
+Below are comprehensive code examples covering various functionalities provided by the `re` (regular expressions) module in Python 3.12. These examples include detailed comments explaining each step.
 
-The `re` module in Python provides support for regular expressions, which are a powerful way to match patterns in strings.
-
-### Importing the `re` Module
-
-To use the `re` module, you need to import it in your Python script or interactive session:
-```python
-import re
-```
-
-### Patterns and Substitutions
-
-Regular expressions can be used to search for patterns in strings and make substitutions. Here are a few examples:
-
-#### Pattern Matching
-
-You can use regular expressions to match patterns in strings using the `search()` function:
 ```python
 import re
 
-# Define a pattern
-pattern = r"\d{4}-\d{2}-\d{2}"  # Matches dates in YYYY-MM-DD format
-
-# Search for matches
-date_str = "My birthday is February 12, 1990."
-match = re.search(pattern, date_str)
-
-if match:
-    print("Match found:", match.group())
-else:
-    print("No match found.")
-```
-
-#### Substitutions
-
-You can use regular expressions to make substitutions in strings using the `sub()` function:
-```python
-import re
-
-# Define a pattern and replacement string
-pattern = r"\d{4}"
-replacement = "XXXX"
-
-# Search for matches and substitute
-date_str = "My birthday is February 12, 1990."
-new_date_str = re.sub(pattern, replacement, date_str)
-
-print("New date:", new_date_str)
-```
-
-#### Searching and Replacing Multiple Occurrences
-
-You can use the `findall()` function to search for all occurrences of a pattern in a string:
-```python
-import re
-
-# Define a pattern
-pattern = r"\d{4}-\d{2}-\d{2}"
-
-# Search for matches
-date_strs = ["My birthday is February 12, 1990.", "My anniversary is June 20, 2001."]
-matches = re.findall(pattern, date_strs)
-
-print("Matches:", matches)
-```
-
-#### Compiling Regular Expressions
-
-You can use the `compile()` function to compile regular expressions into a pattern object:
-```python
-import re
-
-# Define a pattern
-pattern = r"\d{4}-\d{2}-\d{2}"
-
-# Compile the pattern
-compiled_pattern = re.compile(pattern)
-
-# Search for matches using the compiled pattern
-date_strs = ["My birthday is February 12, 1990.", "My anniversary is June 20, 2001."]
-for date_str in date_strs:
-    match = compiled_pattern.search(date_str)
+# Example 1: Basic pattern matching using search()
+def example_search():
+    """
+    This function demonstrates basic pattern matching using re.search().
+    
+    The search() method scans through the string, looking for any location where 
+    the regular expression pattern produces a match. It returns a Match object if found.
+    If no matches are found, it returns None.
+    """
+    text = "Hello, my email is example@example.com"
+    # Define the regex pattern to find an email address
+    pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
+    
+    match = re.search(pattern, text)
     if match:
-        print("Match found:", match.group())
+        print(f"Email found: {match.group()}")
+    else:
+        print("No email found.")
+
+# Example 2: Finding all matches using findall()
+def example_findall():
+    """
+    This function demonstrates finding all non-overlapping matches of a pattern in a string.
+    
+    The findall() method returns a list containing all the match objects for every match 
+    of the pattern found in the string. If no matches are found, it returns an empty list.
+    """
+    text = "The rain in Spain stays mainly in the plain."
+    # Define the regex pattern to find words starting with 's'
+    pattern = r"\bs\w+"
+    
+    matches = re.findall(pattern, text)
+    print(f"Matches: {matches}")
+
+# Example 3: Substituting strings using sub()
+def example_sub():
+    """
+    This function demonstrates how to replace parts of a string where the 
+    regular expression pattern matches.
+    
+    The sub() method replaces occurrences of the pattern with the specified replacement. 
+    The replacement can be a string or a callable object (a function).
+    """
+    text = "The quick brown fox jumps over the lazy dog."
+    # Define the regex pattern to replace 'fox' with 'cat'
+    pattern = r"fox"
+    
+    # Using a simple string as the replacement
+    result = re.sub(pattern, "cat", text)
+    print(f"Simple substitution: {result}")
+    
+    # Using a function as the replacement
+    def replacer(match):
+        return match.group().upper()
+    
+    result_func = re.sub(pattern, replacer, text)
+    print(f"Function-based substitution: {result_func}")
+
+# Example 4: Compilation and usage of regular expressions using compile()
+def example_compile():
+    """
+    This function demonstrates the use of re.compile() to create a pattern object.
+    A compiled pattern can be used for multiple matches without the need to repeat the search().
+    
+    The compile() method returns a RegexObject that has methods suitable for searching 
+    and replacing text according to the regular expression pattern.
+    """
+    text = "I have 12 apples, 34 bananas, and 56 cherries."
+    # Define the regex pattern to find numbers
+    pattern = r"\d+"
+    
+    compiled_pattern = re.compile(pattern)
+    
+    matches = compiled_pattern.findall(text)
+    print(f"Matches: {matches}")
+
+# Example 5: Using patterns with flags using match()
+def example_match_flags():
+    """
+    This function demonstrates the use of different flags in regular expressions.
+    
+    Flags modify the behavior of a pattern. Commonly used flags include:
+        - re.IGNORECASE
+        - re.MULTILINE
+        - re.DOTALL
+    
+    The match() method attempts to apply the pattern at the start of the string. 
+    It returns a Match object if the pattern is found, otherwise None.
+    """
+    text = "Hello\nWorld"
+    
+    # Case-insensitive search
+    pattern = r"hello"
+    match = re.match(pattern, text, flags=re.IGNORECASE)
+    print(f"Match (ignore case): {match}")
+    
+    # Multiline search
+    pattern = r"^Hello.*World$"
+    match = re.match(pattern, text, flags=re.MULTILINE)
+    if match:
+        print("Multiline match: Match found")
+    else:
+        print("Multiline match: No match")
+
+# Example 6: Matching patterns with lookaheads and lookbehinds
+def example_lookahead():
+    """
+    This function demonstrates the use of positive and negative lookahead and lookbehind assertions.
+    
+    Lookaheads and lookbehinds are zero-width matching assertions. 
+    They check for a pattern without including it in the match result.
+    """
+    text = "The quick brown fox jumps over the lazy dog."
+    
+    # Positive lookahead
+    pattern = r"fox(?=\s+jumps)"
+    matches = re.findall(pattern, text)
+    print(f"Positive lookahead: {matches}")
+    
+    # Negative lookbehind
+    pattern = r"(?<!quick)\s+"
+    matches = re.findall(pattern, text)
+    print(f"Negative lookbehind: {matches}")
+
+# Running the examples
+if __name__ == "__main__":
+    example_search()
+    example_findall()
+    example_sub()
+    example_compile()
+    example_match_flags()
+    example_lookahead()
 ```
 
-### Common Regular Expression Syntax
-
-Here are some common regular expression syntax elements:
-
-* `.` matches any single character
-* `^` matches the start of a string
-* `$` matches the end of a string
-* `*` matches zero or more occurrences of the preceding element
-* `+` matches one or more occurrences of the preceding element
-* `?` matches zero or one occurrence of the preceding element
-* `{n}` matches exactly n occurrences of the preceding element
-* `{n, m}` matches at least n and at most m occurrences of the preceding element
-* `[abc]` matches any single character in the set
-* `\d` matches a digit
-* `\w` matches a word character (alphanumeric plus underscore)
-* `\s` matches a whitespace character
-
-### Best Practices
-
-Here are some best practices for using regular expressions:
-
-* Use raw strings (`r"..."`) to avoid backslash escaping issues.
-* Use `re.escape()` to escape special characters in your patterns.
-* Test your patterns using the `re.test()` function before searching for matches.
-* Use the `re.IGNORECASE` flag to make matching case-insensitive.
-
-Note: This is not an exhaustive list of regular expression operations, but it covers many common use cases. For more information, see the Python [official documentation](https://docs.python.org/3/library/re.html) and the [regular expression documentation](https://www.regular-expressions.info/.
+This code provides a comprehensive set of examples to demonstrate various functionalities provided by the `re` module, including basic pattern matching, finding all matches, substituting strings, compiling patterns, using flags, and utilizing lookaheads/lookbehinds.

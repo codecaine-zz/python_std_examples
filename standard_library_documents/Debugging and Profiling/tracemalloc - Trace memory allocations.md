@@ -1,21 +1,19 @@
-# tracemalloc — Trace memory allocations
+# tracemalloc - Trace memory allocations
 
-**Tracemalloc Example**
-=====================
+The `tracemalloc` module is a built-in tool that provides support for tracing memory allocation events. It can help identify memory leaks and optimize memory usage by analyzing how memory is allocated and deallocated over time.
 
-The `tracemalloc` module provides an interface for tracking object allocations and deallocations.
+Here are some code examples demonstrating the usage of the `tracemalloc` module:
 
-### Installing Tracemalloc
+### 1. Enabling Tracing
 
-You can install the `tracemalloc` module using pip:
+```python
+import tracemalloc
 
-```bash
-pip install py-trace
+# Start tracing memory allocations
+tracemalloc.start()
 ```
 
-### Basic Usage
-
-Here is a basic example of how to use `tracemalloc`:
+### 2. Capturing Memory Snapshot
 
 ```python
 import tracemalloc
@@ -23,32 +21,36 @@ import tracemalloc
 # Start tracing memory allocations
 tracemalloc.start()
 
-# Example usage: create a list and append elements to it
-numbers = []
-for i in range(1000):
-    numbers.append(i)
+# Perform some memory-intensive operations
+# For example, create a large list of dictionaries
+large_list = [{} for _ in range(1000)]
 
-# Stop tracing memory allocations
-current, peak = tracemalloc.get_traced_memory()
-print(f"Current memory allocation: {current / 1024:.2f} KB")
-print(f"Peak memory allocation: {peak / 1024:.2f} KB")
+# Stop tracing and capture a snapshot
+snapshot = tracemalloc.take_snapshot()
+```
 
-# Get a snapshot of the current memory allocations
+### 3. Analyzing Memory Snapshot
+
+```python
+import tracemalloc
+
+# Start tracing memory allocations
+tracemalloc.start()
+
+# Perform some memory-intensive operations
+# For example, create a large list of dictionaries
+large_list = [{} for _ in range(1000)]
+
+# Stop tracing and capture a snapshot
 snapshot = tracemalloc.take_snapshot()
 
-# Print the top 10 objects in the snapshot
-for stat in snapshot.statistics('lineno'):
+# Print the top 5 most common allocations
+top_stats = snapshot.statistics('lineno')
+for stat in top_stats[:5]:
     print(stat)
-
-# Stop tracing memory allocations
-tracemalloc.stop()
 ```
 
-This will start tracking memory allocations, create a list and append elements to it, stop tracking memory allocations, and then print out the current and peak memory allocations. It also prints out the top 10 objects in the snapshot.
-
-### Tracking Memory Allocations by Frame
-
-You can use `tracemalloc.take_snapshot()` with a frame argument to get a more detailed view of memory allocations:
+### 4. Analyzing Top Memory Usage
 
 ```python
 import tracemalloc
@@ -56,35 +58,20 @@ import tracemalloc
 # Start tracing memory allocations
 tracemalloc.start()
 
-try:
-    # Example usage: create a list and append elements to it
-    numbers = []
-    for i in range(1000):
-        numbers.append(i)
-except Exception as e:
-    print(e)
+# Perform some memory-intensive operations
+# For example, create a large list of dictionaries
+large_list = [{} for _ in range(1000)]
 
-# Stop tracing memory allocations
-current, peak = tracemalloc.get_traced_memory()
-print(f"Current memory allocation: {current / 1024:.2f} KB")
-print(f"Peak memory allocation: {peak / 1024:.2f} KB")
-
-# Get a snapshot of the current memory allocations
+# Stop tracing and capture a snapshot
 snapshot = tracemalloc.take_snapshot()
 
-# Print the top 10 objects in the snapshot, grouped by frame
-for stat in snapshot.statistics('lineno'):
+# Print the top 5 most common allocations by size
+top_stats = snapshot.statistics('size')
+for stat in top_stats[:5]:
     print(stat)
-
-# Stop tracing memory allocations
-tracemalloc.stop()
 ```
 
-In this example, `tracemalloc.take_snapshot()` is called with a frame argument to get a more detailed view of memory allocations.
-
-### Filtering Memory Allocations
-
-You can use the `snapshot.filter` method to filter memory allocations by type:
+### 5. Analyzing Memory Usage Over Time
 
 ```python
 import tracemalloc
@@ -92,38 +79,21 @@ import tracemalloc
 # Start tracing memory allocations
 tracemalloc.start()
 
-try:
-    # Example usage: create a list and append elements to it
-    numbers = []
-    for i in range(1000):
-        numbers.append(i)
-except Exception as e:
-    print(e)
+# Perform some memory-intensive operations over time
+large_list = []
+for _ in range(10):
+    large_list.append([{} for _ in range(1000)])
 
-# Stop tracing memory allocations
-current, peak = tracemalloc.get_traced_memory()
-print(f"Current memory allocation: {current / 1024:.2f} KB")
-print(f"Peak memory allocation: {peak / 1024:.2f} KB")
-
-# Get a snapshot of the current memory allocations
+# Stop tracing and capture a snapshot
 snapshot = tracemalloc.take_snapshot()
 
-# Filter the snapshot to only show allocations for the 'numbers' list
-snapshot.filter('frames')
-
-# Print the top 10 objects in the filtered snapshot, grouped by frame
-for stat in snapshot.statistics('lineno'):
+# Print the top 5 most common allocations by size at each step
+top_stats = snapshot.statistics('size')
+for stat in top_stats:
     print(stat)
-
-# Stop tracing memory allocations
-tracemalloc.stop()
 ```
 
-In this example, `snapshot.filter('frames')` is called to filter the snapshot to only show allocations for the `'numbers'` list.
-
-### Capturing Memory Allocations
-
-You can use `snapshot.capture()` to capture a snapshot of the current memory allocations:
+### 6. Writing Results to File
 
 ```python
 import tracemalloc
@@ -131,19 +101,53 @@ import tracemalloc
 # Start tracing memory allocations
 tracemalloc.start()
 
-try:
-    # Example usage: create a list and append elements to it
-    numbers = []
-    for i in range(1000):
-        numbers.append(i)
-except Exception as e:
-    print(e)
+# Perform some memory-intensive operations
+large_list = [{} for _ in range(1000)]
 
-# Capture a snapshot of the current memory allocations
+# Stop tracing and capture a snapshot
 snapshot = tracemalloc.take_snapshot()
-capture = snapshot.capture()
 
-print(capture.top(10))
+# Write the top 5 most common allocations to a file
+with open('memory_stats.txt', 'w') as f:
+    stats = snapshot.statistics('lineno')
+    for stat in stats[:5]:
+        f.write(f"{stat.lineno}:{stat.count} bytes\n")
 ```
 
-In this example, `snapshot.capture()` is called to capture a snapshot of the current memory allocations. The resulting dictionary can be printed using `print(capture.top(10))`.
+### 7. Resetting Tracing
+
+```python
+import tracemalloc
+
+# Start tracing memory allocations
+tracemalloc.start()
+
+# Perform some memory-intensive operations
+large_list = [{} for _ in range(1000)]
+
+# Stop tracing and capture a snapshot
+snapshot = tracemalloc.take_snapshot()
+
+# Reset tracing to start fresh
+tracemalloc.reset_peak()
+```
+
+### 8. Using with Context Manager
+
+```python
+import tracemalloc
+
+with tracemalloc.start():
+    # Perform some memory-intensive operations
+    large_list = [{} for _ in range(1000)]
+
+# Stop tracing after the context manager exits
+snapshot = tracemalloc.take_snapshot()
+
+# Print the top 5 most common allocations by size
+top_stats = snapshot.statistics('size')
+for stat in top_stats[:5]:
+    print(stat)
+```
+
+These examples demonstrate various functionalities of the `tracemalloc` module, including starting and stopping tracing, capturing snapshots, analyzing memory usage, writing results to a file, resetting tracing, and using the module with a context manager. Each example includes comments for clarity.

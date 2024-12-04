@@ -1,348 +1,90 @@
-# inspect — Inspect live objects
+# inspect - Inspect live objects
 
-**Module: `inspect`**
-=====================================
-
-The `inspect` module provides several useful functions to help get information about live objects, such as modules, classes, instances, and frames.
-
-### Module Inspection
-
-#### 1. `inspect.getmodule()`
-
-Returns the module that contains the specified object.
+The `inspect` module in Python provides several functions to access information about live objects such as modules, classes, methods, and frames. Below are comprehensive examples demonstrating various functionalities of the `inspect` module:
 
 ```python
 import inspect
 
-def main():
-    # Get the current frame
-    current_frame = inspect.currentframe()
+# Example 1: Get the source code of a function
+def example_function(x):
+    """A simple function for demonstration."""
+    return x * 2
 
-    # Get the module from the current frame
-    current_module = inspect.getmodule(current_frame)
+source_code = inspect.getsource(example_function)
+print("Source code of example_function:")
+print(source_code)
 
-    print("Current Module:", current_module.__name__)
-
-if __name__ == "__main__":
-    main()
-```
-
-#### 2. `inspect.getmro()`
-
-Returns the method resolution order for a specified object.
-
-```python
-import inspect
-
-class ParentClass:
+# Example 2: Check if an object is a class
+class MyClass:
     pass
 
-class ChildClass(ParentClass):
-    pass
+is_class = inspect.isclass(MyClass)
+print(f"Is MyClass a class? {is_class}")
 
-def main():
-    # Get the class hierarchy
-    parent_class = ParentClass
-    child_class = ChildClass
-    mro = inspect.getmro(parent_class)
+# Example 3: Get the docstring of a function
+docstring = inspect.getdoc(example_function)
+print("Docstring of example_function:")
+print(docstring)
 
-    print("Method Resolution Order:", mro)
+# Example 4: Get the argument specification of a function
+argspec = inspect.signature(example_function)
+print("Argument specification of example_function:")
+for param in argspec.parameters.values():
+    print(f"Parameter name: {param.name}, Default value: {param.default}")
 
-if __name__ == "__main__":
-    main()
+# Example 5: Get the module containing a class or function
+module_name = inspect.getmodule(MyClass).__name__
+print(f"The module containing MyClass is: {module_name}")
+
+# Example 6: List all functions and classes in a module
+import math
+
+for name, obj in inspect.getmembers(math):
+    if inspect.isfunction(obj) or inspect.isclass(obj):
+        print(name)
+
+# Example 7: Get the current stack frame information
+frame = inspect.currentframe()
+print("Current stack frame details:")
+print(frame.f_code.co_filename)
+print(frame.f_lineno)
+print(frame.f_locals)
+
+# Example 8: Get all local variables in the current stack frame
+locals_vars = frame.f_locals
+print("Local variables in the current stack frame:")
+for key, value in locals_vars.items():
+    print(f"{key}: {value}")
+
+# Example 9: Trace execution of a function using inspect.getsource and eval
+def trace_function(func):
+    source = inspect.getsource(func)
+    # Replace 'func' with its source code to simulate execution
+    exec(source)
+
+trace_function(example_function)
+
+# Example 10: Get the file path where an object was defined
+file_path = inspect.getmodule(example_function).__file__
+print(f"The file path of example_function is: {file_path}")
+
+# Example 11: Check if an object is a frame
+is_frame = inspect.isframe(inspect.currentframe())
+print(f"Is current frame? {is_frame}")
+
 ```
 
-#### 3. `inspect.getmembers()`
-
-Returns a list of tuples containing the names and values of specified object's members.
-
-```python
-import inspect
-
-def main():
-    # Create an example class
-    class ExampleClass:
-        def method1(self):
-            pass
-
-        def method2(self, param):
-            pass
-
-    # Get all methods and attributes
-    obj = ExampleClass()
-    members = inspect.getmembers(obj)
-
-    print("Members:")
-    for name, value in members:
-        print(f"- {name}: {value.__self__}")
-
-if __name__ == "__main__":
-    main()
-```
-
-#### 4. `inspect.getattr()`
-
-Returns the attribute with the specified name.
-
-```python
-import inspect
-
-def main():
-    # Create an example class
-    class ExampleClass:
-        def method1(self):
-            pass
-
-        def method2(self, param):
-            pass
-
-    obj = ExampleClass()
-    attr_name = "method1"
-
-    attr_value = inspect.getattr(obj, attr_name)
-
-    print(f"Attribute '{attr_name}': {attr_value}")
-
-if __name__ == "__main__":
-    main()
-```
-
-#### 5. `inspect.getsource()`
-
-Returns the source code for a specified object.
-
-```python
-import inspect
-
-def main():
-    # Create an example function
-    def example_function():
-        pass
-
-    func_name = "example_function"
-    source_code = inspect.getsource(func_name)
-
-    print(f"Source Code for '{func_name}':\n{source_code}")
-
-if __name__ == "__main__":
-    main()
-```
-
-### Class Inspection
-
-#### 1. `inspect.getmembers()`
-
-Returns a list of tuples containing the names and values of specified object's attributes.
-
-```python
-import inspect
-
-def main():
-    # Create an example class
-    class ExampleClass:
-        def method1(self):
-            pass
-
-        def method2(self, param):
-            pass
-
-    obj = ExampleClass()
-    members = inspect.getmembers(obj)
-
-    print("Members:")
-    for name, value in members:
-        print(f"- {name}: {value.__self__}")
-
-if __name__ == "__main__":
-    main()
-```
-
-#### 2. `inspect.getclass()`
-
-Returns the class of a specified object.
-
-```python
-import inspect
-
-def main():
-    # Create an example instance
-    obj = "hello"
-
-    class_name = type(obj).__name__
-
-    print(f"Class Name: {class_name}")
-
-if __name__ == "__main__":
-    main()
-```
-
-### Frame Inspection
-
-#### 1. `inspect.currentframe()`
-
-Returns the current frame.
-
-```python
-import inspect
-
-def main():
-    # Get the current frame
-    current_frame = inspect.currentframe()
-
-    print("Current Frame:", current_frame)
-
-if __name__ == "__main__":
-    main()
-```
-
-#### 2. `inspect.getouterframes()`
-
-Returns a list of frames containing information about the caller's stack.
-
-```python
-import inspect
-
-def outer_function():
-    inner_function()
-
-def main():
-    # Call the outer function
-    outer_function()
-
-if __name__ == "__main__":
-    main()
-```
-
-#### 3. `inspect.getframeinfo()`
-
-Returns a frame object with additional information about a specified frame.
-
-```python
-import inspect
-
-def main():
-    # Create an example function
-    def example_function():
-        pass
-
-    func_frame = inspect.getframeinfo(example_function)
-
-    print(f"Function Name: {func_frame.function}")
-    print(f"File Name: {func_frame.filename}")
-
-if __name__ == "__main__":
-    main()
-```
-
-### Other Functions
-
-#### 1. `inspect.isclass()`
-
-Checks if the specified object is a class.
-
-```python
-import inspect
-
-def main():
-    # Create an example class
-    class ExampleClass:
-        pass
-
-    obj = ExampleClass()
-
-    is_class = inspect.isclass(obj)
-
-    print(f"Is Class: {is_class}")
-
-if __name__ == "__main__":
-    main()
-```
-
-#### 2. `inspect.isfunction()`
-
-Checks if the specified object is a function.
-
-```python
-import inspect
-
-def main():
-    # Create an example function
-    def example_function():
-        pass
-
-    obj = example_function()
-
-    is_func = inspect.isfunction(obj)
-
-    print(f"Is Function: {is_func}")
-
-if __name__ == "__main__":
-    main()
-```
-
-#### 3. `inspect.ismethod()`
-
-Checks if the specified object is a method.
-
-```python
-import inspect
-
-def main():
-    # Create an example class
-    class ExampleClass:
-        def method(self):
-            pass
-
-    obj = ExampleClass()
-
-    is_method = inspect.ismethod(obj)
-
-    print(f"Is Method: {is_method}")
-
-if __name__ == "__main__":
-    main()
-```
-
-#### 4. `inspect.ismodule()`
-
-Checks if the specified object is a module.
-
-```python
-import inspect
-
-def main():
-    # Create an example module
-    import example_module
-
-    obj = example_module
-
-    is_module = inspect.ismodule(obj)
-
-    print(f"Is Module: {is_module}")
-
-if __name__ == "__main__":
-    main()
-```
-
-#### 5. `inspect.gettrace()`
-
-Returns the frame of the caller.
-
-```python
-import inspect
-
-def main():
-    # Create an example function
-    def example_function():
-        pass
-
-    # Get the trace frame
-    trace_frame = inspect.gettrace()
-
-    print(f"Trace Frame: {trace_frame}")
-
-if __name__ == "__main__":
-    main()
-```
-
-These are some of the most commonly used functions in the `inspect` module. The specific function you need may depend on your use case, but this should provide a good starting point for exploring what the `inspect` module has to offer.
+### Explanation:
+
+- **Source Code**: `inspect.getsource` retrieves the source code of a function or method.
+- **Class/Function Checks**: `inspect.isclass` and `inspect.isfunction` determine if an object is a class or function, respectively.
+- **Docstring**: `inspect.getdoc` fetches the docstring of a function.
+- **Argument Specification**: `inspect.signature` provides detailed information about the parameters of a function.
+- **Module Information**: `inspect.getmodule` returns the module where a class or function is defined.
+- **Member List**: `inspect.getmembers` lists all members (functions and classes) in a module.
+- **Stack Frame Details**: `inspect.currentframe`, `f_code.co_filename`, `f_lineno`, and `f_locals` provide information about the current stack frame.
+- **Local Variables**: `frame.f_locals` gives access to the local variables of the current stack frame.
+- **Execution Tracing**: By simulating execution, `inspect.getsource` can be used to trace the flow of a function.
+- **File Path**: `inspect.getmodule` returns the file path where an object is defined.
+
+These examples cover various aspects of inspecting live objects in Python, providing a comprehensive overview of its capabilities.

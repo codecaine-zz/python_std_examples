@@ -1,88 +1,92 @@
-# pdb — The Python Debugger
+# pdb - The Python Debugger
 
-**PDB Module: Python Debugger**
-=====================================
+Below is a comprehensive set of code examples for the `pdb` module, which provides an interactive command-line interface to interact with running Python programs. Each example includes comments explaining each step.
 
-The `pdb` module provides an interactive debugger for Python programs.
-
-### Importing the PDB Module
-
-To use the `pdb` module, you need to import it in your Python program.
 ```python
+# Importing the pdb module
 import pdb
+
+def simple_function(a, b):
+    # Entering the debugger at this point
+    pdb.set_trace()
+
+    result = a + b
+    return result
+
+# Example usage of simple_function
+try:
+    print(simple_function(2, 3))
+except Exception as e:
+    print(f"An error occurred: {e}")
+
 ```
 
-### Basic Usage
+### Explanation:
 
-Here's a simple example of how to use the `pdb` module:
+1. **Importing the `pdb` Module**:
+   ```python
+   import pdb
+   ```
+   This line imports the `pdb` module, which is used for debugging purposes.
+
+2. **Defining a Function with Debugging Point**:
+   ```python
+   def simple_function(a, b):
+       # Entering the debugger at this point
+       pdb.set_trace()
+
+       result = a + b
+       return result
+   ```
+   - `pdb.set_trace()` is called to set a breakpoint in the function. This means execution will pause whenever the function is called.
+
+3. **Example Usage of the Function**:
+   ```python
+   try:
+       print(simple_function(2, 3))
+   except Exception as e:
+       print(f"An error occurred: {e}")
+   ```
+   - The function `simple_function` is called with arguments `2` and `3`.
+   - Since there's a breakpoint in the function, execution will pause at that point.
+
+### Debugging Commands:
+
+When you run the script and hit the breakpoint, you can use various commands to interactively debug the code. Here are some common debugging commands:
+
+- **Commands**:
+  - `n` (next): Continue execution until the next line of code is reached.
+  - `s` (step into): Step into a function call.
+  - `c` (continue): Continue execution until the program finishes or hits another breakpoint.
+  - `q` (quit): Exit the debugger and terminate the program.
+
+### Full Example with Debugging:
+
+Here's an example that includes these debugging commands:
+
 ```python
-def fibonacci(n):
-    """Return the nth Fibonacci number"""
-    if n <= 1:
-        return n
-    else:
-        return fibonacci(n-1) + fibonacci(n-2)
+# Importing the pdb module
+import pdb
 
-def main():
-    pdb.set_trace()  # Set a breakpoint at this line
-    print(fibonacci(10))
+def divide(a, b):
+    # Entering the debugger at this point
+    pdb.set_trace()
 
-if __name__ == "__main__":
-    main()
+    result = a / b
+    return result
+
+# Example usage of divide function with some test cases
+try:
+    print(divide(10, 2))  # Expected output: 5.0
+    print(divide(10, 0))  # Expected to trigger an exception
+except Exception as e:
+    print(f"An error occurred: {e}")
 ```
 
-When you run this program, it will pause execution at the `pdb.set_trace()` line and present you with a debugger prompt. You can then type various commands to inspect variables, step through code, and continue execution.
+### Explanation:
 
-### Debugger Commands
+- **Handling Division by Zero**:
+  - The function `divide` is called with `10` and `0`, which will raise a `ZeroDivisionError`.
+  - The debugger will pause at the `a / b` line, allowing you to inspect variables and use debugging commands.
 
-Here are some common debugger commands:
-
-*   **b [lineno]**: Set a breakpoint at the specified line number.
-*   **c**: Continue execution until the next breakpoint or the program completes.
-*   **n**: Step into the current function call.
-*   **s**: Step over the current function call and continue execution.
-*   **r**: Return from the current function call.
-*   **p [expression]**: Print the value of the specified expression.
-*   **q**: Quit the debugger.
-*   **l**: List the current source code file.
-*   **h**: Help display the available commands.
-
-### Example Debugger Session
-
-Here's an example of what you might see when you run the program and set a breakpoint:
-```
-$ python fibonacci.py
-> /path/to/fibonacci.py(9)fibonacci(n=10)
--> return fibonacci(n-1) + fibonacci(n-2)
-P < FIBONACCI at 0x7f812c23d440 (main.fibonacci)>
->
-```
-
-You can then type various commands to inspect variables and step through code. For example:
-```python
-(p) print n
-10
-
-(s) Step over the current function call and continue execution.
-> /path/to/fibonacci.py(9)fibonacci(n=9)
--> return fibonacci(n-1) + fibonacci(n-2)
-P < FIBONACCI at 0x7f812c23d440 (main.fibonacci)>
->
-```
-
-### Advanced Debugger Features
-
-The `pdb` module also supports advanced features such as:
-
-*   **Frames**: You can switch between frames in the debugger using the `c`, `n`, and `s` commands.
-*   **Locals**: You can view the local variables of the current frame using the `p` command.
-*   **Threads**: You can inspect threads in the debugger using the `t` command.
-
-### Best Practices
-
-Here are some best practices for using the `pdb` module:
-
-*   Set breakpoints at meaningful locations in your code to debug logic flow and errors.
-*   Use the `c` command to continue execution until the next breakpoint or the program completes.
-*   Use the `n` command to step into function calls and inspect variable values.
-*   Use the `p` command to print variable values and inspect local variables.
+By following these examples and using the provided debugging commands, you can effectively use the `pdb` module to debug Python programs.

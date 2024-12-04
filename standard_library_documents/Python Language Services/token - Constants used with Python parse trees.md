@@ -1,176 +1,41 @@
-# token — Constants used with Python parse trees
+# token - Constants used with Python parse trees
 
-**Token Module Code Generator**
-=====================================
+The `token` module in Python provides constants that are used to identify different types of tokens in a Python source code. These constants are part of the Abstract Syntax Tree (AST) and are used by tools like PEP 8 checkers, linters, and static code analysis tools to analyze Python code.
 
-Below are the code examples and documentation for the `token` module in Python's standard library.
-
-```python
-"""
-Token is a module that contains constants used with Python parse trees.
-"""
-
-import enum
-
-# Enum to represent the token types
-class TokenType(enum.Enum):
-    """
-    Enum representing different token types.
-    
-    Attributes:
-        LPAREN (1): Left parenthesis.
-        RPAREN (2): Right parenthesis.
-        LBRACE (3): Left brace.
-        RBRACE (4): Right brace.
-        COMMA (5): Comma.
-        COLON (6): Colon.
-        SEMICOLON (7): Semicolon.
-    """
-    LPAREN = 1
-    RPAREN = 2
-    LBRACE = 3
-    RBRACE = 4
-    COMMA = 5
-    COLON = 6
-    SEMICOLON = 7
-
-# Constants used with Python parse trees
-class Token:
-    """
-    A class representing a token in a Python parse tree.
-    
-    Attributes:
-        type_ (TokenType): The type of the token.
-        string (str, optional): The string value of the token. Defaults to None.
-    """
-    def __init__(self, type_, string=None):
-        self.type_ = type_
-        self.string = string
-
-# Constants for keyword tokens
-class KeywordToken(Token):
-    """
-    A class representing a keyword token in a Python parse tree.
-    
-    Attributes:
-        value (str): The keyword value.
-    """
-    def __init__(self, value):
-        super().__init__(TokenType.COMMA)
-        self.value = value
-
-# Constants for identifier tokens
-class IdentifierToken(Token):
-    """
-    A class representing an identifier token in a Python parse tree.
-    
-    Attributes:
-        name (str): The identifier name.
-    """
-    def __init__(self, name):
-        super().__init__(TokenType.COMMA)
-        self.name = name
-
-# Constants for number tokens
-class NumberToken(Token):
-    """
-    A class representing a number token in a Python parse tree.
-    
-    Attributes:
-        value (int or float): The numeric value.
-    """
-    def __init__(self, value):
-        super().__init__(TokenType.COMMA)
-        self.value = value
-
-# Constants for string tokens
-class StringToken(Token):
-    """
-    A class representing a string token in a Python parse tree.
-    
-    Attributes:
-        value (str): The string value.
-    """
-    def __init__(self, value):
-        super().__init__(TokenType.COMMA)
-        self.value = value
-
-# Constants for comment tokens
-class CommentToken(Token):
-    """
-    A class representing a comment token in a Python parse tree.
-    
-    Attributes:
-        value (str): The comment value.
-    """
-    def __init__(self, value):
-        super().__init__(TokenType.COMMA)
-        self.value = value
-
-# Constants for operator tokens
-class OperatorToken(Token):
-    """
-    A class representing an operator token in a Python parse tree.
-    
-    Attributes:
-        operator (str): The operator value.
-    """
-    def __init__(self, operator):
-        super().__init__(TokenType.COMMA)
-        self.operator = operator
-
-# Constants for assignment operator tokens
-class AssignmentOperatorToken(OperatorToken):
-    """
-    A class representing an assignment operator token in a Python parse tree.
-    
-    Attributes:
-        operator (str): The assignment operator value.
-    """
-    def __init__(self, operator):
-        super().__init__(operator)
-
-# Constants for comparison operator tokens
-class ComparisonOperatorToken(OperatorToken):
-    """
-    A class representing a comparison operator token in a Python parse tree.
-    
-    Attributes:
-        operator (str): The comparison operator value.
-    """
-    def __init__(self, operator):
-        super().__init__(operator)
-
-# Constants for arithmetic operator tokens
-class ArithmeticOperatorToken(OperatorToken):
-    """
-    A class representing an arithmetic operator token in a Python parse tree.
-    
-    Attributes:
-        operator (str): The arithmetic operator value.
-    """
-    def __init__(self, operator):
-        super().__init__(operator)
-```
-
-Example usage:
+Here are comprehensive examples for each constant provided by the `token` module:
 
 ```python
-# Create a keyword token
-keyword_token = KeywordToken("if")
+import token
 
-# Create an identifier token
-identifier_token = IdentifierToken("example")
+# Define a simple Python expression as a string
+source_code = "42 + 5"
 
-# Create a number token
-number_token = NumberToken(42)
+# Tokenize the source code into tokens
+tokens = []
+for tok in tokenize.tokenize(io.BytesIO(source_code.encode('utf-8')).readline):
+    # Append each token to the list with its type and value
+    tokens.append((tok.type, tok.string))
 
-# Create a string token
-string_token = StringToken('"Hello, world!"')
+# Print the list of tokens
+print(tokens)
 
-# Print the tokens
-print(keyword_token.type_)
-print(identifier_token.value)
-print(number_token.value)
-print(string_token.value)
+# Example: Extracting specific tokens from the list
+integer_tokens = [t for t in tokens if t[0] == token.NUMBER]
+print(integer_tokens)
 ```
+
+### Explanation:
+
+1. **Import Token**: The `token` module is imported to access the constants and functions related to tokens.
+
+2. **Source Code**: A simple Python expression is defined as a string.
+
+3. **Tokenization**: The `tokenize.tokenize()` function is used to tokenize the source code. It reads the source code line by line, converting it into a sequence of tokens.
+
+4. **Collect Tokens**: Each token is captured and stored in a list along with its type and value.
+
+5. **Print Tokens**: The list of tokens is printed, showing each token's type and string representation.
+
+6. **Extract Specific Tokens**: A list comprehension is used to extract all `NUMBER` tokens from the list, which represent integer literals in Python.
+
+These examples demonstrate how to use the `token` module to process and analyze Python source code tokens.

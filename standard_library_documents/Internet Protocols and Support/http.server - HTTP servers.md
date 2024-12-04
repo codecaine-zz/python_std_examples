@@ -1,223 +1,232 @@
-# http.server — HTTP servers
+# http.server - HTTP servers
 
-**http.server Module Code Generation**
-=====================================
+Below is a comprehensive set of code examples demonstrating various functionalities provided by the `http.server` module in Python 3.12. These examples cover creating simple HTTP servers, handling GET and POST requests, serving static files, and more.
 
-The `http.server` module in Python's standard library provides a simple way to create an HTTP server.
+### Example 1: Simple HTTP Server
 
-### HTTPServer Class
--------------------
+A basic example of setting up an HTTP server using `http.server`.
 
 ```python
-import http.server
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
-class CustomHttpServer(http.server.HTTPServer):
-    """
-    A custom HTTP server class that inherits from the base HTTPServer class.
-    """
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        # Send response status code
+        self.send_response(200)
+        
+        # Send headers
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        
+        # Write the HTML message
+        html_message = "<html><head><title>Simple HTTP Server</title></head><body>Hello, World!</body></html>"
+        self.wfile.write(html_message.encode())
 
-    def __init__(self, *args, **kwargs):
-        # Initialize the parent class with the provided arguments
-        super().__init__(*args, **kwargs)
+def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
+    server_address = ('', port)
+    httpd = server_class(server_address, handler_class)
+    print(f"Serving HTTP on port {port}...")
+    httpd.serve_forever()
 
-    def serve_forever(self):
-        # Instead of calling the parent's method, handle errors and exceptions here
-        try:
-            self.serve_forever()
-        except Exception as e:
-            print(f"Error occurred: {e}")
-
-# Usage
-if __name__ == "__main__":
-    # Create a custom HTTP server with port 8080
-    server = CustomHttpServer(("localhost", 8080), http.server.SimpleHTTPRequestHandler)
-
-    # Start the server in the foreground
-    server.serve_forever()
+if __name__ == '__main__':
+    run()
 ```
 
-### SimpleHTTPRequestHandler Class
----------------------------------
+### Example 2: Handling GET Requests
+
+This example demonstrates handling GET requests by retrieving a query parameter.
 
 ```python
-import http.server
+from http.server import BaseHTTPRequestHandler, CGIHTTPRequestHandler
+import cgi
 
-class CustomSimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
-    """
-    A custom SimpleHTTPRequestHandler class that inherits from the base class.
-    """
-
+class MyCGIHTTPRequestHandler(CGIHTTPRequestHandler):
     def do_GET(self):
-        # Override the do_GET method to handle GET requests differently
+        # Parse the URL to get parameters
+        params = cgi.parse_qs(self.path[1:])
+        
+        if 'name' in params:
+            name = params['name'][0]
+            html_message = f"<html><head><title>GET Request Handler</title></head><body>Hello, {name}!</body></html>"
+        else:
+            html_message = "<html><head><title>GET Request Handler</title></head><body>Please provide a name.</body></html>"
+        
         self.send_response(200)
+        self.send_header('Content-type', 'text/html')
         self.end_headers()
-        self.wfile.write(b"Hello, World!")
+        self.wfile.write(html_message.encode())
 
+def run(server_class=HTTPServer, handler_class=MyCGIHTTPRequestHandler, port=8000):
+    server_address = ('', port)
+    httpd = server_class(server_address, handler_class)
+    print(f"Serving HTTP on port {port}...")
+    httpd.serve_forever()
+
+if __name__ == '__main__':
+    run()
+```
+
+### Example 3: Handling POST Requests
+
+This example demonstrates handling POST requests by processing form data.
+
+```python
+from http.server import BaseHTTPRequestHandler, CGIHTTPRequestHandler
+import cgi
+
+class MyCGIHTTPRequestHandler(CGIHTTPRequestHandler):
     def do_POST(self):
-        # Override the do_POST method to handle POST requests differently
+        # Parse the form data from the request
         content_length = int(self.headers['Content-Length'])
-        body = self.rfile.read(content_length)
-
-# Usage
-if __name__ == "__main__":
-    # Create a custom HTTP server with port 8080 and our custom handler
-    server = http.server.HTTPServer(("localhost", 8080), CustomSimpleHTTPRequestHandler)
-
-    # Start the server in the foreground
-    server.serve_forever()
-```
-
-### BasicHTTPServer Class
-------------------------
-
-```python
-import http.server
-
-class CustomBasicHTTPServer(http.server.BasicHTTPServer):
-    """
-    A custom BasicHTTPServer class that inherits from the base class.
-    """
-
-    def do_GET(self, path):
-        # Override the do_GET method to handle GET requests differently
+        post_data = self.rfile.read(content_length)
+        
+        # Parse the POST data as URL-encoded parameters
+        params = cgi.parse_qs(post_data.decode())
+        
+        if 'name' in params:
+            name = params['name'][0]
+            html_message = f"<html><head><title>POST Request Handler</title></head><body>Hello, {name}!</body></html>"
+        else:
+            html_message = "<html><head><title>POST Request Handler</title></head><body>Please provide a name.</body></html>"
+        
         self.send_response(200)
+        self.send_header('Content-type', 'text/html')
         self.end_headers()
-        return b"Hello, World!"
+        self.wfile.write(html_message.encode())
 
-# Usage
-if __name__ == "__main__":
-    # Create a custom HTTP server with port 8080 and our custom handler
-    server = CustomBasicHTTPServer(("localhost", 8080), http.server.SimpleHTTPRequestHandler)
+def run(server_class=HTTPServer, handler_class=MyCGIHTTPRequestHandler, port=8000):
+    server_address = ('', port)
+    httpd = server_class(server_address, handler_class)
+    print(f"Serving HTTP on port {port}...")
+    httpd.serve_forever()
 
-    # Start the server in the foreground
-    server.serve_forever()
+if __name__ == '__main__':
+    run()
 ```
 
-### SimpleProxyServer Class
----------------------------
+### Example 4: Serving Static Files
+
+This example demonstrates serving static files from a directory.
 
 ```python
-import http.server
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-class CustomSimpleProxyServer(http.server.SimpleProxyServer):
-    """
-    A custom SimpleProxyServer class that inherits from the base class.
-    """
-
-    def proxy_connect(self, conn):
-        # Override the proxy_connect method to handle connection establishment differently
-        print("Establishing connection...")
-        return super().proxy_connect(conn)
-
-# Usage
-if __name__ == "__main__":
-    # Create a custom HTTP server with port 8080 and our custom handler
-    server = http.server.HTTPServer(("localhost", 8080), CustomSimpleProxyServer(("localhost", 80)))
-
-    # Start the server in the foreground
-    server.serve_forever()
-```
-
-### BaseHTTPServer Class
-----------------------
-
-```python
-import http.server
-
-class CustomBasicHTTPServer(http.server.BaseHTTPRequestHandler):
-    """
-    A custom BasicHTTPServer class that inherits from the base class.
-    """
-
+class SimpleStaticHTTPServer(BaseHTTPRequestHandler):
     def do_GET(self):
-        # Override the do_GET method to handle GET requests differently
+        # Serve files from the current directory
+        try:
+            file_path = self.path[1:]
+            if not file_path:
+                file_path = 'index.html'
+            
+            with open(file_path, 'rb') as f:
+                content = f.read()
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(content)
+        except FileNotFoundError:
+            self.send_error(404, "File not found")
+
+def run(server_class=HTTPServer, handler_class=SimpleStaticHTTPServer, port=8000):
+    server_address = ('', port)
+    httpd = server_class(server_address, handler_class)
+    print(f"Serving HTTP on port {port}...")
+    httpd.serve_forever()
+
+if __name__ == '__main__':
+    run()
+```
+
+### Example 5: Using HTTPS
+
+This example demonstrates setting up an HTTPS server using the `http.server` module with a self-signed certificate.
+
+```python
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import ssl
+
+class SimpleHTTPSRequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        # Send response status code and headers
         self.send_response(200)
+        self.send_header('Content-type', 'text/html')
         self.end_headers()
-        return b"Hello, World!"
+        
+        # Write the HTML message
+        html_message = "<html><head><title>HTTPS Server</title></head><body>Hello, World!</body></html>"
+        self.wfile.write(html_message.encode())
 
-# Usage
-if __name__ == "__main__":
-    # Create a custom HTTP server with port 8080 and our custom handler
-    server = http.server.HTTPServer(("localhost", 8080), CustomBasicHTTPServer)
+def run(server_class=HTTPServer, handler_class=SimpleHTTPSRequestHandler, port=443):
+    # Generate a self-signed certificate and key
+    server_address = ('', port)
+    
+    # Use ssl.wrap_socket to secure the server connection
+    httpd = server_class(server_address, handler_class)
+    httpd.socket = ssl.wrap_socket(httpd.socket,
+                                     server_side=True,
+                                     certfile='server.crt',
+                                     keyfile='server.key')
+    
+    print(f"Serving HTTPS on port {port}...")
+    httpd.serve_forever()
 
-    # Start the server in the foreground
-    server.serve_forever()
+if __name__ == '__main__':
+    run()
 ```
 
-### HTTPMessage Class
---------------------
+### Example 6: Using the `http.server` module with a custom handler
+
+This example demonstrates using a custom handler class to handle requests in more complex ways.
 
 ```python
-import http.client
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-class CustomHTTPRequestMessage(http.client.HTTPMessage):
-    """
-    A custom HTTPMessage class that inherits from the base class.
-    """
+class CustomRequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        # Send response status code and headers
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        
+        # Handle the request based on the URL path
+        if self.path == '/':
+            html_message = "<html><head><title>Custom Request Handler</title></head><body>Welcome to the custom handler.</body></html>"
+        else:
+            html_message = f"<html><head><title>Error</title></head><body>Unknown endpoint: {self.path}</body></html>"
+        
+        self.wfile.write(html_message.encode())
 
-    def __init__(self, *args, **kwargs):
-        # Initialize the parent class with the provided arguments
-        super().__init__(*args, **kwargs)
+def run(server_class=HTTPServer, handler_class=CustomRequestHandler, port=8000):
+    server_address = ('', port)
+    httpd = server_class(server_address, handler_class)
+    print(f"Serving HTTP on port {port}...")
+    httpd.serve_forever()
 
-# Usage
-if __name__ == "__main__":
-    # Create a custom HTTP message object
-    message = CustomHTTPRequestMessage()
-
-    # Access attributes and methods of the original message
-    print(message.status)
-    print(message.version)
+if __name__ == '__main__':
+    run()
 ```
 
-### HTTPSConnection Class
--------------------------
+### Example 7: Using `http.server` with a multi-threaded server
+
+This example demonstrates running an HTTP server using multiple threads to handle concurrent requests.
 
 ```python
-import http.client
+from http.server import BaseHTTPRequestHandler, HTTPServer, ThreadingHTTPServer
 
-class CustomHTTPSConnection(http.client.HTTPSConnection):
-    """
-    A custom HTTPSConnection class that inherits from the base class.
-    """
+class ThreadedSimpleHTTPRequestHandler(ThreadingHTTPServer):
+    def __init__(self, server_address, handler_class=BaseHTTPRequestHandler):
+        super().__init__(server_address, handler_class)
+        self.daemon_threads = True  # Allow threads to exit when main program exits
 
-    def __init__(self, *args, **kwargs):
-        # Initialize the parent class with the provided arguments
-        super().__init__(*args, **kwargs)
+def run(server_class=ThreadedSimpleHTTPRequestHandler, handler_class=BaseHTTPRequestHandler, port=8000):
+    server_address = ('', port)
+    httpd = server_class(server_address, handler_class)
+    print(f"Serving HTTP on port {port} (multi-threaded)...")
+    httpd.serve_forever()
 
-# Usage
-if __name__ == "__main__":
-    # Create a custom HTTPS connection object
-    connection = CustomHTTPSConnection()
-
-    # Access attributes and methods of the original connection
-    print(connection.host)
-    print(connection.port)
+if __name__ == '__main__':
+    run()
 ```
 
-### HTTPServerFactory Class
----------------------------
-
-```python
-import http.server
-
-class CustomHTTPServerFactory(http.server.HTTPServerFactory):
-    """
-    A custom HTTPServerFactory class that inherits from the base class.
-    """
-
-    def create_server(self, server_address, server_class):
-        # Override the create_server method to handle server creation differently
-        print("Creating server...")
-        return super().create_server(server_address, server_class)
-
-# Usage
-if __name__ == "__main__":
-    # Create a custom HTTP server factory object
-    factory = CustomHTTPServerFactory()
-
-    # Create an HTTP server using our custom factory
-    server = factory.create_server(("localhost", 8080), http.server.HTTPServer)
-
-    # Start the server in the foreground
-    server.serve_forever()
-```
+These examples provide a comprehensive overview of the functionalities available in the `http.server` module. Each example is designed to be clear and self-contained, making it suitable for inclusion in official documentation or as part of a larger application.
