@@ -10,17 +10,4 @@ This application generates code examples for Python's standard library modules u
 4. The generated markdown files will be saved in the `standard_library_documents` directory.
 5. If files already exist, they will not be replaced or processed. You can delete the existing files and run the program again to regenerate them.
 6. You can add more modules to the standard library dictionary to generate examples for additional modules.
-
-## Dependencies
-
-- Python 3.12
-- `ollama` library for AI-based code generation
-
-## Installing Dependencies
-
-Install the required dependencies using `pip`:
-pip install -r requirements.txt
-
-## Reading the Generated Documents
-
-You can read the generated documents in the `standard_library_documents` folder.
+7. **Generate HTML Version:** Run the `create_html_version.py` script to convert the generated markdown files into a single HTML document. This HTML file will include categorized links and a scroll-to-top button for easy navigation.
