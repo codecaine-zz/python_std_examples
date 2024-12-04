@@ -18,3 +18,7 @@ This application generates code examples for Python's standard library modules u
 
 Install the required dependencies using `pip`:
 pip install -r requirements.txt
+
+## Reading the Generated Documents
+
+You can read the generated documents in the `standard_library_documents` folder.
