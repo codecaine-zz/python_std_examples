@@ -8,13 +8,17 @@ from markdown.postprocessors import Postprocessor
 from markdown.extensions.codehilite import CodeHiliteExtension
 import re
 
+
 class EscapeHtml(Extension):
     def extendMarkdown(self, md):
-        md.preprocessors.register(EscapeHtmlPreprocessor(md), 'escape_html', 25)
+        md.preprocessors.register(
+            EscapeHtmlPreprocessor(md), 'escape_html', 25)
+
 
 class EscapeHtmlPreprocessor(Preprocessor):
     def run(self, lines):
         return [escape(line) for line in lines]
+
 
 class AddCopyButtonPostprocessor(Postprocessor):
     def run(self, text):
@@ -23,9 +27,12 @@ class AddCopyButtonPostprocessor(Postprocessor):
         replacement = r'\1<button class="copy-btn">Copy</button>'
         return re.sub(pattern, replacement, text)
 
+
 class CopyButtonExtension(Extension):
     def extendMarkdown(self, md):
-        md.postprocessors.register(AddCopyButtonPostprocessor(), 'add_copy_button', 25)
+        md.postprocessors.register(
+            AddCopyButtonPostprocessor(), 'add_copy_button', 25)
+
 
 def convert_markdown_to_html(markdown_files_by_category):
     # Define the HTML structure
@@ -202,7 +209,8 @@ def convert_markdown_to_html(markdown_files_by_category):
     category_links = ""
     content_sections = ""
 
-    sorted_categories = sorted(markdown_files_by_category.keys(), key=lambda s: s.lower())
+    sorted_categories = sorted(
+        markdown_files_by_category.keys(), key=lambda s: s.lower())
     for category in sorted_categories:
         files = markdown_files_by_category[category]
         safe_category = escape(category)
@@ -211,7 +219,8 @@ def convert_markdown_to_html(markdown_files_by_category):
     for category in sorted_categories:
         files = markdown_files_by_category[category]
         safe_category = escape(category)
-        sorted_files = sorted(files, key=lambda s: s.lower())  # Sort files by filename, case insensitive
+        # Sort files by filename, case insensitive
+        sorted_files = sorted(files, key=lambda s: s.lower())
         content_sections += f"<h2 id='{safe_category}'>{safe_category}</h2><ul>"
         for file in sorted_files:
             safe_file = escape(file)
@@ -236,16 +245,19 @@ def convert_markdown_to_html(markdown_files_by_category):
 
     return html_content.format(category_links=category_links, content_sections=content_sections)
 
+
 def get_markdown_files_by_category(directory):
     markdown_files_by_category = {}
     for root, dirs, files in os.walk(directory):
         if root == directory:
             continue
         category = os.path.relpath(root, directory)
-        markdown_files = [os.path.join(root, file) for file in files if file.endswith(".md")]
+        markdown_files = [os.path.join(root, file)
+                          for file in files if file.endswith(".md")]
         if markdown_files:
             markdown_files_by_category[category] = markdown_files
     return markdown_files_by_category
+
 
 def save_html_file(content, output_file):
     output_dir = Path("html_version")
@@ -254,10 +266,11 @@ def save_html_file(content, output_file):
     with open(output_path, 'w') as f:
         f.write(content)
 
+
 if __name__ == "__main__":
     directory = "standard_library_documents"
     output_file = "standard_library_documents.html"
-    
+
     markdown_files_by_category = get_markdown_files_by_category(directory)
     html_content = convert_markdown_to_html(markdown_files_by_category)
     save_html_file(html_content, output_file)
