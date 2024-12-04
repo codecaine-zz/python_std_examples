@@ -5,7 +5,6 @@ import markdown
 from markdown.extensions import Extension
 from markdown.preprocessors import Preprocessor
 from markdown.postprocessors import Postprocessor
-from markdown.extensions.codehilite import CodeHiliteExtension
 import re
 
 
