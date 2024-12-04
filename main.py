@@ -1,7 +1,6 @@
 from pathlib import Path
 from doc_api import generate_code_example
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 import re
 
 standard_library = {
@@ -305,10 +304,9 @@ standard_library = {
 def safe_filename(name):
     return re.sub(r'[^\w\s\-_().,+]', ' ', name).strip().replace('  ', ' ')
 
-async def write_code_example(file_path, category, module, executor):
+async def write_code_example(file_path, category, module):
     code_example = generate_code_example(module)
-    loop = asyncio.get_event_loop()
-    await loop.run_in_executor(executor, file_path.write_text, f"# {module}\n\n{code_example}\n")
+    await asyncio.to_thread(file_path.write_text, f"# {module}\n\n{code_example}\n")
     print(f"Category: {category}, Module: {module}\n{code_example}\n")
 
 def get_activation_script_path(venv_path):
@@ -317,7 +315,7 @@ def get_activation_script_path(venv_path):
     else:
         return f"{venv_path}/bin/activate"
 
-async def process_module(category, module, executor):
+async def process_module(category, module):
     base_dir = Path.cwd() / "standard_library_documents"
     category_dir = base_dir / safe_filename(category)
     category_dir.mkdir(parents=True, exist_ok=True)
@@ -326,17 +324,15 @@ async def process_module(category, module, executor):
         print(f"File {file_path} already exists. Skipping generation.")
         return
     print(f"Working on file: {file_path}")
-    await write_code_example(file_path, category, module, executor)
+    await write_code_example(file_path, category, module)
 
-async def process_category(category, modules, executor):
-    tasks = [process_module(category, module, executor) for module in modules]
+async def process_category(category, modules):
+    tasks = [process_module(category, module) for module in modules]
     await asyncio.gather(*tasks)
 
 async def main():
-    executor = ThreadPoolExecutor()
-    tasks = [process_category(category, modules, executor) for category, modules in standard_library.items()]
+    tasks = [process_category(category, modules) for category, modules in standard_library.items()]
     await asyncio.gather(*tasks)
-    executor.shutdown()
 
 if __name__ == "__main__":
     asyncio.run(main())

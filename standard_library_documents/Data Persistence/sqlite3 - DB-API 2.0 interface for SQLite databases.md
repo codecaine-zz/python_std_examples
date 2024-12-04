@@ -1,167 +1,260 @@
 # sqlite3 - DB-API 2.0 interface for SQLite databases
 
-The `sqlite3` module is a part of Python's standard library that provides a lightweight disk-based database that doesn't require a separate server process and allows accessing the database using a nonstandard variant of the SQL query language. This makes it particularly suitable for small applications or embedded systems where a full-fledged RDBMS might be overkill.
-
-Below are comprehensive code examples for various functionalities in the `sqlite3` module, including connection management, cursor creation, executing queries, handling results, and closing connections. These examples follow best practices and are designed to be clear and concise.
-
-### 1. Establishing a Connection
-
+Here are comprehensive code examples for using the `sqlite3` module in Python, which provides an interface to the SQLite database engine:
+1. Connecting to a SQLite database:
 ```python
 import sqlite3
 
-# Connect to an SQLite database (or create it if it doesn't exist)
-connection = sqlite3.connect('example.db')
-
-# Create a cursor object using the connection
-cursor = connection.cursor()
+# Connect to the SQLite database (or create it if it doesn't exist)
+conn = sqlite3.connect('my_database.db')
 ```
-
-**Explanation:**
-- `sqlite3.connect('example.db')` creates a new connection to an SQLite database file named 'example.db'. If the file does not exist, it will be created.
-- The `cursor()` method is used to create a cursor object which is used to execute SQL commands.
-
-### 2. Executing a Query
-
+2. Creating a cursor object to execute SQL commands:
 ```python
-# Create a table
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        email TEXT UNIQUE NOT NULL
-    )
-''')
-
-# Insert data into the table
-cursor.execute("INSERT INTO users (name, email) VALUES (?, ?)", ('John Doe', 'john.doe@example.com'))
-
-# Commit the changes to the database
-connection.commit()
+cursor = conn.cursor()
 ```
-
-**Explanation:**
-- `CREATE TABLE IF NOT EXISTS users (...)` creates a new table named 'users' with columns for `id`, `name`, and `email`.
-- `INSERT INTO users (name, email) VALUES (?, ?)` inserts a new row into the 'users' table. The placeholders `?` are used to safely insert data from variables.
-- `connection.commit()` saves the changes made by the SQL commands.
-
-### 3. Fetching Results
-
+3. Executing an SQL command to create a table:
 ```python
-# Query all users
+cursor.execute('''CREATE TABLE IF NOT EXISTS users
+             (id INTEGER PRIMARY KEY, name TEXT NOT NULL)''')
+```
+4. Inserting data into the table using parameterized queries:
+```python
+cursor.execute("INSERT INTO users (name) VALUES (?)", ('John',))
+conn.commit()
+```
+5. Executing a SQL query to retrieve data from the table:
+```python
 cursor.execute("SELECT * FROM users")
 rows = cursor.fetchall()
-
 for row in rows:
     print(row)
 ```
-
-**Explanation:**
-- `SELECT * FROM users` retrieves all records from the 'users' table.
-- `fetchall()` returns all remaining rows of a query result as a list of tuples. Each tuple represents a row.
-
-### 4. Handling Exceptions
-
+6. Closing the database connection and cursor:
 ```python
-try:
-    # Attempt to execute a command that will fail due to missing column name
-    cursor.execute("INSERT INTO users (name) VALUES (?)", ('Jane Doe',))
-except sqlite3.Error as e:
-    print(f"An error occurred: {e}")
-```
-
-**Explanation:**
-- `try-except` block is used to handle potential errors during database operations.
-- `sqlite3.Error` is a base class for all exceptions related to the SQLite library.
-
-### 5. Closing the Connection
-
-```python
-# Close the cursor and connection
 cursor.close()
-connection.close()
+conn.close()
 ```
-
-**Explanation:**
-- `cursor.close()` releases the resources associated with the cursor object.
-- `connection.close()` closes the database connection, freeing up system resources.
-
-### Additional Examples
-
-#### 6. Executing Prepared Statements (Parameterized Queries)
-
+7. Handling exceptions using try-except blocks:
 ```python
-# Prepare and execute a parameterized query
-name = 'Alice Smith'
-email = 'alice.smith@example.com'
-cursor.execute("INSERT INTO users (name, email) VALUES (?, ?)", (name, email))
-connection.commit()
+import sqlite3
 
-# Fetch the inserted user by name
-cursor.execute("SELECT * FROM users WHERE name=?", (name,))
-user = cursor.fetchone()
-print(user)
-```
-
-**Explanation:**
-- `INSERT INTO users (name, email) VALUES (?, ?)` uses placeholders to safely insert data.
-- `fetchone()` retrieves the first row of a query result.
-
-#### 7. Querying Multiple Rows
-
-```python
-# Execute a query that returns multiple rows
-cursor.execute("SELECT * FROM users")
-for user in cursor:
-    print(user)
-```
-
-**Explanation:**
-- The loop iterates over the results and prints each row as a tuple.
-
-#### 8. Dropping a Table
-
-```python
-# Drop an existing table if it exists
 try:
-    cursor.execute("DROP TABLE IF EXISTS users")
+    conn = sqlite3.connect('my_database.db')
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS users
+             (id INTEGER PRIMARY KEY, name TEXT NOT NULL)''')
+    cursor.execute("INSERT INTO users (name) VALUES (?)", ('John',))
+    conn.commit()
+    cursor.execute("SELECT * FROM users")
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+finally:
+    cursor.close()
+    conn.close()
+```
+8. Creating a connection using a context manager:
+```python
+import sqlite3
+
+with sqlite3.connect('my_database.db') as conn:
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS users
+             (id INTEGER PRIMARY KEY, name TEXT NOT NULL)''')
+    cursor.execute("INSERT INTO users (name) VALUES (?)", ('John',))
+    cursor.execute("SELECT * FROM users")
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+```
+9. Executing an SQL command using a parameterized query with named placeholders:
+```python
+cursor.execute("INSERT INTO users (name) VALUES (:name)", {'name': 'John'})
+conn.commit()
+```
+10. Executing an SQL command to update data in the table:
+```python
+cursor.execute("UPDATE users SET name = ? WHERE id = ?", ('Jane', 1))
+conn.commit()
+```
+11. Executing an SQL command to delete data from the table:
+```python
+cursor.execute("DELETE FROM users WHERE id = ?", (1,))
+conn.commit()
+```
+12. Executing an SQL command using a parameterized query with positional placeholders:
+```python
+cursor.execute("INSERT INTO users (name) VALUES (?, ?)", ('John', 'Doe'))
+conn.commit()
+```
+13. Executing an SQL command to select distinct values from a table:
+```python
+cursor.execute("SELECT DISTINCT name FROM users")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+```
+14. Executing an SQL command to count the number of rows in a table:
+```python
+cursor.execute("SELECT COUNT(*) FROM users")
+row = cursor.fetchone()
+print(row[0])
+```
+15. Executing an SQL command to order the results by a column:
+```python
+cursor.execute("SELECT * FROM users ORDER BY name DESC")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+```
+16. Executing an SQL command to join two tables:
+```python
+cursor.execute("SELECT u.name, t.value FROM users u JOIN table2 t ON u.id = t.user_id")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+```
+17. Executing an SQL command to perform a group by operation:
+```python
+cursor.execute("SELECT name, COUNT(*) FROM users GROUP BY name")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+```
+18. Executing an SQL command to calculate the average of a column:
+```python
+cursor.execute("SELECT AVG(age) FROM users")
+row = cursor.fetchone()
+print(row[0])
+```
+19. Executing an SQL command to calculate the sum of a column:
+```python
+cursor.execute("SELECT SUM(salary) FROM employees")
+row = cursor.fetchone()
+print(row[0])
+```
+20. Executing an SQL command to calculate the maximum value of a column:
+```python
+cursor.execute("SELECT MAX(height) FROM people")
+row = cursor.fetchone()
+print(row[0])
+```
+21. Executing an SQL command to calculate the minimum value of a column:
+```python
+cursor.execute("SELECT MIN(weight) FROM people")
+row = cursor.fetchone()
+print(row[0])
+```
+22. Executing an SQL command to select data from multiple tables using subqueries:
+```python
+cursor.execute("SELECT * FROM (SELECT id, name FROM users WHERE age > 30) AS u JOIN table2 t ON u.id = t.user_id")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+```
+23. Executing an SQL command to select data from multiple tables using joins and conditions:
+```python
+cursor.execute("SELECT u.name, t.value FROM users u JOIN table2 t ON u.id = t.user_id WHERE u.age > 30")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+```
+24. Executing an SQL command to select data from multiple tables using subqueries and conditions:
+```python
+cursor.execute("SELECT * FROM (SELECT id, name FROM users WHERE age > 30) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value > 100")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+```
+25. Executing an SQL command to select data from multiple tables using joins and conditions with parameters:
+```python
+cursor.execute("SELECT * FROM (SELECT id, name FROM users WHERE age > :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value > :value", {'age': 30, 'value': 100})
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+```
+26. Executing an SQL command to select data from multiple tables using joins and conditions with parameters and placeholders:
+```python
+cursor.execute("SELECT * FROM (SELECT id, name FROM users WHERE age > :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value > ?", (100,))
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+```
+27. Executing an SQL command to select data from multiple tables using joins and conditions with parameters and placeholders, and handling exceptions:
+```python
+import sqlite3
+
+try:
+    conn = sqlite3.connect('my_database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM (SELECT id, name FROM users WHERE age > :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value > ?", (100,))
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
 except sqlite3.Error as e:
-    print(f"An error occurred while dropping the table: {e}")
+    print("An error occurred:", e)
+finally:
+    cursor.close()
+    conn.close()
 ```
-
-**Explanation:**
-- `DROP TABLE IF EXISTS users` removes the 'users' table if it exists, using a try-except block to handle potential errors.
-
-#### 9. Using Transactions
-
+28. Executing an SQL command to select data from multiple tables using joins and conditions with parameters, placeholders, and handling exceptions and logging:
 ```python
-# Start a transaction and insert multiple records in one shot
-connection.execute("BEGIN TRANSACTION")
-cursor.executemany(
-    "INSERT INTO users (name, email) VALUES (?, ?)",
-    [
-        ('Bob Brown', 'bob.brown@example.com'),
-        ('Charlie Green', 'charlie.green@example.com')
-    ]
-)
-connection.commit()
+import sqlite3
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
+try:
+    conn = sqlite3.connect('my_database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM (SELECT id, name FROM users WHERE age > :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value > ?", (100,))
+    rows = cursor.fetchall()
+    for row in rows:
+        logging.info(row)
+except sqlite3.Error as e:
+    logging.error("An error occurred:", e)
+finally:
+    cursor.close()
+    conn.close()
 ```
-
-**Explanation:**
-- `BEGIN TRANSACTION` starts a new transaction.
-- `executemany()` is used to insert multiple records in one query, which can be more efficient than executing individual queries.
-
-#### 10. Retrieving the Last Inserted Row ID
-
+29. Executing an SQL command to select data from multiple tables using joins and conditions with parameters, placeholders, and handling exceptions and logging, and using context managers:
 ```python
-# Get the last inserted row ID after inserting data
-cursor.execute("INSERT INTO users (name, email) VALUES (?, ?)", ('David Blue', 'david.blue@example.com'))
-connection.commit()
+import sqlite3
+import logging
 
-last_insert_id = cursor.lastrowid
-print(f"The last inserted row ID is: {last_insert_id}")
+logging.basicConfig(level=logging.INFO)
+
+try:
+    with sqlite3.connect('my_database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM (SELECT id, name FROM users WHERE age > :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value > ?", (100,))
+        rows = cursor.fetchall()
+        for row in rows:
+            logging.info(row)
+except sqlite3.Error as e:
+    logging.error("An error occurred:", e)
+```
+30. Executing an SQL command to select data from multiple tables using joins and conditions with parameters, placeholders, and handling exceptions and logging, and using context managers and exception handling:
+```python
+import sqlite3
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
+try:
+    with sqlite3.connect('my_database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM (SELECT id, name FROM users WHERE age > :age) AS u JOIN table2 t ON u.id = t.user_id WHERE t.value > ?", (100,))
+        rows = cursor.fetchall()
+except sqlite3.Error as e:
+    logging.error("An error occurred:", e)
+else:
+    for row in rows:
+        logging.info(row)
+finally:
+    cursor.close()
+    conn.close()
 ```
 
-**Explanation:**
-- `lastrowid` provides the ID of the last row that was successfully inserted into the table.
 
-These examples cover a range of common operations with SQLite using Python's `sqlite3` module. By following these examples, you should be able to efficiently manage and interact with SQLite databases in your Python applications.
+
