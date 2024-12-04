@@ -7,11 +7,12 @@ def convert_markdown_to_html(markdown_files_by_category):
     html_content = """
     <html>
     <head>
-        <title>Standard Library Documents</title>
+        <title>Python 3.12 Standard Library</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="A collection of standard library documents converted from markdown to HTML.">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <link rel="icon" href="favicon.png" type="image/png">
         <style>
             body {{
                 font-family: Arial, sans-serif;
@@ -35,9 +36,12 @@ def convert_markdown_to_html(markdown_files_by_category):
             a {{
                 text-decoration: none;
                 color: #1e90ff;
+                border-bottom: 1px dashed #1e90ff;
+                transition: color 0.3s, border-bottom-color 0.3s;
             }}
             a:hover {{
-                text-decoration: underline;
+                color: #63a4ff;
+                border-bottom-color: #63a4ff;
             }}
             pre {{
                 background: #3e3e3e;
@@ -107,7 +111,7 @@ def convert_markdown_to_html(markdown_files_by_category):
         </style>
     </head>
     <body>
-        <h1>Standard Library Documents</h1>
+        <h1>Python 3.12 Standard Library</h1>
         <hr>
         <ul>
             {category_links}
@@ -194,7 +198,10 @@ def get_markdown_files_by_category(directory):
     return markdown_files_by_category
 
 def save_html_file(content, output_file):
-    with open(output_file, 'w') as f:
+    output_dir = Path("html_version")
+    output_dir.mkdir(exist_ok=True)
+    output_path = output_dir / output_file
+    with open(output_path, 'w') as f:
         f.write(content)
 
 if __name__ == "__main__":
@@ -204,4 +211,4 @@ if __name__ == "__main__":
     markdown_files_by_category = get_markdown_files_by_category(directory)
     html_content = convert_markdown_to_html(markdown_files_by_category)
     save_html_file(html_content, output_file)
-    print(f"HTML file generated: {output_file}")
+    print(f"HTML file generated: html_version/{output_file}")
