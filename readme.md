@@ -1,6 +1,6 @@
 Python standard library code examples using AI
 
-This application generates code examples for Python's standard library modules using AI. It organizes the examples into markdown files categorized by the module's functionality.
+This application generates code examples for Python's standard library modules using AI. The code examples are generated using the qwen2.5-coder:3b model.
 
 ## How to Use
 
@@ -14,3 +14,7 @@ This application generates code examples for Python's standard library modules u
 7. **Generate HTML Version:** Run the `create_html_version.py` script to convert the generated markdown files into a single HTML document. This HTML file will be saved in the `html_version` folder and will include categorized links and a scroll-to-top button for easy navigation.
    ![Screenshot categories](screenshots/screenshot1.png)
    ![Screenshot modules](screenshots/screenshot2.png)
+
+### Development Notes
+
+You can use Copilot edits to refactor the `standard_library_documents` to improve examples if needed.
