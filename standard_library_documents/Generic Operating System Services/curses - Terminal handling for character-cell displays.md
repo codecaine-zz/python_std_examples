@@ -76,6 +76,12 @@ import curses
 
 def main(stdscr):
     # Initialize color support
+    if not curses.has_colors():
+        stdscr.addstr("Your terminal does not support colors.")
+        stdscr.refresh()
+        stdscr.getch()
+        return
+    
     curses.start_color()
     
     # Define colors (0 for black, 14 for bright green)
@@ -112,6 +118,7 @@ curses.wrapper(main)
 ```python
 import curses
 
+
 def main(stdscr):
     # Initialize mouse support
     stdscr.keypad(True)
@@ -119,13 +126,19 @@ def main(stdscr):
 
     while True:
         # Wait for a mouse event
-        _, x, y, button = stdscr.getmouse()
+        event = stdscr.getch()
+        if event == curses.KEY_MOUSE:
+            _, x, y, _, _ = curses.getmouse()
 
-        # Print the coordinates of the mouse click
-        stdscr.addstr("Mouse clicked at: ({}, {})".format(x, y))
-        
-        # Refresh the screen to show the changes
-        stdscr.refresh()
+            # Clear the screen
+            stdscr.clear()
+
+            # Print the coordinates of the mouse click
+            stdscr.addstr("Mouse clicked at: ({}, {})".format(x, y))
+
+            # Refresh the screen to show the changes
+            stdscr.refresh()
+
 
 # Start the application and run the `main` function
 curses.wrapper(main)
@@ -161,13 +174,18 @@ def main(stdscr):
         # Get user input
         ch = win.getch()
 
-        if ch == ord('q'):
+        if ch == ord('1'):
+            stdscr.addstr(0, 0, "Option 1 selected")
+        elif ch == ord('2'):
+            stdscr.addstr(0, 0, "Option 2 selected")
+        elif ch == ord('3'):
             break
 
         # Clear the menu after selection
         win.clear()
         win.box()
         win.refresh()
+        stdscr.refresh()
 
 # Start the application and run the `main` function
 curses.wrapper(main)
