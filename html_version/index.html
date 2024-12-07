@@ -14369,6 +14369,12 @@ curses.wrapper(main)
 
 def main(stdscr):
     # Initialize color support
+    if not curses.has_colors():
+        stdscr.addstr(&quot;Your terminal does not support colors.&quot;)
+        stdscr.refresh()
+        stdscr.getch()
+        return
+
     curses.start_color()
 
     # Define colors (0 for black, 14 for bright green)
@@ -14402,6 +14408,7 @@ curses.wrapper(main)
 <h3>Example 4: Handling Mouse Events</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import curses
 
+
 def main(stdscr):
     # Initialize mouse support
     stdscr.keypad(True)
@@ -14409,13 +14416,19 @@ def main(stdscr):
 
     while True:
         # Wait for a mouse event
-        _, x, y, button = stdscr.getmouse()
+        event = stdscr.getch()
+        if event == curses.KEY_MOUSE:
+            _, x, y, _, _ = curses.getmouse()
 
-        # Print the coordinates of the mouse click
-        stdscr.addstr(&quot;Mouse clicked at: ({}, {})&quot;.format(x, y))
+            # Clear the screen
+            stdscr.clear()
 
-        # Refresh the screen to show the changes
-        stdscr.refresh()
+            # Print the coordinates of the mouse click
+            stdscr.addstr(&quot;Mouse clicked at: ({}, {})&quot;.format(x, y))
+
+            # Refresh the screen to show the changes
+            stdscr.refresh()
+
 
 # Start the application and run the `main` function
 curses.wrapper(main)
@@ -14448,13 +14461,18 @@ def main(stdscr):
         # Get user input
         ch = win.getch()
 
-        if ch == ord('q'):
+        if ch == ord('1'):
+            stdscr.addstr(0, 0, &quot;Option 1 selected&quot;)
+        elif ch == ord('2'):
+            stdscr.addstr(0, 0, &quot;Option 2 selected&quot;)
+        elif ch == ord('3'):
             break
 
         # Clear the menu after selection
         win.clear()
         win.box()
         win.refresh()
+        stdscr.refresh()
 
 # Start the application and run the `main` function
 curses.wrapper(main)
@@ -14514,9 +14532,9 @@ def convert_case(character):
     :return: The converted character.
     &quot;&quot;&quot;
     if ascii.islower(character):
-        return chr(ascii.toupper(character))
+        return character.upper()
     elif ascii.isupper(character):
-        return chr(ascii.tolower(character))
+        return character.lower()
     else:
         return character
 
@@ -14560,7 +14578,12 @@ def compare_characters(char1, char2):
     :param char2: Second ASCII character.
     :return: A comparison result (0 if equal, -1 if less than, 1 if greater than).
     &quot;&quot;&quot;
-    return ascii.cmp(char1, char2)
+    if ord(char1) == ord(char2):
+        return 0
+    elif ord(char1) &lt; ord(char2):
+        return -1
+    else:
+        return 1
 
 # Example usage
 char1 = 'B'
@@ -16332,6 +16355,7 @@ create_directory_with_permissions('/path/to/new/directory', 0o755)
 <h1>platform - Access to underlying platform’s identifying data</h1>
 <p>Below is a comprehensive set of code examples for the <code>platform</code> module in Python, including comments explaining each step.</p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import platform
+import sys
 
 # Example 1: Get the system name
 system_name = platform.system()
@@ -16350,7 +16374,7 @@ python_implementation = platform.python_implementation()
 print(f&quot;Python Implementation: {python_implementation}&quot;)
 
 # Example 5: Get the Python version as a tuple (major, minor, micro)
-python_version_tuple = platform.version_info
+python_version_tuple = sys.version_info
 print(f&quot;Python Version Tuple: {python_version_tuple}&quot;)
 
 # Example 6: Get the operating system name and release version as a string
@@ -16366,7 +16390,7 @@ else:
 print(f&quot;Is Virtual Environment: {is_virtualenv}&quot;)
 
 # Example 8: Get the Python executable path
-python_executable = platform.python_executable
+python_executable = sys.executable
 print(f&quot;Python Executable Path: {python_executable}&quot;)
 
 # Example 9: Get the current operating system as a string (e.g., 'Windows', 'Linux')
@@ -16396,7 +16420,7 @@ python_implementation_str = platform.python_implementation()
 print(f&quot;Python Implementation String: {python_implementation_str}&quot;)
 
 # Example 15: Get the operating system's release version as a tuple
-os_release_tuple = platform.release_info
+os_release_tuple = platform.uname().release
 print(f&quot;OS Release Tuple: {os_release_tuple}&quot;)
 
 # Example 16: Check if Python is running in an environment that supports virtual environments
@@ -16408,7 +16432,7 @@ os_name_full = platform.uname().system
 print(f&quot;OS Name Full: {os_name_full}&quot;)
 
 # Example 18: Get the Python version as a tuple (major, minor)
-python_version_tuple_long = platform.version_info[:2]
+python_version_tuple_long = sys.version_info[:2]
 print(f&quot;Python Version Tuple Long: {python_version_tuple_long}&quot;)
 
 # Example 19: Check if the operating system is macOS
@@ -16422,7 +16446,7 @@ os_name_agnostic = platform.platform(aliased=True)
 print(f&quot;OS Name Agnostic: {os_name_agnostic}&quot;)
 
 # Example 21: Get the Python implementation as a tuple
-python_implementation_tuple = platform.python_implementation_info()[:2]
+python_implementation_tuple = (sys.version_info.major, sys.version_info.minor)
 print(f&quot;Python Implementation Tuple: {python_implementation_tuple}&quot;)
 
 # Example 22: Check if the operating system is POSIX-based (Linux, macOS)
@@ -16434,7 +16458,7 @@ os_name_specific = platform.uname().system
 print(f&quot;OS Name Specific: {os_name_specific}&quot;)
 
 # Example 24: Get the Python version as a tuple (major, minor)
-python_version_tuple_all = platform.version_info[:3]
+python_version_tuple_all = sys.version_info[:3]
 print(f&quot;Python Version Tuple All: {python_version_tuple_all}&quot;)
 
 # Example 25: Check if the operating system is Windows or macOS

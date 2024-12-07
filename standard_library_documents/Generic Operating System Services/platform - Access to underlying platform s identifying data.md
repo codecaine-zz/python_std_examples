@@ -4,6 +4,7 @@ Below is a comprehensive set of code examples for the `platform` module in Pytho
 
 ```python
 import platform
+import sys
 
 # Example 1: Get the system name
 system_name = platform.system()
@@ -22,7 +23,7 @@ python_implementation = platform.python_implementation()
 print(f"Python Implementation: {python_implementation}")
 
 # Example 5: Get the Python version as a tuple (major, minor, micro)
-python_version_tuple = platform.version_info
+python_version_tuple = sys.version_info
 print(f"Python Version Tuple: {python_version_tuple}")
 
 # Example 6: Get the operating system name and release version as a string
@@ -38,7 +39,7 @@ else:
 print(f"Is Virtual Environment: {is_virtualenv}")
 
 # Example 8: Get the Python executable path
-python_executable = platform.python_executable
+python_executable = sys.executable
 print(f"Python Executable Path: {python_executable}")
 
 # Example 9: Get the current operating system as a string (e.g., 'Windows', 'Linux')
@@ -68,7 +69,7 @@ python_implementation_str = platform.python_implementation()
 print(f"Python Implementation String: {python_implementation_str}")
 
 # Example 15: Get the operating system's release version as a tuple
-os_release_tuple = platform.release_info
+os_release_tuple = platform.uname().release
 print(f"OS Release Tuple: {os_release_tuple}")
 
 # Example 16: Check if Python is running in an environment that supports virtual environments
@@ -80,7 +81,7 @@ os_name_full = platform.uname().system
 print(f"OS Name Full: {os_name_full}")
 
 # Example 18: Get the Python version as a tuple (major, minor)
-python_version_tuple_long = platform.version_info[:2]
+python_version_tuple_long = sys.version_info[:2]
 print(f"Python Version Tuple Long: {python_version_tuple_long}")
 
 # Example 19: Check if the operating system is macOS
@@ -94,7 +95,7 @@ os_name_agnostic = platform.platform(aliased=True)
 print(f"OS Name Agnostic: {os_name_agnostic}")
 
 # Example 21: Get the Python implementation as a tuple
-python_implementation_tuple = platform.python_implementation_info()[:2]
+python_implementation_tuple = (sys.version_info.major, sys.version_info.minor)
 print(f"Python Implementation Tuple: {python_implementation_tuple}")
 
 # Example 22: Check if the operating system is POSIX-based (Linux, macOS)
@@ -106,7 +107,7 @@ os_name_specific = platform.uname().system
 print(f"OS Name Specific: {os_name_specific}")
 
 # Example 24: Get the Python version as a tuple (major, minor)
-python_version_tuple_all = platform.version_info[:3]
+python_version_tuple_all = sys.version_info[:3]
 print(f"Python Version Tuple All: {python_version_tuple_all}")
 
 # Example 25: Check if the operating system is Windows or macOS
