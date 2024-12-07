@@ -32,8 +32,11 @@ async def task2():
     await asyncio.sleep(2)
     print("Task 2 completed")
 
+async def main():
+    await asyncio.gather(task1(), task2())
+
 # Running the tasks
-asyncio.run(asyncio.gather(task1(), task2()))
+asyncio.run(main())
 ```
 
 ### Example 3: Handling Exceptions in Asynchronous Functions
@@ -83,9 +86,12 @@ This example shows how to perform asynchronous file I/O using `asyncio.open_file
 import asyncio
 
 async def read_file(file_path):
-    async with open(file_path, 'r') as file:
-        content = await file.read()
-    return content
+    try:
+        async with open(file_path, 'r') as file:
+            content = await file.read()
+        return content
+    except FileNotFoundError:
+        return f"File {file_path} not found."
 
 # Running the coroutine
 file_content = asyncio.run(read_file('example.txt'))
@@ -144,7 +150,19 @@ async def fetch_data(connection):
 
 async def main():
     conn_str = 'postgresql://user:password@localhost/my_database'
-    pool = await asyncpg.create_pool(conn_str)
+    retries = 5
+    for attempt in range(retries):
+        try:
+            pool = await asyncpg.create_pool(conn_str)
+            break
+        except (OSError, asyncpg.exceptions.ConnectionDoesNotExistError) as e:
+            print(f"Attempt {attempt + 1} failed: {e}")
+            if attempt < retries - 1:
+                await asyncio.sleep(2)
+            else:
+                print("Failed to connect to the database after several attempts.")
+                return
+
     try:
         data = await fetch_data(pool)
         for row in data:
@@ -170,22 +188,21 @@ Then, here's the code example:
 
 ```python
 import asyncio
-import psycopg2
+import asyncpg
+import asyncio
 
 async def fetch_data(conn):
-    cursor = conn.cursor()
     query = 'SELECT * FROM my_table'
-    await cursor.execute(query)
-    result = cursor.fetchall()
-    cursor.close()
+    result = await conn.fetch(query)
     return result
 
 async def main():
-    conn_str = 'dbname=my_database user=username password=password host=localhost'
-    async with psycopg2.connect(conn_str) as conn:
-        data = await fetch_data(conn)
-        for row in data:
-            print(row)
+    conn_str = 'postgresql://username:password@127.0.0.1/my_database'
+    conn = await asyncpg.connect(conn_str)
+    data = await fetch_data(conn)
+    for row in data:
+        print(row)
+    await conn.close()
 
 # Running the coroutine
 asyncio.run(main())
@@ -204,19 +221,24 @@ pip install gevent aiohttp
 Then, here's the code example:
 
 ```python
+import asyncpg
 import asyncio
-from gevent import monkey
-monkey.patch_all()
-import aiohttp
 
-async def fetch(session, url):
-    async with session.get(url) as response:
-        return await response.text()
+async def fetch_data(conn):
+    query = 'SELECT * FROM my_table'
+    result = await conn.fetch(query)
+    return result
 
 async def main():
-    async with aiohttp.ClientSession() as session:
-        html = await fetch(session, 'https://www.example.com')
-        print(html)
+    conn_str = 'postgresql://username:password@127.0.0.1/my_database'
+    try:
+        conn = await asyncpg.connect(conn_str)
+        data = await fetch_data(conn)
+        for row in data:
+            print(row)
+        await conn.close()
+    except (asyncpg.PostgresError, OSError) as e:
+        print(f"Error connecting to the database: {e}")
 
 # Running the coroutine
 asyncio.run(main())
@@ -235,28 +257,34 @@ pip install gevent psycopg2-binary
 Then, here's the code example:
 
 ```python
-import asyncio
+import gevent
 from gevent import monkey
 monkey.patch_all()
 import psycopg2
+from psycopg2 import extras
 
-async def fetch_data(conn):
-    cursor = conn.cursor()
+def fetch_data(conn):
+    cursor = conn.cursor(cursor_factory=extras.RealDictCursor)
     query = 'SELECT * FROM my_table'
-    await cursor.execute(query)
+    cursor.execute(query)
     result = cursor.fetchall()
     cursor.close()
     return result
 
-async def main():
+def main():
     conn_str = 'dbname=my_database user=username password=password host=localhost'
-    async with psycopg2.connect(conn_str) as conn:
-        data = await fetch_data(conn)
-        for row in data:
-            print(row)
+    conn = psycopg2.connect(conn_str)
+    data = fetch_data(conn)
+    for row in data:
+        print(row)
+    conn.close()
 
-# Running the coroutine
-asyncio.run(main())
+if __name__ == "__main__":
+    try:
+        # Running the coroutine
+        gevent.spawn(main).join()
+    except KeyboardInterrupt:
+        print("Process interrupted by user")
 ```
 
 These examples cover a range of asynchronous I/O functionalities available in Python's `asyncio` module, including basic tasks, handling exceptions, managing event loops, performing file I/O, making HTTP requests, and interacting with databases using different libraries. Each example is designed to be clear and self-contained, providing a starting point for developers looking to learn about asynchronous programming in Python.
