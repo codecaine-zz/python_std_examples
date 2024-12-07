@@ -81,6 +81,7 @@ def worker(x):
 
 if __name__ == '__main__':
     with Pool(processes=2) as pool:
+        results = []  # Initialize results to ensure it is defined
         try:
             results = pool.map(worker, [5, 0, 3])
         except Exception as e:
@@ -130,7 +131,7 @@ if __name__ == '__main__':
 
 ```python
 import multiprocessing
-from multiprocessing import Lock
+from multiprocessing import Lock, Manager
 
 def shared_task(lock, counter):
     """Function that increments a counter and prints its value."""
@@ -155,6 +156,7 @@ if __name__ == '__main__':
         # Wait for all processes to complete
         for p in processes:
             p.join()
+
 ```
 
 These examples cover a range of functionalities provided by the `multiprocessing` module, including creating and managing processes, sharing data between them, handling exceptions, using queues for inter-process communication, and synchronizing access to shared resources.

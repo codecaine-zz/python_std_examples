@@ -3652,6 +3652,7 @@ print(&quot;Main program completed.&quot;)
 <h3>Example 2: Using Thread Locks</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import _thread
 import threading
+import time  # Add this import
 
 # Define a lock object
 lock = threading.Lock()
@@ -3739,6 +3740,7 @@ print(&quot;All workers passed the barrier.&quot;)
 <h3>Example 5: Using Thread Local Data</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import _thread
 import threading
+import time
 
 # Define a thread local storage object
 local_data = threading.local()
@@ -4095,6 +4097,7 @@ def worker(x):
 
 if __name__ == '__main__':
     with Pool(processes=2) as pool:
+        results = []  # Initialize results to ensure it is defined
         try:
             results = pool.map(worker, [5, 0, 3])
         except Exception as e:
@@ -4140,7 +4143,7 @@ if __name__ == '__main__':
 
 <h3>6. Using <code>Lock</code> for Synchronization</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import multiprocessing
-from multiprocessing import Lock
+from multiprocessing import Lock, Manager
 
 def shared_task(lock, counter):
     &quot;&quot;&quot;Function that increments a counter and prints its value.&quot;&quot;&quot;
