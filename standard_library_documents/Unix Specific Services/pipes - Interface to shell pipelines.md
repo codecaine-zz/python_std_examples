@@ -74,19 +74,20 @@ import subprocess
 # Create a pipe and connect it to a command with error handling
 process = subprocess.Popen(['ls', 'nonexistentfile'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-try:
-    output, error = process.communicate()
-except FileNotFoundError as e:
-    print("Error:", str(e))
+output, error = process.communicate()
+
+if process.returncode == 0:
+    result = output.decode('utf-8')
+    print("Output:")
+    print(result)
 else:
-    if process.returncode == 0:
-        result = output.decode('utf-8')
-        print("Output:")
-        print(result)
+    error_message = error.decode('utf-8')
+    print("Error:")
+    print(error_message)
 ```
 
 **Explanation:**
-This example shows how to handle errors gracefully using a try-except block. It attempts to list a non-existent file and catches `FileNotFoundError` if the operation fails.
+This example shows how to handle errors by checking the return code of the process. It attempts to list a non-existent file and prints an error message if the operation fails.
 
 ### Example 5: Using `subprocess.run()`
 

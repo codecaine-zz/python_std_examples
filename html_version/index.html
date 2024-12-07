@@ -36389,19 +36389,20 @@ This example demonstrates how to use a pipe to redirect input to a command. The 
 # Create a pipe and connect it to a command with error handling
 process = subprocess.Popen(['ls', 'nonexistentfile'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-try:
-    output, error = process.communicate()
-except FileNotFoundError as e:
-    print(&quot;Error:&quot;, str(e))
+output, error = process.communicate()
+
+if process.returncode == 0:
+    result = output.decode('utf-8')
+    print(&quot;Output:&quot;)
+    print(result)
 else:
-    if process.returncode == 0:
-        result = output.decode('utf-8')
-        print(&quot;Output:&quot;)
-        print(result)
+    error_message = error.decode('utf-8')
+    print(&quot;Error:&quot;)
+    print(error_message)
 </code></pre>
 
 <p><strong>Explanation:</strong>
-This example shows how to handle errors gracefully using a try-except block. It attempts to list a non-existent file and catches <code>FileNotFoundError</code> if the operation fails.</p>
+This example shows how to handle errors by checking the return code of the process. It attempts to list a non-existent file and prints an error message if the operation fails.</p>
 <h3>Example 5: Using <code>subprocess.run()</code></h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import subprocess
 
