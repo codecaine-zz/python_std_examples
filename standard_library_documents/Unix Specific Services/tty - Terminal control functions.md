@@ -8,19 +8,20 @@ The `tty` module in Python provides a way to interact with terminal devices, all
 
 ```python
 import tty
+import termios
 
 # Open a terminal device
 with open('/dev/tty', 'r+') as fd:
-    # Get current iflag settings
-    old_iflag = tty.tcgetattr(fd)
+    # Get current termios settings
+    old_attrs = termios.tcgetattr(fd)
     
-    # Modify iflag settings
-    new_iflag = old_iflag[:]
-    new_iflag[tty.VMIN] = 1  # Minimum number of characters to read
-    new_iflag[tty.VTIME] = 0   # Time out in deciseconds
+    # Modify termios settings
+    new_attrs = old_attrs[:]
+    new_attrs[6][termios.VMIN] = 1  # Minimum number of characters to read
+    new_attrs[6][termios.VTIME] = 0  # Time out in deciseconds
     
-    # Apply modified iflag settings
-    tty.tcsetattr(fd, tty.TCSANOW, new_iflag)
+    # Apply modified termios settings
+    termios.tcsetattr(fd, termios.TCSANOW, new_attrs)
     
     try:
         while True:
@@ -28,8 +29,9 @@ with open('/dev/tty', 'r+') as fd:
             data = fd.read(1)
             print(data, end='', flush=True)
     finally:
-        # Restore original iflag settings
-        tty.tcsetattr(fd, tty.TCSANOW, old_iflag)
+        # Restore original termios settings
+        termios.tcsetattr(fd, termios.TCSANOW, old_attrs)
+
 
 ```
 
@@ -59,7 +61,6 @@ with open('/dev/tty', 'r+') as fd:
     finally:
         # Restore original oflag settings
         tty.tcsetattr(fd, tty.TCSANOW, old_oflag)
-
 ```
 
 ### 3. `tty.cflag`
@@ -68,18 +69,20 @@ with open('/dev/tty', 'r+') as fd:
 
 ```python
 import tty
+import termios
 
 # Open a terminal device
 with open('/dev/tty', 'r+') as fd:
-    # Get current cflag settings
-    old_cflag = tty.tcgetattr(fd)
+    # Get current termios settings
+    old_attrs = termios.tcgetattr(fd)
     
-    # Modify cflag settings
-    new_cflag = old_cflag[:]
-    new_cflag[tty.CSIZE] = tty.B8  # Set character size to 8 bits
+    # Modify termios settings
+    new_attrs = old_attrs[:]
+    new_attrs[2] &= ~termios.CSIZE  # Clear current character size mask
+    new_attrs[2] |= termios.CS8     # Set character size to 8 bits
     
-    # Apply modified cflag settings
-    tty.tcsetattr(fd, tty.TCSANOW, new_cflag)
+    # Apply modified termios settings
+    termios.tcsetattr(fd, termios.TCSANOW, new_attrs)
     
     try:
         while True:
@@ -87,9 +90,8 @@ with open('/dev/tty', 'r+') as fd:
             data = fd.read(1)
             print(data, end='', flush=True)
     finally:
-        # Restore original cflag settings
-        tty.tcsetattr(fd, tty.TCSANOW, old_cflag)
-
+        # Restore original termios settings
+        termios.tcsetattr(fd, termios.TCSANOW, old_attrs)
 ```
 
 ### 4. `tty.lflag`
@@ -98,18 +100,19 @@ with open('/dev/tty', 'r+') as fd:
 
 ```python
 import tty
+import termios
 
 # Open a terminal device
 with open('/dev/tty', 'r+') as fd:
     # Get current lflag settings
-    old_lflag = tty.tcgetattr(fd)
+    old_attrs = termios.tcgetattr(fd)
     
     # Modify lflag settings
-    new_lflag = old_lflag[:]
-    new_lflag[tty.ICANON] = False  # Disable canonical mode
+    new_attrs = old_attrs[:]
+    new_attrs[3] &= ~termios.ICANON  # Disable canonical mode
     
     # Apply modified lflag settings
-    tty.tcsetattr(fd, tty.TCSANOW, new_lflag)
+    termios.tcsetattr(fd, termios.TCSANOW, new_attrs)
     
     try:
         while True:
@@ -118,8 +121,7 @@ with open('/dev/tty', 'r+') as fd:
             print(data, end='', flush=True)
     finally:
         # Restore original lflag settings
-        tty.tcsetattr(fd, tty.TCSANOW, old_lflag)
-
+        termios.tcsetattr(fd, termios.TCSANOW, old_attrs)
 ```
 
 ### 5. `tty.isatty`
@@ -128,18 +130,29 @@ with open('/dev/tty', 'r+') as fd:
 
 ```python
 import tty
+import termios
+import sys
 
 # Open a terminal device
-fd = open('/dev/tty', 'r+')
-
-try:
-    # Check if the file descriptor is a terminal
-    if tty.isatty(fd.fileno()):
-        print("The file descriptor is associated with a terminal.")
-    else:
-        print("The file descriptor is not associated with a terminal.")
-finally:
-    fd.close()
+with open('/dev/tty', 'rb+') as fd:
+    # Get current lflag settings
+    old_attrs = termios.tcgetattr(fd)
+    
+    # Modify lflag settings
+    new_attrs = old_attrs[:]
+    new_attrs[3] &= ~termios.ICANON  # Disable canonical mode
+    
+    # Apply modified lflag settings
+    termios.tcsetattr(fd, termios.TCSANOW, new_attrs)
+    
+    try:
+        while True:
+            # Read data with the new local mode settings
+            data = sys.stdin.read(1)
+            print(data, end='', flush=True)
+    finally:
+        # Restore original lflag settings
+        termios.tcsetattr(fd, termios.TCSANOW, old_attrs)
 ```
 
 ### 6. `tty.getattr`
@@ -173,16 +186,21 @@ with open('/dev/tty', 'r+') as fd:
     # Get current attributes
     old_attrs = tty.tcgetattr(fd)
     
-    # Modify the input mode flags
-    new_iflag = old_attrs[:]
-    new_iflag[tty.VMIN] = 1
-    new_iflag[tty.VTIME] = 0
+    # Copy the entire old_attrs list to new_attrs
+    new_attrs = old_attrs[:]
+    
+    # Modify the input mode flags (first element of the list)
+    new_iflag = new_attrs[0]
+    new_iflag |= tty.VMIN
+    new_iflag |= tty.VTIME
+    
+    # Update the first element of new_attrs
+    new_attrs[0] = new_iflag
     
     # Set the modified attributes
-    tty.tcsetattr(fd, tty.TCSANOW, new_iflag)
+    tty.tcsetattr(fd, tty.TCSANOW, new_attrs)
     
     print("New Input Mode Flags:", new_iflag)
-
 ```
 
 ### 8. `tty.cbreak`
@@ -191,11 +209,15 @@ with open('/dev/tty', 'r+') as fd:
 
 ```python
 import tty
+import termios
 
 # Open a terminal device
 with open('/dev/tty', 'r+') as fd:
+    # Save the original terminal settings
+    original_settings = termios.tcgetattr(fd)
+    
     # Enter cbreak mode
-    tty.cbreak(fd)
+    tty.setcbreak(fd)
     
     try:
         while True:
@@ -203,9 +225,8 @@ with open('/dev/tty', 'r+') as fd:
             data = fd.read(1)
             print(data, end='', flush=True)
     finally:
-        # Exit cbreak mode
-        tty.raw(fd)
-
+        # Restore the original terminal settings
+        termios.tcsetattr(fd, termios.TCSADRAIN, original_settings)
 ```
 
 ### 9. `tty.raw`
@@ -214,11 +235,15 @@ with open('/dev/tty', 'r+') as fd:
 
 ```python
 import tty
+import termios
 
 # Open a terminal device
 with open('/dev/tty', 'r+') as fd:
+    # Save the original terminal settings
+    original_settings = termios.tcgetattr(fd)
+    
     # Enter raw mode
-    tty.raw(fd)
+    tty.setraw(fd)
     
     try:
         while True:
@@ -226,9 +251,8 @@ with open('/dev/tty', 'r+') as fd:
             data = fd.read(1)
             print(data, end='', flush=True)
     finally:
-        # Exit raw mode
-        tty.cbreak(fd)
-
+        # Restore the original terminal settings
+        termios.tcsetattr(fd, termios.TCSADRAIN, original_settings)
 ```
 
 ### 10. `tty.setraw`
@@ -237,24 +261,25 @@ with open('/dev/tty', 'r+') as fd:
 
 ```python
 import tty
+import termios
+import sys
 
 # Open a terminal device
 with open('/dev/tty', 'r+') as fd:
     # Set the terminal to raw mode
-    old_attrs = tty.tcgetattr(fd)
-    new_iflag = old_attrs[:]
-    new_iflag[tty.ICANON] = False
-    new_iflag[tty.ECHO] = False
-    tty.tcsetattr(fd, tty.TCSANOW, new_iflag)
+    old_attrs = termios.tcgetattr(fd)
+    new_attrs = termios.tcgetattr(fd)
+    new_attrs[3] = new_attrs[3] & ~(termios.ICANON | termios.ECHO)
+    termios.tcsetattr(fd, termios.TCSANOW, new_attrs)
 
-try:
-    while True:
-        # Read data in raw mode
-        data = fd.read(1)
-        print(data, end='', flush=True)
-finally:
-    # Restore original attributes
-    tty.tcsetattr(fd, tty.TCSANOW, old_attrs)
+    try:
+        while True:
+            # Read data in raw mode
+            data = fd.read(1)
+            print(data, end='', flush=True)
+    finally:
+        # Restore original attributes
+        termios.tcsetattr(fd, termios.TCSANOW, old_attrs)
 ```
 
 ### 11. `tty.reset`
@@ -263,24 +288,24 @@ finally:
 
 ```python
 import tty
+import termios
 
 # Open a terminal device
 with open('/dev/tty', 'r+') as fd:
     # Reset the terminal to a default state
-    old_attrs = tty.tcgetattr(fd)
-    new_iflag = old_attrs[:]
-    new_iflag[tty.ICANON] = True
-    new_iflag[tty.ECHO] = True
-    tty.tcsetattr(fd, tty.TCSANOW, new_iflag)
+    old_attrs = termios.tcgetattr(fd)
+    new_attrs = old_attrs[:]
+    new_attrs[tty.LFLAG] |= (termios.ICANON | termios.ECHO)
+    termios.tcsetattr(fd, termios.TCSANOW, new_attrs)
 
-try:
-    while True:
-        # Read data in default state
-        data = fd.read(1)
-        print(data, end='', flush=True)
-finally:
-    # Restore original attributes
-    tty.tcsetattr(fd, tty.TCSANOW, old_attrs)
+    try:
+        while True:
+            # Read data in default state
+            data = fd.read(1)
+            print(data, end='', flush=True)
+    finally:
+        # Restore original attributes
+        termios.tcsetattr(fd, termios.TCSANOW, old_attrs)
 ```
 
 These examples demonstrate various functionalities of the `tty` module, including setting and modifying input/output modes, checking if a file descriptor is associated with a terminal, and resetting the terminal to its default state. Each example includes comments for clarity and ensures that the terminal attributes are restored after operations are completed. Additionally, examples are provided to handle both cbreak and raw mode using `tty.cbreak()` and `tty.raw()`.
