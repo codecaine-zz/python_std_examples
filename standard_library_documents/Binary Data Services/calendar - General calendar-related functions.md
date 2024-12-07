@@ -4,6 +4,7 @@ The `calendar` module in Python provides a set of functions that facilitate the 
 
 ```python
 import calendar
+import datetime
 
 # Example 1: Display the current month's calendar with weekday names at the top
 print("Current Month Calendar:")
@@ -15,7 +16,7 @@ calendar.setfirstweekday(calendar.MONDAY)  # Set Monday as the first day of the 
 print(calendar.month(2023, 10))
 
 # Example 3: Format a date in the ISO 8601 format
-formatted_date = calendar.formatdate(2023, 9, 5)
+formatted_date = datetime.date(2023, 9, 5).isoformat()
 print("\nFormatted Date (ISO 8601):", formatted_date)
 
 # Example 4: Determine if a given year is a leap year
@@ -43,11 +44,11 @@ first_weekday_of_month = cal_range[0]
 num_days_in_month = cal_range[1]
 
 print(f"\nNumber of days in the month: {num_days_in_month}")
-for day in range(first_weekday_of_month, first_weekday_of_month + num_days_in_month):
-    print(calendar.day_name[day])
+for day in range(1, num_days_in_month + 1):
+    print(calendar.day_name[(first_weekday_of_month + day - 1) % 7])
 
-# Example 8: Generate a list of all holidays for a specific year
-holidays = calendar.holidays(2023)
+# Example 8: Generate a list of holidays (placeholder, as Python's calendar module does not support holidays)
+holidays = ["2023-01-01 New Year's Day", "2023-12-25 Christmas Day"]
 print("\nHolidays in Year 2023:")
 for holiday in holidays:
     print(holiday)
