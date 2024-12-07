@@ -37,6 +37,7 @@ print("Main program completed.")
 ```python
 import _thread
 import threading
+import time  # Add this import
 
 # Define a lock object
 lock = threading.Lock()
@@ -133,6 +134,7 @@ print("All workers passed the barrier.")
 ```python
 import _thread
 import threading
+import time
 
 # Define a thread local storage object
 local_data = threading.local()
