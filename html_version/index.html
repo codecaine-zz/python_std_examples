@@ -4030,17 +4030,18 @@ except LookupError:
 <h3>1. Basic Multiprocessing</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import multiprocessing
 from multiprocessing import Pool
+import os
 
 def worker(x):
     &quot;&quot;&quot;Example function to be executed in a separate process.&quot;&quot;&quot;
     return x * x
 
 if __name__ == '__main__':
-    # Create a pool of worker processes
-    with Pool(processes=4) as pool:
+    # Create a pool of worker processes using all system cores
+    with Pool(processes=os.process_cpu_count()) as pool:
         # Use the map method to apply the worker function to a list of numbers
         results = pool.map(worker, [1, 2, 3, 4, 5])
-
+    print(os.process_cpu_count())
     print(&quot;Results:&quot;, results)
 </code></pre>
 

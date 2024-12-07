@@ -7,18 +7,20 @@ Below are comprehensive examples of how to use various functionalities provided 
 ```python
 import multiprocessing
 from multiprocessing import Pool
+import os
 
 def worker(x):
     """Example function to be executed in a separate process."""
     return x * x
 
 if __name__ == '__main__':
-    # Create a pool of worker processes
-    with Pool(processes=4) as pool:
+    # Create a pool of worker processes using all system cores
+    with Pool(processes=os.process_cpu_count()) as pool:
         # Use the map method to apply the worker function to a list of numbers
         results = pool.map(worker, [1, 2, 3, 4, 5])
-    
+    print(os.process_cpu_count())
     print("Results:", results)
+
 ```
 
 ### 2. Using `Process` Class
