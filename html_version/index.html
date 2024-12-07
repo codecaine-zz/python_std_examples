@@ -34963,8 +34963,7 @@ for diff in diffs:
     print(diff)
 
 # Example 2: Context Format Differences
-context_differ = difflib.ContextDiff(original.split(), modified.split())
-context_diffs = list(context_differ)
+context_diffs = list(difflib.context_diff(original.split(), modified.split()))
 
 print(&quot;\nDifferences (context format):&quot;)
 for diff in context_diffs:
@@ -34975,8 +34974,7 @@ html_differ = difflib.HtmlDiff()
 html_diffs = html_differ.make_file(original.splitlines(), modified.splitlines())
 
 with open(&quot;diff.html&quot;, &quot;w&quot;) as f:
-    for line in html_diffs:
-        f.write(line)
+    f.write(html_diffs)
 print(&quot;\nDifferences (HTML format) written to diff.html&quot;)
 
 # Example 4: SequenceMatcher - Comparing Similarity
@@ -34991,17 +34989,20 @@ print(&quot;\nSimilarity Score:&quot;, matcher.ratio())  # Output: Similarity sc
 sequence_a = &quot;The quick brown fox jumps over the lazy dog&quot;
 sequence_b = &quot;A fast brown fox leaped over a drowsy hound&quot;
 
-matcher = difflib.SequenceMatcher(None, sequence_a.split(), sequence_b.split())
+sequence_a_words = sequence_a.split()
+sequence_b_words = sequence_b.split()
+
+matcher = difflib.SequenceMatcher(None, sequence_a_words, sequence_b_words)
 
 for tag, i1, i2, j1, j2 in matcher.get_opcodes():
     if tag == 'equal':  # Lines that are equal
-        print(&quot;Equal:&quot;, (i1, i2), &quot; - &quot;, sequence_a[i1:i2])
+        print(&quot;Equal:&quot;, (i1, i2), &quot; - &quot;, sequence_a_words[i1:i2])
     elif tag == 'insert':  # New lines in b
-        print(&quot;Insert:&quot;, (j1, j2), &quot; - &quot;, sequence_b[j1:j2])
+        print(&quot;Insert:&quot;, (j1, j2), &quot; - &quot;, sequence_b_words[j1:j2])
     elif tag == 'delete':  # Removed lines from a
-        print(&quot;Delete:&quot;, (i1, i2), &quot; - &quot;, sequence_a[i1:i2])
+        print(&quot;Delete:&quot;, (i1, i2), &quot; - &quot;, sequence_a_words[i1:i2])
     elif tag == 'replace':  # Replaced lines in both sequences
-        print(&quot;Replace:&quot;, (i1, i2), &quot; to &quot;, (j1, j2), &quot; - &quot;, sequence_a[i1:i2], &quot; -&gt; &quot;, sequence_b[j1:j2])
+        print(&quot;Replace:&quot;, (i1, i2), &quot; to &quot;, (j1, j2), &quot; - &quot;, sequence_a_words[i1:i2], &quot; -&gt; &quot;, sequence_b_words[j1:j2])
 
 # Example 6: Get Close Matches Using SequenceMatcher
 word_list = [&quot;dog&quot;, &quot;cat&quot;, &quot;tiger&quot;, &quot;lion&quot;, &quot;fox&quot;]
@@ -35017,10 +35018,10 @@ for match in matches:
 <h3>Explanation:</h3>
 <ol>
 <li>
-<p><strong>Basic Sequence Comparison</strong>: The <code>Differ</code> class is used to compare two sequences (strings) and output the differences line by line.</p>
+<p><strong>Basic Sequence Comparison</strong>: The <code>Differ</code> class is used to compare two sequences (strings) and output the differences word by word.</p>
 </li>
 <li>
-<p><strong>Context Format Differences</strong>: The <code>ContextDiff</code> class provides a context format for the differences, which includes additional context lines around changes.</p>
+<p><strong>Context Format Differences</strong>: The <code>context_diff</code> function provides a context format for the differences, which includes additional context lines around changes.</p>
 </li>
 <li>
 <p><strong>Html Format Differences</strong>: Generates an HTML representation of the differences that can be saved to a file or displayed in web browsers.</p>
