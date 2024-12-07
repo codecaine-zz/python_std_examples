@@ -10974,6 +10974,7 @@ print(&quot;Matched filenames:&quot;, matched_filenames)
 <p>The <code>glob</code> module in Python provides a function called <code>glob()</code> that is used to expand Unix-style pathname patterns into a list of matching file names. This can be very useful for finding files based on specific naming conventions or patterns.</p>
 <p>Below are comprehensive examples demonstrating various functionalities and use cases of the <code>glob</code> module:</p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import glob
+import os
 
 # Example 1: Basic usage
 # Find all .txt files in the current directory
@@ -11011,8 +11012,8 @@ print(glob.glob(&quot;.?*&quot;))
 def is_text_file(file_path):
     return file_path.endswith(&quot;.txt&quot;)
 
-# Use filter function to find .txt files
-for txt_file in glob.filter(glob.iglob(&quot;*.txt&quot;), is_text_file):
+# Use list comprehension to find .txt files
+for txt_file in [f for f in glob.iglob(&quot;*.txt&quot;) if is_text_file(f)]:
     print(txt_file)
 
 # Example 10: Using glob() with a generator to handle large directories efficiently
@@ -11405,10 +11406,10 @@ else:
 
 # Example 1: Create a new Path object for a file or directory
 file_path = Path(&quot;example.txt&quot;)
-directory_path = Path(&quot;/home/user/documents&quot;)
+directory_path = Path(&quot;documents&quot;)
 
-print(file_path)    # Output: PosixPath('/home/user/Documents/example.txt')
-print(directory_path)  # Output: PosixPath('/home/user/Documents')
+print(file_path)    # Output: PosixPath('example.txt')
+print(directory_path)  # Output: PosixPath('documents')
 
 # Example 2: Check if the path exists and is a file or directory
 if file_path.exists():
@@ -11422,7 +11423,7 @@ else:
     print(&quot;Directory does not exist&quot;)
 
 # Example 3: Create a new directory if it doesn't exist
-new_directory = Path(&quot;/home/user/new_directory&quot;)
+new_directory = Path(&quot;new_directory&quot;)
 if not new_directory.exists():
     new_directory.mkdir(parents=True, exist_ok=True)
 
@@ -11430,20 +11431,22 @@ print(&quot;New directory created:&quot;, new_directory)
 
 # Example 4: Move or rename a file or directory
 original_file_path = Path(&quot;example.txt&quot;)
-target_file_path = Path(&quot;/home/user/backup/example_backup.txt&quot;)
+target_file_path = Path(&quot;backup/example_backup.txt&quot;)
 
 if original_file_path.exists():
+    target_file_path.parent.mkdir(parents=True, exist_ok=True)  # Ensure target directory exists
     original_file_path.rename(target_file_path)
     print(&quot;File moved to:&quot;, target_file_path)
 else:
     print(&quot;File does not exist&quot;)
 
 # Example 5: List all files and directories in a directory
-for item in directory_path.iterdir():
-    if item.is_file():
-        print(f&quot;File: {item}&quot;)
-    elif item.is_dir():
-        print(f&quot;Directory: {item}&quot;)
+if directory_path.exists():
+    for item in directory_path.iterdir():
+        if item.is_file():
+            print(f&quot;File: {item}&quot;)
+        elif item.is_dir():
+            print(f&quot;Directory: {item}&quot;)
 
 # Example 6: Get the absolute path of a relative path
 relative_path = Path(&quot;example.txt&quot;)
@@ -11465,12 +11468,13 @@ file_extension = file_path.suffix
 print(&quot;File extension:&quot;, file_extension)
 
 # Example 10: Walk through directories and files recursively
-for root, dirs, files in directory_path.rglob(&quot;*&quot;):
-    for f in files:
-        print(f&quot;File found: {Path(root) / f}&quot;)
+if directory_path.exists():
+    for item in directory_path.rglob(&quot;*&quot;):
+        if item.is_file():
+            print(f&quot;File found: {item}&quot;)
 
 # Example 11: Normalize a path by resolving all symbolic links and redundant references
-normalized_path = Path(&quot;/home/user/../example.txt&quot;)
+normalized_path = Path(&quot;example.txt&quot;)
 real_path = normalized_path.resolve()
 print(&quot;Normalized and resolved path:&quot;, real_path)
 
@@ -11498,64 +11502,95 @@ print(&quot;Combined path:&quot;, combined_path)
 <p>Certainly! Below are comprehensive code examples for various functionalities in the <code>shutil</code> module, which provides a high-level interface for common file operations in Python.</p>
 <h3>1. Copying Files and Directories</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import shutil
+import os
 
 # Example 1: Copy a single file to a new location
 source_file = 'example.txt'
 destination_file = 'example_copied.txt'
 
-shutil.copy(source_file, destination_file)
-print(f&quot;Copied {source_file} to {destination_file}&quot;)
+if os.path.exists(source_file):
+    shutil.copy(source_file, destination_file)
+    print(f&quot;Copied {source_file} to {destination_file}&quot;)
+else:
+    print(f&quot;Source file {source_file} does not exist.&quot;)
 
 # Example 2: Copy all contents of a directory to another directory (not the directory itself)
 source_dir = 'source_directory'
 destination_dir = 'destination_directory'
 
-shutil.copytree(source_dir, destination_dir)
-print(f&quot;Copied contents of {source_dir} to {destination_dir}&quot;)
+if os.path.exists(source_dir):
+    shutil.copytree(source_dir, destination_dir)
+    print(f&quot;Copied contents of {source_dir} to {destination_dir}&quot;)
+else:
+    print(f&quot;Source directory {source_dir} does not exist.&quot;)
 </code></pre>
 
 <h3>2. Moving Files and Directories</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import shutil
+import os
 
 # Example 1: Move a file to a new location
 source_file = 'example.txt'
 destination_file = 'example_moved.txt'
 
-shutil.move(source_file, destination_file)
-print(f&quot;Moved {source_file} to {destination_file}&quot;)
+if os.path.exists(source_file):
+    shutil.move(source_file, destination_file)
+    print(f&quot;Moved {source_file} to {destination_file}&quot;)
+else:
+    print(f&quot;Source file {source_file} does not exist.&quot;)
 
 # Example 2: Rename or move a directory (not the contents of the directory)
 source_dir = 'source_directory'
 new_name = 'moved_directory'
 
-shutil.move(source_dir, new_name)
-print(f&quot;Renamed/Moved {source_dir} to {new_name}&quot;)
+if os.path.exists(source_dir):
+    shutil.move(source_dir, new_name)
+    print(f&quot;Renamed/Moved {source_dir} to {new_name}&quot;)
+else:
+    print(f&quot;Source directory {source_dir} does not exist.&quot;)
 </code></pre>
 
 <h3>3. Deleting Files and Directories</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import shutil
+import os
 
-# Example 1: Delete a single file
-file_to_delete = 'example.txt'
-shutil.os.remove(file_to_delete)
-print(f&quot;Deleted {file_to_delete}&quot;)
+# Example 1: Move a file to a new location
+source_file = 'example.txt'
+destination_file = 'example_moved.txt'
 
-# Example 2: Recursively delete an entire directory (including all contents)
-directory_to_delete = 'destination_directory'
+if os.path.exists(source_file):
+    shutil.move(source_file, destination_file)
+    print(f&quot;Moved {source_file} to {destination_file}&quot;)
+else:
+    print(f&quot;Error: {source_file} does not exist&quot;)
 
-shutil.rmtree(directory_to_delete)
-print(f&quot;Recursively deleted {directory_to_delete}&quot;)
+# Example 2: Rename or move a directory (not the contents of the directory)
+source_dir = 'source_directory'
+new_name = 'moved_directory'
+
+if os.path.exists(source_dir):
+    shutil.move(source_dir, new_name)
+    print(f&quot;Renamed/Moved {source_dir} to {new_name}&quot;)
+else:
+    print(f&quot;Error: {source_dir} does not exist&quot;)
 </code></pre>
 
 <h3>4. Copying Files with Permissions</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import shutil
 
 # Example 1: Copy a file while preserving permissions
+import shutil
+import os
+
+# Example 1: Copy a file while preserving permissions
 source_file = 'example.txt'
 destination_file = 'example_copied_with_permissions.txt'
 
-shutil.copy2(source_file, destination_file)
-print(f&quot;Copied {source_file} to {destination_file} with permissions&quot;)
+if os.path.exists(source_file):
+    shutil.copy2(source_file, destination_file)
+    print(f&quot;Copied {source_file} to {destination_file} with permissions&quot;)
+else:
+    print(f&quot;Error: {source_file} does not exist&quot;)
 </code></pre>
 
 <h3>5. Archiving Files</h3>
@@ -11563,43 +11598,61 @@ print(f&quot;Copied {source_file} to {destination_file} with permissions&quot;)
 import tarfile
 
 # Example 1: Create a .tar archive from a directory
+import shutil
+import tarfile
+import os
+
+# Example 1: Create a .tar archive from a directory
 source_dir = 'source_directory'
 archive_name = 'example.tar'
 
-with tarfile.open(archive_name, mode='w') as tar:
-    tar.add(source_dir)
-print(f&quot;Created {archive_name} from {source_dir}&quot;)
+if os.path.exists(source_dir):
+    with tarfile.open(archive_name, mode='w') as tar:
+        tar.add(source_dir)
+    print(f&quot;Created {archive_name} from {source_dir}&quot;)
+else:
+    print(f&quot;Error: {source_dir} does not exist&quot;)
 
 # Example 2: Extract a .tar archive to a directory
 archive_to_extract = 'example.tar'
 extract_path = 'extracted_directory'
 
-with tarfile.open(archive_to_extract, mode='r') as tar:
-    tar.extractall(path=extract_path)
-print(f&quot;Extracted {archive_name} to {extract_path}&quot;)
+if os.path.exists(archive_to_extract) and os.path.getsize(archive_to_extract) &gt; 0:
+    with tarfile.open(archive_to_extract, mode='r') as tar:
+        tar.extractall(path=extract_path)
+    print(f&quot;Extracted {archive_name} to {extract_path}&quot;)
+else:
+    print(f&quot;Error: {archive_to_extract} does not exist or is empty&quot;)
 </code></pre>
 
 <h3>6. Compressing Files</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import shutil
 import gzip
+import os
 
 # Example 1: Create a .gz compressed file from a text file
 file_to_compress = 'example.txt'
 compressed_file = 'example.txt.gz'
 
-with open(file_to_compress, 'rb') as f_in:
-    with gzip.open(compressed_file, 'wb') as f_out:
-        shutil.copyfileobj(f_in, f_out)
-print(f&quot;Compressed {file_to_compress} to {compressed_file}&quot;)
+if os.path.exists(file_to_compress):
+    with open(file_to_compress, 'rb') as f_in:
+        with gzip.open(compressed_file, 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+    print(f&quot;Compressed {file_to_compress} to {compressed_file}&quot;)
+else:
+    print(f&quot;File {file_to_compress} does not exist&quot;)
 
 # Example 2: Extract a .gz compressed file
 file_to_extract = 'example.txt.gz'
 extracted_file = 'extracted_example.txt'
 
-with gzip.open(file_to_extract, mode='rb') as f_in:
-    with open(extracted_file, 'wb') as f_out:
-        shutil.copyfileobj(f_in, f_out)
-print(f&quot;Extracted {compressed_file} to {extracted_file}&quot;)
+if os.path.exists(file_to_extract):
+    with gzip.open(file_to_extract, mode='rb') as f_in:
+        with open(extracted_file, 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+    print(f&quot;Extracted {compressed_file} to {extracted_file}&quot;)
+else:
+    print(f&quot;File {file_to_extract} does not exist&quot;)
 </code></pre>
 
 <h3>7. Listing Files in a Directory</h3>
@@ -11625,22 +11678,32 @@ import os
 
 # Example 1: Get the size of a file
 file_path = 'example.txt'
-size = os.path.getsize(file_path)
-print(f&quot;Size of {file_path}: {size} bytes&quot;)
+try:
+    size = os.path.getsize(file_path)
+    print(f&quot;Size of {file_path}: {size} bytes&quot;)
+except FileNotFoundError:
+    print(f&quot;File {file_path} not found.&quot;)
 
 # Example 2: Get information about the file like creation time, modification time, etc.
-stat_info = os.stat(file_path)
-print(stat_info)
+try:
+    stat_info = os.stat(file_path)
+    print(stat_info)
+except FileNotFoundError:
+    print(f&quot;File {file_path} not found.&quot;)
 </code></pre>
 
 <h3>9. Reading and Writing Files</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import shutil
+import os
 
 # Example 1: Read a file into memory as a string
 file_to_read = 'example.txt'
-with open(file_to_read, 'r') as f:
-    content = f.read()
-print(f&quot;Content of {file_to_read}: {content}&quot;)
+if os.path.exists(file_to_read):
+    with open(file_to_read, 'r') as f:
+        content = f.read()
+    print(f&quot;Content of {file_to_read}: {content}&quot;)
+else:
+    print(f&quot;File {file_to_read} does not exist.&quot;)
 
 # Example 2: Write text to a file
 file_to_write = 'example_written.txt'
@@ -11651,16 +11714,17 @@ print(f&quot;Wrote '{text_to_write}' to {file_to_write}&quot;)
 </code></pre>
 
 <h3>10. Making and Removing Directories</h3>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import shutil
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import os
+import shutil
 
 # Example 1: Create a new directory
 directory_name = 'new_directory'
-shutil.os.makedirs(directory_name)
+os.makedirs(directory_name, exist_ok=True)
 print(f&quot;Created {directory_name}&quot;)
 
 # Example 2: Remove an empty directory
 empty_dir_to_remove = 'empty_directory'
-shutil.os.rmdir(empty_dir_to_remove)
+shutil.rmtree(empty_dir_to_remove, ignore_errors=True)
 print(f&quot;Removed {empty_dir_to_remove}&quot;)
 </code></pre>
 
@@ -11669,6 +11733,8 @@ print(f&quot;Removed {empty_dir_to_remove}&quot;)
 <li><strong>Permissions:</strong> When copying or moving files, ensure that the user has the necessary permissions to perform these actions.</li>
 <li><strong>Error Handling:</strong> Consider adding error handling to manage exceptions such as file not found errors or permission denied errors.</li>
 <li><strong>Security:</strong> Be cautious with <code>shutil.move</code> and <code>shutil.rmtree</code> when dealing with user inputs or paths from untrusted sources.</li>
+<li><strong>Symbolic Links:</strong> When copying directories, use the <code>symlinks</code> parameter in <code>shutil.copytree</code> to control whether to copy symbolic links as links or as the actual files they point to.</li>
+<li><strong>Path Validation:</strong> Always validate and sanitize paths to avoid directory traversal vulnerabilities and other security issues.</li>
 </ul>
 <p>These examples should provide a good starting point for using the <code>shutil</code> module in Python.</p>
 

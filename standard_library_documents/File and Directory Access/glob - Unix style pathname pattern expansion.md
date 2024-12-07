@@ -6,6 +6,7 @@ Below are comprehensive examples demonstrating various functionalities and use c
 
 ```python
 import glob
+import os
 
 # Example 1: Basic usage
 # Find all .txt files in the current directory
@@ -43,8 +44,8 @@ print(glob.glob(".?*"))
 def is_text_file(file_path):
     return file_path.endswith(".txt")
 
-# Use filter function to find .txt files
-for txt_file in glob.filter(glob.iglob("*.txt"), is_text_file):
+# Use list comprehension to find .txt files
+for txt_file in [f for f in glob.iglob("*.txt") if is_text_file(f)]:
     print(txt_file)
 
 # Example 10: Using glob() with a generator to handle large directories efficiently
@@ -56,6 +57,7 @@ def find_large_files(directory, size_threshold):
 # Find all files larger than 10MB in the '/home/user/documents' directory
 for large_file in find_large_files("/home/user/documents", 10 * 1024 * 1024):
     print(large_file)
+
 ```
 
 ### Explanation of Examples:

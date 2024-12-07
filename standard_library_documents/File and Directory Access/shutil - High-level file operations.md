@@ -6,57 +6,81 @@ Certainly! Below are comprehensive code examples for various functionalities in 
 
 ```python
 import shutil
+import os
 
 # Example 1: Copy a single file to a new location
 source_file = 'example.txt'
 destination_file = 'example_copied.txt'
 
-shutil.copy(source_file, destination_file)
-print(f"Copied {source_file} to {destination_file}")
+if os.path.exists(source_file):
+    shutil.copy(source_file, destination_file)
+    print(f"Copied {source_file} to {destination_file}")
+else:
+    print(f"Source file {source_file} does not exist.")
 
 # Example 2: Copy all contents of a directory to another directory (not the directory itself)
 source_dir = 'source_directory'
 destination_dir = 'destination_directory'
 
-shutil.copytree(source_dir, destination_dir)
-print(f"Copied contents of {source_dir} to {destination_dir}")
+if os.path.exists(source_dir):
+    shutil.copytree(source_dir, destination_dir)
+    print(f"Copied contents of {source_dir} to {destination_dir}")
+else:
+    print(f"Source directory {source_dir} does not exist.")
 ```
 
 ### 2. Moving Files and Directories
 
 ```python
 import shutil
+import os
 
 # Example 1: Move a file to a new location
 source_file = 'example.txt'
 destination_file = 'example_moved.txt'
 
-shutil.move(source_file, destination_file)
-print(f"Moved {source_file} to {destination_file}")
+if os.path.exists(source_file):
+    shutil.move(source_file, destination_file)
+    print(f"Moved {source_file} to {destination_file}")
+else:
+    print(f"Source file {source_file} does not exist.")
 
 # Example 2: Rename or move a directory (not the contents of the directory)
 source_dir = 'source_directory'
 new_name = 'moved_directory'
 
-shutil.move(source_dir, new_name)
-print(f"Renamed/Moved {source_dir} to {new_name}")
+if os.path.exists(source_dir):
+    shutil.move(source_dir, new_name)
+    print(f"Renamed/Moved {source_dir} to {new_name}")
+else:
+    print(f"Source directory {source_dir} does not exist.")
 ```
 
 ### 3. Deleting Files and Directories
 
 ```python
 import shutil
+import os
 
-# Example 1: Delete a single file
-file_to_delete = 'example.txt'
-shutil.os.remove(file_to_delete)
-print(f"Deleted {file_to_delete}")
+# Example 1: Move a file to a new location
+source_file = 'example.txt'
+destination_file = 'example_moved.txt'
 
-# Example 2: Recursively delete an entire directory (including all contents)
-directory_to_delete = 'destination_directory'
+if os.path.exists(source_file):
+    shutil.move(source_file, destination_file)
+    print(f"Moved {source_file} to {destination_file}")
+else:
+    print(f"Error: {source_file} does not exist")
 
-shutil.rmtree(directory_to_delete)
-print(f"Recursively deleted {directory_to_delete}")
+# Example 2: Rename or move a directory (not the contents of the directory)
+source_dir = 'source_directory'
+new_name = 'moved_directory'
+
+if os.path.exists(source_dir):
+    shutil.move(source_dir, new_name)
+    print(f"Renamed/Moved {source_dir} to {new_name}")
+else:
+    print(f"Error: {source_dir} does not exist")
 ```
 
 ### 4. Copying Files with Permissions
@@ -65,11 +89,18 @@ print(f"Recursively deleted {directory_to_delete}")
 import shutil
 
 # Example 1: Copy a file while preserving permissions
+import shutil
+import os
+
+# Example 1: Copy a file while preserving permissions
 source_file = 'example.txt'
 destination_file = 'example_copied_with_permissions.txt'
 
-shutil.copy2(source_file, destination_file)
-print(f"Copied {source_file} to {destination_file} with permissions")
+if os.path.exists(source_file):
+    shutil.copy2(source_file, destination_file)
+    print(f"Copied {source_file} to {destination_file} with permissions")
+else:
+    print(f"Error: {source_file} does not exist")
 ```
 
 ### 5. Archiving Files
@@ -79,20 +110,31 @@ import shutil
 import tarfile
 
 # Example 1: Create a .tar archive from a directory
+import shutil
+import tarfile
+import os
+
+# Example 1: Create a .tar archive from a directory
 source_dir = 'source_directory'
 archive_name = 'example.tar'
 
-with tarfile.open(archive_name, mode='w') as tar:
-    tar.add(source_dir)
-print(f"Created {archive_name} from {source_dir}")
+if os.path.exists(source_dir):
+    with tarfile.open(archive_name, mode='w') as tar:
+        tar.add(source_dir)
+    print(f"Created {archive_name} from {source_dir}")
+else:
+    print(f"Error: {source_dir} does not exist")
 
 # Example 2: Extract a .tar archive to a directory
 archive_to_extract = 'example.tar'
 extract_path = 'extracted_directory'
 
-with tarfile.open(archive_to_extract, mode='r') as tar:
-    tar.extractall(path=extract_path)
-print(f"Extracted {archive_name} to {extract_path}")
+if os.path.exists(archive_to_extract) and os.path.getsize(archive_to_extract) > 0:
+    with tarfile.open(archive_to_extract, mode='r') as tar:
+        tar.extractall(path=extract_path)
+    print(f"Extracted {archive_name} to {extract_path}")
+else:
+    print(f"Error: {archive_to_extract} does not exist or is empty")
 ```
 
 ### 6. Compressing Files
@@ -100,24 +142,31 @@ print(f"Extracted {archive_name} to {extract_path}")
 ```python
 import shutil
 import gzip
+import os
 
 # Example 1: Create a .gz compressed file from a text file
 file_to_compress = 'example.txt'
 compressed_file = 'example.txt.gz'
 
-with open(file_to_compress, 'rb') as f_in:
-    with gzip.open(compressed_file, 'wb') as f_out:
-        shutil.copyfileobj(f_in, f_out)
-print(f"Compressed {file_to_compress} to {compressed_file}")
+if os.path.exists(file_to_compress):
+    with open(file_to_compress, 'rb') as f_in:
+        with gzip.open(compressed_file, 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+    print(f"Compressed {file_to_compress} to {compressed_file}")
+else:
+    print(f"File {file_to_compress} does not exist")
 
 # Example 2: Extract a .gz compressed file
 file_to_extract = 'example.txt.gz'
 extracted_file = 'extracted_example.txt'
 
-with gzip.open(file_to_extract, mode='rb') as f_in:
-    with open(extracted_file, 'wb') as f_out:
-        shutil.copyfileobj(f_in, f_out)
-print(f"Extracted {compressed_file} to {extracted_file}")
+if os.path.exists(file_to_extract):
+    with gzip.open(file_to_extract, mode='rb') as f_in:
+        with open(extracted_file, 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+    print(f"Extracted {compressed_file} to {extracted_file}")
+else:
+    print(f"File {file_to_extract} does not exist")
 ```
 
 ### 7. Listing Files in a Directory
@@ -147,24 +196,34 @@ import os
 
 # Example 1: Get the size of a file
 file_path = 'example.txt'
-size = os.path.getsize(file_path)
-print(f"Size of {file_path}: {size} bytes")
+try:
+    size = os.path.getsize(file_path)
+    print(f"Size of {file_path}: {size} bytes")
+except FileNotFoundError:
+    print(f"File {file_path} not found.")
 
 # Example 2: Get information about the file like creation time, modification time, etc.
-stat_info = os.stat(file_path)
-print(stat_info)
+try:
+    stat_info = os.stat(file_path)
+    print(stat_info)
+except FileNotFoundError:
+    print(f"File {file_path} not found.")
 ```
 
 ### 9. Reading and Writing Files
 
 ```python
 import shutil
+import os
 
 # Example 1: Read a file into memory as a string
 file_to_read = 'example.txt'
-with open(file_to_read, 'r') as f:
-    content = f.read()
-print(f"Content of {file_to_read}: {content}")
+if os.path.exists(file_to_read):
+    with open(file_to_read, 'r') as f:
+        content = f.read()
+    print(f"Content of {file_to_read}: {content}")
+else:
+    print(f"File {file_to_read} does not exist.")
 
 # Example 2: Write text to a file
 file_to_write = 'example_written.txt'
@@ -177,16 +236,17 @@ print(f"Wrote '{text_to_write}' to {file_to_write}")
 ### 10. Making and Removing Directories
 
 ```python
+import os
 import shutil
 
 # Example 1: Create a new directory
 directory_name = 'new_directory'
-shutil.os.makedirs(directory_name)
+os.makedirs(directory_name, exist_ok=True)
 print(f"Created {directory_name}")
 
 # Example 2: Remove an empty directory
 empty_dir_to_remove = 'empty_directory'
-shutil.os.rmdir(empty_dir_to_remove)
+shutil.rmtree(empty_dir_to_remove, ignore_errors=True)
 print(f"Removed {empty_dir_to_remove}")
 ```
 
@@ -195,5 +255,7 @@ print(f"Removed {empty_dir_to_remove}")
 - **Permissions:** When copying or moving files, ensure that the user has the necessary permissions to perform these actions.
 - **Error Handling:** Consider adding error handling to manage exceptions such as file not found errors or permission denied errors.
 - **Security:** Be cautious with `shutil.move` and `shutil.rmtree` when dealing with user inputs or paths from untrusted sources.
+- **Symbolic Links:** When copying directories, use the `symlinks` parameter in `shutil.copytree` to control whether to copy symbolic links as links or as the actual files they point to.
+- **Path Validation:** Always validate and sanitize paths to avoid directory traversal vulnerabilities and other security issues.
 
 These examples should provide a good starting point for using the `shutil` module in Python.
