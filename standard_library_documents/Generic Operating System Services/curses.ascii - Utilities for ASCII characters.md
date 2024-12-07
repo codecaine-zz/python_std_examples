@@ -48,9 +48,9 @@ def convert_case(character):
     :return: The converted character.
     """
     if ascii.islower(character):
-        return chr(ascii.toupper(character))
+        return character.upper()
     elif ascii.isupper(character):
-        return chr(ascii.tolower(character))
+        return character.lower()
     else:
         return character
 
@@ -98,7 +98,12 @@ def compare_characters(char1, char2):
     :param char2: Second ASCII character.
     :return: A comparison result (0 if equal, -1 if less than, 1 if greater than).
     """
-    return ascii.cmp(char1, char2)
+    if ord(char1) == ord(char2):
+        return 0
+    elif ord(char1) < ord(char2):
+        return -1
+    else:
+        return 1
 
 # Example usage
 char1 = 'B'
