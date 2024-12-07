@@ -16,7 +16,7 @@ def add(a, b):
 """
 
 # Create a code object from the source code string
-code_obj = code.compile(source_code, '<string>', 'exec')
+code_obj = compile(source_code, '<string>', 'exec')
 
 # Print the type of the code object
 print(type(code_obj))  # <class 'types.CodeType'>
@@ -34,7 +34,7 @@ def multiply(a, b):
 """
 
 # Create a code object from the source code string
-code_obj = code.compile(source_code, '<string>', 'exec')
+code_obj = compile(source_code, '<string>', 'exec')
 
 # Execute the code object in a new namespace
 namespace = {}
@@ -150,7 +150,7 @@ eval(code_obj, namespace)
 
 # Access the function defined by the code object and its results
 calculate_function = namespace['calculate']
-result = calculate_function()
+result = calculate_function(namespace['a'], namespace['b'])
 
 print(result)  # Output: (15, 5, 50, 2.0)
 ```

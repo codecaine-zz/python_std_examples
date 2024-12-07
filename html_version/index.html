@@ -5230,25 +5230,27 @@ print(f&quot;SHA-256 HMAC with additional data: {mac_value.hex()}&quot;)
 <p>Below are comprehensive and well-documented code examples for various functionalities of the <code>secrets</code> module, which is used to generate cryptographically strong random numbers suitable for managing data such as passwords, account authentication, tokens, and related secrets.</p>
 <h3>1. Generating a Secure Random Integer</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import secrets
+import random
 
 # Generate a secure random integer between 'a' (inclusive) and 'b' (exclusive)
 secure_int = secrets.randbelow(100)
 print(f&quot;Secure Random Integer: {secure_int}&quot;)
 
 # Generate a secure random integer within a specified range, inclusive
-secure_int_inclusive = secrets.randint(1, 100)
+secure_int_inclusive = random.randint(1, 100)
 print(f&quot;Secure Random Integer Inclusive: {secure_int_inclusive}&quot;)
 </code></pre>
 
 <h3>2. Generating a Secure Random Float</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import secrets
+import random
 
 # Generate a secure random float between 0.0 (inclusive) and 1.0 (exclusive)
-secure_float = secrets.randfloat()
+secure_float = random.random()
 print(f&quot;Secure Random Float: {secure_float}&quot;)
 
 # Generate a secure random float within a specified range, inclusive
-secure_float_inclusive = secrets.uniform(0.0, 1.0)
+secure_float_inclusive = random.uniform(0.0, 1.0)
 print(f&quot;Secure Random Float Inclusive: {secure_float_inclusive}&quot;)
 </code></pre>
 
@@ -5319,9 +5321,9 @@ print(f&quot;Secure Alphanumeric String: {secure_alphanumeric_string}&quot;)
 <h3>Explanation</h3>
 <ul>
 <li><strong><code>secrets.randbelow(b)</code></strong>: Generates a random integer less than <code>b</code>.</li>
-<li><strong><code>secrets.randint(a, b)</code></strong>: Generates a random integer between <code>a</code> and <code>b</code>, inclusive.</li>
-<li><strong><code>secrets.randfloat()</code></strong>: Generates a random float between 0.0 and 1.0.</li>
-<li><strong><code>secrets.uniform(a, b)</code></strong>: Generates a random float between <code>a</code> and <code>b</code>, inclusive.</li>
+<li><strong><code>random.randint(a, b)</code></strong>: Generates a random integer between <code>a</code> and <code>b</code>, inclusive.</li>
+<li><strong><code>random.random()</code></strong>: Generates a random float between 0.0 and 1.0.</li>
+<li><strong><code>random.uniform(a, b)</code></strong>: Generates a random float between <code>a</code> and <code>b</code>, inclusive.</li>
 <li><strong><code>secrets.token_bytes(n)</code></strong>: Generates a random byte string of length <code>n</code>.</li>
 <li><strong><code>secrets.token_urlsafe(n)</code></strong>: Generates a URL-safe base64-encoded string of length <code>n</code>.</li>
 <li><strong><code>uuid.uuid4()</code></strong>: Generates a randomly generated UUID (Universally Unique Identifier).</li>
@@ -5346,7 +5348,7 @@ def add(a, b):
 &quot;&quot;&quot;
 
 # Create a code object from the source code string
-code_obj = code.compile(source_code, '&lt;string&gt;', 'exec')
+code_obj = compile(source_code, '&lt;string&gt;', 'exec')
 
 # Print the type of the code object
 print(type(code_obj))  # &lt;class 'types.CodeType'&gt;
@@ -5362,7 +5364,7 @@ def multiply(a, b):
 &quot;&quot;&quot;
 
 # Create a code object from the source code string
-code_obj = code.compile(source_code, '&lt;string&gt;', 'exec')
+code_obj = compile(source_code, '&lt;string&gt;', 'exec')
 
 # Execute the code object in a new namespace
 namespace = {}
@@ -5470,7 +5472,7 @@ eval(code_obj, namespace)
 
 # Access the function defined by the code object and its results
 calculate_function = namespace['calculate']
-result = calculate_function()
+result = calculate_function(namespace['a'], namespace['b'])
 
 print(result)  # Output: (15, 5, 50, 2.0)
 </code></pre>
