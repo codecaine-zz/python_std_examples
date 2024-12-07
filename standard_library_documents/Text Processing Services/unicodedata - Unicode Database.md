@@ -75,7 +75,7 @@ text = "éclair"
 
 # Extract and print combining characters
 combining_characters = ''.join(
-    chr(c) for c in range(0x300, 0x37F) if any(
+    chr(c) for c in range(0x300, 0x37F) if (
         unicodedata.category(chr(c)).startswith('Me') and unicodedata.decomposition(chr(c)) is not None
     )
 )
@@ -84,6 +84,8 @@ print(f"Combining characters in '{text}': {combining_characters}")
 
 ### Example 5: Convert Character to Emoji Sequence
 This example demonstrates how to convert a character to its corresponding emoji sequence using the `emoji` module, which is often used alongside `unicodedata`.
+
+pip install emoji
 
 ```python
 import unicodedata

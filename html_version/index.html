@@ -35843,7 +35843,7 @@ text = &quot;éclair&quot;
 
 # Extract and print combining characters
 combining_characters = ''.join(
-    chr(c) for c in range(0x300, 0x37F) if any(
+    chr(c) for c in range(0x300, 0x37F) if (
         unicodedata.category(chr(c)).startswith('Me') and unicodedata.decomposition(chr(c)) is not None
     )
 )
@@ -35852,6 +35852,7 @@ print(f&quot;Combining characters in '{text}': {combining_characters}&quot;)
 
 <h3>Example 5: Convert Character to Emoji Sequence</h3>
 <p>This example demonstrates how to convert a character to its corresponding emoji sequence using the <code>emoji</code> module, which is often used alongside <code>unicodedata</code>.</p>
+<p>pip install emoji</p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import unicodedata
 
 # Define a Unicode code point for an emoji
