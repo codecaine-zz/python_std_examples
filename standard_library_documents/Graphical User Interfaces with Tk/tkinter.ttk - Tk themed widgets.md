@@ -189,6 +189,7 @@ root.mainloop()
 ```python
 import tkinter as tk
 from tkinter import ttk
+from tkinter import scrolledtext  # Add this import
 
 def add_text():
     text.insert(tk.END, "This is some additional text.\n")
