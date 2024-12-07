@@ -15,7 +15,7 @@ import readline
 import rlcompleter
 
 # Set the completer function to use rlcompleter
-readline.set_completer(rlcompleter.Completer())
+readline.set_completer(rlcompleter.Completer().complete)
 
 # Enable auto-completion
 readline.parse_and_bind('tab: complete')
@@ -44,13 +44,13 @@ import readline
 import rlcompleter
 
 class CustomCompleter(rlcompleter.Completer):
-    def _complete(self, text, state):
+    def complete(self, text, state):
         # Define your own completion logic here
         matches = [item for item in dir() if item.startswith(text)]
         return matches[state] if 0 <= state < len(matches) else None
 
 # Set the custom completer function to use rlcompleter
-readline.set_completer(CustomCompleter())
+readline.set_completer(CustomCompleter().complete)
 
 # Enable auto-completion
 readline.parse_and_bind('tab: complete')
@@ -82,14 +82,23 @@ class MyClass:
     def __init__(self, name):
         self.name = name
 
+class InstanceCompleter(rlcompleter.Completer):
+    def complete(self, text, state):
+        if state == 0:
+            # Retrieve all MyClass instance names starting with 'text'
+            self.matches = [name for name, obj in globals().items() if isinstance(obj, MyClass) and name.startswith(text)]
+        try:
+            return self.matches[state]
+        except IndexError:
+            return None
+
 def example_usage():
     obj1 = MyClass("Object 1")
     obj2 = MyClass("Object 2")
 
     # Set up completion for instances of MyClass
-    class_instance_completer = rlcompleter.Completer()
-    class_instance_completer.complete_instances = True
-    readline.set_completer(class_instance_completer)
+    class_instance_completer = InstanceCompleter()
+    readline.set_completer(class_instance_completer.complete)
 
     # Enable auto-completion
     readline.parse_and_bind('tab: complete')
@@ -120,10 +129,10 @@ import readline
 import rlcompleter
 
 # Set the completer function to use rlcompleter
-readline.set_completer(rlcompleter.Completer())
+readline.set_completer(rlcompleter.Completer().complete)
 
 # Bind a custom key binding (e.g., Ctrl+X Ctrl+C)
-readline.parse_and_bind('Ctrl-X Ctrl-C: exit')
+readline.parse_and_bind('Control-X Control-C: exit')
 
 def example_usage():
     print("Type 'exit' and press Ctrl+X Ctrl+C to quit.")
@@ -148,13 +157,16 @@ import readline
 import rlcompleter
 
 class ModuleCompleter(rlcompleter.Completer):
-    def _complete(self, text, state):
+    def complete(self, text, state):
+        # Initialize custom_blacklist
+        if not hasattr(self, 'custom_blacklist'):
+            self.custom_blacklist = []
         # Define your own completion logic here
-        matches = [item for item in dir() if item.startswith(text) and item not in self.custom_blacklist]
+        matches = [item for item in dir(__builtins__) if item.startswith(text) and item not in self.custom_blacklist]
         return matches[state] if 0 <= state < len(matches) else None
 
 # Set the custom completer function to use rlcompleter
-readline.set_completer(ModuleCompleter())
+readline.set_completer(ModuleCompleter().complete)
 
 # Enable auto-completion
 readline.parse_and_bind('tab: complete')
@@ -187,7 +199,8 @@ import readline
 import rlcompleter
 
 # Set the completer function to use rlcompleter
-readline.set_completer(rlcompleter.Completer())
+completer = rlcompleter.Completer()
+readline.set_completer(completer.complete)
 
 # Customize delimiters
 readline.set_completer_delims(' \t\n;:')
