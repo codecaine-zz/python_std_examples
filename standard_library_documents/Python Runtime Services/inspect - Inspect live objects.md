@@ -51,7 +51,7 @@ print(frame.f_lineno)
 print(frame.f_locals)
 
 # Example 8: Get all local variables in the current stack frame
-locals_vars = frame.f_locals
+locals_vars = frame.f_locals.copy()  # Create a copy of the dictionary
 print("Local variables in the current stack frame:")
 for key, value in locals_vars.items():
     print(f"{key}: {value}")
@@ -71,20 +71,20 @@ print(f"The file path of example_function is: {file_path}")
 # Example 11: Check if an object is a frame
 is_frame = inspect.isframe(inspect.currentframe())
 print(f"Is current frame? {is_frame}")
-
 ```
 
 ### Explanation:
 
-- **Source Code**: `inspect.getsource` retrieves the source code of a function or method.
-- **Class/Function Checks**: `inspect.isclass` and `inspect.isfunction` determine if an object is a class or function, respectively.
-- **Docstring**: `inspect.getdoc` fetches the docstring of a function.
-- **Argument Specification**: `inspect.signature` provides detailed information about the parameters of a function.
-- **Module Information**: `inspect.getmodule` returns the module where a class or function is defined.
-- **Member List**: `inspect.getmembers` lists all members (functions and classes) in a module.
-- **Stack Frame Details**: `inspect.currentframe`, `f_code.co_filename`, `f_lineno`, and `f_locals` provide information about the current stack frame.
-- **Local Variables**: `frame.f_locals` gives access to the local variables of the current stack frame.
-- **Execution Tracing**: By simulating execution, `inspect.getsource` can be used to trace the flow of a function.
-- **File Path**: `inspect.getmodule` returns the file path where an object is defined.
+- **Source Code**: `inspect.getsource` retrieves the source code of a function or method, allowing you to see the exact code that was written.
+- **Class/Function Checks**: `inspect.isclass` and `inspect.isfunction` determine if an object is a class or function, respectively, which is useful for type checking and validation.
+- **Docstring**: `inspect.getdoc` fetches the docstring of a function, providing a way to access the documentation string for better understanding of the function's purpose.
+- **Argument Specification**: `inspect.signature` provides detailed information about the parameters of a function, including their names and default values, which is helpful for introspection and debugging.
+- **Module Information**: `inspect.getmodule` returns the module where a class or function is defined, giving context about where the object originates from.
+- **Member List**: `inspect.getmembers` lists all members (functions and classes) in a module, which can be used to dynamically explore the contents of a module.
+- **Stack Frame Details**: `inspect.currentframe`, `f_code.co_filename`, `f_lineno`, and `f_locals` provide information about the current stack frame, useful for debugging and understanding the state of the program at a specific point in time.
+- **Local Variables**: `frame.f_locals` gives access to the local variables of the current stack frame, allowing inspection of the current state of local variables.
+- **Execution Tracing**: By simulating execution, `inspect.getsource` can be used to trace the flow of a function, which is useful for debugging and understanding how a function operates.
+- **File Path**: `inspect.getmodule` returns the file path where an object is defined, providing information about the location of the source code.
+- **Frame Check**: `inspect.isframe` checks if an object is a frame, which can be used to validate and work with frame objects in the current execution context.
 
 These examples cover various aspects of inspecting live objects in Python, providing a comprehensive overview of its capabilities.
