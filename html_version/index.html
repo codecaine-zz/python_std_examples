@@ -4180,25 +4180,23 @@ if __name__ == '__main__':
 <p>This example demonstrates how to create a shared memory object and map it into a shared array.</p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import multiprocessing as mp
 
+
 def worker(shared_array):
     # Accessing the shared array from the worker process
     for i in range(len(shared_array)):
         shared_array[i] += 1
 
 if __name__ == &quot;__main__&quot;:
-    # Create a shared memory object of type 'c' (char) with size 10
-    shm = mp.Array('c', 10)
-
-    # Map the shared memory object into the worker process's address space
-    array_view = mp.array(shm)
+    # Create a shared memory object of type 'i' (integer) with size 10
+    shm = mp.Array('i', 10)
 
     # Start a new process that will modify the shared array
-    p = mp.Process(target=worker, args=(array_view,))
+    p = mp.Process(target=worker, args=(shm,))
     p.start()
     p.join()
 
     # Print the modified shared array
-    print(&quot;Modified shared array:&quot;, ''.join(array_view))
+    print(&quot;Modified shared array:&quot;, list(shm))
 </code></pre>
 
 <h3>Example 2: Creating a Shared Memory Object for an Integer</h3>
@@ -4214,16 +4212,13 @@ if __name__ == &quot;__main__&quot;:
     # Create a shared memory object of type 'i' (int) with size 1
     shm = mp.Value('i', 5)
 
-    # Map the shared memory object into the worker process's address space
-    array_view = mp.Value(shm)
-
     # Start a new process that will modify the shared integer
-    p = mp.Process(target=worker, args=(array_view,))
+    p = mp.Process(target=worker, args=(shm,))
     p.start()
     p.join()
 
     # Print the modified shared integer
-    print(&quot;Modified shared integer:&quot;, array_view.value)
+    print(&quot;Modified shared integer:&quot;, shm.value)
 </code></pre>
 
 <h3>Example 3: Creating a Shared Memory Object for a Float</h3>
@@ -4239,16 +4234,13 @@ if __name__ == &quot;__main__&quot;:
     # Create a shared memory object of type 'f' (float) with size 1
     shm = mp.Value('f', 5.0)
 
-    # Map the shared memory object into the worker process's address space
-    array_view = mp.Value(shm)
-
     # Start a new process that will modify the shared float
-    p = mp.Process(target=worker, args=(array_view,))
+    p = mp.Process(target=worker, args=(shm,))
     p.start()
     p.join()
 
     # Print the modified shared float
-    print(&quot;Modified shared float:&quot;, array_view.value)
+    print(&quot;Modified shared float:&quot;, shm.value)
 </code></pre>
 
 <h3>Example 4: Creating a Shared Memory Object for a List</h3>
@@ -4262,19 +4254,18 @@ def worker(shared_list):
         shared_list[i] += 1
 
 if __name__ == &quot;__main__&quot;:
-    # Create a shared memory object of type 'l' (list) with size 5
-    shm = mp.List([1, 2, 3, 4, 5])
-
-    # Map the shared memory object into the worker process's address space
-    array_view = mp.List(shm)
+    # Create a manager object to manage shared state
+    manager = mp.Manager()
+    # Create a shared list with the manager
+    shm = manager.list([1, 2, 3, 4, 5])
 
     # Start a new process that will modify the shared list
-    p = mp.Process(target=worker, args=(array_view,))
+    p = mp.Process(target=worker, args=(shm,))
     p.start()
     p.join()
 
     # Print the modified shared list
-    print(&quot;Modified shared list:&quot;, array_view)
+    print(&quot;Modified shared list:&quot;, shm)
 </code></pre>
 
 <h3>Example 5: Creating and Accessing Shared Memory Objects Across Multiple Processes</h3>
@@ -4287,16 +4278,13 @@ def worker(shared_array):
         shared_array[i] += 1
 
 def main():
-    # Create a shared memory object of type 'c' (char) with size 10
-    shm = mp.Array('c', 10)
-
-    # Map the shared memory object into the worker process's address space
-    array_view = mp.array(shm)
+    # Create a shared memory object of type 'i' (integer) with size 10
+    shm = mp.Array('i', 10)
 
     # Start multiple processes that will modify the shared array
     processes = []
     for _ in range(5):
-        p = mp.Process(target=worker, args=(array_view,))
+        p = mp.Process(target=worker, args=(shm,))
         p.start()
         processes.append(p)
 
@@ -4305,7 +4293,7 @@ def main():
         p.join()
 
     # Print the final modified shared array
-    print(&quot;Final shared array:&quot;, ''.join(array_view))
+    print(&quot;Final shared array:&quot;, list(shm))
 
 if __name__ == &quot;__main__&quot;:
     main()
@@ -4321,16 +4309,15 @@ def worker(shared_list):
         shared_list[i] += 1
 
 def main():
-    # Create a shared memory object of type 'l' (list) with initial data and size 5
-    shm = mp.List([1, 2, 3, 4, 5])
-
-    # Map the shared memory object into the worker process's address space
-    array_view = mp.List(shm)
+    # Create a manager object to manage shared data
+    manager = mp.Manager()
+    # Create a shared list with initial data and size 5
+    shm = manager.list([1, 2, 3, 4, 5])
 
     # Start multiple processes that will modify the shared list
     processes = []
     for _ in range(5):
-        p = mp.Process(target=worker, args=(array_view,))
+        p = mp.Process(target=worker, args=(shm,))
         p.start()
         processes.append(p)
 
@@ -4339,7 +4326,7 @@ def main():
         p.join()
 
     # Print the final modified shared list
-    print(&quot;Final shared list:&quot;, array_view)
+    print(&quot;Final shared list:&quot;, shm)
 
 if __name__ == &quot;__main__&quot;:
     main()
