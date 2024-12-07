@@ -10821,11 +10821,13 @@ filenames = [
     &quot;README.md&quot;
 ]
 
-# Define a pattern to match files with &quot;.txt&quot; or &quot;.md&quot; extensions
-pattern = &quot;*.txt|*.md&quot;
+# Define patterns to match files with &quot;.txt&quot; or &quot;.md&quot; extensions
+patterns = [&quot;*.txt&quot;, &quot;*.md&quot;]
 
-# Use fnmatch.filter() to find filenames that match the pattern
-matched_filenames = fnmatch.filter(filenames, pattern)
+# Use fnmatch.filter() to find filenames that match the patterns
+matched_filenames = []
+for pattern in patterns:
+    matched_filenames.extend(fnmatch.filter(filenames, pattern))
 
 # Print the matched filenames
 print(&quot;Matched filenames:&quot;, matched_filenames)
@@ -10834,7 +10836,7 @@ print(&quot;Matched filenames:&quot;, matched_filenames)
 <h3>Explanation:</h3>
 <ul>
 <li><strong>Importing <code>fnmatch</code>:</strong> The <code>fnmatch</code> module provides a function <code>filter()</code> that can be used to filter a list of filenames based on a given pattern.</li>
-<li><strong>Pattern Definition:</strong> The pattern <code>"*.txt|*.md"</code> matches any file name ending with <code>.txt</code> or <code>.md</code>.</li>
+<li><strong>Pattern Definition:</strong> The patterns <code>["*.txt", "*.md"]</code> match any file name ending with <code>.txt</code> or <code>.md</code>.</li>
 <li><strong>Function Call:</strong> <code>fnmatch.filter(filenames, pattern)</code> returns a list of filenames that match the specified pattern.</li>
 <li><strong>Output:</strong> The matched filenames are printed.</li>
 </ul>
@@ -10850,14 +10852,16 @@ filenames = [
     &quot;README.md&quot;
 ]
 
-# Define a case-insensitive pattern to match files ending with &quot;.txt&quot; or &quot;.md&quot;
-pattern = &quot;*.txt|*.md&quot;
+# Define case-insensitive patterns to match files ending with &quot;.txt&quot; or &quot;.md&quot;
+patterns = [&quot;*.txt&quot;, &quot;*.md&quot;]
 
-# Convert the pattern to a case-insensitive version
-case_insensitive_pattern = fnmatch.translate(pattern)
+# Convert the patterns to case-insensitive versions
+case_insensitive_patterns = [fnmatch.translate(pattern) for pattern in patterns]
 
-# Use fnmatch.filter() with the translated pattern for case-insensitive matching
-matched_filenames = fnmatch.filter(filenames, case_insensitive_pattern)
+# Use fnmatch.filter() with the translated patterns for case-insensitive matching
+matched_filenames = []
+for pattern in case_insensitive_patterns:
+    matched_filenames.extend(fnmatch.filter(filenames, pattern))
 
 # Print the matched filenames
 print(&quot;Matched filenames:&quot;, matched_filenames)
@@ -10865,9 +10869,9 @@ print(&quot;Matched filenames:&quot;, matched_filenames)
 
 <h3>Explanation:</h3>
 <ul>
-<li><strong>Case Insensitivity:</strong> The <code>fnmatch.translate()</code> function is used to convert a pattern into a form that is suitable for case-insensitive matching.</li>
-<li><strong>Pattern Translation:</strong> The pattern <code>"*.txt|*.md"</code> becomes <code>r'(?i)(\.txt|\.md)'</code> after translation, which matches filenames with <code>.TXT</code>, <code>.TEXT</code>, etc., as well as <code>.txt</code> and <code>.md</code>.</li>
-<li><strong>Function Call:</strong> <code>fnmatch.filter(filenames, case_insensitive_pattern)</code> returns a list of filenames that match the case-insensitive pattern.</li>
+<li><strong>Case Insensitivity:</strong> The <code>fnmatch.translate()</code> function is used to convert patterns into forms that are suitable for case-insensitive matching.</li>
+<li><strong>Pattern Translation:</strong> The patterns <code>["*.txt", "*.md"]</code> become case-insensitive after translation.</li>
+<li><strong>Function Call:</strong> <code>fnmatch.filter(filenames, case_insensitive_pattern)</code> returns a list of filenames that match the case-insensitive patterns.</li>
 <li><strong>Output:</strong> The matched filenames are printed.</li>
 </ul>
 <h3>Example 3: Using Wildcards in Patterns</h3>
@@ -10882,11 +10886,13 @@ filenames = [
     &quot;file5.jpg&quot;
 ]
 
-# Define a pattern to match files ending with &quot;.txt&quot; or &quot;.docx&quot;
-pattern = &quot;*.txt|*.docx&quot;
+# Define patterns to match files ending with &quot;.txt&quot; or &quot;.docx&quot;
+patterns = [&quot;*.txt&quot;, &quot;*.docx&quot;]
 
-# Use fnmatch.filter() to find filenames that match the pattern
-matched_filenames = fnmatch.filter(filenames, pattern)
+# Use fnmatch.filter() to find filenames that match the patterns
+matched_filenames = []
+for pattern in patterns:
+    matched_filenames.extend(fnmatch.filter(filenames, pattern))
 
 # Print the matched filenames
 print(&quot;Matched filenames:&quot;, matched_filenames)
@@ -10894,8 +10900,8 @@ print(&quot;Matched filenames:&quot;, matched_filenames)
 
 <h3>Explanation:</h3>
 <ul>
-<li><strong>Wildcard Usage:</strong> The pattern <code>"*.txt|*.docx"</code> matches any file name ending with <code>.txt</code> or <code>.docx</code>.</li>
-<li><strong>Function Call:</strong> <code>fnmatch.filter(filenames, pattern)</code> returns a list of filenames that match the specified pattern.</li>
+<li><strong>Wildcard Usage:</strong> The patterns <code>["*.txt", "*.docx"]</code> match any file name ending with <code>.txt</code> or <code>.docx</code>.</li>
+<li><strong>Function Call:</strong> <code>fnmatch.filter(filenames, pattern)</code> returns a list of filenames that match the specified patterns.</li>
 <li><strong>Output:</strong> The matched filenames are printed.</li>
 </ul>
 <h3>Example 4: Matching Multiple Patterns</h3>
@@ -10914,19 +10920,19 @@ filenames = [
 patterns = [&quot;*.txt&quot;, &quot;*.docx&quot;, &quot;*.pdf&quot;]
 
 # Use fnmatch.filter() with each pattern in the list
-matched_filenames = [fnmatch.filter(filenames, p) for p in patterns]
+matched_filenames = []
+for pattern in patterns:
+    matched_filenames.extend(fnmatch.filter(filenames, pattern))
 
-# Print the matched filenames for each pattern
-for i, matched in enumerate(matched_filenames):
-    print(&quot;Matched filenames for pattern '{}':&quot;.format(patterns[i]))
-    print(matched)
+# Print the matched filenames
+print(&quot;Matched filenames:&quot;, matched_filenames)
 </code></pre>
 
 <h3>Explanation:</h3>
 <ul>
 <li><strong>Multiple Patterns:</strong> The list <code>["*.txt", "*.docx", "*.pdf"]</code> contains multiple patterns.</li>
-<li><strong>List Comprehension:</strong> A list comprehension is used to apply <code>fnmatch.filter()</code> to each pattern in the list, resulting in a list of lists where each sublist contains filenames that match the corresponding pattern.</li>
-<li><strong>Output:</strong> The matched filenames for each pattern are printed.</li>
+<li><strong>Function Call:</strong> <code>fnmatch.filter(filenames, pattern)</code> returns a list of filenames that match the specified patterns.</li>
+<li><strong>Output:</strong> The matched filenames are printed.</li>
 </ul>
 <h3>Example 5: Using Regular Expressions for More Complex Patterns</h3>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import fnmatch
