@@ -268,7 +268,7 @@ def save_html_file(content, output_file):
 
 if __name__ == "__main__":
     directory = "standard_library_documents"
-    output_file = "standard_library_documents.html"
+    output_file = "index.html"
 
     markdown_files_by_category = get_markdown_files_by_category(directory)
     html_content = convert_markdown_to_html(markdown_files_by_category)
