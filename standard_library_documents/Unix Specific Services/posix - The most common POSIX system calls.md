@@ -36,7 +36,10 @@ print(f"Current Directory: {current_directory}")
 
 # Change to a new directory
 new_directory = '/path/to/new/directory'
-os.chdir(new_directory)
+try:
+    os.chdir(new_directory)
+except FileNotFoundError:
+    print(f"Error: The directory '{new_directory}' does not exist.")
 ```
 
 #### Example 3: Executing System Commands
@@ -56,19 +59,32 @@ You can manage file descriptors using `os.dup()`, `os.fdopen()`, and `os.close()
 ```python
 import os
 
-# Duplicate a file descriptor
-original_fd = open('file.txt', 'r')
-duplicated_fd = os.dup(original_fd)
+try:
+    # Duplicate a file descriptor
+    original_fd = open('file.txt', 'r')
+    duplicated_fd = os.dup(original_fd.fileno())
 
-# Open a new file descriptor to the same file
-new_file = os.fdopen(duplicated_fd, 'w')
+    # Open a new file descriptor to the same file
+    new_file = os.fdopen(duplicated_fd, 'w')
 
-# Write to the new file
-new_file.write('Hello, world!')
-
-# Close the original and duplicated file descriptors
-original_fd.close()
-os.close(duplicated_fd)
+    # Write to the new file
+    new_file.write('Hello, world!')
+except OSError as e:
+    print(f"OS error: {e}")
+except IOError as e:
+    print(f"I/O error: {e}")
+finally:
+    # Close the original and duplicated file descriptors
+    try:
+        original_fd.close()
+    except NameError:
+        pass
+    try:
+        os.close(duplicated_fd)
+    except NameError:
+        pass
+    except OSError as e:
+        print(f"Error closing duplicated file descriptor: {e}")
 ```
 
 #### Example 5: Using `subprocess` for More Complex Command Execution
