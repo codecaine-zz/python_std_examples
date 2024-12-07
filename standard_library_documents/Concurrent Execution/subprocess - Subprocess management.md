@@ -58,10 +58,12 @@ process = subprocess.Popen(['cat'], stdin=subprocess.PIPE, stdout=subprocess.PIP
 # Write input to the subprocess
 input_data = "Hello, World!\n"
 process.stdin.write(input_data.encode('utf-8'))
-process.stdin.close()
 
 # Read the output from the subprocess
 output, _ = process.communicate()
+
+# Close the stdin after communicate
+process.stdin.close()
 
 # Print the output of the command
 print("Command Output:")
@@ -88,7 +90,7 @@ env = {
 }
 
 # Run a command with specified environment variables
-result = subprocess.run(['echo', '$MY_VAR'], env=env, capture_output=True, text=True)
+result = subprocess.run(['/bin/sh', '-c', 'echo $MY_VAR'], env=env, capture_output=True, text=True)
 
 # Print the output of the command
 print("Command Output:")
@@ -163,6 +165,9 @@ else:
 import subprocess
 import time
 
+# Initialize the result variable
+result = None
+
 # Run a command with a timeout
 try:
     result = subprocess.run(['sleep', '3'], timeout=2, capture_output=True, text=True)
@@ -174,10 +179,10 @@ else:
     print(result.stdout)
 
 # Check if the command was successful
-if result.returncode == 0:
+if result and result.returncode == 0:
     print("Command executed successfully.")
 else:
-    print(f"Error: {result.stderr}")
+    print(f"Error: {result.stderr if result else 'No result available.'}")
 ```
 
 **Explanation**: This example demonstrates how to run a command with a timeout using `subprocess.run()`. If the command takes longer than the specified timeout, it raises a `TimeoutExpired` exception. The script handles this exception and prints an appropriate message.
@@ -186,6 +191,7 @@ else:
 
 ```python
 import subprocess
+import os
 
 # Run a command with custom signal handling
 try:
