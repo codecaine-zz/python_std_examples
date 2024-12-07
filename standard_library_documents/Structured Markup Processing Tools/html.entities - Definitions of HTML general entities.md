@@ -8,7 +8,7 @@ The `html.entities` module provides a comprehensive dictionary mapping HTML nume
 import html.entities as ent
 
 # Access all available HTML character entities as a dictionary
-entity_dict = ent.html5_ENTITIES
+entity_dict = ent.entitydefs
 
 # Print the first few key-value pairs from the entity dictionary
 for name, code in list(entity_dict.items())[:5]:
@@ -25,7 +25,7 @@ import os
 output_file = "entity_definitions.txt"
 
 # Create a list of all entities and their corresponding numeric values
-entities = [(name, code) for name, code in ent.html5_ENTITIES.items()]
+entities = [(name, code) for name, code in ent.entitydefs.items()]
 
 # Write the entities to a file
 with open(output_file, "w") as file:
@@ -47,13 +47,14 @@ print(f"The numeric value for '{named_entity}' is {numeric_value}")
 
 # Convert a numeric entity back to its named equivalent
 numeric_entity = 62
-named_entity = ent.codepoint2name(numeric_entity)
+named_entity = ent.codepoint2name[numeric_entity]
 print(f"The named entity for {numeric_entity} is '{named_entity}'")
 ```
 
 ### Example 4: Using Entities in HTML Strings
 
 ```python
+import html
 import html.entities as ent
 
 # Define a string with special characters that can be represented by entities
@@ -92,22 +93,32 @@ If you are using an HTML library like `BeautifulSoup` or `lxml`, the `html.entit
 
 ```python
 from bs4 import BeautifulSoup
+from html import entities as ent
 
 # Define a string with HTML containing special characters
 html_content = "<div>This is a <span>sample</span> of HTML content with special characters: &gt; &lt;</div>"
 
 # Parse the HTML using BeautifulSoup
-soup = BeautifulSoup(html_content, "lxml")
+soup = BeautifulSoup(html_content, "html.parser")
 
 # Print the parsed content and its entities
 print("Original HTML Content:", html_content)
 print("Parsed HTML Content:", str(soup))
 
 # Use the entity dictionary to manually replace named entities if necessary
-for name, code in ent.html5_ENTITIES.items():
-    soup.string.replace_with(soup.get_text().replace(name, f"&#{code};"))
+for text_node in soup.find_all(text=True):
+    new_text = text_node
+    for name, code in ent.html5.items():
+        new_text = new_text.replace(name, f"&#{code};")
+    text_node.replace_with(new_text)
 
 print("Parsed HTML Content with Entities Replaced:", str(soup))
+```
+
+Note: To use `BeautifulSoup`, you need to install the `beautifulsoup4` package using pip:
+
+```sh
+pip install beautifulsoup4
 ```
 
 These examples cover a variety of scenarios involving the `html.entities` module, from basic entity handling to more advanced uses in web development and data processing.

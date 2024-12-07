@@ -34517,7 +34517,7 @@ print(decoded_string)  # Output: &amp; &lt; &gt;
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import html.entities as ent
 
 # Access all available HTML character entities as a dictionary
-entity_dict = ent.html5_ENTITIES
+entity_dict = ent.entitydefs
 
 # Print the first few key-value pairs from the entity dictionary
 for name, code in list(entity_dict.items())[:5]:
@@ -34532,7 +34532,7 @@ import os
 output_file = &quot;entity_definitions.txt&quot;
 
 # Create a list of all entities and their corresponding numeric values
-entities = [(name, code) for name, code in ent.html5_ENTITIES.items()]
+entities = [(name, code) for name, code in ent.entitydefs.items()]
 
 # Write the entities to a file
 with open(output_file, &quot;w&quot;) as file:
@@ -34552,12 +34552,13 @@ print(f&quot;The numeric value for '{named_entity}' is {numeric_value}&quot;)
 
 # Convert a numeric entity back to its named equivalent
 numeric_entity = 62
-named_entity = ent.codepoint2name(numeric_entity)
+named_entity = ent.codepoint2name[numeric_entity]
 print(f&quot;The named entity for {numeric_entity} is '{named_entity}'&quot;)
 </code></pre>
 
 <h3>Example 4: Using Entities in HTML Strings</h3>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import html.entities as ent
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import html
+import html.entities as ent
 
 # Define a string with special characters that can be represented by entities
 html_string = &quot;&lt;div&gt;This is an example of using HTML entities.&lt;/div&gt;&quot;
@@ -34590,22 +34591,30 @@ for char, entity in non_ascii_entities.items():
 <h3>Example 6: Using Entities with HTML Libraries</h3>
 <p>If you are using an HTML library like <code>BeautifulSoup</code> or <code>lxml</code>, the <code>html.entities</code> module can be used to handle character entities in parsed content.</p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">from bs4 import BeautifulSoup
+from html import entities as ent
 
 # Define a string with HTML containing special characters
 html_content = &quot;&lt;div&gt;This is a &lt;span&gt;sample&lt;/span&gt; of HTML content with special characters: &amp;gt; &amp;lt;&lt;/div&gt;&quot;
 
 # Parse the HTML using BeautifulSoup
-soup = BeautifulSoup(html_content, &quot;lxml&quot;)
+soup = BeautifulSoup(html_content, &quot;html.parser&quot;)
 
 # Print the parsed content and its entities
 print(&quot;Original HTML Content:&quot;, html_content)
 print(&quot;Parsed HTML Content:&quot;, str(soup))
 
 # Use the entity dictionary to manually replace named entities if necessary
-for name, code in ent.html5_ENTITIES.items():
-    soup.string.replace_with(soup.get_text().replace(name, f&quot;&amp;#{code};&quot;))
+for text_node in soup.find_all(text=True):
+    new_text = text_node
+    for name, code in ent.html5.items():
+        new_text = new_text.replace(name, f&quot;&amp;#{code};&quot;)
+    text_node.replace_with(new_text)
 
 print(&quot;Parsed HTML Content with Entities Replaced:&quot;, str(soup))
+</code></pre>
+
+<p>Note: To use <code>BeautifulSoup</code>, you need to install the <code>beautifulsoup4</code> package using pip:</p>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-sh">pip install beautifulsoup4
 </code></pre>
 
 <p>These examples cover a variety of scenarios involving the <code>html.entities</code> module, from basic entity handling to more advanced uses in web development and data processing.</p>
