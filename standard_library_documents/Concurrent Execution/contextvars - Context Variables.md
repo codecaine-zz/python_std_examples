@@ -16,44 +16,45 @@ def process_user_data():
     print(f"Processing data for user ID: {user_id_value}")
 
 # Set the value of user_id in the current context
-context = contextvars.Context()
-context[user_id] = 12345
+token = user_id.set(12345)
 process_user_data()  # Output: Processing data for user ID: 12345
 
 # Use a local context to set a different value for user_id
-with contextvars.ContextVar('user_id').set(67890):
-    process_user_data()  # Output: Processing data for user ID: 67890
+token2 = user_id.set(67890)
+process_user_data()  # Output: Processing data for user ID: 67890
 
 # The original context remains unchanged
-print(user_id.get())  # Output: 12345
-
-# Reset the value of user_id to its default (None)
-user_id.reset()
-print(user_id.get())  # Output: None
+user_id.reset(token)
+try:
+    print(user_id.get())  # Output: None
+except LookupError:
+    print("user_id is not set")
 
 # Define a function that creates and returns a new context with an updated user ID
 def create_context_with_user_id():
-    return contextvars.Context().set(user_id, 12345)
+    new_context = contextvars.copy_context()
+    new_context.run(lambda: user_id.set(12345))
+    return new_context
 
 # Create a context from the factory function
 new_context = create_context_with_user_id()
-process_user_data()  # Output: Processing data for user ID: 12345
+new_context.run(process_user_data)  # Output: Processing data for user ID: 12345
 
 # Get the current context and update the user ID in it
-current_context = contextvars.get_current_context()
-current_context[user_id] = 67890
-process_user_data()  # Output: Processing data for user ID: 67890
+current_context = contextvars.copy_context()
+current_context.run(lambda: user_id.set(67890))
+current_context.run(process_user_data)  # Output: Processing data for user ID: 67890
 
 # Use a local context to set a different value for user_id in the current context
-with contextvars.ContextVar('user_id').set(1024):
-    process_user_data()  # Output: Processing data for user ID: 1024
+token3 = user_id.set(1024)
+process_user_data()  # Output: Processing data for user ID: 1024
 
 # The original context remains unchanged
-print(user_id.get())  # Output: None
-
-# Reset the value of user_id to its default (None)
-user_id.reset()
-print(user_id.get())  # Output: None
+user_id.reset(token3)
+try:
+    print(user_id.get())  # Output: None
+except LookupError:
+    print("user_id is not set")
 ```
 
 ### Key Features and Examples:
@@ -62,18 +63,18 @@ print(user_id.get())  # Output: None
    - `contextvars.ContextVar('user_id')` creates a new context variable named `user_id`.
 
 2. **Setting and Getting Context Variables**:
-   - Use `context[user_id] = value` to set the value of `user_id` in the current context.
+   - Use `user_id.set(value)` to set the value of `user_id` in the current context.
    - Use `user_id.get()` to retrieve the current value of `user_id`.
 
 3. **Local Contexts**:
-   - Use a `with` statement with `contextvars.ContextVar('user_id').set(value)` to temporarily change the value of `user_id` for the duration of the block.
+   - Use `contextvars.copy_context()` to create a copy of the current context and modify it independently.
 
 4. **Context Resetting**:
-   - Call `user_id.reset()` to restore the default value of `user_id`.
+   - Call `user_id.reset(token)` to restore the previous value of `user_id`.
 
 5. **Factory Functions**:
    - Create a context factory function that sets a specific value for the context variable and returns it.
-   - Use `contextvars.get_current_context()` to access the current context.
+   - Use `contextvars.copy_context()` to access the current context.
 
 6. **Multiple Contexts**:
    - Each thread or process can have its own context, allowing for independent management of contextual variables.
