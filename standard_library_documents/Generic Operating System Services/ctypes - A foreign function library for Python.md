@@ -9,8 +9,11 @@ Below are some comprehensive code examples demonstrating various functionalities
 ```python
 import ctypes
 
-# Load a shared library (e.g., libc.so on Linux)
-libc = ctypes.CDLL('libc.so.6')
+# Load a shared library (e.g., libSystem.dylib on macOS)
+libc = ctypes.CDLL('libSystem.dylib')
+
+# Define the argument types for the printf function
+libc.printf.argtypes = [ctypes.c_char_p]
 
 # Define a function from the library using ctypes.CFUNCTYPE
 def print_message(message):
@@ -25,14 +28,16 @@ print_message("Hello, World!")
 ```python
 import ctypes
 
-# Load the math library (libm.so on Linux)
-math = ctypes.CDLL('libm.so.6')
+# Load the math library (libSystem.dylib on macOS)
+libm = ctypes.CDLL('libSystem.dylib')
+
+# Define the return type and argument types for the sin function
+libm.sin.restype = ctypes.c_double
+libm.sin.argtypes = [ctypes.c_double]
 
 # Define a function from the library using ctypes.CFUNCTYPE
 def sin(x):
-    result = ctypes.c_double()
-    math.sin(ctypes.byref(result), x)
-    return result.value
+    return libm.sin(x)
 
 # Call the function with an argument and print the result
 print(f"The sine of 30 degrees (in radians) is: {sin(3.14159 / 6)}")
@@ -120,7 +125,7 @@ print(f"The name of the color is {get_color_name(color)}")
 import ctypes
 
 # Load a shared library using an absolute path
-lib_path = "/path/to/your/library.so"
+lib_path = "/usr/local/lib/libyourlib.dylib"
 my_lib = ctypes.CDLL(lib_path)
 
 # Define a function from the loaded library
@@ -139,7 +144,7 @@ print(f"The result of my_lib_function is: {my_lib_function()}")
 import ctypes
 
 # Load a shared library with multiple symbols
-lib = ctypes.CDLL('libexample.so')
+lib = ctypes.CDLL('libexample.dylib')
 
 # Define functions from the library using ctypes.CFUNCTYPE
 def function1(arg):
