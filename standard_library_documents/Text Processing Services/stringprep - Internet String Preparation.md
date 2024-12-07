@@ -9,10 +9,10 @@ Below are comprehensive examples of how to use each functionality provided by th
 Normalization is a crucial step in preparing strings for internationalization, ensuring that characters are represented consistently across different languages and regions.
 
 ```python
-import stringprep
+import unicodedata
 
 # Define a normalized string
-normalized_string = stringprep.normalize('NFKC', 'áéíóú')
+normalized_string = unicodedata.normalize('NFKC', 'áéíóú')
 
 print(normalized_string)  # Output: aeiou
 ```
@@ -22,15 +22,13 @@ print(normalized_string)  # Output: aeiou
 You can check if a character is suitable for use in certain contexts, such as handling hyphenation or punctuation.
 
 ```python
-import stringprep
-
 # Check if a character is an uppercase letter
-is_uppercase = stringprep.check('A', 'U')
+is_uppercase = 'A'.isupper()
 
 print(is_uppercase)  # Output: True
 
 # Check if a character is a digit
-is_digit = stringprep.check('1', 'D')
+is_digit = '1'.isdigit()
 
 print(is_digit)  # Output: True
 ```
@@ -40,16 +38,16 @@ print(is_digit)  # Output: True
 You can determine the type of a character, such as whether it's a letter or a punctuation mark.
 
 ```python
-import stringprep
+import unicodedata
 
 # Check the category of a character
-category = stringprep.category('A', 'L')
+category = unicodedata.category('A')
 
 print(category)  # Output: Lu (Letter, uppercase)
 
-category = stringprep.category('!', 'P')
+category = unicodedata.category('!')
 
-print(category)  # Output: Pp (Punctuation, punctuation mark)
+print(category)  # Output: Po (Punctuation, other)
 ```
 
 ### 4. Process Unicode Tables
@@ -60,12 +58,12 @@ The `stringprep` module provides access to various tables that are used for norm
 import stringprep
 
 # Access a specific table
-table = stringprep.get_table('cc')
+table = stringprep.in_table_c11
 
 # Check if a character is in the table
-is_in_table = stringprep.check('a', 'CC')
+is_in_table = table('a')
 
-print(is_in_table)  # Output: True
+print(is_in_table)  # Output: False
 ```
 
 ### 5. Generate Table Files
@@ -75,12 +73,13 @@ The `stringprep` module can generate tables based on input data or other tables.
 ```python
 import stringprep
 
-# Create a new table from specific rules
-new_table = stringprep.generate_table('my_table', 'U')
+# Example of using stringprep to check if a character is in a specific category
+def is_in_table(char):
+    return stringprep.in_table_a1(char)
 
-# Print the contents of the new table
-for category, value in new_table.items():
-    print(f'Category: {category}, Value: {value}')
+# Print the result for a sample character
+sample_char = 'A'
+print(f'Is "{sample_char}" in table A1: {is_in_table(sample_char)}')
 ```
 
 ### 6. Validate Strings
@@ -88,10 +87,14 @@ for category, value in new_table.items():
 You can validate strings against certain rules to ensure they are suitable for use in specific contexts.
 
 ```python
-import stringprep
+import idna
 
 # Validate a string according to the IDN protocol
-is_idn_valid = stringprep.validate('xn--pwrq3d', 'IDNA')
+try:
+    idna.encode('xn--pwrq3d')
+    is_idn_valid = True
+except idna.IDNAError:
+    is_idn_valid = False
 
 print(is_idn_valid)  # Output: True
 ```
@@ -101,10 +104,20 @@ print(is_idn_valid)  # Output: True
 Here's an example of how you might use these features in a context like normalizing user input for display:
 
 ```python
-import stringprep
+import idna
+import unicodedata
+
+# Check if a domain name is valid
+try:
+    idna.encode('example.com')
+    is_domain_valid = True
+except idna.IDNAError:
+    is_domain_valid = False
+
+print(is_domain_valid)  # Output: True
 
 def normalize_user_input(input_string):
-    normalized = stringprep.normalize('NFKC', input_string)
+    normalized = unicodedata.normalize('NFKC', input_string)
     return normalized
 
 # Example usage
@@ -120,13 +133,14 @@ print(f"Normalized: {normalized_input}")
 Suppose you want to generate a table that checks if certain characters are allowed in domain names.
 
 ```python
-import stringprep
+import idna
 
-# Create a new table for validating domain names
-domain_name_table = stringprep.generate_table('domain_names', 'IDNA')
-
-# Check if a character is in the domain name table
-is_domain_valid = stringprep.check('example.com', 'DOMAIN_NAME')
+# Check if a domain name is valid
+try:
+    idna.encode('example.com')
+    is_domain_valid = True
+except idna.IDNAError:
+    is_domain_valid = False
 
 print(is_domain_valid)  # Output: True
 ```

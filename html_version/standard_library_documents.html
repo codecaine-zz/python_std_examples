@@ -35437,41 +35437,39 @@ if __name__ == &quot;__main__&quot;:
 <p>Below are comprehensive examples of how to use each functionality provided by the <code>stringprep</code> module:</p>
 <h3>1. Normalization</h3>
 <p>Normalization is a crucial step in preparing strings for internationalization, ensuring that characters are represented consistently across different languages and regions.</p>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import stringprep
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import unicodedata
 
 # Define a normalized string
-normalized_string = stringprep.normalize('NFKC', 'áéíóú')
+normalized_string = unicodedata.normalize('NFKC', 'áéíóú')
 
 print(normalized_string)  # Output: aeiou
 </code></pre>
 
 <h3>2. Check Character Properties</h3>
 <p>You can check if a character is suitable for use in certain contexts, such as handling hyphenation or punctuation.</p>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import stringprep
-
-# Check if a character is an uppercase letter
-is_uppercase = stringprep.check('A', 'U')
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python"># Check if a character is an uppercase letter
+is_uppercase = 'A'.isupper()
 
 print(is_uppercase)  # Output: True
 
 # Check if a character is a digit
-is_digit = stringprep.check('1', 'D')
+is_digit = '1'.isdigit()
 
 print(is_digit)  # Output: True
 </code></pre>
 
 <h3>3. Determine Character Type</h3>
 <p>You can determine the type of a character, such as whether it's a letter or a punctuation mark.</p>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import stringprep
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import unicodedata
 
 # Check the category of a character
-category = stringprep.category('A', 'L')
+category = unicodedata.category('A')
 
 print(category)  # Output: Lu (Letter, uppercase)
 
-category = stringprep.category('!', 'P')
+category = unicodedata.category('!')
 
-print(category)  # Output: Pp (Punctuation, punctuation mark)
+print(category)  # Output: Po (Punctuation, other)
 </code></pre>
 
 <h3>4. Process Unicode Tables</h3>
@@ -35479,42 +35477,57 @@ print(category)  # Output: Pp (Punctuation, punctuation mark)
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import stringprep
 
 # Access a specific table
-table = stringprep.get_table('cc')
+table = stringprep.in_table_c11
 
 # Check if a character is in the table
-is_in_table = stringprep.check('a', 'CC')
+is_in_table = table('a')
 
-print(is_in_table)  # Output: True
+print(is_in_table)  # Output: False
 </code></pre>
 
 <h3>5. Generate Table Files</h3>
 <p>The <code>stringprep</code> module can generate tables based on input data or other tables.</p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import stringprep
 
-# Create a new table from specific rules
-new_table = stringprep.generate_table('my_table', 'U')
+# Example of using stringprep to check if a character is in a specific category
+def is_in_table(char):
+    return stringprep.in_table_a1(char)
 
-# Print the contents of the new table
-for category, value in new_table.items():
-    print(f'Category: {category}, Value: {value}')
+# Print the result for a sample character
+sample_char = 'A'
+print(f'Is &quot;{sample_char}&quot; in table A1: {is_in_table(sample_char)}')
 </code></pre>
 
 <h3>6. Validate Strings</h3>
 <p>You can validate strings against certain rules to ensure they are suitable for use in specific contexts.</p>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import stringprep
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import idna
 
 # Validate a string according to the IDN protocol
-is_idn_valid = stringprep.validate('xn--pwrq3d', 'IDNA')
+try:
+    idna.encode('xn--pwrq3d')
+    is_idn_valid = True
+except idna.IDNAError:
+    is_idn_valid = False
 
 print(is_idn_valid)  # Output: True
 </code></pre>
 
 <h3>7. Example of Using <code>stringprep</code> in Practice</h3>
 <p>Here's an example of how you might use these features in a context like normalizing user input for display:</p>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import stringprep
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import idna
+import unicodedata
+
+# Check if a domain name is valid
+try:
+    idna.encode('example.com')
+    is_domain_valid = True
+except idna.IDNAError:
+    is_domain_valid = False
+
+print(is_domain_valid)  # Output: True
 
 def normalize_user_input(input_string):
-    normalized = stringprep.normalize('NFKC', input_string)
+    normalized = unicodedata.normalize('NFKC', input_string)
     return normalized
 
 # Example usage
@@ -35527,13 +35540,14 @@ print(f&quot;Normalized: {normalized_input}&quot;)
 
 <h3>8. Generating a Table for Validation</h3>
 <p>Suppose you want to generate a table that checks if certain characters are allowed in domain names.</p>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import stringprep
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import idna
 
-# Create a new table for validating domain names
-domain_name_table = stringprep.generate_table('domain_names', 'IDNA')
-
-# Check if a character is in the domain name table
-is_domain_valid = stringprep.check('example.com', 'DOMAIN_NAME')
+# Check if a domain name is valid
+try:
+    idna.encode('example.com')
+    is_domain_valid = True
+except idna.IDNAError:
+    is_domain_valid = False
 
 print(is_domain_valid)  # Output: True
 </code></pre>
