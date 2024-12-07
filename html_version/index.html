@@ -34616,9 +34616,13 @@ print(&quot;Parsed HTML Content with Entities Replaced:&quot;, str(soup))
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">from html.parser import HTMLParser
 
 class MyHTMLParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.data = []
+
     def handle_data(self, data):
         # This method is called for each block of plain text in the document
-        print(data)
+        self.data.append(data)
 
 def parse_html(html_content):
     parser = MyHTMLParser()
@@ -34650,6 +34654,7 @@ print(parsed_data)
 </ul>
 <h3>Example 2: Extracting Links with <code>BeautifulSoup</code></h3>
 <p>For more complex parsing tasks, you might use <code>BeautifulSoup</code>, which provides a more powerful interface for working with HTML and XML documents.</p>
+<p>pip install beautifulsoup4</p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">from bs4 import BeautifulSoup
 
 def extract_links(html_content):

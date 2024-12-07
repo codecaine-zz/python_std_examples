@@ -10,9 +10,13 @@ This example demonstrates how to use the `HTMLParser` class from the `html.parse
 from html.parser import HTMLParser
 
 class MyHTMLParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.data = []
+
     def handle_data(self, data):
         # This method is called for each block of plain text in the document
-        print(data)
+        self.data.append(data)
 
 def parse_html(html_content):
     parser = MyHTMLParser()
@@ -44,6 +48,8 @@ print(parsed_data)
 ### Example 2: Extracting Links with `BeautifulSoup`
 
 For more complex parsing tasks, you might use `BeautifulSoup`, which provides a more powerful interface for working with HTML and XML documents.
+
+pip install beautifulsoup4
 
 ```python
 from bs4 import BeautifulSoup
