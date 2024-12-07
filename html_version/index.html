@@ -35645,9 +35645,11 @@ print(is_domain_valid)  # Output: True
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python"># Importing the textwrap module
 import textwrap
 
-## 1. Basic Text Wrapping
+# 1. Basic Text Wrapping
 
-### Example: Simple text wrapping
+# Example: Simple text wrapping
+
+
 def simple_text_wrapping():
     &quot;&quot;&quot;
     This example demonstrates basic text wrapping.
@@ -35663,11 +35665,14 @@ def simple_text_wrapping():
     for line in wrapped_text:
         print(line)
 
+
 simple_text_wrapping()
 
-## 2. Filling Text
+# 2. Filling Text
 
-### Example: Filling with fill()
+# Example: Filling with fill()
+
+
 def fill_example():
     &quot;&quot;&quot;
     This example demonstrates using the `fill()` function to wrap and fill text.
@@ -35679,15 +35684,19 @@ def fill_example():
     print(input_text)
 
     # Wrapping and filling the text with 40 characters per line, indented by 2 spaces
-    filled_text = textwrap.fill(input_text, width=40, indent=&quot;  &quot;)
+    filled_text = textwrap.fill(
+        input_text, width=40, initial_indent=&quot;  &quot;, subsequent_indent=&quot;  &quot;)
     print(&quot;\nFilled Text:&quot;)
     print(filled_text)
 
+
 fill_example()
 
-## 3. Indentation
+# 3. Indentation
 
-### Example: Indenting text
+# Example: Indenting text
+
+
 def indent_example():
     &quot;&quot;&quot;
     This example demonstrates the use of `indent()` to add leading whitespace to each line of a paragraph.
@@ -35705,11 +35714,14 @@ def indent_example():
     print(&quot;\nIndented Text:&quot;)
     print(indented_text)
 
+
 indent_example()
 
-## 4. Dedenting Text
+# 4. Dedenting Text
 
-### Example: Removing leading whitespace from text
+# Example: Removing leading whitespace from text
+
+
 def dedent_example():
     &quot;&quot;&quot;
     This example demonstrates the use of `dedent()` to remove any common leading whitespace from each line.
@@ -35726,11 +35738,14 @@ def dedent_example():
     print(&quot;\nDedented Text:&quot;)
     print(dedented_text)
 
+
 dedent_example()
 
-## 5. Processing Unicode Characters
+# 5. Processing Unicode Characters
 
-### Example: Handling non-ASCII characters
+# Example: Handling non-ASCII characters
+
+
 def unicode_example():
     &quot;&quot;&quot;
     This example demonstrates handling text containing non-ASCII characters.
@@ -35744,6 +35759,7 @@ def unicode_example():
     filled_text = textwrap.fill(input_text, width=40)
     print(&quot;\nFilled Text:&quot;)
     print(filled_text)
+
 
 unicode_example()
 </code></pre>

@@ -6,9 +6,11 @@ Below is a comprehensive set of code examples that demonstrate various functiona
 # Importing the textwrap module
 import textwrap
 
-## 1. Basic Text Wrapping
+# 1. Basic Text Wrapping
 
-### Example: Simple text wrapping
+# Example: Simple text wrapping
+
+
 def simple_text_wrapping():
     """
     This example demonstrates basic text wrapping.
@@ -17,18 +19,21 @@ def simple_text_wrapping():
     input_text = "This is an example of how the textwrap module can be used to wrap text."
     print("Original Text:")
     print(input_text)
-    
+
     # Wrapping the text to 40 characters per line
     wrapped_text = textwrap.wrap(input_text, width=40)
     print("\nWrapped Text:")
     for line in wrapped_text:
         print(line)
 
+
 simple_text_wrapping()
 
-## 2. Filling Text
+# 2. Filling Text
 
-### Example: Filling with fill()
+# Example: Filling with fill()
+
+
 def fill_example():
     """
     This example demonstrates using the `fill()` function to wrap and fill text.
@@ -38,17 +43,21 @@ def fill_example():
     input_text = "This is an example of how the textwrap module can be used to wrap text."
     print("Original Text:")
     print(input_text)
-    
+
     # Wrapping and filling the text with 40 characters per line, indented by 2 spaces
-    filled_text = textwrap.fill(input_text, width=40, indent="  ")
+    filled_text = textwrap.fill(
+        input_text, width=40, initial_indent="  ", subsequent_indent="  ")
     print("\nFilled Text:")
     print(filled_text)
 
+
 fill_example()
 
-## 3. Indentation
+# 3. Indentation
 
-### Example: Indenting text
+# Example: Indenting text
+
+
 def indent_example():
     """
     This example demonstrates the use of `indent()` to add leading whitespace to each line of a paragraph.
@@ -57,20 +66,23 @@ def indent_example():
     input_text = "This is an example of how the textwrap module can be used to wrap text."
     print("Original Text:")
     print(input_text)
-    
+
     # Wrapping and filling the text with 40 characters per line
     filled_text = textwrap.fill(input_text, width=40)
-    
+
     # Adding 2 spaces of indentation to each line
     indented_text = textwrap.indent(filled_text, "  ")
     print("\nIndented Text:")
     print(indented_text)
 
+
 indent_example()
 
-## 4. Dedenting Text
+# 4. Dedenting Text
 
-### Example: Removing leading whitespace from text
+# Example: Removing leading whitespace from text
+
+
 def dedent_example():
     """
     This example demonstrates the use of `dedent()` to remove any common leading whitespace from each line.
@@ -78,20 +90,23 @@ def dedent_example():
     """
     input_text = """  This is an example of how the textwrap module can be used to wrap text.
                     Notice that there are two spaces at the beginning of each line."""
-    
+
     print("Original Text:")
     print(input_text)
-    
+
     # Dedenting the text
     dedented_text = textwrap.dedent(input_text)
     print("\nDedented Text:")
     print(dedented_text)
 
+
 dedent_example()
 
-## 5. Processing Unicode Characters
+# 5. Processing Unicode Characters
 
-### Example: Handling non-ASCII characters
+# Example: Handling non-ASCII characters
+
+
 def unicode_example():
     """
     This example demonstrates handling text containing non-ASCII characters.
@@ -100,13 +115,15 @@ def unicode_example():
     input_text = "This is an example of how the textwrap module can be used with text containing non-ASCII characters 😊."
     print("Original Text:")
     print(input_text)
-    
+
     # Wrapping and filling the text with 40 characters per line
     filled_text = textwrap.fill(input_text, width=40)
     print("\nFilled Text:")
     print(filled_text)
 
+
 unicode_example()
+
 ```
 
 ### Explanation:
