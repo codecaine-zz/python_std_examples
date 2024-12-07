@@ -39,6 +39,7 @@ root.mainloop()
 ```python
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk  
 
 def show_message():
     # Display a message box with an OK button
@@ -62,14 +63,17 @@ root.mainloop()
 
 ```python
 import tkinter as tk
+from tkinter import ttk
 from tkinter import simpledialog
+
 
 def get_name():
     # Get input from a dialog box with an OK and Cancel button
     name = simpledialog.askstring("Input", "Please enter your name:")
-    
+
     if name:
         print(f"Hello, {name}!")
+
 
 root = tk.Tk()
 root.title("Entry Dialog Example")
@@ -85,7 +89,7 @@ root.mainloop()
 
 ```python
 import tkinter as tk
-from tkinter import scrolledtext
+from tkinter import scrolledtext, ttk
 
 def add_item():
     item = listbox.get(listbox.curselection())
@@ -123,7 +127,7 @@ root.mainloop()
 
 ```python
 import tkinter as tk
-from tkinter import scrolledtext
+from tkinter import scrolledtext, ttk
 
 def select_item(event):
     item = tree.selection()[0]
@@ -137,7 +141,7 @@ def add_item():
 root = tk.Tk()
 root.title("Treeview Example")
 
-# Create a scrolled text area for the treeview
+# Create a scrolled text area
 scrolled_text = scrolledtext.ScrolledText(root, width=40, height=10)
 scrolled_text.pack(pady=10)
 
@@ -147,11 +151,11 @@ listbox.insert(tk.END, "Item 1", "Item 2", "Item 3")
 listbox.pack()
 
 # Create a treeview widget
-tree = ttk.Treeview(scrolled_text, columns=("column1",))
+tree = ttk.Treeview(root, columns=("column1",))
 tree.heading("#0", text="Items")
 tree.column("column1", width=100)
 tree.insert("", "end", text="Root Node")
-scrolled_text.window_create("end", tree)
+tree.pack(pady=10)
 
 # Bind the selection event to a function
 tree.bind("<<TreeviewSelect>>", select_item)
@@ -168,6 +172,7 @@ root.mainloop()
 ```python
 import tkinter as tk
 from tkinter import scrolledtext
+from tkinter import ttk  # Add this import
 
 def clear_text():
     text.delete("1.0", "end")
@@ -197,13 +202,16 @@ root.mainloop()
 ```python
 import tkinter as tk
 from tkinter import simpledialog
+from tkinter import ttk  # Add this import
+
 
 def get_email():
     # Get input from a dialog box with an OK and Cancel button
     email = simpledialog.askstring("Input", "Please enter your email:")
-    
+
     if email:
         print(f"Email entered: {email}")
+
 
 root = tk.Tk()
 root.title("Dialog Box with Entry Example")
