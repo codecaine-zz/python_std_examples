@@ -28805,7 +28805,7 @@ num5 = fractions.Fraction(0.75)
 print(num5)        # Output: 3/4
 
 # Using mixed numbers
-mixed_num = fractions.Fraction('1 1/2')  # Represents the fraction 3/2
+mixed_num = fractions.Fraction(3, 2)  # Represents the fraction 3/2
 print(mixed_num)     # Output: 3/2
 
 # Arithmetic Operations
@@ -28900,8 +28900,8 @@ simplified_num = simplified_num.limit_denominator()
 print(simplified_num)   # Output: 2/5
 
 # Operations with Infinite Fractions
-inf_frac = fractions.Fraction('Infinity')
-zero_frac = fractions.Fraction('Zero')
+inf_frac = float('inf')  # Represents Infinity
+zero_frac = fractions.Fraction(0)  # Represents Zero
 
 print(inf_frac + inf_frac)      # Output: Infinity
 print(zero_frac - inf_frac)    # Output: -Infinity
