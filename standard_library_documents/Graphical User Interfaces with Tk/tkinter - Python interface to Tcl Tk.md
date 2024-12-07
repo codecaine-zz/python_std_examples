@@ -2,6 +2,9 @@
 
 The `tkinter` module is a standard Python library that provides a high-level, cross-platform GUI toolkit. It allows developers to create graphical user interfaces (GUIs) in Python applications. Below are comprehensive and well-documented code examples for various functionalities of the `tkinter` module.
 
+### Installation
+brew install python-tk@3.12
+
 ### Example 1: Basic Window Application
 
 ```python
@@ -133,6 +136,7 @@ root.mainloop()
 
 ```python
 import tkinter as tk
+from tkinter import ttk
 
 # Create the main window
 root = tk.Tk()
@@ -146,6 +150,7 @@ options = ["Option 1", "Option 2", "Option 3"]
 
 # Create a Combobox widget
 combobox = ttk.Combobox(root, values=options)
+combobox.set(options[0])  # Set the initial value
 combobox.pack()
 
 # Bind the <Return> event to trigger the selection
@@ -169,7 +174,7 @@ import tkinter as tk
 root = tk.Tk()
 root.title("Radiobuttons")
 
-def on_radio_change():
+def on_radio_change(*args):
     print(f"Selected option: {variable.get()}")
 
 # Create a variable to store the selected option
@@ -186,7 +191,7 @@ radio2.pack()
 radio3.pack()
 
 # Bind the change event to the on_radio_change function
-variable.trace("w", on_radio_change)
+variable.trace_add("write", on_radio_change)
 
 # Run the application's event loop
 root.mainloop()
@@ -364,6 +369,7 @@ root.mainloop()
 
 ```python
 import tkinter as tk
+from tkinter import ttk
 
 def update_progress():
     progress.config(value=progress['value'] + 10)
@@ -398,6 +404,7 @@ root.mainloop()
 
 ```python
 import tkinter as tk
+from tkinter import ttk
 
 def scale_changed(value):
     print(f"Scale changed to: {value}")
@@ -422,6 +429,7 @@ root.mainloop()
 
 ```python
 import tkinter as tk
+from tkinter import ttk
 
 def check_button_clicked():
     if var.get() == 1:
@@ -435,12 +443,8 @@ root.title("Checkbutton")
 
 # Create a Checkbutton widget
 var = tk.IntVar()
-check_button = ttk.Checkbutton(root, text="Check Me", variable=var)
+check_button = ttk.Checkbutton(root, text="Check Me", variable=var, command=check_button_clicked)
 check_button.pack()
-
-# Define the command for when the check button is clicked
-def on_check_button_click():
-    var.set(1)
 
 # Run the application's event loop
 root.mainloop()
@@ -456,8 +460,8 @@ root.mainloop()
 ```python
 import tkinter as tk
 
-def radio_button_clicked(value):
-    print(f"Radio button selected: {value}")
+def radio_button_clicked():
+    print(f"Radio button selected: {var.get()}")
 
 # Create the main window
 root = tk.Tk()
@@ -467,13 +471,14 @@ root.title("Radiobutton")
 var = tk.StringVar()
 
 # Create Radiobuttons with different values and assign them to the variable
-rad1 = ttk.Radiobutton(root, text="Option 1", variable=var, value="option1")
-rad2 = ttk.Radiobutton(root, text="Option 2", variable=var, value="option2")
-rad3 = ttk.Radiobutton(root, text="Option 3", variable=var, value="option3")
+rad1 = tk.Radiobutton(root, text="Option 1", variable=var, value="option1", command=radio_button_clicked)
+rad2 = tk.Radiobutton(root, text="Option 2", variable=var, value="option2", command=radio_button_clicked)
+rad3 = tk.Radiobutton(root, text="Option 3", variable=var, value="option3", command=radio_button_clicked)
 
-# Define the command for when a radiobutton is clicked
-def on_radio_button_click(value):
-    var.set(value)
+# Pack the Radiobuttons
+rad1.pack()
+rad2.pack()
+rad3.pack()
 
 # Run the application's event loop
 root.mainloop()
@@ -524,6 +529,7 @@ root.mainloop()
 
 ```python
 import tkinter as tk
+from tkinter import ttk
 
 def spinbox_changed(value):
     print(f"Spinbox changed to: {value}")
@@ -552,6 +558,7 @@ root.mainloop()
 
 ```python
 import tkinter as tk
+from tkinter import ttk
 
 def entry_changed(event):
     print(f"Entry changed to: {entry.get()}")
@@ -613,8 +620,8 @@ import tkinter as tk
 from tkinter import ttk
 
 def treeview_selected(event):
-    item = tree.selection()[0]
-    print(f"Selected item: {tree.item(item, 'text')}")
+    item = treeview.selection()[0]
+    print(f"Selected item: {treeview.item(item, 'text')}")
 
 # Create the main window
 root = tk.Tk()
@@ -631,7 +638,7 @@ treeview.pack()
 # Add some sample data to the Treeview
 data = [("1", "Alice", "25"), ("2", "Bob", "30"), ("3", "Charlie", "35")]
 for item in data:
-    tree.insert("", tk.END, values=item)
+    treeview.insert("", tk.END, values=item)
 
 # Define the command for when an item is selected in the Treeview
 def on_treeview_select(event):
@@ -656,7 +663,7 @@ import tkinter as tk
 from tkinter import ttk
 
 def on_scrollbar_yevent(event):
-    tree.yview_moveto(event.delta / 30.0)
+    treeview.yview_moveto(event.delta / 30.0)
 
 # Create the main window
 root = tk.Tk()
@@ -673,7 +680,7 @@ treeview.pack(side=tk.LEFT, fill=tk.BOTH)
 # Add some sample data to the Treeview
 data = [("1", "Alice", "25"), ("2", "Bob", "30"), ("3", "Charlie", "35")]
 for item in data:
-    tree.insert("", tk.END, values=item)
+    treeview.insert("", tk.END, values=item)
 
 # Create a vertical scrollbar for the Treeview
 scrollbar = ttk.Scrollbar(root, orient=tk.VERTICAL)
@@ -848,8 +855,10 @@ root = tk.Tk()
 root.title("Listbox")
 
 # Create a Listbox widget with initial items and selection mode
-listbox = ttk.Listbox(root, height=5)
-listbox.insert(tk.END, "Item 1", "Item 2", "Item 3")
+listbox = tk.Listbox(root, height=5)  # Changed ttk.Listbox to tk.Listbox
+listbox.insert(tk.END, "Item 1")
+listbox.insert(tk.END, "Item 2")
+listbox.insert(tk.END, "Item 3")
 listbox.config(selectmode=tk.SINGLE)
 listbox.pack(pady=10)
 
@@ -1042,6 +1051,7 @@ root.mainloop()
 ```python
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk
 
 def show_message():
     messagebox.showinfo("Information", "This is a simple message box.")
@@ -1089,8 +1099,8 @@ def update_progress():
         progress['value'] = 0  # Reset progress bar when it reaches 100%
 
 # Create a Progressbar widget with initial value and range
-progress = ttk.Progressbar(root, orient=tk.HORIZONTAL, length=200)
-progress.set(0)  # Set progress to 0%
+progress = ttk.Progressbar(root, orient=tk.HORIZONTAL, length=200, mode='determinate')
+progress['value'] = 0  # Set progress to 0%
 progress.pack(pady=10)
 
 # Define a button that triggers the update of the progress bar
@@ -1113,7 +1123,7 @@ root.mainloop()
 import tkinter as tk
 from tkinter import ttk
 
-def toggle_checkbutton():
+def toggle_checkbutton(event=None):
     if checkbutton_var.get():
         print("Checkbox is checked")
     else:
@@ -1124,7 +1134,7 @@ root = tk.Tk()
 root.title("Checkbutton")
 
 # Define a function to toggle the state of the checkbox
-def toggle_checkbutton():
+def toggle_checkbutton(event=None):
     if checkbutton_var.get():
         print("Checkbox is checked")
     else:
@@ -1154,7 +1164,7 @@ root.mainloop()
 import tkinter as tk
 from tkinter import ttk
 
-def select_radio():
+def select_radio(event=None):
     selected_option = radio_var.get()
     print(f"Selected option: {selected_option}")
 
@@ -1163,7 +1173,7 @@ root = tk.Tk()
 root.title("Radiobutton")
 
 # Define a function to select the active radiobutton
-def select_radio():
+def select_radio(event=None):
     selected_option = radio_var.get()
     print(f"Selected option: {selected_option}")
 
@@ -1201,7 +1211,7 @@ root.mainloop()
 import tkinter as tk
 from tkinter import ttk
 
-def select_option():
+def select_option(event):
     selected_option = combo_var.get()
     print(f"Selected option: {selected_option}")
 
@@ -1210,7 +1220,7 @@ root = tk.Tk()
 root.title("Combobox")
 
 # Define a function to handle selection of an option from the combobox
-def select_option():
+def select_option(event):
     selected_option = combo_var.get()
     print(f"Selected option: {selected_option}")
 
@@ -1256,7 +1266,7 @@ def insert_text():
     text_widget.insert(tk.END, "This is some inserted text.")
 
 # Create a Text widget with initial text
-text_widget = ttk.Text(root)
+text_widget = tk.Text(root)  # Changed ttk.Text to tk.Text
 text_widget.insert(tk.END, "Initial text: Hello World!")
 
 # Pack the Text widget with some padding
@@ -1559,7 +1569,7 @@ def menu_option_selected(event):
     print(f"Selected option: {selected_menu}")
 
 # Create a Menu widget with submenus
-menu_widget = ttk.Menu(root)
+menu_widget = tk.Menu(root)  # Changed from ttk.Menu to tk.Menu
 file_menu = tk.Menu(menu_widget, tearoff=0)
 file_menu.add_command(label="New", command=lambda: print("New file created"))
 file_menu.add_command(label="Open", command=lambda: print("File opened"))
@@ -1594,7 +1604,7 @@ import tkinter as tk
 from tkinter import ttk
 
 def checkbutton_toggled():
-    state = check_button.get()
+    state = check_var.get()
     print(f"Checkbutton state: {'checked' if state else 'unchecked'}")
 
 # Create the main window
@@ -1603,11 +1613,14 @@ root.title("Checkbutton Widget")
 
 # Define a function that is called when the Checkbutton widget toggles
 def checkbutton_toggled():
-    state = check_button.get()
+    state = check_var.get()
     print(f"Checkbutton state: {'checked' if state else 'unchecked'}")
 
+# Create a variable to track the state of the Checkbutton
+check_var = tk.IntVar()
+
 # Create a Checkbutton widget
-check_button = ttk.Checkbutton(root, text="Enable Feature")
+check_button = ttk.Checkbutton(root, text="Enable Feature", variable=check_var)
 check_button.pack(pady=10)
 
 # Bind the checkbutton_toggled function to the Checkbutton widget's toggle event
@@ -1628,18 +1641,13 @@ root.mainloop()
 import tkinter as tk
 from tkinter import ttk
 
-def radiobutton_selected(event):
-    selected_option = radio_button.get()
+def radiobutton_selected(radio_button):
+    selected_option = radio_button.cget("text")
     print(f"Selected option: {selected_option}")
 
 # Create the main window
 root = tk.Tk()
 root.title("Radiobutton Widget")
-
-# Define a function that is called when a Radiobutton widget is selected
-def radiobutton_selected(event):
-    selected_option = radio_button.get()
-    print(f"Selected option: {selected_option}")
 
 # Create Radiobutton widgets with different options
 option1_var = tk.StringVar(value="Option 1")
@@ -1652,8 +1660,8 @@ radio_button1.pack(pady=5)
 radio_button2.pack(pady=5)
 
 # Bind the radiobutton_selected function to the selected option event for each Radiobutton widget
-radio_button1.bind("<ButtonRelease>", lambda event: radiobutton_selected(event))
-radio_button2.bind("<ButtonRelease>", lambda event: radiobutton_selected(event))
+radio_button1.bind("<ButtonRelease>", lambda event: radiobutton_selected(radio_button1))
+radio_button2.bind("<ButtonRelease>", lambda event: radiobutton_selected(radio_button2))
 
 # Run the application's event loop
 root.mainloop()
@@ -1699,7 +1707,9 @@ scrollbar.config(command=text_widget.yview)
 text_widget.config(yscrollcommand=scrollbar.set)
 
 # Bind the scrollbar_scrolled function to the Scrollbar widget's event
-scrollbar.bind("<Scroll>", lambda event: scrollbar_scrolled(event))
+scrollbar.bind("<MouseWheel>", lambda event: scrollbar_scrolled(event))
+scrollbar.bind("<Button-4>", lambda event: scrollbar_scrolled(event))
+scrollbar.bind("<Button-5>", lambda event: scrollbar_scrolled(event))
 
 # Run the application's event loop
 root.mainloop()
@@ -1774,7 +1784,7 @@ def listbox_selected(event):
 
 # Create a Listbox widget with options to select from
 listbox_options = ["Option 1", "Option 2", "Option 3"]
-listbox = ttk.Listbox(root, height=len(listbox_options))
+listbox = tk.Listbox(root, height=len(listbox_options))  # Changed ttk.Listbox to tk.Listbox
 
 # Populate the Listbox widget with items
 for option in listbox_options:
@@ -1806,11 +1816,15 @@ import tkinter as tk
 from tkinter import ttk
 
 def treeview_clicked(event):
-    item = treeview.selection()[0]
-    if treeview.item(item, "values"):
-        print(f"Clicked on {treeview.item(item, 'values')}")
+    selected_items = treeview.selection()
+    if selected_items:
+        item = selected_items[0]
+        if treeview.item(item, "values"):
+            print(f"Clicked on {treeview.item(item, 'values')}")
+        else:
+            print(f"Clicked on {treeview.item(item, 'text')}")
     else:
-        print(f"Clicked on {treeview.item(item, 'text')}")
+        print("No item selected")
 
 # Create the main window
 root = tk.Tk()
@@ -1818,11 +1832,15 @@ root.title("Treeview Widget")
 
 # Define a function that is called when an item in the Treeview widget is clicked
 def treeview_clicked(event):
-    item = treeview.selection()[0]
-    if treeview.item(item, "values"):
-        print(f"Clicked on {treeview.item(item, 'values')}")
+    selected_items = treeview.selection()
+    if selected_items:
+        item = selected_items[0]
+        if treeview.item(item, "values"):
+            print(f"Clicked on {treeview.item(item, 'values')}")
+        else:
+            print(f"Clicked on {treeview.item(item, 'text')}")
     else:
-        print(f"Clicked on {treeview.item(item, 'text')}")
+        print("No item selected")
 
 # Create a Treeview widget with columns
 treeview_columns = ("Name", "Age")
