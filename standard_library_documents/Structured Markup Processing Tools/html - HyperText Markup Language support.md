@@ -6,6 +6,10 @@ The `html` module in Python provides tools to parse HTML documents and render th
 
 This example demonstrates how to parse an HTML document using the `BeautifulSoup` library from the `bs4` package, which is a popular choice for parsing HTML in Python.
 
+```bash
+pip install beautifulsoup4 requests
+```
+
 ```python
 from bs4 import BeautifulSoup
 import requests
