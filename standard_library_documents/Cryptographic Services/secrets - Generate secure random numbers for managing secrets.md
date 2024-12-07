@@ -6,13 +6,14 @@ Below are comprehensive and well-documented code examples for various functional
 
 ```python
 import secrets
+import random
 
 # Generate a secure random integer between 'a' (inclusive) and 'b' (exclusive)
 secure_int = secrets.randbelow(100)
 print(f"Secure Random Integer: {secure_int}")
 
 # Generate a secure random integer within a specified range, inclusive
-secure_int_inclusive = secrets.randint(1, 100)
+secure_int_inclusive = random.randint(1, 100)
 print(f"Secure Random Integer Inclusive: {secure_int_inclusive}")
 ```
 
@@ -20,13 +21,14 @@ print(f"Secure Random Integer Inclusive: {secure_int_inclusive}")
 
 ```python
 import secrets
+import random
 
 # Generate a secure random float between 0.0 (inclusive) and 1.0 (exclusive)
-secure_float = secrets.randfloat()
+secure_float = random.random()
 print(f"Secure Random Float: {secure_float}")
 
 # Generate a secure random float within a specified range, inclusive
-secure_float_inclusive = secrets.uniform(0.0, 1.0)
+secure_float_inclusive = random.uniform(0.0, 1.0)
 print(f"Secure Random Float Inclusive: {secure_float_inclusive}")
 ```
 
@@ -107,9 +109,9 @@ print(f"Secure Alphanumeric String: {secure_alphanumeric_string}")
 ### Explanation
 
 - **`secrets.randbelow(b)`**: Generates a random integer less than `b`.
-- **`secrets.randint(a, b)`**: Generates a random integer between `a` and `b`, inclusive.
-- **`secrets.randfloat()`**: Generates a random float between 0.0 and 1.0.
-- **`secrets.uniform(a, b)`**: Generates a random float between `a` and `b`, inclusive.
+- **`random.randint(a, b)`**: Generates a random integer between `a` and `b`, inclusive.
+- **`random.random()`**: Generates a random float between 0.0 and 1.0.
+- **`random.uniform(a, b)`**: Generates a random float between `a` and `b`, inclusive.
 - **`secrets.token_bytes(n)`**: Generates a random byte string of length `n`.
 - **`secrets.token_urlsafe(n)`**: Generates a URL-safe base64-encoded string of length `n`.
 - **`uuid.uuid4()`**: Generates a randomly generated UUID (Universally Unique Identifier).
