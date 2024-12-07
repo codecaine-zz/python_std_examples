@@ -55,6 +55,7 @@ with contextlib.nested(open('example.txt', 'w'), sqlite3.connect(':memory:')) as
 
 ```python
 import contextlib
+import sqlite3
 
 # Use ExitStack for managing multiple resources
 with contextlib.ExitStack() as stack:
@@ -149,6 +150,7 @@ A simple example of using `redirect_stdout` to capture console output from a fun
 
 ```python
 import contextlib
+import sys
 
 def my_function():
     print("This is the output")

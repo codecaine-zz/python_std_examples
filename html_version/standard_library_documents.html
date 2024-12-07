@@ -32567,6 +32567,7 @@ with contextlib.nested(open('example.txt', 'w'), sqlite3.connect(':memory:')) as
 <p><code>ExitStack</code> allows multiple contexts to be pushed onto it, which are then closed in the order they were pushed. This is useful for managing resources that need to be cleaned up in a specific order.</p>
 <h4>Example 3: Using <code>ExitStack</code> with <code>open()</code> and closing them in reverse order</h4>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import contextlib
+import sqlite3
 
 # Use ExitStack for managing multiple resources
 with contextlib.ExitStack() as stack:
@@ -32646,6 +32647,7 @@ with contextlib.redirect_stderr(open('error.txt', 'w')):
 <h3>7. <code>contextlib.redirect_stdout</code></h3>
 <p>A simple example of using <code>redirect_stdout</code> to capture console output from a function.</p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import contextlib
+import sys
 
 def my_function():
     print(&quot;This is the output&quot;)
