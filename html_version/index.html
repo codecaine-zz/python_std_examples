@@ -29465,14 +29465,15 @@ print(&quot;Random Normals:&quot;, random_normals)
 
 <h3>8. Random Binomial Distribution</h3>
 <p>To generate random numbers from a binomial distribution, you can use the <code>binomial()</code> function:</p>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import random
+<p>pip install numpy</p>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import numpy as np
 
 # Generate a random number from a binomial distribution with parameters n=10 and p=0.5
-random_binomial = random.binomial(10, 0.5)
+random_binomial = np.random.binomial(10, 0.5)
 print(&quot;Random Binomial Number:&quot;, random_binomial)
 
 # Generate multiple numbers from a binomial distribution
-random_bins = [random.binomial(10, 0.5) for _ in range(5)]
+random_bins = [np.random.binomial(10, 0.5) for _ in range(5)]
 print(&quot;Random Bins:&quot;, random_bins)
 </code></pre>
 

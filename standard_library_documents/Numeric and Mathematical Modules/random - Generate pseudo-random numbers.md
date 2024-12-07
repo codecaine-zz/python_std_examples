@@ -1,8 +1,8 @@
-# random - Generate pseudo-random numbers
+# random - Generate Pseudo-Random Numbers
 
 The `random` module in Python provides various functions to generate pseudo-random numbers, which are useful for simulations, cryptography, and more. Below are comprehensive examples of how to use this module to generate different types of random numbers.
 
-### 1. Basic Random Number Generation
+## 1. Basic Random Number Generation
 
 To generate a random integer within a specified range, you can use the `randint()` function:
 
@@ -111,15 +111,17 @@ print("Random Normals:", random_normals)
 
 To generate random numbers from a binomial distribution, you can use the `binomial()` function:
 
+pip install numpy
+
 ```python
-import random
+import numpy as np
 
 # Generate a random number from a binomial distribution with parameters n=10 and p=0.5
-random_binomial = random.binomial(10, 0.5)
+random_binomial = np.random.binomial(10, 0.5)
 print("Random Binomial Number:", random_binomial)
 
 # Generate multiple numbers from a binomial distribution
-random_bins = [random.binomial(10, 0.5) for _ in range(5)]
+random_bins = [np.random.binomial(10, 0.5) for _ in range(5)]
 print("Random Bins:", random_bins)
 ```
 
