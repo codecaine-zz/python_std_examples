@@ -29129,6 +29129,7 @@ print(f&quot;Value of e: {e_value}&quot;)
 <h1>numbers - Numeric abstract base classes</h1>
 <p>The <code>numbers</code> module in Python provides an abstract base class hierarchy for numeric types, which can serve as a foundation for creating custom numeric types. Here are comprehensive examples demonstrating various functionalities provided by this module:</p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">from abc import ABCMeta, abstractmethod
+from math import sqrt, log, exp  # Added necessary imports
 
 # Define the Number class
 class Number(metaclass=ABCMeta):
@@ -29194,7 +29195,6 @@ class Number(metaclass=ABCMeta):
 
 # Define the Real class, which is a subclass of Number
 class Real(Number):
-    @abstractmethod
     def __init__(self, value):
         self.value = value
 
@@ -29251,7 +29251,6 @@ class Real(Number):
 
 # Define the Complex class, which is a subclass of Number
 class Complex(Number):
-    @abstractmethod
     def __init__(self, real=0.0, imag=0.0):
         self.real = real
         self.imag = imag

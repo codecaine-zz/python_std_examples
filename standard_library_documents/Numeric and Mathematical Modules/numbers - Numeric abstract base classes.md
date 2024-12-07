@@ -4,6 +4,7 @@ The `numbers` module in Python provides an abstract base class hierarchy for num
 
 ```python
 from abc import ABCMeta, abstractmethod
+from math import sqrt, log, exp  # Added necessary imports
 
 # Define the Number class
 class Number(metaclass=ABCMeta):
@@ -69,7 +70,6 @@ class Number(metaclass=ABCMeta):
 
 # Define the Real class, which is a subclass of Number
 class Real(Number):
-    @abstractmethod
     def __init__(self, value):
         self.value = value
 
@@ -126,7 +126,6 @@ class Real(Number):
 
 # Define the Complex class, which is a subclass of Number
 class Complex(Number):
-    @abstractmethod
     def __init__(self, real=0.0, imag=0.0):
         self.real = real
         self.imag = imag
