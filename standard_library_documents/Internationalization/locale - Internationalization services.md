@@ -4,6 +4,7 @@ Below are comprehensive code examples for the `locale` module in Python, coverin
 
 ```python
 import locale
+import datetime
 
 # Set the default locale (system-dependent)
 try:
@@ -29,8 +30,7 @@ except locale.Error as e:
 # Get the current locale settings
 current_locale = locale.getlocale()
 print("Current locale settings:")
-for category, value in current_locale:
-    print(f"{category}: {value}")
+print(f"Language: {current_locale[0]}, Encoding: {current_locale[1]}")
 
 # Format a number using a specific locale
 number = 123456.789

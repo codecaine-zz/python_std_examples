@@ -20416,7 +20416,8 @@ count_items([1, 2, 3])
 <button onclick="history.back()">Back</button>
 <h1>locale - Internationalization services</h1>
 <p>Below are comprehensive code examples for the <code>locale</code> module in Python, covering various functionalities related to internationalization. Each example is accompanied by comments explaining each step.</p>
-<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import locale
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">iimport locale
+import datetime
 
 # Set the default locale (system-dependent)
 try:
@@ -20442,8 +20443,7 @@ except locale.Error as e:
 # Get the current locale settings
 current_locale = locale.getlocale()
 print(&quot;Current locale settings:&quot;)
-for category, value in current_locale:
-    print(f&quot;{category}: {value}&quot;)
+print(f&quot;Language: {current_locale[0]}, Encoding: {current_locale[1]}&quot;)
 
 # Format a number using a specific locale
 number = 123456.789
