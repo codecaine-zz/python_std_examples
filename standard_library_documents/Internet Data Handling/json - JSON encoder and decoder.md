@@ -54,12 +54,12 @@ print("Encoded data with special characters:", json_special_chars)
 
 # Example 8: Encoding to a file in binary mode
 with open('binary_data.json', 'wb') as file:
-    json.dump(data, file)
+    file.write(json.dumps(data).encode('utf-8'))
 print("Binary data written to binary_data.json")
 
 # Example 9: Decoding from a file in binary mode
 with open('binary_data.json', 'rb') as file:
-    decoded_binary_data = json.load(file)
+    decoded_binary_data = json.loads(file.read().decode('utf-8'))
 print("Decoded binary data:", decoded_binary_data)
 
 # Example 10: Handling errors during encoding or decoding
