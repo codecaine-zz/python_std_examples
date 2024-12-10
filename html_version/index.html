@@ -34188,15 +34188,15 @@ print(f&quot;You entered: {user_input}&quot;)
 def custom_prompt(line):
     return &quot;&gt;&gt;&gt; &quot;
 
-readline.set_completer_delims(' \t\n')
-readline.set_completer(complete_func)
-readline.set_startup_hook(lambda: readline.parse_and_bind(&quot;tab: complete&quot;))
-readline.parse_and_bind(&quot;set show-all-if-ambiguous on&quot;)
-readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)  # Use Tab for completion
-
 def complete_func(text, state):
     lines = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
     return (lines[state] + ' ') if state &lt; len(lines) else None
+
+readline.set_completer(complete_func)
+readline.set_completer_delims(' \t\n')
+readline.set_startup_hook(lambda: readline.parse_and_bind(&quot;tab: complete&quot;))
+readline.parse_and_bind(&quot;set show-all-if-ambiguous on&quot;)
+readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)  # Use Tab for completion
 
 readline.set_pre_input_hook(custom_prompt)
 </code></pre>
@@ -34247,15 +34247,15 @@ print(f&quot;Your choice was: {user_choice}&quot;)
 def custom_prompt(line):
     return &quot;&gt;&gt;&gt; &quot;
 
+def complete_func(text, state):
+    lines = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
+    return (lines[state] + ' ') if state &lt; len(lines) else None
+
 readline.set_completer_delims(' \t\n')
 readline.set_completer(complete_func)
 readline.set_startup_hook(lambda: readline.parse_and_bind(&quot;tab: complete&quot;))
 readline.parse_and_bind(&quot;set show-all-if-ambiguous on&quot;)
 readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)  # Use Tab for completion
-
-def complete_func(text, state):
-    lines = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
-    return (lines[state] + ' ') if state &lt; len(lines) else None
 
 readline.set_pre_input_hook(custom_prompt)
 </code></pre>
@@ -34283,13 +34283,10 @@ readline.clear_history()
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">import readline
 
 # Set option to display all possible completions when ambiguous
-readline.set_show_all_if_ambiguous(True)
+readline.parse_and_bind(&quot;set show-all-if-ambiguous on&quot;)
 
 # Enable tab completion
 readline.parse_and_bind(&quot;tab: complete&quot;)
-
-# Disable echo of typed characters
-readline.set_echo_mode(False)
 </code></pre>
 
 <p>These examples cover a range of functionalities available in the <code>readline</code> module, demonstrating how to customize prompts, manage history, implement completions, and manipulate user input through pre-input hooks.</p>
