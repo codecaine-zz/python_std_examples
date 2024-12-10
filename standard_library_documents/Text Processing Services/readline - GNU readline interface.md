@@ -24,15 +24,15 @@ import readline
 def custom_prompt(line):
     return ">>> "
 
-readline.set_completer_delims(' \t\n')
-readline.set_completer(complete_func)
-readline.set_startup_hook(lambda: readline.parse_and_bind("tab: complete"))
-readline.parse_and_bind("set show-all-if-ambiguous on")
-readline.parse_and_bind("bind ^I rl_complete")  # Use Tab for completion
-
 def complete_func(text, state):
     lines = ["apple", "banana", "cherry"]
     return (lines[state] + ' ') if state < len(lines) else None
+
+readline.set_completer(complete_func)
+readline.set_completer_delims(' \t\n')
+readline.set_startup_hook(lambda: readline.parse_and_bind("tab: complete"))
+readline.parse_and_bind("set show-all-if-ambiguous on")
+readline.parse_and_bind("bind ^I rl_complete")  # Use Tab for completion
 
 readline.set_pre_input_hook(custom_prompt)
 ```
@@ -95,15 +95,15 @@ import readline
 def custom_prompt(line):
     return ">>> "
 
+def complete_func(text, state):
+    lines = ["apple", "banana", "cherry"]
+    return (lines[state] + ' ') if state < len(lines) else None
+
 readline.set_completer_delims(' \t\n')
 readline.set_completer(complete_func)
 readline.set_startup_hook(lambda: readline.parse_and_bind("tab: complete"))
 readline.parse_and_bind("set show-all-if-ambiguous on")
 readline.parse_and_bind("bind ^I rl_complete")  # Use Tab for completion
-
-def complete_func(text, state):
-    lines = ["apple", "banana", "cherry"]
-    return (lines[state] + ' ') if state < len(lines) else None
 
 readline.set_pre_input_hook(custom_prompt)
 ```
@@ -137,13 +137,10 @@ You can set various options to customize the behavior of `readline`.
 import readline
 
 # Set option to display all possible completions when ambiguous
-readline.set_show_all_if_ambiguous(True)
+readline.parse_and_bind("set show-all-if-ambiguous on")
 
 # Enable tab completion
 readline.parse_and_bind("tab: complete")
-
-# Disable echo of typed characters
-readline.set_echo_mode(False)
 ```
 
 These examples cover a range of functionalities available in the `readline` module, demonstrating how to customize prompts, manage history, implement completions, and manipulate user input through pre-input hooks.
