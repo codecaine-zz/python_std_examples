@@ -71,4 +71,3 @@ print(AutoIncrement.THREE)  # Output: AutoIncrement.THREE
 ```
 
 The `enum` module provides a powerful way to define enumerations in Python, making code more readable and maintainable. It also offers additional functionalities like combining enum members using flags and customizing the enumeration values. By using enums, you can create clear, self-documenting code that is easier to understand and work with.
-```
