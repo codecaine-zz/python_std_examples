@@ -50,11 +50,11 @@ def convert_markdown_to_html(markdown_files_by_category):
                 line-height: 1.6;
                 margin: 0;
                 padding: 20px;
-                background-color: #2e2e2e;
-                color: #f4f4f4;
+                background-color: #f4f4f4;
+                color: #2e2e2e;
             }}
             h1, h2, h3 {{
-                color: black;
+                color: #2e2e2e;
                 margin-top: 20px;
             }}
             ul {{
@@ -75,9 +75,9 @@ def convert_markdown_to_html(markdown_files_by_category):
                 border-bottom-color: #63a4ff;
             }}
             pre {{
-                background: #3e3e3e;
+                background: #f4f4f4;
                 padding: 10px;
-                border: 1px solid #555;
+                border: 1px solid #ccc;
                 border-radius: 5px;
                 overflow-x: auto;
                 margin-top: 10px;
@@ -85,7 +85,7 @@ def convert_markdown_to_html(markdown_files_by_category):
             }}
             code {{
                 font-family: Consolas, "Courier New", monospace;
-                color: #f4f4f4;
+                color: #2e2e2e;
             }}
             button {{
                 display: inline-block;
@@ -132,6 +132,22 @@ def convert_markdown_to_html(markdown_files_by_category):
             }}
             .copy-btn:hover {{
                 background-color: #1c86ee;
+            }}
+            @media (prefers-color-scheme: dark) {{
+                body {{
+                    background-color: #2e2e2e;
+                    color: #f4f4f4;
+                }}
+                h1, h2, h3 {{
+                    color: #f4f4f4;
+                }}
+                pre {{
+                    background: #3e3e3e;
+                    border: 1px solid #555;
+                }}
+                code {{
+                    color: #f4f4f4;
+                }}
             }}
             @media (max-width: 600px) {{
                 body {{
