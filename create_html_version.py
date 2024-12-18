@@ -54,7 +54,7 @@ def convert_markdown_to_html(markdown_files_by_category):
                 color: #f4f4f4;
             }}
             h1, h2, h3 {{
-                color: #f4f4f4;
+                color: black;
                 margin-top: 20px;
             }}
             ul {{
