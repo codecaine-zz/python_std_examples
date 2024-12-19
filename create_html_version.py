@@ -188,7 +188,7 @@ def convert_markdown_to_html(markdown_files_by_category):
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
         <script>
             document.querySelectorAll('pre code').forEach((block) => {{
-                hljs.highlightBlock(block);
+                hljs.highlightElement(block);
             }});
             window.onscroll = function() {{
                 var btn = document.getElementById("scrollToTopBtn");
