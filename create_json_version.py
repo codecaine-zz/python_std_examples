@@ -59,7 +59,7 @@ def save_json_file(content, output_file):
 
 if __name__ == "__main__":
     directory = "standard_library_documents"
-    output_file = "index.json"
+    output_file = "python_std_bible.json"
 
     markdown_files_by_category = get_markdown_files_by_category(directory)
     json_content = convert_markdown_to_json(markdown_files_by_category)
