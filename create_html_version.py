@@ -45,6 +45,7 @@ def convert_markdown_to_html(markdown_files_by_category):
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
         <link rel="icon" href="favicon.png" type="image/png">
         <style>
+            html {{ scroll-behavior: smooth; }}
             body {{
                 font-family: Arial, sans-serif;
                 line-height: 1.6;
@@ -133,6 +134,50 @@ def convert_markdown_to_html(markdown_files_by_category):
             .copy-btn:hover {{
                 background-color: #1c86ee;
             }}
+            #sidebar {{
+                position: fixed; top: 0; left: 0;
+                width: 250px; height: 100%;
+                overflow-y: auto; background: #fff;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease; z-index:1000;
+                padding:20px;
+                border-right: 1px solid #ddd;
+            }}
+            #sidebar.open {{ transform: translateX(0); }}
+            #menuToggle {{
+                position: fixed; top:20px; left:20px; z-index:1001;
+                background:#1e90ff; color:#fff; border:none; padding:8px 12px;
+                border-radius:4px; cursor:pointer;
+                font-size: 16px;
+            }}
+            #searchInput {{
+                display:block; width:calc(100% - 20px);
+                margin:60px auto 20px;
+                padding:10px;
+                border:1px solid #ccc; border-radius:4px;
+                box-sizing: border-box;
+            }}
+            .container {{
+                padding:20px;
+                transition: margin-left 0.3s ease;
+                margin-left: 0;
+            }}
+            #sidebar ul {{
+                list-style-type: none;
+                padding: 0;
+            }}
+            #sidebar li a {{
+                display: block;
+                padding: 8px 10px;
+                color: #333;
+                text-decoration: none;
+                border-bottom: none;
+                border-radius: 4px;
+            }}
+            #sidebar li a:hover {{
+                background-color: #f0f0f0;
+                color: #1e90ff;
+            }}
             @media (prefers-color-scheme: dark) {{
                 body {{
                     background-color: #2e2e2e;
@@ -147,6 +192,36 @@ def convert_markdown_to_html(markdown_files_by_category):
                 }}
                 code {{
                     color: #f4f4f4;
+                }}
+                #sidebar {{
+                    background: #3e3e3e;
+                    border-right: 1px solid #555;
+                }}
+                #sidebar li a {{
+                    color: #f4f4f4;
+                }}
+                #sidebar li a:hover {{
+                    background-color: #555;
+                    color: #1e90ff;
+                }}
+                #searchInput {{
+                    background-color: #555;
+                    color: #f4f4f4;
+                    border: 1px solid #777;
+                }}
+            }}
+            @media (min-width: 768px) {{
+                #menuToggle {{ display: none; }}
+                #searchInput {{ display: none; }}
+                #sidebar {{
+                    transform: translateX(0);
+                    position: sticky;
+                    height: calc(100vh - 40px);
+                    top: 20px;
+                    margin-right: 20px;
+                }}
+                .container {{
+                    margin-left: 270px;
                 }}
             }}
             @media (max-width: 600px) {{
@@ -170,17 +245,29 @@ def convert_markdown_to_html(markdown_files_by_category):
                     font-size: 14px;
                     padding: 8px 12px;
                 }}
+                #menuToggle {{
+                    padding: 6px 10px;
+                    font-size: 14px;
+                }}
+                #sidebar {{
+                    padding-top: 60px;
+                }}
             }}
         </style>
     </head>
     <body>
-        <h1>Python 3.12 Standard Library Bible</h1>
-        <hr>
-        <ul>
-            {category_links}
-        </ul>
-        <hr>
-        {content_sections}
+        <button id="menuToggle">☰ Menu</button>
+        <nav id="sidebar">
+            <input type="search" id="searchInput" placeholder="Search categories…" />
+            <ul>
+                {category_links}
+            </ul>
+        </nav>
+        <div class="container">
+            <h1>Python 3.12 Standard Library Bible</h1>
+            <hr>
+            {content_sections}
+        </div>
         
         <button id="scrollToTopBtn">Top</button>
     
@@ -190,17 +277,19 @@ def convert_markdown_to_html(markdown_files_by_category):
             document.querySelectorAll('pre code').forEach((block) => {{
                 hljs.highlightElement(block);
             }});
+            
+            var scrollToTopBtn = document.getElementById("scrollToTopBtn");
             window.onscroll = function() {{
-                var btn = document.getElementById("scrollToTopBtn");
                 if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {{
-                    btn.style.display = "block";
+                    scrollToTopBtn.style.display = "block";
                 }} else {{
-                    btn.style.display = "none";
+                    scrollToTopBtn.style.display = "none";
                 }}
             }};
-            document.getElementById("scrollToTopBtn").onclick = function() {{
+            scrollToTopBtn.onclick = function() {{
                 window.scrollTo({{ top: 0, behavior: 'smooth' }});
             }};
+
             document.querySelectorAll('.copy-btn').forEach((button) => {{
                 button.onclick = function() {{
                     var codeBlock = button.parentElement.querySelector('code');
@@ -216,6 +305,24 @@ def convert_markdown_to_html(markdown_files_by_category):
                     }}, 2000);
                 }};
             }});
+
+            document.getElementById('menuToggle').onclick = function() {{
+                document.getElementById('sidebar').classList.toggle('open');
+            }};
+
+            document.getElementById('searchInput').onkeyup = function() {{
+                let filter = this.value.toUpperCase();
+                let ul = document.querySelector("#sidebar ul");
+                let li = ul.getElementsByTagName('li');
+                for (let i = 0; i < li.length; i++) {{
+                    let a = li[i].getElementsByTagName("a")[0];
+                    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {{
+                        li[i].style.display = "";
+                    }} else {{
+                        li[i].style.display = "none";
+                    }}
+                }}
+            }};
         </script>
     </body>
     </html>
@@ -234,7 +341,6 @@ def convert_markdown_to_html(markdown_files_by_category):
     for category in sorted_categories:
         files = markdown_files_by_category[category]
         safe_category = escape(category)
-        # Sort files by filename, case insensitive
         sorted_files = sorted(files, key=lambda s: s.lower())
         content_sections += f"<h2 id='{safe_category}'>{safe_category}</h2><ul>"
         for file in sorted_files:
@@ -248,7 +354,6 @@ def convert_markdown_to_html(markdown_files_by_category):
             file_path = Path(file)
             with file_path.open('r') as f:
                 content = f.read()
-            # Convert markdown to HTML with code highlighting and copy buttons
             file_html_content = markdown.markdown(content, extensions=[
                 'fenced_code', 'codehilite', CopyButtonExtension()
             ])

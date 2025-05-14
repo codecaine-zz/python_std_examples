@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
         <link rel="icon" href="favicon.png" type="image/png">
         <style>
+            html { scroll-behavior: smooth; }
             body {
                 font-family: Arial, sans-serif;
                 line-height: 1.6;
@@ -95,6 +96,50 @@
             .copy-btn:hover {
                 background-color: #1c86ee;
             }
+            #sidebar {
+                position: fixed; top: 0; left: 0;
+                width: 250px; height: 100%;
+                overflow-y: auto; background: #fff;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease; z-index:1000;
+                padding:20px;
+                border-right: 1px solid #ddd;
+            }
+            #sidebar.open { transform: translateX(0); }
+            #menuToggle {
+                position: fixed; top:20px; left:20px; z-index:1001;
+                background:#1e90ff; color:#fff; border:none; padding:8px 12px;
+                border-radius:4px; cursor:pointer;
+                font-size: 16px;
+            }
+            #searchInput {
+                display:block; width:calc(100% - 20px);
+                margin:60px auto 20px;
+                padding:10px;
+                border:1px solid #ccc; border-radius:4px;
+                box-sizing: border-box;
+            }
+            .container {
+                padding:20px;
+                transition: margin-left 0.3s ease;
+                margin-left: 0;
+            }
+            #sidebar ul {
+                list-style-type: none;
+                padding: 0;
+            }
+            #sidebar li a {
+                display: block;
+                padding: 8px 10px;
+                color: #333;
+                text-decoration: none;
+                border-bottom: none;
+                border-radius: 4px;
+            }
+            #sidebar li a:hover {
+                background-color: #f0f0f0;
+                color: #1e90ff;
+            }
             @media (prefers-color-scheme: dark) {
                 body {
                     background-color: #2e2e2e;
@@ -109,6 +154,36 @@
                 }
                 code {
                     color: #f4f4f4;
+                }
+                #sidebar {
+                    background: #3e3e3e;
+                    border-right: 1px solid #555;
+                }
+                #sidebar li a {
+                    color: #f4f4f4;
+                }
+                #sidebar li a:hover {
+                    background-color: #555;
+                    color: #1e90ff;
+                }
+                #searchInput {
+                    background-color: #555;
+                    color: #f4f4f4;
+                    border: 1px solid #777;
+                }
+            }
+            @media (min-width: 768px) {
+                #menuToggle { display: none; }
+                #searchInput { display: none; }
+                #sidebar {
+                    transform: translateX(0);
+                    position: sticky;
+                    height: calc(100vh - 40px);
+                    top: 20px;
+                    margin-right: 20px;
+                }
+                .container {
+                    margin-left: 270px;
                 }
             }
             @media (max-width: 600px) {
@@ -132,17 +207,28 @@
                     font-size: 14px;
                     padding: 8px 12px;
                 }
+                #menuToggle {
+                    padding: 6px 10px;
+                    font-size: 14px;
+                }
+                #sidebar {
+                    padding-top: 60px;
+                }
             }
         </style>
     </head>
     <body>
-        <h1>Python 3.12 Standard Library Bible</h1>
-        <hr>
-        <ul>
-            <li><a href='#Binary Data Services'>Binary Data Services</a></li><li><a href='#Concurrent Execution'>Concurrent Execution</a></li><li><a href='#Cryptographic Services'>Cryptographic Services</a></li><li><a href='#Custom Python Interpreters'>Custom Python Interpreters</a></li><li><a href='#Data Compression and Archiving'>Data Compression and Archiving</a></li><li><a href='#Data Persistence'>Data Persistence</a></li><li><a href='#Debugging and Profiling'>Debugging and Profiling</a></li><li><a href='#Development Tools'>Development Tools</a></li><li><a href='#File and Directory Access'>File and Directory Access</a></li><li><a href='#File Formats'>File Formats</a></li><li><a href='#Functional Programming Modules'>Functional Programming Modules</a></li><li><a href='#Generic Operating System Services'>Generic Operating System Services</a></li><li><a href='#Graphical User Interfaces with Tk'>Graphical User Interfaces with Tk</a></li><li><a href='#Importing Modules'>Importing Modules</a></li><li><a href='#Internationalization'>Internationalization</a></li><li><a href='#Internet Data Handling'>Internet Data Handling</a></li><li><a href='#Internet Protocols and Support'>Internet Protocols and Support</a></li><li><a href='#Microsoft Windows Specific Services'>Microsoft Windows Specific Services</a></li><li><a href='#Miscellaneous Services'>Miscellaneous Services</a></li><li><a href='#Multimedia Services'>Multimedia Services</a></li><li><a href='#Networking and Interprocess Communication'>Networking and Interprocess Communication</a></li><li><a href='#Numeric and Mathematical Modules'>Numeric and Mathematical Modules</a></li><li><a href='#Program Frameworks'>Program Frameworks</a></li><li><a href='#Python Language Services'>Python Language Services</a></li><li><a href='#Python Runtime Services'>Python Runtime Services</a></li><li><a href='#Software Packaging and Distribution'>Software Packaging and Distribution</a></li><li><a href='#Structured Markup Processing Tools'>Structured Markup Processing Tools</a></li><li><a href='#Superseded Modules'>Superseded Modules</a></li><li><a href='#Text Processing Services'>Text Processing Services</a></li><li><a href='#Unix Specific Services'>Unix Specific Services</a></li><li><a href='#XML Processing Modules'>XML Processing Modules</a></li>
-        </ul>
-        <hr>
-        <h2 id='Binary Data Services'>Binary Data Services</h2><ul><li><a href='#standard_library_documents/Binary Data Services/array - Efficient arrays of numeric values.md'>array - Efficient arrays of numeric values.md</a></li><li><a href='#standard_library_documents/Binary Data Services/bisect - Array bisection algorithm.md'>bisect - Array bisection algorithm.md</a></li><li><a href='#standard_library_documents/Binary Data Services/calendar - General calendar-related functions.md'>calendar - General calendar-related functions.md</a></li><li><a href='#standard_library_documents/Binary Data Services/codecs - Codec registry and base classes.md'>codecs - Codec registry and base classes.md</a></li><li><a href='#standard_library_documents/Binary Data Services/collections - Container datatypes.md'>collections - Container datatypes.md</a></li><li><a href='#standard_library_documents/Binary Data Services/collections.abc - Abstract Base Classes for Containers.md'>collections.abc - Abstract Base Classes for Containers.md</a></li><li><a href='#standard_library_documents/Binary Data Services/copy - Shallow and deep copy operations.md'>copy - Shallow and deep copy operations.md</a></li><li><a href='#standard_library_documents/Binary Data Services/Data Types.md'>Data Types.md</a></li><li><a href='#standard_library_documents/Binary Data Services/datetime - Basic date and time types.md'>datetime - Basic date and time types.md</a></li><li><a href='#standard_library_documents/Binary Data Services/enum - Support for enumerations.md'>enum - Support for enumerations.md</a></li><li><a href='#standard_library_documents/Binary Data Services/graphlib - Functionality to operate with graph-like structures.md'>graphlib - Functionality to operate with graph-like structures.md</a></li><li><a href='#standard_library_documents/Binary Data Services/heapq - Heap queue algorithm.md'>heapq - Heap queue algorithm.md</a></li><li><a href='#standard_library_documents/Binary Data Services/pprint - Data pretty printer.md'>pprint - Data pretty printer.md</a></li><li><a href='#standard_library_documents/Binary Data Services/reprlib - Alternate repr() implementation.md'>reprlib - Alternate repr() implementation.md</a></li><li><a href='#standard_library_documents/Binary Data Services/struct - Interpret bytes as packed binary data.md'>struct - Interpret bytes as packed binary data.md</a></li><li><a href='#standard_library_documents/Binary Data Services/types - Dynamic type creation and names for built-in types.md'>types - Dynamic type creation and names for built-in types.md</a></li><li><a href='#standard_library_documents/Binary Data Services/weakref - Weak references.md'>weakref - Weak references.md</a></li><li><a href='#standard_library_documents/Binary Data Services/zoneinfo - IANA time zone support.md'>zoneinfo - IANA time zone support.md</a></li></ul>
+        <button id="menuToggle">☰ Menu</button>
+        <nav id="sidebar">
+            <input type="search" id="searchInput" placeholder="Search categories…" />
+            <ul>
+                <li><a href='#Binary Data Services'>Binary Data Services</a></li><li><a href='#Concurrent Execution'>Concurrent Execution</a></li><li><a href='#Cryptographic Services'>Cryptographic Services</a></li><li><a href='#Custom Python Interpreters'>Custom Python Interpreters</a></li><li><a href='#Data Compression and Archiving'>Data Compression and Archiving</a></li><li><a href='#Data Persistence'>Data Persistence</a></li><li><a href='#Debugging and Profiling'>Debugging and Profiling</a></li><li><a href='#Development Tools'>Development Tools</a></li><li><a href='#File and Directory Access'>File and Directory Access</a></li><li><a href='#File Formats'>File Formats</a></li><li><a href='#Functional Programming Modules'>Functional Programming Modules</a></li><li><a href='#Generic Operating System Services'>Generic Operating System Services</a></li><li><a href='#Graphical User Interfaces with Tk'>Graphical User Interfaces with Tk</a></li><li><a href='#Importing Modules'>Importing Modules</a></li><li><a href='#Internationalization'>Internationalization</a></li><li><a href='#Internet Data Handling'>Internet Data Handling</a></li><li><a href='#Internet Protocols and Support'>Internet Protocols and Support</a></li><li><a href='#Microsoft Windows Specific Services'>Microsoft Windows Specific Services</a></li><li><a href='#Miscellaneous Services'>Miscellaneous Services</a></li><li><a href='#Multimedia Services'>Multimedia Services</a></li><li><a href='#Networking and Interprocess Communication'>Networking and Interprocess Communication</a></li><li><a href='#Numeric and Mathematical Modules'>Numeric and Mathematical Modules</a></li><li><a href='#Program Frameworks'>Program Frameworks</a></li><li><a href='#Python Language Services'>Python Language Services</a></li><li><a href='#Python Runtime Services'>Python Runtime Services</a></li><li><a href='#Software Packaging and Distribution'>Software Packaging and Distribution</a></li><li><a href='#Structured Markup Processing Tools'>Structured Markup Processing Tools</a></li><li><a href='#Superseded Modules'>Superseded Modules</a></li><li><a href='#Text Processing Services'>Text Processing Services</a></li><li><a href='#Unix Specific Services'>Unix Specific Services</a></li><li><a href='#XML Processing Modules'>XML Processing Modules</a></li>
+            </ul>
+        </nav>
+        <div class="container">
+            <h1>Python 3.12 Standard Library Bible</h1>
+            <hr>
+            <h2 id='Binary Data Services'>Binary Data Services</h2><ul><li><a href='#standard_library_documents/Binary Data Services/array - Efficient arrays of numeric values.md'>array - Efficient arrays of numeric values.md</a></li><li><a href='#standard_library_documents/Binary Data Services/bisect - Array bisection algorithm.md'>bisect - Array bisection algorithm.md</a></li><li><a href='#standard_library_documents/Binary Data Services/calendar - General calendar-related functions.md'>calendar - General calendar-related functions.md</a></li><li><a href='#standard_library_documents/Binary Data Services/codecs - Codec registry and base classes.md'>codecs - Codec registry and base classes.md</a></li><li><a href='#standard_library_documents/Binary Data Services/collections - Container datatypes.md'>collections - Container datatypes.md</a></li><li><a href='#standard_library_documents/Binary Data Services/collections.abc - Abstract Base Classes for Containers.md'>collections.abc - Abstract Base Classes for Containers.md</a></li><li><a href='#standard_library_documents/Binary Data Services/copy - Shallow and deep copy operations.md'>copy - Shallow and deep copy operations.md</a></li><li><a href='#standard_library_documents/Binary Data Services/Data Types.md'>Data Types.md</a></li><li><a href='#standard_library_documents/Binary Data Services/datetime - Basic date and time types.md'>datetime - Basic date and time types.md</a></li><li><a href='#standard_library_documents/Binary Data Services/enum - Support for enumerations.md'>enum - Support for enumerations.md</a></li><li><a href='#standard_library_documents/Binary Data Services/graphlib - Functionality to operate with graph-like structures.md'>graphlib - Functionality to operate with graph-like structures.md</a></li><li><a href='#standard_library_documents/Binary Data Services/heapq - Heap queue algorithm.md'>heapq - Heap queue algorithm.md</a></li><li><a href='#standard_library_documents/Binary Data Services/pprint - Data pretty printer.md'>pprint - Data pretty printer.md</a></li><li><a href='#standard_library_documents/Binary Data Services/reprlib - Alternate repr() implementation.md'>reprlib - Alternate repr() implementation.md</a></li><li><a href='#standard_library_documents/Binary Data Services/struct - Interpret bytes as packed binary data.md'>struct - Interpret bytes as packed binary data.md</a></li><li><a href='#standard_library_documents/Binary Data Services/types - Dynamic type creation and names for built-in types.md'>types - Dynamic type creation and names for built-in types.md</a></li><li><a href='#standard_library_documents/Binary Data Services/weakref - Weak references.md'>weakref - Weak references.md</a></li><li><a href='#standard_library_documents/Binary Data Services/zoneinfo - IANA time zone support.md'>zoneinfo - IANA time zone support.md</a></li></ul>
 <h3 id='standard_library_documents/Binary Data Services/array - Efficient arrays of numeric values.md'>array - Efficient arrays of numeric values.md</h3>
 <button onclick="history.back()">Back</button>
 <h1>array - Efficient arrays of numeric values</h1>
@@ -38042,6 +38128,7 @@ parse_xml_with_validation('example.xml', 'schema.xsd')
 
 <p>These examples demonstrate various ways to use the <code>xml.sax.xmlreader</code> module to parse and process XML data in Python. You can adapt these examples to fit your specific requirements, such as handling different types of XML documents or integrating them into larger applications.</p>
 
+        </div>
         
         <button id="scrollToTopBtn">Top</button>
     
@@ -38051,17 +38138,19 @@ parse_xml_with_validation('example.xml', 'schema.xsd')
             document.querySelectorAll('pre code').forEach((block) => {
                 hljs.highlightElement(block);
             });
+            
+            var scrollToTopBtn = document.getElementById("scrollToTopBtn");
             window.onscroll = function() {
-                var btn = document.getElementById("scrollToTopBtn");
                 if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                    btn.style.display = "block";
+                    scrollToTopBtn.style.display = "block";
                 } else {
-                    btn.style.display = "none";
+                    scrollToTopBtn.style.display = "none";
                 }
             };
-            document.getElementById("scrollToTopBtn").onclick = function() {
+            scrollToTopBtn.onclick = function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
+
             document.querySelectorAll('.copy-btn').forEach((button) => {
                 button.onclick = function() {
                     var codeBlock = button.parentElement.querySelector('code');
@@ -38077,6 +38166,24 @@ parse_xml_with_validation('example.xml', 'schema.xsd')
                     }, 2000);
                 };
             });
+
+            document.getElementById('menuToggle').onclick = function() {
+                document.getElementById('sidebar').classList.toggle('open');
+            };
+
+            document.getElementById('searchInput').onkeyup = function() {
+                let filter = this.value.toUpperCase();
+                let ul = document.querySelector("#sidebar ul");
+                let li = ul.getElementsByTagName('li');
+                for (let i = 0; i < li.length; i++) {
+                    let a = li[i].getElementsByTagName("a")[0];
+                    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        li[i].style.display = "";
+                    } else {
+                        li[i].style.display = "none";
+                    }
+                }
+            };
         </script>
     </body>
     </html>
