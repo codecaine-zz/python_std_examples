@@ -5,6 +5,7 @@ import markdown
 from markdown.extensions import Extension
 from markdown.preprocessors import Preprocessor
 import json
+import argparse
 
 class EscapeHtml(Extension):
     def extendMarkdown(self, md):
@@ -50,18 +51,36 @@ def get_markdown_files_by_category(directory):
             markdown_files_by_category[category] = markdown_files
     return markdown_files_by_category
 
-def save_json_file(content, output_file):
-    output_dir = Path("json_version")
-    output_dir.mkdir(exist_ok=True)
-    output_path = output_dir / output_file
-    with open(output_path, 'w') as f:
+def save_json_file(content, output_file, output_dir='json_version'):
+    """Save JSON content to the given output_dir with specified filename"""
+    dir_path = Path(output_dir)
+    dir_path.mkdir(parents=True, exist_ok=True)
+    output_path = dir_path / output_file
+    with output_path.open('w') as f:
         json.dump(content, f, indent=4)
 
-if __name__ == "__main__":
-    directory = "standard_library_documents"
-    output_file = "python_std_bible.json"
+def main():
+    parser = argparse.ArgumentParser(description='Convert markdown files to a JSON document.')
+    parser.add_argument('-i', '--input-dir', default='standard_library_documents',
+                        help='Directory containing module markdown files')
+    parser.add_argument('-o', '--output-dir', default='json_version',
+                        help='Directory to save JSON file')
+    parser.add_argument('-f', '--filename', default='python_std_bible.json',
+                        help='Name of the output JSON file')
+    args = parser.parse_args()
 
-    markdown_files_by_category = get_markdown_files_by_category(directory)
-    json_content = convert_markdown_to_json(markdown_files_by_category)
-    save_json_file(json_content, output_file)
-    print(f"JSON file generated: json_version/{output_file}")
+    if not os.path.isdir(args.input_dir):
+        print(f"Error: Input directory '{args.input_dir}' does not exist.")
+        return
+
+    files_by_cat = get_markdown_files_by_category(args.input_dir)
+    if not files_by_cat:
+        print(f"No markdown files found in '{args.input_dir}'.")
+        return
+
+    data = convert_markdown_to_json(files_by_cat)
+    save_json_file(data, args.filename, args.output_dir)
+    print(f"JSON file generated: {args.output_dir}/{args.filename}")
+
+if __name__ == '__main__':
+    main()

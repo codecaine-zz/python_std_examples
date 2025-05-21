@@ -6,6 +6,7 @@ from markdown.extensions import Extension
 from markdown.preprocessors import Preprocessor
 from markdown.postprocessors import Postprocessor
 import re
+import argparse  # for CLI arguments
 
 
 class EscapeHtml(Extension):
@@ -379,19 +380,38 @@ def get_markdown_files_by_category(directory):
     return markdown_files_by_category
 
 
-def save_html_file(content, output_file):
-    output_dir = Path("html_version")
-    output_dir.mkdir(exist_ok=True)
-    output_path = output_dir / output_file
-    with open(output_path, 'w') as f:
+def save_html_file(content, output_file, output_dir='html_version'):
+    """Save HTML content to the given output_dir with specified filename"""
+    dir_path = Path(output_dir)
+    dir_path.mkdir(parents=True, exist_ok=True)
+    output_path = dir_path / output_file
+    with output_path.open('w') as f:
         f.write(content)
 
 
-if __name__ == "__main__":
-    directory = "standard_library_documents"
-    output_file = "index.html"
+def main():
+    parser = argparse.ArgumentParser(description='Convert markdown files to an interactive HTML document.')
+    parser.add_argument('-i', '--input-dir', default='standard_library_documents',
+                        help='Directory containing module markdown files')
+    parser.add_argument('-o', '--output-dir', default='html_version',
+                        help='Directory to save HTML file')
+    parser.add_argument('-f', '--filename', default='index.html',
+                        help='Name of the output HTML file')
+    args = parser.parse_args()
 
-    markdown_files_by_category = get_markdown_files_by_category(directory)
-    html_content = convert_markdown_to_html(markdown_files_by_category)
-    save_html_file(html_content, output_file)
-    print(f"HTML file generated: html_version/{output_file}")
+    if not os.path.isdir(args.input_dir):
+        print(f"Error: Input directory '{args.input_dir}' does not exist.")
+        return
+
+    files_by_cat = get_markdown_files_by_category(args.input_dir)
+    if not files_by_cat:
+        print(f"No markdown files found in '{args.input_dir}'.")
+        return
+
+    html_content = convert_markdown_to_html(files_by_cat)
+    save_html_file(html_content, args.filename, args.output_dir)
+    print(f"HTML file generated: {args.output_dir}/{args.filename}")
+
+
+if __name__ == '__main__':
+    main()

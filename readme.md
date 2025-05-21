@@ -4,17 +4,33 @@ This application generates code examples for Python's standard library modules u
 
 ## How to Use
 
-1. Ensure you have the necessary dependencies installed.
-2. Make sure the `ollama` service is running.
-3. Run the `main.py` script to generate the code examples.
-
-4. The generated markdown files will be saved in the `standard_library_documents` directory.
-5. . If files already exist, they will not be replaced or processed. You can delete the existing files and run the program again to regenerate them.
-6. You can add more modules to the standard library dictionary to generate examples for additional modules.
-7. **Generate HTML Version:** Run the `create_html_version.py` script to convert the generated markdown files into a single HTML document. This HTML file will be saved in the `html_version` folder and will include categorized links and a scroll-to-top button for easy navigation.
-   ![Screenshot categories](screenshots/screenshot1.png)
-   ![Screenshot modules](screenshots/screenshot2.png)
-   ![Github markdown viewer](screenshots/screenshot3.png)
+1. Install the necessary dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Ensure the `ollama` service is running.
+3. Run the main script to generate individual module examples:
+   ```bash
+   python main.py [--force]
+   ```
+   Use `--force` to overwrite existing example files.
+4. The markdown files for each standard library module will be created under the `standard_library_documents` directory.
+5. Optionally, generate a single merged markdown document:
+   ```bash
+   python create_markdown_version.py
+   ```
+   The combined file `markdown_version/python_std_bible.md` will be created.
+6. Optionally, generate a JSON version:
+   ```bash
+   python create_json_version.py
+   ```
+   The file `json_version/python_std_bible.json` will be created.
+7. Optionally, generate an HTML version:
+   ```bash
+   python create_html_version.py
+   ```
+   The file `html_version/index.html` will be created with interactive navigation and copy buttons.
+8. You can add or remove modules in `main.py` under the `standard_library` dictionary to customize the examples.
 
 ## Application Demo
 

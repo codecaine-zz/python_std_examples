@@ -2,6 +2,11 @@ from pathlib import Path
 from doc_api import generate_code_example
 import asyncio
 import re
+import os
+import argparse
+
+# Global flag to force regeneration of examples
+FORCE = False
 
 standard_library = {
     "Text Processing Services": [
@@ -302,11 +307,17 @@ standard_library = {
 }
 
 def safe_filename(name):
-    return re.sub(r'[^\w\s\-_().,+]', ' ', name).strip().replace('  ', ' ')
+    cleaned = re.sub(r'[^\w\s\-_().,+]', ' ', name)
+    cleaned = re.sub(r'\s+', ' ', cleaned)
+    return cleaned.strip()
 
 async def write_code_example(file_path, category, module):
-    code_example = generate_code_example(module)
-    await asyncio.to_thread(file_path.write_text, f"# {module}\n\n{code_example}\n")
+    try:
+        code_example = generate_code_example(module)
+    except Exception as e:
+        code_example = f"# Error generating example for {module}\n\n# {e}"
+    content = f"# {module}\n\n{code_example}\n"
+    await asyncio.to_thread(file_path.write_text, content)
     print(f"Category: {category}, Module: {module}\n{code_example}\n")
 
 def get_activation_script_path(venv_path):
@@ -321,13 +332,26 @@ async def process_module(category, module):
     category_dir.mkdir(parents=True, exist_ok=True)
     file_path = category_dir / f"{safe_filename(module)}.md"
     if file_path.exists():
-        print(f"File {file_path} already exists. Skipping generation.")
-        return
-    print(f"Working on file: {file_path}")
-    await write_code_example(file_path, category, module)
+        if FORCE:
+            print(f"Force enabled, removing existing file: {file_path}")
+            file_path.unlink()
+        else:
+            print(f"File {file_path} already exists. Skipping generation.")
+            return
+    try:
+        print(f"Working on file: {file_path}")
+        await write_code_example(file_path, category, module)
+    except Exception as e:
+        print(f"Error processing module {module} in category {category}: {e}")
 
 async def process_category(category, modules):
-    tasks = [process_module(category, module) for module in modules]
+    # Only process entries with a module name and description separated by ' - '
+    tasks = []
+    for module in modules:
+        if ' - ' not in module:
+            print(f"Skipping invalid module entry '{module}' in category '{category}'")
+            continue
+        tasks.append(process_module(category, module))
     await asyncio.gather(*tasks)
 
 async def main():
@@ -335,4 +359,8 @@ async def main():
     await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Generate Python standard library code examples.")
+    parser.add_argument('--force', action='store_true', help='Regenerate all examples, overwriting existing files')
+    args = parser.parse_args()
+    FORCE = args.force  # type: ignore
     asyncio.run(main())
