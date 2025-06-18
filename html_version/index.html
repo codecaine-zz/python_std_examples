@@ -746,34 +746,74 @@ for decoded_string in decoded_iter:
 <h3 id='standard_library_documents/Binary Data Services/collections - Container datatypes.md'>collections - Container datatypes.md</h3>
 <button onclick="history.back()">Back</button>
 <h1>collections - Container datatypes</h1>
-<h3>Collections Module Examples</h3>
-<p>The <code>collections</code> module in Python provides a collection of container data types that are implemented as subclasses of built-in types, often making them more efficient or convenient for specific use cases. Here are comprehensive examples of each data type available in the <code>collections</code> module:</p>
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#1-counter">Counter</a> - Hash-based counting of elements</li>
+<li><a href="#2-ordereddict">OrderedDict</a> - Dictionary that remembers insertion order</li>
+<li><a href="#3-defaultdict">defaultdict</a> - Dictionary with automatic default values</li>
+<li><a href="#4-namedtuple">namedtuple</a> - Tuple subclass with named fields</li>
+<li><a href="#5-deque">deque</a> - Double-ended queue with fast operations</li>
+<li><a href="#6-chainmap">ChainMap</a> - Multiple dictionaries as a single mapping</li>
+<li><a href="#7-userdict">UserDict</a> - Base class for dictionary customization</li>
+<li><a href="#8-userlist">UserList</a> - Base class for list customization</li>
+<li><a href="#9-userstring">UserString</a> - Base class for string customization</li>
+</ol>
+<h2>Overview</h2>
+<p>The <code>collections</code> module provides specialized container datatypes as alternatives to Python's built-in containers (<code>dict</code>, <code>list</code>, <code>set</code>, and <code>tuple</code>). These containers are optimized for specific use cases and can significantly improve both code readability and performance when used appropriately.</p>
+<h2>Container Types Comparison</h2>
+<p>| Container Type | Time Complexity (Common Operations) | Memory Usage | Best For |
+|---------------|-----------------------------------|--------------|-----------|
+| Counter       | O(1) for updates/lookups          | Moderate     | Counting elements, multisets |
+| OrderedDict   | O(1) for updates/lookups          | High         | Fixed ordering requirements |
+| defaultdict   | O(1) for updates/lookups          | Moderate     | Automatic default values |
+| namedtuple    | O(1) for attribute access         | Low          | Lightweight object storage |
+| deque         | O(1) for both ends               | Moderate     | FIFO/LIFO queues |</p>
 <hr />
-<h4>1. <strong>Counter</strong></h4>
+<h3>1. Counter</h3>
 <p><strong>Description:</strong>
-A dictionary subclass for counting hashable objects. Elements are stored as dictionary keys and their counts are stored as dictionary values.</p>
+A dictionary subclass for counting hashable objects. Elements are stored as dictionary keys and their counts as dictionary values.</p>
+<p><strong>Common Use Cases:</strong></p>
+<ol>
+<li>Word frequency analysis</li>
+<li>Character counting in strings</li>
+<li>Event counting in logs</li>
+<li>Implementation of multisets</li>
+</ol>
 <p><strong>Example:</strong></p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">from collections import Counter
 
-# Example with a list of words
-words = [&quot;apple&quot;, &quot;banana&quot;, &quot;apple&quot;, &quot;orange&quot;, &quot;banana&quot;, &quot;apple&quot;]
-word_counts = Counter(words)
-print(word_counts)  # Output: Counter({'apple': 3, 'banana': 2, 'orange': 1})
+# Basic counting
+text = &quot;mississippi&quot;
+char_count = Counter(text)
+print(char_count)  # Output: Counter({'i': 4, 's': 4, 'p': 2, 'm': 1})
 
-# Example with a string
-char_counts = Counter(&quot;hello world&quot;)
-print(char_counts)  # Output: Counter({'l': 3, 'o': 2, 'h': 1, 'e': 1, ' ': 1, 'w': 1, 'r': 1, 'd': 1})
+# Advanced operations
+counter1 = Counter(['a', 'b', 'b', 'c'])
+counter2 = Counter(['b', 'b', 'c', 'd'])
 
-# Example with a dictionary
-dict_counts = Counter({'a': 1, 'b': 2, 'c': 1})
-print(dict_counts)  # Output: Counter({'b': 2, 'a': 1, 'c': 1})
+# Addition (union)
+print(counter1 + counter2)  # Counter({'b': 4, 'c': 2, 'a': 1, 'd': 1})
+
+# Subtraction (difference)
+print(counter1 - counter2)  # Counter({'a': 1})
+
+# Most common elements
+print(char_count.most_common(2))  # [('i', 4), ('s', 4)]
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- The <code>Counter</code> class is used to count the occurrences of each element in a list or any iterable.
-- It provides methods like <code>.most_common(n)</code> to get the n most common elements and their counts.</p>
+<p><strong>Best Practices:</strong></p>
+<ol>
+<li>Use <code>most_common()</code> for efficient top-N queries</li>
+<li>Use <code>update()</code> for batch counting instead of individual additions</li>
+<li>Use <code>total()</code> to get the sum of all counts</li>
+</ol>
+<p><strong>Common Pitfalls:</strong></p>
+<ul>
+<li>Negative counts are allowed but not included in most operations</li>
+<li><code>del</code> is needed to completely remove an element</li>
+</ul>
 <hr />
-<h4>2. <strong>OrderedDict</strong></h4>
+<h3>2. OrderedDict</h3>
 <p><strong>Description:</strong>
 An ordered dictionary that remembers the order in which its contents are added. This is useful when you need to maintain the insertion order of keys.</p>
 <p><strong>Example:</strong></p>
@@ -792,11 +832,13 @@ ordered_dict = OrderedDict(sorted(regular_dict.items()))
 print(ordered_dict)  # Output: OrderedDict([('apple', 1), ('banana', 2), ('orange', 3)])
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- The <code>OrderedDict</code> class maintains the insertion order of its elements, which is not guaranteed by regular dictionaries.
-- This can be useful in scenarios where maintaining order is important, such as caching or certain types of configurations.</p>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>The <code>OrderedDict</code> class maintains the insertion order of its elements, which is not guaranteed by regular dictionaries.</li>
+<li>This can be useful in scenarios where maintaining order is important, such as caching or certain types of configurations.</li>
+</ul>
 <hr />
-<h4>3. <strong>defaultdict</strong></h4>
+<h3>3. defaultdict</h3>
 <p><strong>Description:</strong>
 A dictionary subclass that calls a factory function to provide missing values.</p>
 <p><strong>Example:</strong></p>
@@ -820,11 +862,13 @@ custom_dict = defaultdict(default_factory)
 print(custom_dict[&quot;missing_key&quot;])  # Output: default value
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- The <code>defaultdict</code> class is used to initialize dictionary values automatically.
-- In this example, it initializes a list for each key that does not already exist in the dictionary.</p>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>The <code>defaultdict</code> class is used to initialize dictionary values automatically.</li>
+<li>In this example, it initializes a list for each key that does not already exist in the dictionary.</li>
+</ul>
 <hr />
-<h4>4. <strong>namedtuple</strong></h4>
+<h3>4. namedtuple</h3>
 <p><strong>Description:</strong>
 A factory function returning a new tuple subclass with named fields.</p>
 <p><strong>Example:</strong></p>
@@ -847,42 +891,69 @@ print(person.name)  # Output: Alice
 print(person.age)  # Output: 30
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- The <code>namedtuple</code> function creates a subclass of tuple with named fields.
-- This makes the tuple more readable and convenient for representing objects with specific attributes.</p>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>The <code>namedtuple</code> function creates a subclass of tuple with named fields.</li>
+<li>This makes the tuple more readable and convenient for representing objects with specific attributes.</li>
+</ul>
 <hr />
-<h4>5. <strong>deque</strong></h4>
+<h3>5. deque</h3>
 <p><strong>Description:</strong>
-A double-ended queue (deque) which supports efficient appends and pops from both ends.</p>
+A double-ended queue optimized for fast appends and pops from both ends, with optional maximum length.</p>
+<p><strong>Use Cases:</strong></p>
+<ol>
+<li>Implementing sliding windows</li>
+<li>Managing history with fixed size</li>
+<li>Round-robin scheduling</li>
+<li>Producer-consumer queues</li>
+</ol>
 <p><strong>Example:</strong></p>
 <pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">from collections import deque
 
-# Example with a deque to implement a simple stack
-stack = deque()
-stack.append(1)
-stack.append(2)
-stack.appendleft(3)
+# Sliding window example
+def moving_average(data, window_size):
+    window = deque(maxlen=window_size)
+    averages = []
 
-print(stack)  # Output: deque([3, 1, 2])
-print(stack.pop())  # Output: 2
-print(stack.popleft())  # Output: 3
+    for x in data:
+        window.append(x)
+        averages.append(sum(window) / len(window))
 
-# Example with a deque to implement a queue
-queue = deque()
-queue.append(1)
-queue.append(2)
-queue.append(3)
+    return averages
 
-print(queue)  # Output: deque([1, 2, 3])
-print(queue.popleft())  # Output: 1
-print(queue)  # Output: deque([2, 3])
+# Example usage
+data = [1, 2, 3, 4, 5, 6, 7]
+print(moving_average(data, 3))  # Output: [1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0]
+
+# Circular buffer example
+history = deque(maxlen=3)
+for i in range(5):
+    history.append(i)
+print(history)  # Output: deque([2, 3, 4], maxlen=3)
+
+# Rotation example
+d = deque([1, 2, 3, 4, 5])
+d.rotate(2)  # Rotate two steps right
+print(d)  # Output: deque([4, 5, 1, 2, 3])
+d.rotate(-2)  # Rotate two steps left
+print(d)  # Output: deque([1, 2, 3, 4, 5])
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- The <code>deque</code> class is an optimized list for fast appends and pops from both ends.
-- This is useful in scenarios where you need a dynamic array that supports efficient push and pop operations on both sides.</p>
+<p><strong>Performance Characteristics:</strong></p>
+<ul>
+<li>O(1) for append/pop at either end</li>
+<li>O(n) for random access</li>
+<li>O(k) for rotation of k elements</li>
+<li>Thread-safe for append/pop operations</li>
+</ul>
+<p><strong>Best Practices:</strong></p>
+<ol>
+<li>Use <code>maxlen</code> parameter for sliding windows</li>
+<li>Prefer <code>appendleft()</code>/<code>popleft()</code> over <code>insert(0)</code>/<code>pop(0)</code></li>
+<li>Use <code>rotate()</code> for efficient circular operations</li>
+</ol>
 <hr />
-<h4>6. <strong>ChainMap</strong></h4>
+<h3>6. ChainMap</h3>
 <p><strong>Description:</strong>
 A collection which provides a way to group multiple mappings as if they were one, but which does not actually merge them.</p>
 <p><strong>Example:</strong></p>
@@ -900,11 +971,13 @@ dict1['a'] = 5
 print(combined_dict)  # Output: ChainMap({'a': 5, 'b': 2}, {'b': 3, 'c': 4})
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- The <code>ChainMap</code> class allows you to create a new dictionary that combines multiple dictionaries.
-- It will prioritize the first dictionary when retrieving values for keys that exist in more than one.</p>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>The <code>ChainMap</code> class allows you to create a new dictionary that combines multiple dictionaries.</li>
+<li>It will prioritize the first dictionary when retrieving values for keys that exist in more than one.</li>
+</ul>
 <hr />
-<h4>7. <strong>UserDict</strong></h4>
+<h3>7. UserDict</h3>
 <p><strong>Description:</strong>
 A subclass of dict providing a base class for dictionary subclasses.</p>
 <p><strong>Example:</strong></p>
@@ -932,11 +1005,13 @@ print(my_dict_with_init)  # Output: {'key1': 'value1'}
 print(my_dict_with_init.custom_attribute)  # Output: custom_value
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- The <code>UserDict</code> class allows you to create a custom dictionary subclass with additional behavior.
-- It provides a method <code>__missing__</code> that can be overridden to customize the behavior when a key is missing.</p>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>The <code>UserDict</code> class allows you to create a custom dictionary subclass with additional behavior.</li>
+<li>It provides a method <code>__missing__</code> that can be overridden to customize the behavior when a key is missing.</li>
+</ul>
 <hr />
-<h4>8. <strong>UserList</strong></h4>
+<h3>8. UserList</h3>
 <p><strong>Description:</strong>
 A subclass of list providing a base class for list subclasses.</p>
 <p><strong>Example:</strong></p>
@@ -963,11 +1038,13 @@ print(my_list_with_method)  # Output: [1, 2, 3]
 print(my_list_with_method.custom_method())  # Output: 6
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- The <code>UserList</code> class allows you to create a custom list subclass with additional behavior.
-- It provides a method <code>__init__</code> that can be overridden to customize initialization.</p>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>The <code>UserList</code> class allows you to create a custom list subclass with additional behavior.</li>
+<li>It provides a method <code>__init__</code> that can be overridden to customize initialization.</li>
+</ul>
 <hr />
-<h4>9. <strong>UserString</strong></h4>
+<h3>9. UserString</h3>
 <p><strong>Description:</strong>
 A subclass of str providing a base class for string subclasses.</p>
 <p><strong>Example:</strong></p>
@@ -994,11 +1071,116 @@ print(my_string_with_method)  # Output: hello
 print(my_string_with_method.custom_method())  # Output: HELLO
 </code></pre>
 
-<p><strong>Explanation:</strong>
-- The <code>UserString</code> class allows you to create a custom string subclass with additional behavior.
-- It provides a method <code>__init__</code> that can be overridden to customize initialization.</p>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>The <code>UserString</code> class allows you to create a custom string subclass with additional behavior.</li>
+<li>It provides a method <code>__init__</code> that can be overridden to customize initialization.</li>
+</ul>
 <hr />
-<p>These examples demonstrate various functionalities of the <code>collections</code> module, from basic counting to more advanced data structures like <code>OrderedDict</code> and <code>deque</code>. These classes are designed to improve performance and readability in Python applications.</p>
+<h2>Common Design Patterns with Collections</h2>
+<h3>1. Caching with OrderedDict</h3>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">from collections import OrderedDict
+
+class LRUCache(OrderedDict):
+    def __init__(self, capacity):
+        super().__init__()
+        self.capacity = capacity
+
+    def get(self, key):
+        if key not in self:
+            return -1
+        self.move_to_end(key)
+        return self[key]
+
+    def put(self, key, value):
+        if key in self:
+            self.move_to_end(key)
+        self[key] = value
+        if len(self) &gt; self.capacity:
+            self.popitem(last=False)
+</code></pre>
+
+<h3>2. Event Handling with defaultdict</h3>
+<pre class="codehilite"><button class="copy-btn">Copy</button><code class="language-python">from collections import defaultdict
+
+class EventSystem:
+    def __init__(self):
+        self.handlers = defaultdict(list)
+
+    def subscribe(self, event_type, handler):
+        self.handlers[event_type].append(handler)
+
+    def emit(self, event_type, data):
+        for handler in self.handlers[event_type]:
+            handler(data)
+</code></pre>
+
+<h2>Best Practices Summary</h2>
+<ol>
+<li>
+<p>Choose the right container:</p>
+</li>
+<li>
+<p>Use <code>Counter</code> for counting</p>
+</li>
+<li>Use <code>defaultdict</code> for automatic defaults</li>
+<li>Use <code>deque</code> for queue operations</li>
+<li>Use <code>namedtuple</code> for lightweight objects</li>
+<li>
+<p>Use <code>OrderedDict</code> when order matters</p>
+</li>
+<li>
+<p>Performance Considerations:</p>
+</li>
+<li>
+<p><code>deque</code> over <code>list</code> for queue operations</p>
+</li>
+<li><code>Counter</code> over manual counting</li>
+<li>
+<p><code>defaultdict</code> over manual key initialization</p>
+</li>
+<li>
+<p>Memory Usage:</p>
+</li>
+<li>
+<p><code>namedtuple</code> for memory-efficient objects</p>
+</li>
+<li>Use <code>maxlen</code> with <code>deque</code> for bounded memory</li>
+<li>Clear unused collections to free memory</li>
+</ol>
+<h2>Common Pitfalls and Solutions</h2>
+<ol>
+<li><strong>Mutable Default Values</strong></li>
+<li>Problem: Using mutable default values in <code>defaultdict</code></li>
+<li>
+<p>Solution: Use factory functions that return new instances</p>
+</li>
+<li>
+<p><strong>OrderedDict vs dict</strong></p>
+</li>
+<li>Problem: Using OrderedDict when regular dict would suffice (Python 3.7+)</li>
+<li>
+<p>Solution: Use regular dict unless explicit ordering behavior is needed</p>
+</li>
+<li>
+<p><strong>Counter Arithmetic</strong></p>
+</li>
+<li>Problem: Unexpected behavior with negative counts</li>
+<li>
+<p>Solution: Use Counter's mathematical operations carefully</p>
+</li>
+<li>
+<p><strong>namedtuple Immutability</strong></p>
+</li>
+<li>Problem: Attempting to modify namedtuple fields</li>
+<li>Solution: Use _replace() method or create new instance</li>
+</ol>
+<h2>Further Reading</h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/collections.html">Python Collections Documentation</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0468/">PEP 468 - Preserving the order of **kwargs in a function</a></li>
+<li><a href="https://code.activestate.com/recipes/users/178123/">Raymond Hettinger's Python Recipes</a></li>
+</ul>
 
 <h3 id='standard_library_documents/Binary Data Services/collections.abc - Abstract Base Classes for Containers.md'>collections.abc - Abstract Base Classes for Containers.md</h3>
 <button onclick="history.back()">Back</button>
