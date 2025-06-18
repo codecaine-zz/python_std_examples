@@ -4,6 +4,15 @@ The `bisect` module in Python provides a set of functions that perform binary se
 
 Here are comprehensive code examples for each functionality provided by the `bisect` module:
 
+## Table of Contents
+
+1. [Bisection Search](#example-1-bisection-search)
+2. [Bisection Search Using `bisect_right` or `bisect`](#example-2-bisection-search-using-bisect_right-or-bisect)
+3. [Bisection Search for Insertion](#example-3-bisection-search-for-insertion)
+4. [Bisection Search for Deletion](#example-4-bisection-search-for-deletion)
+5. [Bisection Search with Key Function](#example-5-bisection-search-with-key-function)
+6. [Bisection Search for Rightmost Position](#example-6-bisection-search-for-rightmost-position)
+
 ### Example 1: Bisection Search
 
 ```python

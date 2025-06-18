@@ -1,4 +1,16 @@
 # tracemalloc - Trace memory allocations
+## Table of Contents
+
+1. [1. Enabling Tracing](#1-enabling-tracing)
+2. [2. Capturing Memory Snapshot](#2-capturing-memory-snapshot)
+3. [3. Analyzing Memory Snapshot](#3-analyzing-memory-snapshot)
+4. [4. Analyzing Top Memory Usage](#4-analyzing-top-memory-usage)
+5. [5. Analyzing Memory Usage Over Time](#5-analyzing-memory-usage-over-time)
+6. [6. Writing Results to File](#6-writing-results-to-file)
+7. [7. Resetting Tracing](#7-resetting-tracing)
+8. [8. Using with Context Manager](#8-using-with-context-manager)
+
+
 
 The `tracemalloc` module is a built-in tool that provides support for tracing memory allocation events. It can help identify memory leaks and optimize memory usage by analyzing how memory is allocated and deallocated over time.
 

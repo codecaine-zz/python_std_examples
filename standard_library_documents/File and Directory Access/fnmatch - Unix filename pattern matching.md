@@ -1,4 +1,18 @@
 # fnmatch - Unix filename pattern matching
+## Table of Contents
+
+1. [Example 1: Basic Pattern Matching](#example-1-basic-pattern-matching)
+2. [Explanation:](#explanation)
+3. [Example 2: Case Insensitive Matching](#example-2-case-insensitive-matching)
+4. [Explanation:](#explanation)
+5. [Example 3: Using Wildcards in Patterns](#example-3-using-wildcards-in-patterns)
+6. [Explanation:](#explanation)
+7. [Example 4: Matching Multiple Patterns](#example-4-matching-multiple-patterns)
+8. [Explanation:](#explanation)
+9. [Example 5: Using Regular Expressions for More Complex Patterns](#example-5-using-regular-expressions-for-more-complex-patterns)
+10. [Explanation:](#explanation)
+
+
 
 The `fnmatch` module is used to perform shell-style pattern matching on filenames, which is particularly useful for applications that need to handle file paths and patterns according to common Unix/Linux conventions. Below are comprehensive code examples demonstrating various functionalities of the `fnmatch` module.
 

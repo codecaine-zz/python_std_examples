@@ -2,6 +2,10 @@
 
 The `sched` module in Python is a simple event scheduler that allows you to schedule and run functions at specific times or intervals. Below are comprehensive examples of how to use the `sched` module, including comments explaining each step:
 
+## Table of Contents
+
+1. [Basic Event Scheduling](#basic-event-scheduling)
+
 ```python
 import sched
 import time

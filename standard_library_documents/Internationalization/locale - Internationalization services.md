@@ -1,4 +1,9 @@
 # locale - Internationalization services
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below are comprehensive code examples for the `locale` module in Python, covering various functionalities related to internationalization. Each example is accompanied by comments explaining each step.
 

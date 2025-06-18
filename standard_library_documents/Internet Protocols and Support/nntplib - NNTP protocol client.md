@@ -1,4 +1,14 @@
 # nntplib - NNTP protocol client
+## Table of Contents
+
+1. [Example 1: Connecting to an NNTP Server](#example-1-connecting-to-an-nntp-server)
+2. [Example 2: Listing All Groups](#example-2-listing-all-groups)
+3. [Example 3: Listing Headers of an Article](#example-3-listing-headers-of-an-article)
+4. [Example 4: Retrieving an Article](#example-4-retrieving-an-article)
+5. [Example 5: Closing the Connection](#example-5-closing-the-connection)
+6. [Additional Best Practices and Considerations](#additional-best-practices-and-considerations)
+
+
 
 The `nntplib` module in Python provides a straightforward interface to interact with News Transfer Protocol (NNTP) servers, which are used for retrieving news articles and other Internet newsgroups. Below are comprehensive examples of how to use the `nntplib` module for common operations such as connecting to an NNTP server, retrieving list of groups, listing headers, downloading articles, and closing the connection.
 

@@ -1,4 +1,11 @@
 # ensurepip - Bootstrapping the pip installer
+## Table of Contents
+
+1. [Usage](#usage)
+2. [Detailed Example](#detailed-example)
+3. [Notes](#notes)
+
+
 
 **ensurepip Module Documentation**
 

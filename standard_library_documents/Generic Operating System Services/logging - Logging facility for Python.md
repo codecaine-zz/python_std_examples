@@ -1,4 +1,16 @@
 # logging - Logging facility for Python
+## Table of Contents
+
+1. [Example 1: Basic Configuration](#example-1-basic-configuration)
+2. [Example 2: Logging to Files](#example-2-logging-to-files)
+3. [Example 3: Logging with Custom Handlers](#example-3-logging-with-custom-handlers)
+4. [Example 4: Logging with Formatters](#example-4-logging-with-formatters)
+5. [Example 5: Logging with Rotating Files](#example-5-logging-with-rotating-files)
+6. [Example 6: Logging with Timestamps](#example-6-logging-with-timestamps)
+7. [Example 7: Logging with Levels and Filters](#example-7-logging-with-levels-and-filters)
+8. [Example 8: Logging with Handlers and Filters](#example-8-logging-with-handlers-and-filters)
+
+
 
 The `logging` module in Python provides a flexible framework for emitting log messages from Python programs. It supports formatting, coloring, and redirection of output to various destinations. Below are comprehensive code examples that demonstrate various functionalities of the `logging` module.
 

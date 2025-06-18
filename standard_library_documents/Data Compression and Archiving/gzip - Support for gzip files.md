@@ -1,4 +1,16 @@
 # gzip - Support for gzip files
+## Table of Contents
+
+1. [Writing Gzip Files](#writing-gzip-files)
+2. [Reading Gzip Files](#reading-gzip-files)
+3. [Compressing Data](#compressing-data)
+4. [Decompressing Data](#decompressing-data)
+5. [Handling Errors](#handling-errors)
+6. [Additional Examples](#additional-examples)
+7. [Writing and Reading Multiple Files](#writing-and-reading-multiple-files)
+8. [Compressing and Decompressing Multiple Files](#compressing-and-decompressing-multiple-files)
+
+
 
 The `gzip` module provides support for reading from and writing to .gz (gzip) compressed files. Below are comprehensive examples of how to use this module, including functions for both reading and writing files.
 

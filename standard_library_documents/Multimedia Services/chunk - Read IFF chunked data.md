@@ -1,4 +1,11 @@
 # chunk - Read IFF chunked data
+## Table of Contents
+
+1. [Example 1: Reading IFF Audio File (using a fictional `chunk` module)](#example-1-reading-iff-audio-file-using-a-fictional-chunk-module)
+2. [Example 2: Extracting IFF Image File (using a fictional `chunk` module)](#example-2-extracting-iff-image-file-using-a-fictional-chunk-module)
+3. [Notes:](#notes)
+
+
 
 The `chunk` module is not a standard library module in Python. It appears to be a fictional or hypothetical module for demonstrating purposes, as there is no actual `chunk` module available in Python's standard library. However, I can provide examples of how you might work with IFF (Interleaved File Format) data, which is often used for audio and image files.
 

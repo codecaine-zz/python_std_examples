@@ -1,4 +1,18 @@
 # timeit - Measure execution time of small code snippets
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [Explanation:](#explanation)
+3. [2. Measuring Multiple Statements](#2-measuring-multiple-statements)
+4. [Explanation:](#explanation)
+5. [3. Measuring Time for a Function](#3-measuring-time-for-a-function)
+6. [Explanation:](#explanation)
+7. [4. Using Timeit.Timer for Detailed Control](#4-using-timeittimer-for-detailed-control)
+8. [Explanation:](#explanation)
+9. [5. Measuring Time for Multiple Statements with Timer](#5-measuring-time-for-multiple-statements-with-timer)
+10. [Explanation:](#explanation)
+
+
 
 The `timeit` module in Python is a simple timing interface that helps measure short durations by running a given statement multiple times. It's particularly useful for benchmarking and profiling Python code. Below are comprehensive and well-documented examples demonstrating various functionalities of the `timeit` module.
 

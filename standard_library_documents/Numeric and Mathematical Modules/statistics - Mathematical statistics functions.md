@@ -1,4 +1,18 @@
 # statistics - Mathematical statistics functions
+## Table of Contents
+
+1. [1. Calculating Mean](#1-calculating-mean)
+2. [2. Calculating Median](#2-calculating-median)
+3. [3. Calculating Mode](#3-calculating-mode)
+4. [4. Calculating Standard Deviation](#4-calculating-standard-deviation)
+5. [5. Calculating Variance](#5-calculating-variance)
+6. [6. Calculating Quartiles](#6-calculating-quartiles)
+7. [7. Handling Large Data Sets](#7-handling-large-data-sets)
+8. [8. Handling Missing Values](#8-handling-missing-values)
+9. [9. Handling Negative Numbers](#9-handling-negative-numbers)
+10. [10. Handling Outliers](#10-handling-outliers)
+
+
 
 The `statistics` module in Python provides a collection of mathematical statistical functions. Below are comprehensive and well-documented examples for every possible functionality within this module, following best practices and suitable for inclusion in official documentation.
 

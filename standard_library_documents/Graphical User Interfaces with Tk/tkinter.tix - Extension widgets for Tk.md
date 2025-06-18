@@ -1,4 +1,17 @@
 # tkinter.tix - Extension widgets for Tk
+## Table of Contents
+
+1. [1. Progress Bar](#1-progress-bar)
+2. [2. Dialog Boxes](#2-dialog-boxes)
+3. [Example: Message Box](#example-message-box)
+4. [Example: Entry Dialog](#example-entry-dialog)
+5. [3. Listbox](#3-listbox)
+6. [4. Treeview](#4-treeview)
+7. [5. Scrolled Text Area](#5-scrolled-text-area)
+8. [6. Dialog Box with Entry](#6-dialog-box-with-entry)
+9. [7. Option Menu](#7-option-menu)
+
+
 
 The `tkinter.tix` module provides extension widgets that are not part of the core Tkinter toolkit but add functionality like dialog boxes, progress bars, and more. Below are comprehensive and well-documented code examples for each feature in the `tkinter.tix` module.
 

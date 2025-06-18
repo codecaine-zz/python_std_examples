@@ -1,4 +1,12 @@
 # wave - Read and write WAV files
+## Table of Contents
+
+1. [Example 1: Reading and Writing Basic WAV Files](#example-1-reading-and-writing-basic-wav-files)
+2. [Example 2: Reading and Writing Stereo WAV Files](#example-2-reading-and-writing-stereo-wav-files)
+3. [Example 3: Reading and Writing Files in Different Sample Formats](#example-3-reading-and-writing-files-in-different-sample-formats)
+4. [Example 4: Handling Compression in WAV Files](#example-4-handling-compression-in-wav-files)
+
+
 
 The `wave` module in Python provides a way to read from and write WAV files, which are a widely used format for storing audio data. Below are comprehensive examples demonstrating how to use various functionalities of the `wave` module. These examples include reading and writing basic audio files, handling stereo files, using different sample formats, and dealing with compression.
 

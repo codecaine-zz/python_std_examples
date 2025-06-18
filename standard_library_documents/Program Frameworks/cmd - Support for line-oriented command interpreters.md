@@ -1,4 +1,14 @@
 # cmd - Support for line-oriented command interpreters
+## Table of Contents
+
+1. [Example 1: Basic Command Interpreter](#example-1-basic-command-interpreter)
+2. [Example 2: Command with Arguments](#example-2-command-with-arguments)
+3. [Example 3: Command with Flags](#example-3-command-with-flags)
+4. [Example 4: Command History](#example-4-command-history)
+5. [Example 5: Subclassing `Cmd` for Custom Commands](#example-5-subclassing-cmd-for-custom-commands)
+6. [Example 6: Using `cmd.Cmd` in a Web Application](#example-6-using-cmdcmd-in-a-web-application)
+
+
 
 The `cmd` module in Python provides a framework for writing line-oriented command interpreters, allowing you to create simple text-based interfaces for interacting with commands and processes.
 

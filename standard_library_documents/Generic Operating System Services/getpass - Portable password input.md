@@ -1,4 +1,9 @@
 # getpass - Portable password input
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `getpass` module in the Python standard library provides a way to prompt for passwords securely without echoing them on the screen. This is particularly useful for applications that need to handle user credentials, such as web servers or command-line interfaces.
 

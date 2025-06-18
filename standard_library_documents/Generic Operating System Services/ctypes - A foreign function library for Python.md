@@ -1,4 +1,16 @@
 # ctypes - A foreign function library for Python
+## Table of Contents
+
+1. [Example 1: Loading a Shared Library](#example-1-loading-a-shared-library)
+2. [Example 2: Passing Arguments and Returning Results](#example-2-passing-arguments-and-returning-results)
+3. [Example 3: Structures and Pointers](#example-3-structures-and-pointers)
+4. [Example 4: Callback Functions](#example-4-callback-functions)
+5. [Example 5: Using Enumerations](#example-5-using-enumerations)
+6. [Example 6: Dynamic Library Path](#example-6-dynamic-library-path)
+7. [Example 7: Loading a Shared Library with Multiple Symbols](#example-7-loading-a-shared-library-with-multiple-symbols)
+8. [Example 8: Passing Structures to Functions](#example-8-passing-structures-to-functions)
+
+
 
 The `ctypes` module in Python provides C compatible data types, and allows calling functions in DLLs or shared libraries. This is useful for interfacing with native libraries and interacting with hardware.
 

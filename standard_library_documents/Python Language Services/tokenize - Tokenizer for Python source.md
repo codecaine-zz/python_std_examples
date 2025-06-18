@@ -1,4 +1,16 @@
 # tokenize - Tokenizer for Python source
+## Table of Contents
+
+1. [Example 1: Basic Tokenization](#example-1-basic-tokenization)
+2. [Explanation:](#explanation)
+3. [Example 2: Handling Errors in Tokenization](#example-2-handling-errors-in-tokenization)
+4. [Explanation:](#explanation)
+5. [Example 3: Extracting Tokens with Specific Names](#example-3-extracting-tokens-with-specific-names)
+6. [Explanation:](#explanation)
+7. [Example 4: Tokenizing from a File](#example-4-tokenizing-from-a-file)
+8. [Explanation:](#explanation)
+
+
 
 The `tokenize` module in Python is used to break a Python source file into tokens, which are the smallest units of Python syntax. Below are comprehensive examples demonstrating various functionalities provided by the `tokenize` module.
 

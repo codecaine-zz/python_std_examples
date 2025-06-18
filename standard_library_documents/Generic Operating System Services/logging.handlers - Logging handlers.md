@@ -1,4 +1,18 @@
 # logging.handlers - Logging handlers
+## Table of Contents
+
+1. [1. RotatingFileHandler](#1-rotatingfilehandler)
+2. [2. TimedRotatingFileHandler](#2-timedrotatingfilehandler)
+3. [3. SocketHandler](#3-sockethandler)
+4. [4. HTTPServerHandler](#4-httpserverhandler)
+5. [5. QueueHandler and QueueListener](#5-queuehandler-and-queuelistener)
+6. [6. SysLogHandler](#6-sysloghandler)
+7. [7. SMTPHandler](#7-smtphandler)
+8. [8. NullHandler](#8-nullhandler)
+9. [9. MemoryHandler](#9-memoryhandler)
+10. [10. WatchedFileHandler](#10-watchedfilehandler)
+
+
 
 The `logging.handlers` module in Python provides various handler classes that can be used to send log records to different destinations, such as files, network sockets, or remote servers. Below are comprehensive code examples for each handler class provided by this module. These examples demonstrate how to configure and use these handlers effectively.
 

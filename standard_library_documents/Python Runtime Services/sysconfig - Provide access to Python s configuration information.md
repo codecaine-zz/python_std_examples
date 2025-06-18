@@ -1,4 +1,9 @@
 # sysconfig - Provide access to Python’s configuration information
+## Table of Contents
+
+1. [Explanation of the Code Examples:](#explanation-of-the-code-examples)
+
+
 
 The `sysconfig` module in Python provides access to Python's configuration settings, including paths to various directories such as the site-packages directory, the interpreter executable, and more. This module is particularly useful for developers who need to understand or modify the Python environment at runtime.
 

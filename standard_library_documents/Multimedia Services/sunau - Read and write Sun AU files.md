@@ -1,4 +1,9 @@
 # sunau - Read and write Sun AU files
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below is a comprehensive set of code examples for the `sunau` module, which allows reading and writing Sun AU (Audio AUdio) files in Python. Each example includes comments to explain each step.
 

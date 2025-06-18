@@ -1,4 +1,14 @@
 # tkinter.scrolledtext - Scrolled Text Widget
+## Table of Contents
+
+1. [Example 1: Basic Scrolled Text Widget](#example-1-basic-scrolled-text-widget)
+2. [Example 2: Customizing Scrollbar Appearance](#example-2-customizing-scrollbar-appearance)
+3. [Example 3: Handling Text Events](#example-3-handling-text-events)
+4. [Example 4: Configuring Text Formatting](#example-4-configuring-text-formatting)
+5. [Example 5: Customizing Text Colors](#example-5-customizing-text-colors)
+6. [Example 6: Handling Text Selection](#example-6-handling-text-selection)
+
+
 
 The `scrolledtext` module in Python's standard library provides a `ScrolledText` widget, which is similar to the `Text` widget but with added support for scrolling. This widget is particularly useful when you need a text entry area that can handle large amounts of text and provide easy navigation through it.
 

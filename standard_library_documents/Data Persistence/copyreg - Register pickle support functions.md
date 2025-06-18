@@ -1,4 +1,18 @@
 # copyreg - Register pickle support functions
+## Table of Contents
+
+1. [1. Registering Custom Pickling Functionality](#1-registering-custom-pickling-functionality)
+2. [Example: Registering a Callable Object](#example-registering-a-callable-object)
+3. [2. Registering Custom Object Types](#2-registering-custom-object-types)
+4. [Example: Registering a Class](#example-registering-a-class)
+5. [3. Registering a Class With Multiple Initialization Arguments](#3-registering-a-class-with-multiple-initialization-arguments)
+6. [Example: Handling Multiple Initialization Parameters](#example-handling-multiple-initialization-parameters)
+7. [4. Registering Custom Objects with Additional Context](#4-registering-custom-objects-with-additional-context)
+8. [Example: Handling Additional Data](#example-handling-additional-data)
+9. [5. Registering Custom Objects with Multiple Initialization Methods](#5-registering-custom-objects-with-multiple-initialization-methods)
+10. [Example: Handling Different Constructors](#example-handling-different-constructors)
+
+
 
 The `copyreg` module in Python's standard library is used to register custom pickling support, allowing you to define how objects of specific types are serialized and deserialized using the `pickle` module. This can be particularly useful when working with complex data structures or custom classes.
 

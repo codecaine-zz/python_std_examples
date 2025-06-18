@@ -4,6 +4,17 @@ The `types` module in Python provides a way to create new types dynamically usin
 
 Below are comprehensive code examples for various functionalities provided by the `types` module:
 
+## Table of Contents
+
+1. [Creating a Custom Module](#1-creating-a-custom-module)
+2. [Creating a Custom Function](#2-creating-a-custom-function)
+3. [Creating a Custom Builtin Function](#3-creating-a-custom-builtin-function)
+4. [Creating a Custom Class](#4-creating-a-custom-class)
+5. [Creating a Custom Exception](#5-creating-a-custom-exception)
+6. [Creating a Custom Method Type](#6-creating-a-custom-method-type)
+7. [Creating a Custom Type with Slots](#7-creating-a-custom-type-with-slots)
+8. [Creating a Custom Type with New](#8-creating-a-custom-type-with-new)
+
 ### 1. Creating a Custom Module
 
 ```python

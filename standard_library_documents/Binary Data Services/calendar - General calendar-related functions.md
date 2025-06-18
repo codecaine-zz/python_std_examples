@@ -2,6 +2,19 @@
 
 The `calendar` module in Python provides a set of functions that facilitate the display, generation, and manipulation of calendars. Here are comprehensive code examples demonstrating various functionalities within this module:
 
+## Table of Contents
+
+1. [Display the current month's calendar](#example-1-display-the-current-months-calendar-with-weekday-names-at-the-top)
+2. [Display a specific month and year's calendar](#example-2-display-a-specific-month-and-years-calendar-with-day-numbers-centered)
+3. [Format a date in ISO 8601 format](#example-3-format-a-date-in-the-iso-8601-format)
+4. [Determine if a year is a leap year](#example-4-determine-if-a-given-year-is-a-leap-year)
+5. [Generate the day of the week for a specific date](#example-5-generate-the-day-of-the-week-for-a-specific-date-in-a-month-and-year)
+6. [Display the full calendar for a year](#example-6-display-the-full-calendar-for-a-year)
+7. [Generate a range of dates](#example-7-generate-a-range-of-dates)
+8. [List of holidays](#example-8-generate-a-list-of-holidays-placeholder-as-pythons-calendar-module-does-not-support-holidays)
+9. [Format the month with weekend days highlighted](#example-9-format-the-month-with-weekend-days-highlighted)
+10. [Generate a list of all days in a year](#example-10-generate-a-list-of-all-days-in-a-year)
+
 ```python
 import calendar
 import datetime

@@ -1,4 +1,18 @@
 # distutils - Building and installing Python packages
+## Table of Contents
+
+1. [Example 1: Creating a Simple Package with Distutils](#example-1-creating-a-simple-package-with-distutils)
+2. [Step 1: Create a Directory for Your Package](#step-1-create-a-directory-for-your-package)
+3. [Step 2: Initialize the Package](#step-2-initialize-the-package)
+4. [Step 3: Create Your Modules](#step-3-create-your-modules)
+5. [Step 4: Create a Setup Script](#step-4-create-a-setup-script)
+6. [Step 5: Build the Package](#step-5-build-the-package)
+7. [Step 6: Install the Package](#step-6-install-the-package)
+8. [Example 2: Building and Installing Using `setuptools` (Recommended)](#example-2-building-and-installing-using-setuptools-recommended)
+9. [Step 1: Install `setuptools`](#step-1-install-setuptools)
+10. [Step 2: Use `setup.py` with `setuptools`](#step-2-use-setuppy-with-setuptools)
+
+
 
 The `distutils` module is an older package that is now considered deprecated. It is used to build and install Python packages, but it has been largely replaced by newer tools such as `setuptools` and `wheel`. However, I will provide code examples for using the original `distutils` to illustrate how you might have built and installed a simple Python package in earlier versions of Python.
 

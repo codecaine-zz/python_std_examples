@@ -1,4 +1,15 @@
 # zipfile - Work with ZIP archives
+## Table of Contents
+
+1. [1. Creating and Writing to a Zip File](#1-creating-and-writing-to-a-zip-file)
+2. [2. Reading from a Zip File](#2-reading-from-a-zip-file)
+3. [3. Adding Files Directly from a Directory](#3-adding-files-directly-from-a-directory)
+4. [4. Extracting Specific Files](#4-extracting-specific-files)
+5. [5. Listing All Files in a Zip File](#5-listing-all-files-in-a-zip-file)
+6. [6. Checking if a File Exists in a Zip](#6-checking-if-a-file-exists-in-a-zip)
+7. [7. Handling Zip Files with Passwords](#7-handling-zip-files-with-passwords)
+
+
 
 Certainly! Below are comprehensive examples demonstrating various functionalities of the `zipfile` module in Python, along with explanations for each step:
 

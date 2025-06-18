@@ -1,4 +1,12 @@
 # pdb - The Python Debugger
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Debugging Commands:](#debugging-commands)
+3. [Full Example with Debugging:](#full-example-with-debugging)
+4. [Explanation:](#explanation)
+
+
 
 Below is a comprehensive set of code examples for the `pdb` module, which provides an interactive command-line interface to interact with running Python programs. Each example includes comments explaining each step.
 

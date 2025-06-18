@@ -1,4 +1,9 @@
 # netrc - netrc file processing
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `netrc` module in Python provides an interface to read and write `.netrc` files, which are commonly used by applications that require network access, such as FTP clients, email clients, and web browsers. This module allows you to manage credentials securely across different network services.
 

@@ -1,4 +1,16 @@
 # winreg - Windows registry access
+## Table of Contents
+
+1. [Example 1: Create a New Key in the Current User's Local Machine](#example-1-create-a-new-key-in-the-current-users-local-machine)
+2. [Example 2: Read a Value from a Key](#example-2-read-a-value-from-a-key)
+3. [Example 3: Delete a Value from a Key](#example-3-delete-a-value-from-a-key)
+4. [Example 4: Modify an Existing Value in a Key](#example-4-modify-an-existing-value-in-a-key)
+5. [Example 5: Create a New Subkey and Set Multiple Values](#example-5-create-a-new-subkey-and-set-multiple-values)
+6. [Example 6: Read Values from a Subkey](#example-6-read-values-from-a-subkey)
+7. [Example 7: Delete a Subkey and All Its Values](#example-7-delete-a-subkey-and-all-its-values)
+8. [Example 8: Enumerate All Subkeys](#example-8-enumerate-all-subkeys)
+
+
 
 The `winreg` module is part of the Python Standard Library and provides a convenient way to interact with the Windows Registry. This module allows you to read, write, modify, and delete registry keys and values. Below are some comprehensive code examples for various functionalities of the `winreg` module:
 

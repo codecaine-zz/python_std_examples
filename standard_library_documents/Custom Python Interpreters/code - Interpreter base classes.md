@@ -1,4 +1,15 @@
 # code - Interpreter base classes
+## Table of Contents
+
+1. [1. Creating a Code Object](#1-creating-a-code-object)
+2. [2. Executing Code Objects](#2-executing-code-objects)
+3. [3. Creating a Compiled Code Object](#3-creating-a-compiled-code-object)
+4. [4. Creating a Code Object with Line Numbers](#4-creating-a-code-object-with-line-numbers)
+5. [5. Creating a Code Object with Constants](#5-creating-a-code-object-with-constants)
+6. [6. Creating a Code Object with Variables](#6-creating-a-code-object-with-variables)
+7. [Conclusion](#conclusion)
+
+
 
 The `code` module in Python is a low-level interface to the interactive interpreter's bytecode execution environment. This module provides a way to create, manipulate, and execute code objects, which are used by the Python interpreter itself.
 

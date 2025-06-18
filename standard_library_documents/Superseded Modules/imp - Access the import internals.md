@@ -1,4 +1,16 @@
 # imp - Access the import internals
+## Table of Contents
+
+1. [Example 1: Using `imp.load_module()` (Legacy Functionality)](#example-1-using-impload_module-legacy-functionality)
+2. [Example 2: Using `imp.find_module()` (Legacy Functionality)](#example-2-using-impfind_module-legacy-functionality)
+3. [Example 3: Using `imp.load_compiled()` (Legacy Functionality)](#example-3-using-impload_compiled-legacy-functionality)
+4. [Example 4: Using `imp.get_suffixes()` (Legacy Functionality)](#example-4-using-impget_suffixes-legacy-functionality)
+5. [Example 5: Using `imp.is_frozen()` (Legacy Functionality)](#example-5-using-impis_frozen-legacy-functionality)
+6. [Example 6: Using `imp.get_magic()` (Legacy Functionality)](#example-6-using-impget_magic-legacy-functionality)
+7. [Example 7: Using `imp.get_code()` (Legacy Functionality)](#example-7-using-impget_code-legacy-functionality)
+8. [Example 8: Using `imp.get_info()` (Legacy Functionality)](#example-8-using-impget_info-legacy-functionality)
+
+
 
 The `imp` module is a legacy module used to load modules dynamically, but it has been largely replaced by the `importlib` module, which provides a more modern and flexible interface for importing modules. However, if you need to interact with or understand how `imp` works, here are some basic examples:
 

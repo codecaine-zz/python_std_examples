@@ -1,4 +1,16 @@
 # ssl - TLS/SSL wrapper for socket objects
+## Table of Contents
+
+1. [1. Creating an SSL Context](#1-creating-an-ssl-context)
+2. [2. Server-Side SSL Configuration](#2-server-side-ssl-configuration)
+3. [3. Client-Side Verification of Server Certificate](#3-client-side-verification-of-server-certificate)
+4. [4. Using a Custom Certificate Store](#4-using-a-custom-certificate-store)
+5. [5. Handling SSL Errors](#5-handling-ssl-errors)
+6. [6. Using a Specific SSL Protocol](#6-using-a-specific-ssl-protocol)
+7. [7. Server-Side Handling of Client Authentication](#7-server-side-handling-of-client-authentication)
+8. [8. Using SSL/TLS with SOCKS Proxy](#8-using-ssltls-with-socks-proxy)
+
+
 
 The `ssl` module in Python provides a way to create secure network connections using SSL/TLS protocols. It allows you to wrap existing socket objects with an encrypted layer, making it suitable for applications that require secure communication.
 

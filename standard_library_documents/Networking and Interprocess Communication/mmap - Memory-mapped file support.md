@@ -1,4 +1,13 @@
 # mmap - Memory-mapped file support
+## Table of Contents
+
+1. [Example 1: Basic Memory Mapping](#example-1-basic-memory-mapping)
+2. [Example 2: Synchronization with File](#example-2-synchronization-with-file)
+3. [Example 3: Writing and Reading Large Files](#example-3-writing-and-reading-large-files)
+4. [Example 4: Memory-Mapping Multiple Regions](#example-4-memory-mapping-multiple-regions)
+5. [Example 5: Using Memory-Mapped Files with Multiple Processes](#example-5-using-memory-mapped-files-with-multiple-processes)
+
+
 
 The `mmap` module in Python allows you to memory-map files, which means that it creates a view of a file as if it were an array of bytes in memory. This can be useful for working with large files efficiently without loading the entire file into memory at once.
 

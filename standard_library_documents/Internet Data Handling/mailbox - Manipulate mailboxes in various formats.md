@@ -1,4 +1,17 @@
 # mailbox - Manipulate mailboxes in various formats
+## Table of Contents
+
+1. [Example 1: Reading an mbox mailbox](#example-1-reading-an-mbox-mailbox)
+2. [Example 2: Writing to an mbox mailbox](#example-2-writing-to-an-mbox-mailbox)
+3. [Example 3: Reading from a Maildir mailbox](#example-3-reading-from-a-maildir-mailbox)
+4. [Example 4: Writing to a Maildir mailbox](#example-4-writing-to-a-maildir-mailbox)
+5. [Example 5: Reading from an IMAP4 mailbox](#example-5-reading-from-an-imap4-mailbox)
+6. [Example 6: Writing to an IMAP4 mailbox](#example-6-writing-to-an-imap4-mailbox)
+7. [Example 7: Reading from a POP3 mailbox](#example-7-reading-from-a-pop3-mailbox)
+8. [Example 8: Writing to a POP3 mailbox](#example-8-writing-to-a-pop3-mailbox)
+9. [Explanation](#explanation)
+
+
 
 The `mailbox` module in Python provides a consistent interface to access mailboxes in several popular formats, including mbox, Maildir, IMAP4, and POP3. Below are comprehensive examples demonstrating how to use this module for different operations.
 

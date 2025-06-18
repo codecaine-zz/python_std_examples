@@ -1,4 +1,13 @@
 # pty - Pseudo-terminal utilities
+## Table of Contents
+
+1. [Example 1: Simple Pseudoterminal Creation and Usage](#example-1-simple-pseudoterminal-creation-and-usage)
+2. [Example 2: Using `pty.spawn` for Simple Process Execution](#example-2-using-ptyspawn-for-simple-process-execution)
+3. [Example 3: Reading Output from a Pseudoterminal](#example-3-reading-output-from-a-pseudoterminal)
+4. [Example 4: Handling Input with `pty.master_read` and `pty.master_write`](#example-4-handling-input-with-ptymaster_read-and-ptymaster_write)
+5. [Example 5: Using `pty.fork` for a Child Process with Pseudo-terminal](#example-5-using-ptyfork-for-a-child-process-with-pseudo-terminal)
+
+
 
 The `pty` module in Python provides a way to create pseudoterminal (pseudo-TTY) devices, which are used to simulate a terminal environment in applications that need console input/output. This is particularly useful for creating interactive programs or services that require real-time access to the user's console.
 

@@ -1,4 +1,16 @@
 # readline - GNU readline interface
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Customizing the Prompt](#2-customizing-the-prompt)
+3. [3. Adding History Management](#3-adding-history-management)
+4. [4. Using Completion Functions](#4-using-completion-functions)
+5. [5. Prompting with Multiple Choices](#5-prompting-with-multiple-choices)
+6. [6. Using Pre Input Hooks](#6-using-pre-input-hooks)
+7. [7. Using History Manipulation Functions](#7-using-history-manipulation-functions)
+8. [8. Using Readline Options](#8-using-readline-options)
+
+
 
 The `readline` module in Python provides a convenient way to handle command line editing, history management, and completion features using GNU Readline.
 

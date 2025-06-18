@@ -1,4 +1,18 @@
 # decimal - Decimal fixed-point and floating-point arithmetic
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Precision and Rounding](#2-precision-and-rounding)
+3. [3. Rounding Modes](#3-rounding-modes)
+4. [4. Arithmetic Operations](#4-arithmetic-operations)
+5. [5. Comparisons](#5-comparisons)
+6. [6. Formatting](#6-formatting)
+7. [7. Conversions](#7-conversions)
+8. [8. Context Management](#8-context-management)
+9. [9. Arithmetic with Strings and Integers](#9-arithmetic-with-strings-and-integers)
+10. [10. Special Values](#10-special-values)
+
+
 
 The `decimal` module in Python provides support for fast correctly-rounded decimal floating point arithmetic. It offers classes for manipulating numbers with arbitrary precision, which is useful for financial calculations where accuracy to many decimal places is critical.
 

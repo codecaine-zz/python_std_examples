@@ -1,4 +1,15 @@
 # unittest - Unit testing framework
+## Table of Contents
+
+1. [Example 1: Basic Test Case](#example-1-basic-test-case)
+2. [Example 2: Test Case with Setup and Teardown](#example-2-test-case-with-setup-and-teardown)
+3. [Example 3: Test Case with Assertions](#example-3-test-case-with-assertions)
+4. [Example 4: Test Case with Assertions for Exceptions](#example-4-test-case-with-assertions-for-exceptions)
+5. [Example 5: Test Case with Parameterized Tests](#example-5-test-case-with-parameterized-tests)
+6. [Example 6: Test Case with Test Suite](#example-6-test-case-with-test-suite)
+7. [Example 7: Test Case with Test Loader](#example-7-test-case-with-test-loader)
+
+
 
 The `unittest` module is a powerful tool for writing unit tests in Python. It provides a flexible framework that allows you to create test cases, define assertions, and run tests programmatically. Below are comprehensive examples covering various functionalities of the `unittest` module.
 

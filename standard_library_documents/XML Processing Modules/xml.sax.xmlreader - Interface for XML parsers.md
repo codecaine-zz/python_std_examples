@@ -1,4 +1,14 @@
 # xml.sax.xmlreader - Interface for XML parsers
+## Table of Contents
+
+1. [1. Using the `XMLReader` Interface](#1-using-the-xmlreader-interface)
+2. [2. Customizing Content Handling](#2-customizing-content-handling)
+3. [3. Handling Namespaces](#3-handling-namespaces)
+4. [4. Handling Entity References](#4-handling-entity-references)
+5. [5. Using the `xml.sax.expatreader` Module](#5-using-the-xmlsaxexpatreader-module)
+6. [6. Handling Validation](#6-handling-validation)
+
+
 
 The `xml.sax.xmlreader` module provides an interface for parsing XML documents using SAX (Simple API for XML). It allows you to read and process XML data in a more memory-efficient manner by processing only parts of the document as needed. Below are comprehensive examples demonstrating various functionalities provided by this module.
 

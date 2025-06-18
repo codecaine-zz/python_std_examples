@@ -1,4 +1,16 @@
 # xml.dom - The Document Object Model API
+## Table of Contents
+
+1. [1. Creating an XML Document](#1-creating-an-xml-document)
+2. [2. Parsing an XML String](#2-parsing-an-xml-string)
+3. [3. Creating an XML Element and Attribute](#3-creating-an-xml-element-and-attribute)
+4. [4. Iterating Over Elements and Attributes](#4-iterating-over-elements-and-attributes)
+5. [5. Writing XML to a File](#5-writing-xml-to-a-file)
+6. [6. Handling Namespaces](#6-handling-namespaces)
+7. [7. Creating a DOM Element from Scratch](#7-creating-a-dom-element-from-scratch)
+8. [8. Copying and Modifying Nodes](#8-copying-and-modifying-nodes)
+
+
 
 The `xml.dom` module is part of Python's standard library and provides a convenient way to work with XML documents using the DOM (Document Object Model) approach. This module allows you to create, manipulate, and parse XML data in a structured object-oriented manner.
 

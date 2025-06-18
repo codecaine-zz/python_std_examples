@@ -1,4 +1,14 @@
 # xml.parsers.expat - Fast XML parsing using Expat
+## Table of Contents
+
+1. [Example 1: Basic Parsing with Callbacks](#example-1-basic-parsing-with-callbacks)
+2. [Example 2: Parsing XML from a File](#example-2-parsing-xml-from-a-file)
+3. [Example 3: Parsing with Attributes and Namespaces](#example-3-parsing-with-attributes-and-namespaces)
+4. [Example 4: Error Handling](#example-4-error-handling)
+5. [Example 5: Parsing with Entity References](#example-5-parsing-with-entity-references)
+6. [Example 6: Parsing with Encoding](#example-6-parsing-with-encoding)
+
+
 
 Below are comprehensive code examples for various functionalities of the `xml.parsers.expat` module, which is a fast and simple parser for XML documents in Python.
 

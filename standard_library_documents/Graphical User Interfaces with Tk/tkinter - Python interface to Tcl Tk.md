@@ -1,4 +1,18 @@
 # tkinter - Python interface to Tcl/Tk
+## Table of Contents
+
+1. [Installation](#installation)
+2. [Example 1: Basic Window Application](#example-1-basic-window-application)
+3. [Example 2: Button with Callback Function](#example-2-button-with-callback-function)
+4. [Example 3: Label and Entry Widgets](#example-3-label-and-entry-widgets)
+5. [Example 4: Listbox and Scrollbar](#example-4-listbox-and-scrollbar)
+6. [Example 5: Combobox](#example-5-combobox)
+7. [Example 6: Radiobuttons](#example-6-radiobuttons)
+8. [Example 7: Menubar](#example-7-menubar)
+9. [Example 8: Canvas Widget](#example-8-canvas-widget)
+10. [Example 9: Text Widget](#example-9-text-widget)
+
+
 
 The `tkinter` module is a standard Python library that provides a high-level, cross-platform GUI toolkit. It allows developers to create graphical user interfaces (GUIs) in Python applications. Below are comprehensive and well-documented code examples for various functionalities of the `tkinter` module.
 

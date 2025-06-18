@@ -1,4 +1,14 @@
 # logging.config - Logging configuration
+## Table of Contents
+
+1. [1. Basic Configuration using a Dictionary](#1-basic-configuration-using-a-dictionary)
+2. [Explanation:](#explanation)
+3. [2. Configuration using a JSON File](#2-configuration-using-a-json-file)
+4. [Explanation:](#explanation)
+5. [3. Using a Configuration Module](#3-using-a-configuration-module)
+6. [Explanation:](#explanation)
+
+
 
 Below are comprehensive code examples for the `logging.config` module in Python's standard library, along with detailed explanations of each example.
 

@@ -1,4 +1,16 @@
 # posix - The most common POSIX system calls
+## Table of Contents
+
+1. [Conceptual Examples](#conceptual-examples)
+2. [Example 1: Accessing POSIX Environment Variables](#example-1-accessing-posix-environment-variables)
+3. [Example 2: Changing the Current Working Directory](#example-2-changing-the-current-working-directory)
+4. [Example 3: Executing System Commands](#example-3-executing-system-commands)
+5. [Example 4: Managing File Descriptors](#example-4-managing-file-descriptors)
+6. [Example 5: Using `subprocess` for More Complex Command Execution](#example-5-using-subprocess-for-more-complex-command-execution)
+7. [Example 6: Using `os.path` for File Path Manipulation](#example-6-using-ospath-for-file-path-manipulation)
+8. [Conclusion](#conclusion)
+
+
 
 The `posix` module in Python is not a built-in module like many others in the standard library, but rather a collection of functions that provide access to system calls on Unix-like operating systems. However, it's important to note that direct interaction with POSIX system calls using this module is generally discouraged due to compatibility issues and lack of support for more recent versions of POSIX standards.
 

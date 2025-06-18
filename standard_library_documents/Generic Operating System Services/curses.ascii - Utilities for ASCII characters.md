@@ -1,4 +1,14 @@
 # curses.ascii - Utilities for ASCII characters
+## Table of Contents
+
+1. [Example 1: Character Classification](#example-1-character-classification)
+2. [Example 2: Character Conversion](#example-2-character-conversion)
+3. [Example 3: Character Arithmetic](#example-3-character-arithmetic)
+4. [Example 4: Character Equality and Comparison](#example-4-character-equality-and-comparison)
+5. [Example 5: Character Properties](#example-5-character-properties)
+6. [Summary](#summary)
+
+
 
 The `curses.ascii` module provides a set of functions that handle ASCII character operations in a way similar to those found in the C library. This is useful for applications that require text processing and need to interact with ASCII-only data.
 

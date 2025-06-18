@@ -1,4 +1,14 @@
 # winsound - Sound-playing interface for Windows
+## Table of Contents
+
+1. [Example 1: Play a Simple Sound File](#example-1-play-a-simple-sound-file)
+2. [Example 2: Play a Sound Using a WAV File](#example-2-play-a-sound-using-a-wav-file)
+3. [Example 3: Stop a Playing Sound](#example-3-stop-a-playing-sound)
+4. [Example 4: Play Multiple Sounds Simultaneously](#example-4-play-multiple-sounds-simultaneously)
+5. [Example 5: Handle Errors Gracefully](#example-5-handle-errors-gracefully)
+6. [Explanation of Each Example](#explanation-of-each-example)
+
+
 
 The `winsound` module is part of the Windows Sound API (WinMM), which provides an interface to play various types of audio files on Windows systems. It's not a standard library module, but rather a part of the Windows SDK and can be accessed via Python through the `ctypes` library.
 

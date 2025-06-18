@@ -2,6 +2,11 @@
 
 The `copy` module in Python provides a variety of functions to perform shallow and deep copies on objects, which are essential for managing complex data structures. Here are comprehensive examples demonstrating how to use these functionalities:
 
+## Table of Contents
+
+1. [Shallow Copy](#shallow-copy)
+2. [Deep Copy](#deep-copy)
+
 ### Shallow Copy
 
 A shallow copy creates a new object that is a copy of the original object but references the same objects as the originals. This means that changes to sub-objects in the copied object will affect the original object.

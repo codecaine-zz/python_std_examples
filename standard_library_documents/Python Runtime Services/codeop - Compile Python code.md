@@ -1,4 +1,15 @@
 # codeop - Compile Python code
+## Table of Contents
+
+1. [Example 1: Basic Compilation and Execution](#example-1-basic-compilation-and-execution)
+2. [Example 2: Compiling Source Code with Specific Mode](#example-2-compiling-source-code-with-specific-mode)
+3. [Example 3: Compiling Source Code into Bytecode Without Executing](#example-3-compiling-source-code-into-bytecode-without-executing)
+4. [Example 4: Handling Syntax Errors Gracefully](#example-4-handling-syntax-errors-gracefully)
+5. [Example 5: Compiling and Executing Dynamically](#example-5-compiling-and-executing-dynamically)
+6. [Example 6: Using `compile_command` with Specific Mode and Flags](#example-6-using-compile_command-with-specific-mode-and-flags)
+7. [Example 7: Using `compile_command` with Input File](#example-7-using-compile_command-with-input-file)
+
+
 
 The `codeop` module in Python provides tools to compile Python source code into bytecode. It's particularly useful for situations where you need to dynamically execute or modify Python code at runtime, such as in interactive shells, interpreters, or during the execution of custom scripts.
 

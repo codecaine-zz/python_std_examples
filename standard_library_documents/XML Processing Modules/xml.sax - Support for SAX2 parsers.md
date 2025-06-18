@@ -1,4 +1,14 @@
 # xml.sax - Support for SAX2 parsers
+## Table of Contents
+
+1. [Example 1: Basic Parsing](#example-1-basic-parsing)
+2. [Example 2: Parsing with Namespaces](#example-2-parsing-with-namespaces)
+3. [Example 3: Using SAX to Validate XML](#example-3-using-sax-to-validate-xml)
+4. [Example 4: Using SAX for XPath Queries](#example-4-using-sax-for-xpath-queries)
+5. [Example 5: Using SAX for Namespace Processing](#example-5-using-sax-for-namespace-processing)
+6. [Explanation](#explanation)
+
+
 
 The `xml.sax` module is part of Python's standard library and provides a simple API for parsing XML data using the Simple API for XML (SAX) parser. The SAX parser is an event-driven XML parser that reads XML content in chunks, allowing you to process elements as they are encountered rather than waiting for the entire document to be parsed.
 

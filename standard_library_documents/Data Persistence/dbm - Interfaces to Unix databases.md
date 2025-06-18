@@ -1,4 +1,18 @@
 # dbm - Interfaces to Unix “databases”
+## Table of Contents
+
+1. [1. Basic Usage with 'gdbm'](#1-basic-usage-with-gdbm)
+2. [2. Usage with 'ndbm' (Non-Distributed DBM)](#2-usage-with-ndbm-non-distributed-dbm)
+3. [3. Usage with 'gdbm' for String Values](#3-usage-with-gdbm-for-string-values)
+4. [4. Usage with 'gdbm' for Binary Data](#4-usage-with-gdbm-for-binary-data)
+5. [5. Usage with 'gdbm' for Multiple Keys](#5-usage-with-gdbm-for-multiple-keys)
+6. [6. Usage with 'gdbm' for Conditional Storage](#6-usage-with-gdbm-for-conditional-storage)
+7. [7. Usage with 'gdbm' for Error Handling](#7-usage-with-gdbm-for-error-handling)
+8. [8. Usage with 'gdbm' for Database Closure](#8-usage-with-gdbm-for-database-closure)
+9. [9. Usage with 'gdbm' for Database Transaction Management](#9-usage-with-gdbm-for-database-transaction-management)
+10. [10. Usage with 'gdbm' for Database Cleanup](#10-usage-with-gdbm-for-database-cleanup)
+
+
 
 The `dbm` module in Python provides a simple interface to Unix databases (like DBM, NDBM, GDBM, and BSD DB). While these are low-level interfaces, they offer a basic way to manage key-value pairs. Below are comprehensive examples demonstrating various functionalities of the `dbm` module:
 

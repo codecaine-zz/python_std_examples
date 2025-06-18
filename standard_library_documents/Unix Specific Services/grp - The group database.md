@@ -1,4 +1,9 @@
 # grp - The group database
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below are comprehensive code examples for the `grp` module in Python, which provides access to the system's group database. Each example is well-documented and follows best practices.
 

@@ -1,4 +1,18 @@
 # pwd - The password database
+## Table of Contents
+
+1. [1. Getting a Password Database Entry by Username](#1-getting-a-password-database-entry-by-username)
+2. [2. Getting a Password Database Entry by UID](#2-getting-a-password-database-entry-by-uid)
+3. [3. Listing All Users](#3-listing-all-users)
+4. [4. Retrieving Group Information for a User](#4-retrieving-group-information-for-a-user)
+5. [5. Listing All Groups](#5-listing-all-groups)
+6. [6. Retrieving User Information Using `os` Module](#6-retrieving-user-information-using-os-module)
+7. [7. Changing the Shell of a User](#7-changing-the-shell-of-a-user)
+8. [8. Retrieving User and Group Information Using `getpass` Module](#8-retrieving-user-and-group-information-using-getpass-module)
+9. [9. Listing All Users and Their Groups](#9-listing-all-users-and-their-groups)
+10. [10. Changing the Password of a User](#10-changing-the-password-of-a-user)
+
+
 
 The `pwd` module in Python provides an interface to the system's password database, which contains user account information such as usernames, passwords, home directories, and shell programs.
 

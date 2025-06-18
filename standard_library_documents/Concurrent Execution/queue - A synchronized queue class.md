@@ -2,6 +2,15 @@
 
 The `queue` module provides a set of synchronization primitives that can be used to implement concurrent data structures such as queues, stacks, and priority queues. Here are comprehensive and well-documented code examples for each functionality in the `queue` module:
 
+## Table of Contents
+
+1. [Basic Queue Example](#1-basic-queue-example)
+2. [Priority Queue Example](#2-priority-queue-example)
+3. [LIFO Queue Example](#3-lifo-queue-example)
+4. [Double-Ended Queue Example](#4-double-ended-queue-example)
+5. [Custom Queue Example](#5-custom-queue-example)
+6. [Queue with Priority](#6-queue-with-priority)
+
 ### 1. Basic Queue Example
 
 This example demonstrates how to use a simple FIFO queue (FIFO - First In, First Out).

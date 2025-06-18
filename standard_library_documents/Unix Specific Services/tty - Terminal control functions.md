@@ -1,4 +1,18 @@
 # tty - Terminal control functions
+## Table of Contents
+
+1. [1. `tty.iflag`](#1-ttyiflag)
+2. [2. `tty.oflag`](#2-ttyoflag)
+3. [3. `tty.cflag`](#3-ttycflag)
+4. [4. `tty.lflag`](#4-ttylflag)
+5. [5. `tty.isatty`](#5-ttyisatty)
+6. [6. `tty.getattr`](#6-ttygetattr)
+7. [7. `tty.setattr`](#7-ttysetattr)
+8. [8. `tty.cbreak`](#8-ttycbreak)
+9. [9. `tty.raw`](#9-ttyraw)
+10. [10. `tty.setraw`](#10-ttysetraw)
+
+
 
 The `tty` module in Python provides a way to interact with terminal devices, allowing you to configure the input/output modes of a terminal. Here are comprehensive and well-documented examples of how to use each function available in this module:
 

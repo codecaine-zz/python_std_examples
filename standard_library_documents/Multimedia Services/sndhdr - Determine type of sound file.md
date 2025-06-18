@@ -1,4 +1,9 @@
 # sndhdr - Determine type of sound file
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `sndhdr` module in Python is used to determine the type of a sound file based on its header information. It provides functions to read and parse the headers of various audio formats and return their corresponding names.
 

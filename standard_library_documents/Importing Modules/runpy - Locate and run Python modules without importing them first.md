@@ -1,4 +1,14 @@
 # runpy - Locate and run Python modules without importing them first
+## Table of Contents
+
+1. [Example 1: Running a standalone Python script](#example-1-running-a-standalone-python-script)
+2. [Example 2: Running a module with command-line arguments](#example-2-running-a-module-with-command-line-arguments)
+3. [Example 3: Running a module with custom sys.argv](#example-3-running-a-module-with-custom-sysargv)
+4. [Example 4: Running a script in a different working directory](#example-4-running-a-script-in-a-different-working-directory)
+5. [Example 5: Running a module with custom environment variables](#example-5-running-a-module-with-custom-environment-variables)
+6. [Example 6: Running a module with custom import paths](#example-6-running-a-module-with-custom-import-paths)
+
+
 
 The `runpy` module in Python provides functions to locate and execute Python scripts or modules, similar to how you would use the `python -m` command from the command line. This is particularly useful for running standalone scripts that are not imported as modules into other programs.
 

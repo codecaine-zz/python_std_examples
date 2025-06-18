@@ -1,4 +1,14 @@
 # pipes - Interface to shell pipelines
+## Table of Contents
+
+1. [Example 1: Basic Pipelines](#example-1-basic-pipelines)
+2. [Example 2: Multiple Commands in a Pipeline](#example-2-multiple-commands-in-a-pipeline)
+3. [Example 3: Redirecting Standard Input](#example-3-redirecting-standard-input)
+4. [Example 4: Handling Errors](#example-4-handling-errors)
+5. [Example 5: Using `subprocess.run()`](#example-5-using-subprocessrun)
+6. [Example 6: Using `subprocess.Popen()` with Multiple Arguments](#example-6-using-subprocesspopen-with-multiple-arguments)
+
+
 
 Below are comprehensive code examples for the `pipes` module in Python 3.12, along with explanations of each example:
 

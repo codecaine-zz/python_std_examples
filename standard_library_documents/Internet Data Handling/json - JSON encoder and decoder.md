@@ -1,4 +1,9 @@
 # json - JSON encoder and decoder
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below are comprehensive code examples for various functionalities of the `json` module in Python, along with detailed comments explaining each step.
 

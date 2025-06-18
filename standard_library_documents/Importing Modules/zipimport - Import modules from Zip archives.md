@@ -1,4 +1,14 @@
 # zipimport - Import modules from Zip archives
+## Table of Contents
+
+1. [Example 1: Importing a Module from a Zip Archive](#example-1-importing-a-module-from-a-zip-archive)
+2. [Example 2: Using Zipimporter Directly](#example-2-using-zipimporter-directly)
+3. [Example 3: Importing All Modules in a ZIP Archive](#example-3-importing-all-modules-in-a-zip-archive)
+4. [Example 4: Handling ZipFile Errors](#example-4-handling-zipfile-errors)
+5. [Example 5: Using `zipimport` with `pkg_resources`](#example-5-using-zipimport-with-pkg_resources)
+6. [Notes:](#notes)
+
+
 
 The `zipimport` module in Python allows you to import modules from a ZIP archive, which can be useful for distributing libraries as standalone ZIP files or for using pre-compiled shared objects. Here are comprehensive examples demonstrating various functionalities of the `zipimport` module.
 

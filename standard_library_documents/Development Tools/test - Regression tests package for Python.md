@@ -1,4 +1,13 @@
 # test - Regression tests package for Python
+## Table of Contents
+
+1. [Example 1: Writing a Simple Unit Test](#example-1-writing-a-simple-unit-test)
+2. [Example 2: Writing a Test for a Custom Function](#example-2-writing-a-test-for-a-custom-function)
+3. [Example 3: Writing Integration Tests](#example-3-writing-integration-tests)
+4. [Example 4: Writing System Tests](#example-4-writing-system-tests)
+5. [Example 5: Writing a Test Using `unittest.mock`](#example-5-writing-a-test-using-unittestmock)
+
+
 
 The `test` module in Python is a comprehensive testing framework that provides tools for writing unit, integration, and system tests. It includes various classes and functions to help you organize your tests and run them efficiently. Below are some examples of how to use the `test` module to write and run tests.
 

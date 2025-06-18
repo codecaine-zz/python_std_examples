@@ -4,6 +4,14 @@ The `heapq` module in Python provides an implementation of the heap queue algori
 
 Below are comprehensive examples demonstrating various functionalities of the `heapq` module:
 
+## Table of Contents
+
+1. [Creating a Min-Heap](#1-creating-a-min-heap)
+2. [Creating a Max-Heap](#2-creating-a-max-heap)
+3. [Finding the N Smallest Elements](#3-finding-the-n-smallest-elements)
+4. [Priority Queue with Time-Sorted Elements](#4-priority-queue-with-time-sorted-elements)
+5. [Finding the k Closest Points to a Given Point](#5-finding-the-k-closest-points-to-a-given-point)
+
 ### 1. Creating a Min-Heap
 
 ```python

@@ -1,4 +1,13 @@
 # fileinput - Iterate over lines from multiple input streams
+## Table of Contents
+
+1. [Example 1: Iterating Over Multiple Files](#example-1-iterating-over-multiple-files)
+2. [Example 2: Skipping Blank Lines](#example-2-skipping-blank-lines)
+3. [Example 3: Processing Lines Based on Position](#example-3-processing-lines-based-on-position)
+4. [Example 4: Using `inplace` Mode](#example-4-using-inplace-mode)
+5. [Example 5: Handling Unicode Input](#example-5-handling-unicode-input)
+
+
 
 The `fileinput` module is a part of Python's standard library that provides an easy way to read from multiple files or standard input. It allows you to process each line from each of these inputs in sequence, handling various options such as skipping blank lines and processing only certain lines based on their position.
 

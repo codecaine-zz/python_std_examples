@@ -1,4 +1,17 @@
 # turtle - Turtle graphics
+## Table of Contents
+
+1. [Basic Usage Example](#basic-usage-example)
+2. [Drawing Shapes Example](#drawing-shapes-example)
+3. [Drawing a Circle Example](#drawing-a-circle-example)
+4. [Customizing Turtle Appearance Example](#customizing-turtle-appearance-example)
+5. [Using Pen Up and Down Commands Example](#using-pen-up-and-down-commands-example)
+6. [Drawing Multiple Shapes Example](#drawing-multiple-shapes-example)
+7. [Using Functions Example](#using-functions-example)
+8. [Using Event Handling Example](#using-event-handling-example)
+9. [Using Screen Properties Example](#using-screen-properties-example)
+
+
 
 The `turtle` module is a versatile tool in Python that provides a simple way to create visual graphics using turtles, which are animated line segments on the screen. Here are comprehensive and well-documented code examples for various functionalities of the `turtle` module:
 

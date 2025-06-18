@@ -2,6 +2,17 @@
 
 The `codecs` module in Python provides a comprehensive set of tools for handling different character encodings, including converting between different character encodings, decoding raw bytes into strings, and encoding strings back into raw bytes. Below are several code examples demonstrating various functionalities within the `codecs` module:
 
+## Table of Contents
+
+1. [Encoding and Decoding Strings](#example-1-encoding-and-decoding-strings)
+2. [Handling Non-Breaking Spaces](#example-2-handling-non-breaking-spaces)
+3. [Encoding with Different Encodings](#example-3-encoding-with-different-encodings)
+4. [Using Codec Aliases](#example-4-using-codec-aliases)
+5. [Handling Unicode Characters](#example-5-handling-unicode-characters)
+6. [Error Handling during Encoding and Decoding](#example-6-error-handling-during-encoding-and-decoding)
+7. [Using codecs.open for File Handling](#example-7-using-codecsopen-for-file-handling)
+8. [Using codecs.iterencode and codecs.iterdecode](#example-8-using-codecsiterencode-and-codecsiterdecode)
+
 ### Example 1: Encoding and Decoding Strings
 
 ```python

@@ -1,4 +1,18 @@
 # filecmp - File and Directory Comparisons
+## Table of Contents
+
+1. [1. `cmp`](#1-cmp)
+2. [2. `cmpfiles`](#2-cmpfiles)
+3. [3. `dircmp`](#3-dircmp)
+4. [4. `filecmp.dircmpobj`](#4-filecmpdircmpobj)
+5. [5. `subprocess.run`](#5-subprocessrun)
+6. [6. `filecmp.cmpfiles() with patterns`](#6-filecmpcmpfiles-with-patterns)
+7. [7. `filecmp.cmp() with custom comparison logic`](#7-filecmpcmp-with-custom-comparison-logic)
+8. [8. `filecmp.cmp() with binary comparison`](#8-filecmpcmp-with-binary-comparison)
+9. [9. `filecmp.dircmp()` with ignore patterns](#9-filecmpdircmp-with-ignore-patterns)
+10. [10. `filecmp.cmp() with shallow comparison`](#10-filecmpcmp-with-shallow-comparison)
+
+
 
 The `filecmp` module in Python provides utilities to compare files or directories for equality, modification times, and more. Below are comprehensive examples of how to use each function and class in the `filecmp` module.
 

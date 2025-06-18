@@ -1,4 +1,14 @@
 # html.entities - Definitions of HTML general entities
+## Table of Contents
+
+1. [Example 1: Reading Entity Definitions](#example-1-reading-entity-definitions)
+2. [Example 2: Writing Entity Definitions to a File](#example-2-writing-entity-definitions-to-a-file)
+3. [Example 3: Converting Between Numeric and Named Entities](#example-3-converting-between-numeric-and-named-entities)
+4. [Example 4: Using Entities in HTML Strings](#example-4-using-entities-in-html-strings)
+5. [Example 5: Handling Non-ASCII Characters](#example-5-handling-non-ascii-characters)
+6. [Example 6: Using Entities with HTML Libraries](#example-6-using-entities-with-html-libraries)
+
+
 
 The `html.entities` module provides a comprehensive dictionary mapping HTML numeric character references to their corresponding characters. These entities are used in HTML documents to represent special characters that cannot be directly included due to formatting issues or restrictions. Below are several examples demonstrating how to use the `html.entities` module, including reading from and writing to entity files, converting between numeric and named entities, and using them in HTML strings.
 

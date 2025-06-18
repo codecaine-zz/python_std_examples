@@ -1,4 +1,18 @@
 # asyncio - Asynchronous I/O
+## Table of Contents
+
+1. [Example 1: Basic Asynchronous Function with a Delay](#example-1-basic-asynchronous-function-with-a-delay)
+2. [Example 2: Using Asyncio Tasks](#example-2-using-asyncio-tasks)
+3. [Example 3: Handling Exceptions in Asynchronous Functions](#example-3-handling-exceptions-in-asynchronous-functions)
+4. [Example 4: Using Event Loops](#example-4-using-event-loops)
+5. [Example 5: Asynchronous I/O with `asyncio.open_file`](#example-5-asynchronous-io-with-asyncioopen_file)
+6. [Example 6: Asynchronous I/O with `aiohttp` for Web Requests](#example-6-asynchronous-io-with-aiohttp-for-web-requests)
+7. [Example 7: Asynchronous I/O with `asyncpg` for Database Operations](#example-7-asynchronous-io-with-asyncpg-for-database-operations)
+8. [Example 8: Asynchronous I/O with `psycopg2` for Database Operations](#example-8-asynchronous-io-with-psycopg2-for-database-operations)
+9. [Example 9: Asynchronous I/O with `gevent` for Non-blocking HTTP Requests](#example-9-asynchronous-io-with-gevent-for-non-blocking-http-requests)
+10. [Example 10: Asynchronous I/O with `gevent` for Non-blocking Database Operations](#example-10-asynchronous-io-with-gevent-for-non-blocking-database-operations)
+
+
 
 Below are comprehensive and well-documented code examples for various functionalities provided by the `asyncio` module in Python 3.12. Each example is designed to be clear, concise, and follows best practices for inclusion in official documentation.
 

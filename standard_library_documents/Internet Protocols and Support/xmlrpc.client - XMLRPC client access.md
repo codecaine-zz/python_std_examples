@@ -1,4 +1,18 @@
 # xmlrpc.client - XMLRPC client access
+## Table of Contents
+
+1. [Example 1: Simple XML-RPC Client](#example-1-simple-xml-rpc-client)
+2. [Example 2: Working with Methods with Arguments](#example-2-working-with-methods-with-arguments)
+3. [Example 3: Using XML-RPC with HTTPS](#example-3-using-xml-rpc-with-https)
+4. [Example 4: Handling Server Responses](#example-4-handling-server-responses)
+5. [Example 5: Using XML-RPC Client with Authentication](#example-5-using-xml-rpc-client-with-authentication)
+6. [Example 6: Using Custom Headers](#example-6-using-custom-headers)
+7. [Example 7: Using Callbacks](#example-7-using-callbacks)
+8. [Example 8: Using Binary Data](#example-8-using-binary-data)
+9. [Example 9: Using Threads](#example-9-using-threads)
+10. [Example 10: Handling Large Data](#example-10-handling-large-data)
+
+
 
 The `xmlrpc.client` module in Python provides a convenient way to interact with XML-RPC servers. Below are comprehensive examples demonstrating various functionalities of this module:
 

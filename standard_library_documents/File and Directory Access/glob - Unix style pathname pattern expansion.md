@@ -1,4 +1,9 @@
 # glob - Unix style pathname pattern expansion
+## Table of Contents
+
+1. [Explanation of Examples:](#explanation-of-examples)
+
+
 
 The `glob` module in Python provides a function called `glob()` that is used to expand Unix-style pathname patterns into a list of matching file names. This can be very useful for finding files based on specific naming conventions or patterns.
 

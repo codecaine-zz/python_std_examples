@@ -1,5 +1,14 @@
 # difflib - Helpers for computing deltas
 
+## Table of Contents
+
+1. [Basic Sequence Comparison](#example-1-basic-sequence-comparison)
+2. [Context Format Differences](#example-2-context-format-differences)
+3. [Html Format Differences](#example-3-html-format-differences)
+4. [SequenceMatcher - Comparing Similarity](#example-4-sequencematcher---comparing-similarity)
+5. [Find Matches in Two Sequences](#example-5-find-matches-in-two-sequences)
+6. [Get Close Matches Using SequenceMatcher](#example-6-get-close-matches-using-sequencematcher)
+
 Below is a comprehensive set of code examples demonstrating various functionalities provided by the `difflib` module, which is part of Python's standard library and helps in comparing sequences to find differences. Each example includes detailed comments explaining what the code does.
 
 ```python

@@ -1,4 +1,16 @@
 # xml.sax.saxutils - SAX Utilities
+## Table of Contents
+
+1. [1. **Escape Characters in XML**](#1-escape-characters-in-xml)
+2. [2. **Unescape Characters in XML**](#2-unescape-characters-in-xml)
+3. [3. **Entity Encoding**](#3-entity-encoding)
+4. [4. **HTML Character Entities**](#4-html-character-entities)
+5. [5. **XML Character Reference Entities**](#5-xml-character-reference-entities)
+6. [6. **XML Namespace Mapping**](#6-xml-namespace-mapping)
+7. [7. **XML Character Reference Replacement**](#7-xml-character-reference-replacement)
+8. [8. **XML Character Reference Replacement with XML Namespace**](#8-xml-character-reference-replacement-with-xml-namespace)
+
+
 
 Below are comprehensive code examples for using the `xml.sax.saxutils` module from Python's standard library, which provides utilities for XML parsing and string manipulation.
 

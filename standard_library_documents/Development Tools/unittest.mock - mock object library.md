@@ -1,4 +1,16 @@
 # unittest.mock - mock object library
+## Table of Contents
+
+1. [Example 1: Basic Usage](#example-1-basic-usage)
+2. [Example 2: Mocking Functions](#example-2-mocking-functions)
+3. [Example 3: Mocking Classes](#example-3-mocking-classes)
+4. [Example 4: Mocking with Arguments](#example-4-mocking-with-arguments)
+5. [Example 5: Mocking with Side Effects](#example-5-mocking-with-side-effects)
+6. [Example 6: Mocking with Return Values](#example-6-mocking-with-return-values)
+7. [Example 7: Mocking with Return Value Count](#example-7-mocking-with-return-value-count)
+8. [Example 8: Mocking with Side Effect and Return Value Count](#example-8-mocking-with-side-effect-and-return-value-count)
+
+
 
 The `unittest.mock` module is a powerful tool for creating test doubles in Python, allowing you to isolate parts of your code that interact with external systems or dependencies. This module provides several useful functions and classes to help you simulate various scenarios in your tests.
 

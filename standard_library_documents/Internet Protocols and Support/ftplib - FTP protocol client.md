@@ -1,4 +1,18 @@
 # ftplib - FTP protocol client
+## Table of Contents
+
+1. [Example 1: Connecting to an FTP Server](#example-1-connecting-to-an-ftp-server)
+2. [Example 2: Uploading a File](#example-2-uploading-a-file)
+3. [Example 3: Downloading a File](#example-3-downloading-a-file)
+4. [Example 4: Changing Directory](#example-4-changing-directory)
+5. [Example 5: Listing Files in a Directory](#example-5-listing-files-in-a-directory)
+6. [Example 6: Handling FTP Errors](#example-6-handling-ftp-errors)
+7. [Example 7: Storing Large Files](#example-7-storing-large-files)
+8. [Example 8: Renaming or Moving Files](#example-8-renaming-or-moving-files)
+9. [Example 9: Deleting Files](#example-9-deleting-files)
+10. [Example 10: Changing Permissions](#example-10-changing-permissions)
+
+
 
 The `ftplib` module provides a way to interact with an FTP (File Transfer Protocol) server using Python. Below are comprehensive examples demonstrating various functionalities of this module, including connecting to an FTP server, uploading and downloading files, changing directories, handling basic commands, and closing the connection.
 

@@ -1,4 +1,16 @@
 # fcntl - The fcntl and ioctl system calls
+## Table of Contents
+
+1. [1. Locking a File](#1-locking-a-file)
+2. [2. Non-blocking I/O](#2-non-blocking-io)
+3. [3. Changing File Descriptor Properties](#3-changing-file-descriptor-properties)
+4. [4. Using ioctl for Device Control](#4-using-ioctl-for-device-control)
+5. [5. Setting File Descriptor Options](#5-setting-file-descriptor-options)
+6. [6. Getting File Descriptor Attributes](#6-getting-file-descriptor-attributes)
+7. [7. Getting File Descriptor Information](#7-getting-file-descriptor-information)
+8. [8. Getting File Descriptor Lock Information](#8-getting-file-descriptor-lock-information)
+
+
 
 The `fcntl` module in Python provides a way to manipulate file descriptor properties using the `fcntl` system call, which is part of the POSIX API. This module allows you to perform operations on file descriptors such as locking, non-blocking I/O, and more.
 

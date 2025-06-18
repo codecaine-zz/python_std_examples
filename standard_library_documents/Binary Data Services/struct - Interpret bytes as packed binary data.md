@@ -2,6 +2,18 @@
 
 The `struct` module in Python provides support for interpreting strings of bytes as packed binary data. It allows you to convert between binary data and native Python data types such as integers, floating-point numbers, and characters. Here are some comprehensive examples demonstrating various functionalities of the `struct` module:
 
+## Table of Contents
+
+1. [Packing Binary Data](#example-1-packing-binary-data)
+2. [Unpacking Binary Data](#example-2-unpacking-binary-data)
+3. [Packing and Unpacking with Different Endianness](#example-3-packing-and-unpacking-with-different-endianness)
+4. [Using `struct.calcsize` to Determine the Size of a Format String](#example-4-using-structcalcsize-to-determine-the-size-of-a-format-string)
+5. [Handling Variable-Length Packed Data](#example-5-handling-variable-length-packed-data)
+6. [Handling Special Characters and Strings](#example-6-handling-special-characters-and-strings)
+7. [Handling Non-ASCII Characters](#example-7-handling-non-ascii-characters)
+8. [Handling Variable-Length Strings](#example-8-handling-variable-length-strings)
+9. [Handling Variable-Length Packed Data with a Fixed Length Prefix](#example-9-handling-variable-length-packed-data-with-a-fixed-length-prefix)
+
 ### Example 1: Packing Binary Data
 
 ```python

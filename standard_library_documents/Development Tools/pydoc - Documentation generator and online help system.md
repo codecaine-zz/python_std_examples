@@ -1,4 +1,16 @@
 # pydoc - Documentation generator and online help system
+## Table of Contents
+
+1. [Example 1: Generating Documentation for a Specific Module](#example-1-generating-documentation-for-a-specific-module)
+2. [Example 2: Using Interactive Help](#example-2-using-interactive-help)
+3. [Example 3: Generating HTML Documentation to a File](#example-3-generating-html-documentation-to-a-file)
+4. [Example 4: Generating HTML Documentation for Multiple Modules](#example-4-generating-html-documentation-for-multiple-modules)
+5. [Example 5: Generating HTML Documentation with a Custom Template](#example-5-generating-html-documentation-with-a-custom-template)
+6. [Example 6: Generating Text Documentation](#example-6-generating-text-documentation)
+7. [Example 7: Using `pydoc` with a Script](#example-7-using-pydoc-with-a-script)
+8. [Example 8: Generating Command-Line Help](#example-8-generating-command-line-help)
+
+
 
 The `pydoc` module in Python is a tool that can generate HTML documentation from Python modules, classes, functions, methods, exceptions, keywords, and built-in types. It provides an interactive way to access this documentation and can also be used programmatically.
 

@@ -1,4 +1,18 @@
 # html - HyperText Markup Language support
+## Table of Contents
+
+1. [Example 1: Parsing an HTML Document](#example-1-parsing-an-html-document)
+2. [Example 2: Rendering HTML as a String](#example-2-rendering-html-as-a-string)
+3. [Example 3: Rendering HTML to a File](#example-3-rendering-html-to-a-file)
+4. [Example 4: Creating an HTML Page from Python](#example-4-creating-an-html-page-from-python)
+5. [Example 5: Modifying an HTML Document](#example-5-modifying-an-html-document)
+6. [Example 6: Escaping Special Characters](#example-6-escaping-special-characters)
+7. [Example 7: Encoding HTML Entities](#example-7-encoding-html-entities)
+8. [Example 8: Parsing HTML from a String](#example-8-parsing-html-from-a-string)
+9. [Example 9: Rendering HTML with Custom Styling](#example-9-rendering-html-with-custom-styling)
+10. [Example 10: Handling HTML Entities in a String](#example-10-handling-html-entities-in-a-string)
+
+
 
 The `html` module in Python provides tools to parse HTML documents and render them as formatted text, including basic formatting features like bold, italic, lists, links, and images. Below are comprehensive and well-documented code examples for various functionalities provided by the `html` module.
 

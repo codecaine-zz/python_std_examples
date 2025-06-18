@@ -1,4 +1,16 @@
 # atexit - Exit handlers
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Multiple Handlers](#2-multiple-handlers)
+3. [3. Handling Exceptions](#3-handling-exceptions)
+4. [4. Cleanup on Module Exit](#4-cleanup-on-module-exit)
+5. [5. Using `atexit` with Subprocesses](#5-using-atexit-with-subprocesses)
+6. [6. Using `atexit` with Signals](#6-using-atexit-with-signals)
+7. [7. Using `atexit` with Threads](#7-using-atexit-with-threads)
+8. [8. Using `atexit` with Resource Management](#8-using-atexit-with-resource-management)
+
+
 
 The `atexit` module in Python provides a way to register functions that will be called when normal program termination occurs, typically upon exit. This is useful for cleanup tasks such as closing files or releasing resources.
 

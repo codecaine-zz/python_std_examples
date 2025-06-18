@@ -1,4 +1,14 @@
 # marshal - Internal Python object serialization
+## Table of Contents
+
+1. [marshal.dump(obj, file)](#marshaldumpobj-file)
+2. [marshal.loads(byte_stream)](#marshalloadsbyte_stream)
+3. [marshal.dumps(obj, proto=0, write_bytearray=False)](#marshaldumpsobj-proto0-write_bytearrayfalse)
+4. [Example of Using marshal for Network Serialization](#example-of-using-marshal-for-network-serialization)
+5. [Example of Receiving and Deserializing an Object from a Network](#example-of-receiving-and-deserializing-an-object-from-a-network)
+6. [Conclusion](#conclusion)
+
+
 
 The `marshal` module is an internal component of Python's standard library designed to serialize (convert objects into a byte stream) and deserialize (convert byte streams back into Python objects). This is useful for saving memory when dealing with complex data structures or when transferring objects over network protocols.
 

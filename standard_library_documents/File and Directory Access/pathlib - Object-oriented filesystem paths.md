@@ -1,4 +1,9 @@
 # pathlib - Object-oriented filesystem paths
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below are comprehensive examples of how to use each functionality provided by the `pathlib` module in Python 3.12. Each example is well-documented with comments explaining each step.
 

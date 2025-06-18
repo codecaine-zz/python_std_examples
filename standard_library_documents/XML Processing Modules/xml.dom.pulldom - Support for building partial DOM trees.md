@@ -1,4 +1,14 @@
 # xml.dom.pulldom - Support for building partial DOM trees
+## Table of Contents
+
+1. [Example 1: Basic Usage of pulldom](#example-1-basic-usage-of-pulldom)
+2. [Example 2: Parsing Multiple Nodes](#example-2-parsing-multiple-nodes)
+3. [Example 3: Using a Callback Function](#example-3-using-a-callback-function)
+4. [Example 4: Parsing with Namespaces](#example-4-parsing-with-namespaces)
+5. [Example 5: Parsing and Accessing Attributes](#example-5-parsing-and-accessing-attributes)
+6. [Example 6: Parsing with Namespaces and Attributes](#example-6-parsing-with-namespaces-and-attributes)
+
+
 
 The `xml.dom.pulldom` module in Python provides a way to parse XML documents without creating a full DOM tree in memory. This is particularly useful when dealing with large XML files or when you only need to access specific parts of the document. Below are comprehensive examples demonstrating various functionalities of the `xml.dom.pulldom` module.
 

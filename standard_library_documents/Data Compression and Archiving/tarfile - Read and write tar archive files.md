@@ -1,4 +1,18 @@
 # tarfile - Read and write tar archive files
+## Table of Contents
+
+1. [1. Creating a Tar Archive](#1-creating-a-tar-archive)
+2. [2. Extracting a Tar Archive](#2-extracting-a-tar-archive)
+3. [3. Writing to a Tar Archive with Specific Compression](#3-writing-to-a-tar-archive-with-specific-compression)
+4. [4. Extracting from a Tar Archive with Specific Compression](#4-extracting-from-a-tar-archive-with-specific-compression)
+5. [5. Adding Files or Directories Recursively](#5-adding-files-or-directories-recursively)
+6. [6. Extracting Files or Directories with Specific Options](#6-extracting-files-or-directories-with-specific-options)
+7. [7. Checking Tar Archive Integrity](#7-checking-tar-archive-integrity)
+8. [8. Writing to a Tar Archive with Custom File Mode](#8-writing-to-a-tar-archive-with-custom-file-mode)
+9. [9. Extracting Files with Specific Permissions](#9-extracting-files-with-specific-permissions)
+10. [10. Writing to a Tar Archive with Custom File Date](#10-writing-to-a-tar-archive-with-custom-file-date)
+
+
 
 The `tarfile` module in Python is used to read and write tar archives, which are a common format for archiving multiple files into a single file container. Below are comprehensive examples demonstrating various functionalities of this module:
 

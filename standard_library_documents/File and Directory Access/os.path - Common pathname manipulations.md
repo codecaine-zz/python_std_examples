@@ -1,4 +1,9 @@
 # os.path - Common pathname manipulations
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `os.path` module in Python provides a portable way of using operating system dependent functionality related to files and directories. Below are comprehensive examples demonstrating various functionalities of the `os.path` module, along with explanations for each example:
 

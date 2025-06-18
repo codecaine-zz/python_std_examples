@@ -1,4 +1,18 @@
 # ipaddress - IPv4/IPv6 manipulation library
+## Table of Contents
+
+1. [1. Creating an IPv4 Address](#1-creating-an-ipv4-address)
+2. [2. Creating an IPv4 Network](#2-creating-an-ipv4-network)
+3. [3. Checking if an IP is in a Network](#3-checking-if-an-ip-is-in-a-network)
+4. [4. Iterating Over an IPv4 Network](#4-iterating-over-an-ipv4-network)
+5. [5. Creating an IPv6 Address](#5-creating-an-ipv6-address)
+6. [6. Creating an IPv6 Network](#6-creating-an-ipv6-network)
+7. [7. Checking if an IPv6 is in a Network](#7-checking-if-an-ipv6-is-in-a-network)
+8. [8. Iterating Over an IPv6 Network](#8-iterating-over-an-ipv6-network)
+9. [9. Working with CIDR Notation](#9-working-with-cidr-notation)
+10. [10. Comparing IP Addresses and Networks](#10-comparing-ip-addresses-and-networks)
+
+
 
 The `ipaddress` module in Python provides a way to manipulate IPv4 and IPv6 addresses and networks efficiently. Below are comprehensive and well-documented examples covering various functionalities of this module:
 

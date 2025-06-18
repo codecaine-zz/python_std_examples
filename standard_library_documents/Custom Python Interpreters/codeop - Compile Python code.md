@@ -1,4 +1,14 @@
 # codeop - Compile Python code
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Additional Examples:](#additional-examples)
+3. [Example 2: Compiling and Executing Multiple Statements](#example-2-compiling-and-executing-multiple-statements)
+4. [Example 3: Using `compile()` Function](#example-3-using-compile-function)
+5. [Example 4: Compiling and Executing Code with Specific Mode](#example-4-compiling-and-executing-code-with-specific-mode)
+6. [Explanation:](#explanation)
+
+
 
 The `codeop` module in Python is used to compile Python source code into bytecode, which can then be executed by the CPython interpreter. This can be useful for various purposes such as parsing and transforming code or optimizing it before execution.
 

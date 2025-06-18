@@ -1,4 +1,17 @@
 # importlib.resources - Resource reading using importers
+## Table of Contents
+
+1. [Example 1: Accessing a Text File](#example-1-accessing-a-text-file)
+2. [Example 2: Accessing a Binary File](#example-2-accessing-a-binary-file)
+3. [Example 3: Accessing a Directory Containing Resources](#example-3-accessing-a-directory-containing-resources)
+4. [Example 4: Accessing a Resource Using a Context Manager](#example-4-accessing-a-resource-using-a-context-manager)
+5. [Example 5: Accessing a Resource Using `files` Method](#example-5-accessing-a-resource-using-files-method)
+6. [Example 6: Accessing a Resource Using `open` Method](#example-6-accessing-a-resource-using-open-method)
+7. [Example 7: Accessing a Resource Using `as_file` Method](#example-7-accessing-a-resource-using-as_file-method)
+8. [Example 8: Accessing a Resource Using `exists` Method](#example-8-accessing-a-resource-using-exists-method)
+9. [Example 9: Accessing a Resource Using `in_directory` Method](#example-9-accessing-a-resource-using-in_directory-method)
+
+
 
 The `importlib.resources` module provides a robust interface for accessing resources within a package or other importable resource. This module is particularly useful for managing resources like configuration files, data files, and other non-code artifacts that are included in Python packages.
 

@@ -1,4 +1,13 @@
 # curses - Terminal handling for character-cell displays
+## Table of Contents
+
+1. [Example 1: Basic Terminal Screen Manipulation](#example-1-basic-terminal-screen-manipulation)
+2. [Example 2: Handling Keyboard Input](#example-2-handling-keyboard-input)
+3. [Example 3: Color Support](#example-3-color-support)
+4. [Example 4: Handling Mouse Events](#example-4-handling-mouse-events)
+5. [Example 5: Creating a Simple Menu](#example-5-creating-a-simple-menu)
+
+
 
 The `curses` module in Python provides a way to write text-based user interfaces in a terminal. It allows you to create interactive programs that can respond to keyboard input, provide color support, and handle mouse events.
 

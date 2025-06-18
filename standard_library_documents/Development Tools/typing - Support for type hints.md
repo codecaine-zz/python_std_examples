@@ -1,4 +1,16 @@
 # typing - Support for type hints
+## Table of Contents
+
+1. [1. Type Annotations](#1-type-annotations)
+2. [2. Type Aliases](#2-type-aliases)
+3. [3. Optional Values](#3-optional-values)
+4. [4. Generic Types](#4-generic-types)
+5. [5. Callable Types](#5-callable-types)
+6. [6. Container Types](#6-container-types)
+7. [7. Union Types](#7-union-types)
+8. [8. Type Literals](#8-type-literals)
+
+
 
 The `typing` module is a powerful addition to Python that provides a way to add static type checking to your code using type hints, which are annotations that describe the expected types of variables and function arguments. Here are comprehensive and well-documented examples for various functionalities within the `typing` module:
 

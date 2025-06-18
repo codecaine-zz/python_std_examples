@@ -1,4 +1,18 @@
 # gettext - Multilingual internationalization services
+## Table of Contents
+
+1. [Example 1: Basic Usage](#example-1-basic-usage)
+2. [Example 2: Internationalizing Strings in a Script](#example-2-internationalizing-strings-in-a-script)
+3. [Example 3: Loading and Using Translations from Multiple Files](#example-3-loading-and-using-translations-from-multiple-files)
+4. [Example 4: Internationalizing Error Messages](#example-4-internationalizing-error-messages)
+5. [Example 5: Localization of Application Menus](#example-5-localization-of-application-menus)
+6. [Example 6: Customizing Message Formats](#example-6-customizing-message-formats)
+7. [Example 7: Using Plural Forms](#example-7-using-plural-forms)
+8. [Example 8: Using Message IDs](#example-8-using-message-ids)
+9. [Example 9: Using Message Contexts](#example-9-using-message-contexts)
+10. [Example 10: Handling Plural Forms with Message IDs and Contexts](#example-10-handling-plural-forms-with-message-ids-and-contexts)
+
+
 
 The `gettext` module is a powerful tool in Python for handling multilingual applications, allowing you to translate your application into different languages without needing to change the core logic of your program. Below are comprehensive examples demonstrating various functionalities of the `gettext` module:
 

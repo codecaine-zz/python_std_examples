@@ -1,4 +1,18 @@
 # sys - System-specific parameters and functions
+## Table of Contents
+
+1. [1. `sys.version`](#1-sysversion)
+2. [2. `sys.executable`](#2-sysexecutable)
+3. [3. `sys.platform`](#3-sysplatform)
+4. [4. `sys.modules`](#4-sysmodules)
+5. [5. `sys.maxsize`](#5-sysmaxsize)
+6. [6. `sys.argv`](#6-sysargv)
+7. [7. `sys.path`](#7-syspath)
+8. [8. `sys.stdin`, `sys.stdout`, and `sys.stderr`](#8-sysstdin-sysstdout-and-sysstderr)
+9. [9. `sys.exit([status])`](#9-sysexitstatus)
+10. [10. `sys.getsizeof(obj[, default])`](#10-sysgetsizeofobj-default)
+
+
 
 The `sys` module in Python provides access to some variables used or maintained by the interpreter and to functions that interact strongly with the interpreter. Below are comprehensive and well-documented code examples for each functionality provided by the `sys` module.
 

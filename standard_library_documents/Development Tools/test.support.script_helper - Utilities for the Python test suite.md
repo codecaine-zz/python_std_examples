@@ -1,4 +1,18 @@
 # test.support.script_helper - Utilities for the Python test suite
+## Table of Contents
+
+1. [Example 1: Using `script_runner`](#example-1-using-script_runner)
+2. [Example 2: Using `run_command`](#example-2-using-run_command)
+3. [Example 3: Using `check_call`](#example-3-using-check_call)
+4. [Example 4: Using `check_output`](#example-4-using-check_output)
+5. [Example 5: Using `run_python`](#example-5-using-run_python)
+6. [Example 6: Using `check_call_and_capture_output`](#example-6-using-check_call_and_capture_output)
+7. [Example 7: Using `check_output_and_capture_output`](#example-7-using-check_output_and_capture_output)
+8. [Example 8: Using `run_python_file`](#example-8-using-run_python_file)
+9. [Example 9: Using `run_subprocess`](#example-9-using-run_subprocess)
+10. [Example 10: Using `check_call_and_capture_output_with_env`](#example-10-using-check_call_and_capture_output_with_env)
+
+
 
 The `test.support.script_helper` module is part of Python's standard library, designed to provide utility functions that are useful for testing purposes within the Python framework. This module is particularly useful for scripts and modules that need to run tests without relying on the full environment of a running interpreter.
 

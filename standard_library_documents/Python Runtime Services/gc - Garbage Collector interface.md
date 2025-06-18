@@ -1,4 +1,9 @@
 # gc - Garbage Collector interface
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `gc` module in Python is used to control garbage collection runtime behavior. It provides a way to enable or disable automatic garbage collection, tune the collector's parameters, and collect garbage manually.
 

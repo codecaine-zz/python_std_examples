@@ -1,4 +1,16 @@
 # imaplib - IMAP4 protocol client
+## Table of Contents
+
+1. [1. Connecting to an IMAP Server](#1-connecting-to-an-imap-server)
+2. [2. Listing Mailboxes (Inboxes)](#2-listing-mailboxes-inboxes)
+3. [3. Searching for Emails](#3-searching-for-emails)
+4. [4. Retrieving Emails](#4-retrieving-emails)
+5. [5. Storing Emails (Outbox)](#5-storing-emails-outbox)
+6. [6. Deleting Emails](#6-deleting-emails)
+7. [7. Expunging Deleted Emails](#7-expunging-deleted-emails)
+8. [8. Disconnecting from the Server](#8-disconnecting-from-the-server)
+
+
 
 The `imaplib` module in Python provides an interface to the IMAP4 protocol, which is used for retrieving and managing email messages on a mail server. Below are comprehensive code examples demonstrating various functionalities of the `imaplib` module.
 

@@ -4,6 +4,14 @@ The `enum` module in Python provides a way to define a set of symbolic names bou
 
 Below are some comprehensive examples demonstrating various functionalities of the `enum` module:
 
+## Table of Contents
+
+1. [Basic usage of Enum](#example-1-basic-usage-of-enum-with-auto-incremental-values)
+2. [Using auto-incremental values](#example-2-using-auto-incremental-values-with-a-starting-point)
+3. [Using automatic enumeration values with a custom step](#example-3-using-automatic-enumeration-values-with-a-custom-step)
+4. [Using flags to combine multiple enum members](#example-4-using-flags-to-combine-multiple-enum-members)
+5. [Using auto-incremental values with a custom step and starting point](#example-5-using-auto-incremental-values-with-a-custom-step-and-starting-point)
+
 ```python
 # Importing the enum module
 from enum import Enum

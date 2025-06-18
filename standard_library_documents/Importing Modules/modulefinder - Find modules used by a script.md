@@ -1,4 +1,18 @@
 # modulefinder - Find modules used by a script
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [Example: Finding Modules Used by a Script](#example-finding-modules-used-by-a-script)
+3. [Explanation:](#explanation)
+4. [2. Analyzing Modules with ModuleFinder](#2-analyzing-modules-with-modulefinder)
+5. [Example: Using ModuleFinder for Detailed Analysis](#example-using-modulefinder-for-detailed-analysis)
+6. [Explanation:](#explanation)
+7. [3. Customizing ModuleFinder](#3-customizing-modulefinder)
+8. [Example: Filtering Modules by Type](#example-filtering-modules-by-type)
+9. [Explanation:](#explanation)
+10. [4. Handling Large Scripts](#4-handling-large-scripts)
+
+
 
 The `modulefinder` module is part of Python's standard library, which provides tools to analyze and manage Python package installations. It allows you to find and analyze the imports in a Python script or module. Below are comprehensive code examples for various functionalities provided by the `modulefinder` module.
 

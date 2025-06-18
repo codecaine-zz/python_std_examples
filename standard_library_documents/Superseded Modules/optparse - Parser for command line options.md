@@ -1,4 +1,10 @@
 # optparse - Parser for command line options
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Usage:](#usage)
+
+
 
 The `optparse` module is a simple way to handle command-line options in Python, similar to how `getopt` works in C. It provides a flexible framework for parsing command-line options and arguments.
 

@@ -1,4 +1,13 @@
 # zlib - Compression compatible with gzip
+## Table of Contents
+
+1. [1. Compressing Data](#1-compressing-data)
+2. [2. Decompressing Compressed Data](#2-decompressing-compressed-data)
+3. [3. Getting Compression and Decompression Statistics](#3-getting-compression-and-decompression-statistics)
+4. [4. Handling Compressed Files with `zlib.decompressobj`](#4-handling-compressed-files-with-zlibdecompressobj)
+5. [5. Using `zlib.compressobj` with Different Compression Levels](#5-using-zlibcompressobj-with-different-compression-levels)
+
+
 
 Certainly! Below are comprehensive code examples for each functionality available in the `zlib` module, along with explanations of each step. These examples are designed to be clear, concise, and suitable for inclusion in official documentation.
 

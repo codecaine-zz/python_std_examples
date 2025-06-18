@@ -1,4 +1,14 @@
 # audioop - Manipulate raw audio data
+## Table of Contents
+
+1. [Example 1: Reading Audio Data from a File](#example-1-reading-audio-data-from-a-file)
+2. [Example 2: Converting Audio Data to Different Formats](#example-2-converting-audio-data-to-different-formats)
+3. [Example 3: Calculating the RMS (Root Mean Square) of Audio Data](#example-3-calculating-the-rms-root-mean-square-of-audio-data)
+4. [Example 4: Applying a Volume Adjustment to Audio Data](#example-4-applying-a-volume-adjustment-to-audio-data)
+5. [Example 5: Writing Audio Data to a File](#example-5-writing-audio-data-to-a-file)
+6. [Explanation](#explanation)
+
+
 
 The `audioop` module in Python provides functions to manipulate raw audio data, such as converting between different sample formats and performing various operations on audio samples. Below are comprehensive examples of how to use these functions, along with explanations for each step.
 

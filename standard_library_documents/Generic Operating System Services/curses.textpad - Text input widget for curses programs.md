@@ -1,4 +1,14 @@
 # curses.textpad - Text input widget for curses programs
+## Table of Contents
+
+1. [1. Creating a Simple Text Input Widget](#1-creating-a-simple-text-input-widget)
+2. [Explanation:](#explanation)
+3. [2. Adding Multiple Lines to the Text Input Widget](#2-adding-multiple-lines-to-the-text-input-widget)
+4. [Explanation:](#explanation)
+5. [3. Handling Key Events](#3-handling-key-events)
+6. [Explanation:](#explanation)
+
+
 
 The `curses` module in Python is a powerful library for creating text-based user interfaces, which can be used to build console applications that offer interactive functionality. The `textpad` sub-module provides several classes and functions to create text input widgets that are useful in such applications.
 

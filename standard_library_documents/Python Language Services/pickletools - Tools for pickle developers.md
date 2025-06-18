@@ -1,4 +1,13 @@
 # pickletools - Tools for pickle developers
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Example 2: Extracting Source Code from a Pickled Object](#example-2-extracting-source-code-from-a-pickled-object)
+3. [Explanation:](#explanation)
+4. [Example 3: Generating Python Source Code for a Pickled Object](#example-3-generating-python-source-code-for-a-pickled-object)
+5. [Explanation:](#explanation)
+
+
 
 The `pickletools` module in Python provides tools for examining and debugging pickled data, which is used to serialize and deserialize objects. Below are comprehensive code examples for each functionality provided by `pickletools`, including comments explaining each step.
 

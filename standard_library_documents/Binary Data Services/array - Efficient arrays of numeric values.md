@@ -4,6 +4,39 @@ The `array` module in Python provides a way to handle homogeneous sequences of n
 
 Here are comprehensive code examples for various functionalities provided by the `array` module:
 
+## Table of Contents
+
+1. [Creating Arrays](#1-creating-arrays)
+   - [Example: Create an array of integers](#example-create-an-array-of-integers)
+   - [Example: Create an array of floats](#example-create-an-array-of-floats)
+2. [Accessing Elements](#2-accessing-elements)
+   - [Example: Accessing elements by index](#example-accessing-elements-by-index)
+   - [Example: Accessing elements with out of bounds](#example-accessing-elements-with-out-of-bounds)
+3. [Modifying Elements](#3-modifying-elements)
+   - [Example: Modifying an element by index](#example-modifying-an-element-by-index)
+4. [Appending Elements](#4-appending-elements)
+   - [Example: Appending a single element](#example-appending-a-single-element)
+   - [Example: Extending with multiple elements](#example-extending-with-multiple-elements)
+5. [Operations on Arrays](#5-operations-on-arrays)
+   - [Example: Adding elements using a loop](#example-adding-elements-using-a-loop)
+   - [Example: Sorting the array](#example-sorting-the-array)
+6. [Converting Arrays to Lists](#6-converting-arrays-to-lists)
+   - [Example: Convert array to a list](#example-convert-array-to-a-list)
+7. [Concatenating Arrays](#7-concatenating-arrays)
+   - [Example: Concatenating two arrays](#example-concatenating-two-arrays)
+8. [Reversing an Array](#8-reversing-an-array)
+   - [Example: Reversing the array](#example-reversing-the-array)
+9. [Indexing with Negative Numbers](#9-indexing-with-negative-numbers)
+   - [Example: Accessing elements using negative indices](#example-accessing-elements-using-negative-indices)
+10. [Iterating Over Arrays](#10-iterating-over-arrays)
+    - [Example: Iterating over an array using a for loop](#example-iterating-over-an-array-using-a-for-loop)
+11. [Comparing Arrays](#11-comparing-arrays)
+    - [Example: Comparing two arrays for equality](#example-comparing-two-arrays-for-equality)
+12. [Arithmetic Operations](#12-arithmetic-operations)
+    - [Example: Adding two arrays element-wise (supported for integer and float arrays)](#example-adding-two-arrays-element-wise-supported-for-integer-and-float-arrays)
+13. [String Formatting](#13-string-formatting)
+    - [Example: Formatting an array as a string (supported for integer and float arrays)](#example-formatting-an-array-as-a-string-supported-for-integer-and-float-arrays)
+
 ### 1. Creating Arrays
 
 #### Example: Create an array of integers

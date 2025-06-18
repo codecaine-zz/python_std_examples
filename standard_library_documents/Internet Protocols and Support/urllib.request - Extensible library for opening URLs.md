@@ -1,4 +1,18 @@
 # urllib.request - Extensible library for opening URLs
+## Table of Contents
+
+1. [1. Opening a URL](#1-opening-a-url)
+2. [2. Handling Cookies](#2-handling-cookies)
+3. [3. Making a POST Request](#3-making-a-post-request)
+4. [4. Using a Timeout](#4-using-a-timeout)
+5. [5. Handling Redirects](#5-handling-redirects)
+6. [6. Using a User-Agent](#6-using-a-user-agent)
+7. [7. Handling HTTP Errors](#7-handling-http-errors)
+8. [8. Writing to a Local File](#8-writing-to-a-local-file)
+9. [9. Using Proxy](#9-using-proxy)
+10. [10. Using HTTPS](#10-using-https)
+
+
 
 The `urllib.request` module in Python provides a robust set of tools for making HTTP requests and handling various protocols, including file:// and http/https. Below are comprehensive code examples that demonstrate common use cases for this module, including how to open URLs, handle responses, manage cookies, and make POST requests.
 

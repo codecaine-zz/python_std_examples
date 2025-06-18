@@ -2,6 +2,19 @@
 
 The `subprocess` module in Python provides a way to spawn new processes, connect to their input/output/error pipes, and obtain their return codes. Below are comprehensive examples demonstrating various functionalities of the `subprocess` module. These examples are designed to be clear, concise, and suitable for inclusion in official documentation.
 
+## Table of Contents
+
+1. [Running an External Command](#example-1-running-an-external-command)
+2. [Running a Command in a Separate Process](#example-2-running-a-command-in-a-separate-process)
+3. [Handling Subprocess Input](#example-3-handling-subprocess-input)
+4. [Running Commands with Environment Variables](#example-4-running-commands-with-environment-variables)
+5. [Running Commands in Parallel](#example-5-running-commands-in-parallel)
+6. [Using `check_output()` for Simple Operations](#example-6-using-check_output-for-simple-operations)
+7. [Using `run()` with Timeout](#example-7-using-run-with-timeout)
+8. [Using `run()` with Custom Signal Handling](#example-8-using-run-with-custom-signal-handling)
+9. [Using `run()` with Background Execution](#example-9-using-run-with-background-execution)
+10. [Using `run()` with Multiple Arguments](#example-10-using-run-with-multiple-arguments)
+
 ### Example 1: Running an External Command
 
 ```python

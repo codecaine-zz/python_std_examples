@@ -1,4 +1,16 @@
 # compileall - Byte-compile Python libraries
+## Table of Contents
+
+1. [Example 1: Byte-Compile All Modules in a Directory](#example-1-byte-compile-all-modules-in-a-directory)
+2. [Explanation:](#explanation)
+3. [Example 2: Byte-Compile Only Modified Modules](#example-2-byte-compile-only-modified-modules)
+4. [Explanation:](#explanation)
+5. [Example 3: Compile All Modules in a Directory and Output Errors to a File](#example-3-compile-all-modules-in-a-directory-and-output-errors-to-a-file)
+6. [Explanation:](#explanation)
+7. [Example 4: Compile All Modules in a Directory with Optimization](#example-4-compile-all-modules-in-a-directory-with-optimization)
+8. [Explanation:](#explanation)
+
+
 
 The `compileall` module in Python is used to byte-compile all modules within a specified directory, which can help improve the performance of your Python application by compiling source files into bytecode during execution. Below are comprehensive code examples for using the `compileall` module.
 

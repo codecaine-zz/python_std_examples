@@ -1,4 +1,13 @@
 # base64 - Base16, Base32, Base64, Base85 Data Encodings
+## Table of Contents
+
+1. [Base16 Encoding](#base16-encoding)
+2. [Base32 Encoding](#base32-encoding)
+3. [Base64 Encoding](#base64-encoding)
+4. [Base85 Encoding](#base85-encoding)
+5. [Handling Large Data](#handling-large-data)
+
+
 
 The `base64` module in Python provides functions to encode and decode data using various encoding standards such as Base16, Base32, Base64, and Base85. Below are comprehensive examples of how to use these functionalities.
 

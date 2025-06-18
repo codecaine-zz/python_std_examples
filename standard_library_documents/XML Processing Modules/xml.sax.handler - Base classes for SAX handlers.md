@@ -1,4 +1,13 @@
 # xml.sax.handler - Base classes for SAX handlers
+## Table of Contents
+
+1. [Example 1: Implementing a Basic SAX Handler](#example-1-implementing-a-basic-sax-handler)
+2. [Example 2: Handling Namespace Events](#example-2-handling-namespace-events)
+3. [Example 3: Implementing an ErrorHandler](#example-3-implementing-an-errorhandler)
+4. [Example 4: Handling XML Processing Instructions](#example-4-handling-xml-processing-instructions)
+5. [Example 5: Using NamespaceResolver](#example-5-using-namespaceresolver)
+
+
 
 The `xml.sax.handler` module is part of the Python Standard Library's XML parsing capabilities, providing a foundation for writing event-driven parsers using the Simple API for XML (SAX). This module includes several base classes and interfaces that allow you to define custom behavior when parsing an XML document. Below are comprehensive code examples demonstrating various functionalities in this module.
 

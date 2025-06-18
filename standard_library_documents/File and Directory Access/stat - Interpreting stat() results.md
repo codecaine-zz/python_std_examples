@@ -1,4 +1,16 @@
 # stat - Interpreting stat() results
+## Table of Contents
+
+1. [Example 1: Basic Usage of `stat()`](#example-1-basic-usage-of-stat)
+2. [Example 2: Using `os.path.getmtime()` for Modification Time](#example-2-using-ospathgetmtime-for-modification-time)
+3. [Example 3: Extracting Permissions and Flags](#example-3-extracting-permissions-and-flags)
+4. [Example 4: Handling File Attributes with `os.lstat()` and `os.fstat()`](#example-4-handling-file-attributes-with-oslstat-and-osfstat)
+5. [Example 5: Checking File Types](#example-5-checking-file-types)
+6. [Example 6: Accessing Extended Attributes with `os.listxattr()`](#example-6-accessing-extended-attributes-with-oslistxattr)
+7. [Example 7: Using `os.access()` to Check Permissions](#example-7-using-osaccess-to-check-permissions)
+8. [Example 8: Retrieving Filesystem Information with `os.statvfs()`](#example-8-retrieving-filesystem-information-with-osstatvfs)
+
+
 
 The `stat` module in Python provides a portable way of using operating system-dependent functionality like reading or writing to the file system, and it includes functions that return information about files and directories. This module is particularly useful for understanding file properties such as permissions, last modification times, and more.
 

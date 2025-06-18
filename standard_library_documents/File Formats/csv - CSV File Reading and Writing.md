@@ -1,4 +1,16 @@
 # csv - CSV File Reading and Writing
+## Table of Contents
+
+1. [Example 1: Writing a CSV file](#example-1-writing-a-csv-file)
+2. [Explanation:](#explanation)
+3. [Example 2: Reading a CSV file](#example-2-reading-a-csv-file)
+4. [Explanation:](#explanation)
+5. [Example 3: Writing a CSV file with DictWriter](#example-3-writing-a-csv-file-with-dictwriter)
+6. [Explanation:](#explanation)
+7. [Example 4: Reading a CSV file with DictReader](#example-4-reading-a-csv-file-with-dictreader)
+8. [Explanation:](#explanation)
+
+
 
 Below are comprehensive examples of how to read from and write to CSV files using the `csv` module in Python 3.12. Each example includes detailed comments explaining each step.
 

@@ -1,4 +1,14 @@
 # html.parser - Simple HTML and XHTML parser
+## Table of Contents
+
+1. [Example 1: Basic Parsing with `HTMLParser`](#example-1-basic-parsing-with-htmlparser)
+2. [Explanation:](#explanation)
+3. [Example 2: Extracting Links with `BeautifulSoup`](#example-2-extracting-links-with-beautifulsoup)
+4. [Explanation:](#explanation)
+5. [Example 3: Parsing Attributes](#example-3-parsing-attributes)
+6. [Explanation:](#explanation)
+
+
 
 Certainly! Below are comprehensive and well-documented examples for using the `html.parser` module in Python, which is part of the standard library. This module provides a simple way to parse HTML and XHTML documents.
 

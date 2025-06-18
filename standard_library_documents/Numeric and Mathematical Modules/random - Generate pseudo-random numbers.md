@@ -1,4 +1,18 @@
 # random - Generate Pseudo-Random Numbers
+## Table of Contents
+
+1. [1. Basic Random Number Generation](#1-basic-random-number-generation)
+2. [2. Random Floating-Point Numbers](#2-random-floating-point-numbers)
+3. [3. Random Choice from a List](#3-random-choice-from-a-list)
+4. [4. Random Selection with Replacement](#4-random-selection-with-replacement)
+5. [5. Random Shuffle a List](#5-random-shuffle-a-list)
+6. [6. Random Seed for Reproducibility](#6-random-seed-for-reproducibility)
+7. [7. Random Normal Distribution](#7-random-normal-distribution)
+8. [8. Random Binomial Distribution](#8-random-binomial-distribution)
+9. [9. Random Exponential Distribution](#9-random-exponential-distribution)
+10. [10. Random Choices with Weights](#10-random-choices-with-weights)
+
+
 
 The `random` module in Python provides various functions to generate pseudo-random numbers, which are useful for simulations, cryptography, and more. Below are comprehensive examples of how to use this module to generate different types of random numbers.
 

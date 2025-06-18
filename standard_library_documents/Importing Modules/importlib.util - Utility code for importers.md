@@ -1,4 +1,17 @@
 # importlib.util - Utility code for importers
+## Table of Contents
+
+1. [1. Creating a Module Spec](#1-creating-a-module-spec)
+2. [2. Specifying Attributes to Resolve](#2-specifying-attributes-to-resolve)
+3. [3. Specifying a Custom Loader](#3-specifying-a-custom-loader)
+4. [4. Specifying Initialization Globals](#4-specifying-initialization-globals)
+5. [5. Specifying a Custom Module Class](#5-specifying-a-custom-module-class)
+6. [6. Loading a Module from Source](#6-loading-a-module-from-source)
+7. [7. Loading a Module from a ZIP File](#7-loading-a-module-from-a-zip-file)
+8. [8. Loading a Module from a Remote URL](#8-loading-a-module-from-a-remote-url)
+9. [9. Specifying Initialization Path](#9-specifying-initialization-path)
+
+
 
 The `importlib.util` module is part of the Python Standard Library, providing utilities to manage imports dynamically. Below are comprehensive code examples for various functionalities within this module:
 

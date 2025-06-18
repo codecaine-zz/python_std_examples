@@ -1,4 +1,15 @@
 # email - An email and MIME handling package
+## Table of Contents
+
+1. [Example 1: Creating an Email Message](#example-1-creating-an-email-message)
+2. [Example 2: Parsing an Email Message](#example-2-parsing-an-email-message)
+3. [Example 3: Sending an Email using SMTP](#example-3-sending-an-email-using-smtp)
+4. [Example 4: Attaching Files to Email](#example-4-attaching-files-to-email)
+5. [Example 5: Handling Email Attachments](#example-5-handling-email-attachments)
+6. [Example 6: Filtering Emails from a Mailbox](#example-6-filtering-emails-from-a-mailbox)
+7. [Example 7: Handling Email Addresses](#example-7-handling-email-addresses)
+
+
 
 The `email` module in Python provides a comprehensive set of tools for parsing, creating, modifying, and sending email messages. Below are several examples that demonstrate how to use this module for different tasks.
 

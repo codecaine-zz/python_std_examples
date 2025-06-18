@@ -1,4 +1,9 @@
 # msvcrt - Useful routines from the MS VC++ runtime
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `msvcrt` module is a part of the Python Standard Library that provides access to some low-level functions similar to those found in Microsoft's Visual C++ runtime. This module is primarily used for applications that need to interact directly with the operating system, particularly when dealing with console input and output.
 

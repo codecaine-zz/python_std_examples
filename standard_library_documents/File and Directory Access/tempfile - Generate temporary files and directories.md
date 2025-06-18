@@ -1,4 +1,16 @@
 # tempfile - Generate temporary files and directories
+## Table of Contents
+
+1. [1. Creating Temporary Files](#1-creating-temporary-files)
+2. [2. Creating Temporary Files with Specific Modes](#2-creating-temporary-files-with-specific-modes)
+3. [3. Creating Temporary Files with Specific File Types](#3-creating-temporary-files-with-specific-file-types)
+4. [4. Creating Temporary Directories](#4-creating-temporary-directories)
+5. [5. Creating Temporary Directories with Specific Directory Types](#5-creating-temporary-directories-with-specific-directory-types)
+6. [6. Creating Temporary Directories with Specific Suffixes](#6-creating-temporary-directories-with-specific-suffixes)
+7. [7. Creating Temporary Files Using a NamedTemporaryFile Object](#7-creating-temporary-files-using-a-namedtemporaryfile-object)
+8. [8. Creating Temporary Files with Specific Directory and Suffix](#8-creating-temporary-files-with-specific-directory-and-suffix)
+
+
 
 The `tempfile` module in Python provides a set of functions to create temporary files and directories, which are useful for testing, configuration files, or any other scenarios where you need to manage small files that do not persist beyond the current session. Below are comprehensive code examples demonstrating various functionalities of the `tempfile` module:
 

@@ -8,6 +8,39 @@ The `array` module in Python provides a way to handle homogeneous sequences of n
 
 Here are comprehensive code examples for various functionalities provided by the `array` module:
 
+## Table of Contents
+
+1. [Creating Arrays](#1-creating-arrays)
+   - [Example: Create an array of integers](#example-create-an-array-of-integers)
+   - [Example: Create an array of floats](#example-create-an-array-of-floats)
+2. [Accessing Elements](#2-accessing-elements)
+   - [Example: Accessing elements by index](#example-accessing-elements-by-index)
+   - [Example: Accessing elements with out of bounds](#example-accessing-elements-with-out-of-bounds)
+3. [Modifying Elements](#3-modifying-elements)
+   - [Example: Modifying an element by index](#example-modifying-an-element-by-index)
+4. [Appending Elements](#4-appending-elements)
+   - [Example: Appending a single element](#example-appending-a-single-element)
+   - [Example: Extending with multiple elements](#example-extending-with-multiple-elements)
+5. [Operations on Arrays](#5-operations-on-arrays)
+   - [Example: Adding elements using a loop](#example-adding-elements-using-a-loop)
+   - [Example: Sorting the array](#example-sorting-the-array)
+6. [Converting Arrays to Lists](#6-converting-arrays-to-lists)
+   - [Example: Convert array to a list](#example-convert-array-to-a-list)
+7. [Concatenating Arrays](#7-concatenating-arrays)
+   - [Example: Concatenating two arrays](#example-concatenating-two-arrays)
+8. [Reversing an Array](#8-reversing-an-array)
+   - [Example: Reversing the array](#example-reversing-the-array)
+9. [Indexing with Negative Numbers](#9-indexing-with-negative-numbers)
+   - [Example: Accessing elements using negative indices](#example-accessing-elements-using-negative-indices)
+10. [Iterating Over Arrays](#10-iterating-over-arrays)
+    - [Example: Iterating over an array using a for loop](#example-iterating-over-an-array-using-a-for-loop)
+11. [Comparing Arrays](#11-comparing-arrays)
+    - [Example: Comparing two arrays for equality](#example-comparing-two-arrays-for-equality)
+12. [Arithmetic Operations](#12-arithmetic-operations)
+    - [Example: Adding two arrays element-wise (supported for integer and float arrays)](#example-adding-two-arrays-element-wise-supported-for-integer-and-float-arrays)
+13. [String Formatting](#13-string-formatting)
+    - [Example: Formatting an array as a string (supported for integer and float arrays)](#example-formatting-an-array-as-a-string-supported-for-integer-and-float-arrays)
+
 ### 1. Creating Arrays
 
 #### Example: Create an array of integers
@@ -218,6 +251,15 @@ The `bisect` module in Python provides a set of functions that perform binary se
 
 Here are comprehensive code examples for each functionality provided by the `bisect` module:
 
+## Table of Contents
+
+1. [Bisection Search](#example-1-bisection-search)
+2. [Bisection Search Using `bisect_right` or `bisect`](#example-2-bisection-search-using-bisect_right-or-bisect)
+3. [Bisection Search for Insertion](#example-3-bisection-search-for-insertion)
+4. [Bisection Search for Deletion](#example-4-bisection-search-for-deletion)
+5. [Bisection Search with Key Function](#example-5-bisection-search-with-key-function)
+6. [Bisection Search for Rightmost Position](#example-6-bisection-search-for-rightmost-position)
+
 ### Example 1: Bisection Search
 
 ```python
@@ -343,6 +385,19 @@ These examples cover various use cases of the `bisect` module, demonstrating its
 
 The `calendar` module in Python provides a set of functions that facilitate the display, generation, and manipulation of calendars. Here are comprehensive code examples demonstrating various functionalities within this module:
 
+## Table of Contents
+
+1. [Display the current month's calendar](#example-1-display-the-current-months-calendar-with-weekday-names-at-the-top)
+2. [Display a specific month and year's calendar](#example-2-display-a-specific-month-and-years-calendar-with-day-numbers-centered)
+3. [Format a date in ISO 8601 format](#example-3-format-a-date-in-the-iso-8601-format)
+4. [Determine if a year is a leap year](#example-4-determine-if-a-given-year-is-a-leap-year)
+5. [Generate the day of the week for a specific date](#example-5-generate-the-day-of-the-week-for-a-specific-date-in-a-month-and-year)
+6. [Display the full calendar for a year](#example-6-display-the-full-calendar-for-a-year)
+7. [Generate a range of dates](#example-7-generate-a-range-of-dates)
+8. [List of holidays](#example-8-generate-a-list-of-holidays-placeholder-as-pythons-calendar-module-does-not-support-holidays)
+9. [Format the month with weekend days highlighted](#example-9-format-the-month-with-weekend-days-highlighted)
+10. [Generate a list of all days in a year](#example-10-generate-a-list-of-all-days-in-a-year)
+
 ```python
 import calendar
 import datetime
@@ -436,6 +491,17 @@ These examples cover various aspects of the `calendar` module, from basic calend
 # codecs - Codec registry and base classes
 
 The `codecs` module in Python provides a comprehensive set of tools for handling different character encodings, including converting between different character encodings, decoding raw bytes into strings, and encoding strings back into raw bytes. Below are several code examples demonstrating various functionalities within the `codecs` module:
+
+## Table of Contents
+
+1. [Encoding and Decoding Strings](#example-1-encoding-and-decoding-strings)
+2. [Handling Non-Breaking Spaces](#example-2-handling-non-breaking-spaces)
+3. [Encoding with Different Encodings](#example-3-encoding-with-different-encodings)
+4. [Using Codec Aliases](#example-4-using-codec-aliases)
+5. [Handling Unicode Characters](#example-5-handling-unicode-characters)
+6. [Error Handling during Encoding and Decoding](#example-6-error-handling-during-encoding-and-decoding)
+7. [Using codecs.open for File Handling](#example-7-using-codecsopen-for-file-handling)
+8. [Using codecs.iterencode and codecs.iterdecode](#example-8-using-codecsiterencode-and-codecsiterdecode)
 
 ### Example 1: Encoding and Decoding Strings
 
@@ -1080,6 +1146,21 @@ class EventSystem:
 
 Below are comprehensive examples of how to use the `collections.abc` module, which provides abstract base classes for various container types like sequences and mappings.
 
+## Table of Contents
+
+1. [Sequence ABC](#1-sequence-abc)
+   - [Example: Implementing a Custom Sequence](#example-implementing-a-custom-sequence)
+2. [Mapping ABC](#2-mapping-abc)
+   - [Example: Implementing a Custom Dictionary](#example-implementing-a-custom-dictionary)
+3. [Mutable Sequence ABC](#3-mutable-sequence-abc)
+   - [Example: Implementing a Custom Mutable List](#example-implementing-a-custom-mutable-list)
+4. [Mutable Mapping ABC](#4-mutable-mapping-abc)
+   - [Example: Implementing a Custom Mutable Dictionary](#example-implementing-a-custom-mutable-dictionary)
+5. [Set ABC](#5-set-abc)
+   - [Example: Implementing a Custom Set](#example-implementing-a-custom-set)
+6. [Deque ABC](#6-deque-abc)
+   - [Example: Implementing a Custom Double-Ended Queue](#example-implementing-a-custom-double-ended-queue)
+
 ### 1. Sequence ABC
 
 #### Example: Implementing a Custom Sequence
@@ -1268,6 +1349,11 @@ These examples demonstrate how to implement custom container types by subclassin
 
 The `copy` module in Python provides a variety of functions to perform shallow and deep copies on objects, which are essential for managing complex data structures. Here are comprehensive examples demonstrating how to use these functionalities:
 
+## Table of Contents
+
+1. [Shallow Copy](#shallow-copy)
+2. [Deep Copy](#deep-copy)
+
 ### Shallow Copy
 
 A shallow copy creates a new object that is a copy of the original object but references the same objects as the originals. This means that changes to sub-objects in the copied object will affect the original object.
@@ -1337,6 +1423,18 @@ These examples demonstrate how to use the `copy` module to perform both shallow 
 
 The Python standard library includes several modules dedicated to handling different data types efficiently. Below are comprehensive code examples for some of these modules, focusing on their primary functionalities:
 
+## Table of Contents
+
+1. [collections Module](#1-collections-module)
+   - [Example 1: Using deque](#example-1-using-deque)
+   - [Example 2: Using Counter](#example-2-using-counter)
+   - [Example 3: Using defaultdict](#example-3-using-defaultdict)
+   - [Example 4: Using OrderedDict](#example-4-using-ordereddict)
+   - [Example 5: Using namedtuple](#example-5-using-namedtuple)
+2. [datetime Module](#2-datetime-module)
+3. [array Module](#3-array-module)
+4. [enum Module](#4-enum-module)
+
 ### 1. `collections` Module
 
 This module provides specialized container datatypes that differ from built-in containers like lists and dictionaries.
@@ -1390,6 +1488,58 @@ counter.subtract({'banana': 1})
 print(counter)  # Output: Counter({'banana': 2, 'apple': 2, 'orange': 1})
 ```
 
+#### Example 3: Using `defaultdict`
+A defaultdict is a dictionary that provides a default value for a nonexistent key.
+
+```python
+from collections import defaultdict
+
+# Creating a defaultdict with a default value of 0
+dd = defaultdict(int)
+
+# Incrementing the value for a key
+dd['apple'] += 1
+print(dd)  # Output: defaultdict(<class 'int'>, {'apple': 1})
+
+# Accessing a nonexistent key returns the default value
+print(dd['banana'])  # Output: 0
+```
+
+#### Example 4: Using `OrderedDict`
+An OrderedDict is a dictionary that remembers the order in which items were inserted.
+
+```python
+from collections import OrderedDict
+
+# Creating an OrderedDict
+od = OrderedDict()
+
+# Adding items to the OrderedDict
+od['apple'] = 1
+od['banana'] = 2
+od['cherry'] = 3
+
+# The items are ordered by the order of insertion
+print(od)  # Output: OrderedDict([('apple', 1), ('banana', 2), ('cherry', 3)])
+```
+
+#### Example 5: Using `namedtuple`
+A namedtuple is a tuple with named fields that you can access like attributes.
+
+```python
+from collections import namedtuple
+
+# Creating a namedtuple class
+Point = namedtuple('Point', ['x', 'y'])
+
+# Creating an instance of the namedtuple
+p = Point(10, 20)
+
+# Accessing fields by name
+print(p.x)  # Output: 10
+print(p.y)  # Output: 20
+```
+
 ### 2. `datetime` Module
 
 This module provides classes for manipulating dates and times.
@@ -1424,114 +1574,76 @@ local_datetime = aware_datetime.astimezone(timezone(timedelta(hours=5)))
 print(local_datetime)  # Output: datetime.datetime(YYYY, MM, DD, HH, MM, SS, tzinfo=LOCAL_TIMEZONE)
 ```
 
-### 3. `itertools` Module
+### 3. `array` Module
 
-This module provides various functions to create iterators for efficient looping.
+This module provides a way to create arrays in Python.
 
-#### Example 1: Using `count`
+#### Example 1: Creating an Array
 ```python
-from itertools import count
+from array import array
 
-# Creating an infinite counter
-counter = count(start=5)
+# Creating an array of integers
+arr = array('i', [1, 2, 3, 4, 5])
 
-# Generating the first five numbers in the sequence
-for _ in range(5):
-    print(next(counter))  # Output: 5, 6, 7, 8, 9
+# Accessing elements in the array
+print(arr[0])  # Output: 1
+print(arr[1])  # Output: 2
 ```
 
-#### Example 2: Using `cycle`
+#### Example 2: Array Operations
 ```python
-from itertools import cycle
+from array import array
 
-# Creating an infinite cycle iterator
-cycler = cycle(['A', 'B', 'C'])
+# Creating an array of integers
+arr = array('i', [1, 2, 3, 4, 5])
 
-# Generating the first ten elements in the sequence
-for _ in range(10):
-    print(next(cycler))  # Output: A, B, C, A, B, C, A, B, C, A
+# Appending an element to the array
+arr.append(6)
+
+# Inserting an element at a specific position
+arr.insert(0, 0)
+
+# Removing an element from the array
+arr.remove(3)
+
+# Popping the last element from the array
+last_element = arr.pop()
 ```
 
-### 4. `random` Module
+### 4. `enum` Module
 
-This module provides functions to generate random numbers and make random selections.
+This module provides support for enumerations, which are symbolic names for a set of values.
 
-#### Example 1: Generating a Random Float
+#### Example 1: Creating an Enumeration
 ```python
-import random
+from enum import Enum
 
-# Generating a random float between 0.0 and 1.0
-random_float = random.random()
-print(random_float)  # Output: 0.987654321 (approximately)
+# Creating an enumeration for colors
+class Color(Enum):
+    RED = 1
+    GREEN = 2
+    BLUE = 3
+
+# Accessing an enumeration member
+print(Color.RED)  # Output: Color.RED
+
+# Accessing the value of an enumeration member
+print(Color.RED.value)  # Output: 1
 ```
 
-#### Example 2: Choosing a Random Element from a List
+#### Example 2: Iterating Over an Enumeration
 ```python
-import random
+from enum import Enum
 
-fruits = ['apple', 'banana', 'cherry']
-random_fruit = random.choice(fruits)
-print(random_fruit)  # Output: apple or banana or cherry randomly selected
-```
+# Creating an enumeration for colors
+class Color(Enum):
+    RED = 1
+    GREEN = 2
+    BLUE = 3
 
-### 5. `math` Module
-
-This module provides mathematical functions.
-
-#### Example 1: Mathematical Constants
-```python
-import math
-
-# Accessing the value of pi
-pi_value = math.pi
-print(pi_value)  # Output: 3.141592653589793
-
-# Calculating the square root of a number
-sqrt_2 = math.sqrt(2)
-print(sqrt_2)  # Output: 1.4142135623730951
-```
-
-#### Example 2: Trigonometric Functions
-```python
-import math
-
-# Calculating the sine of an angle in radians
-sin_value = math.sin(math.pi / 4)
-print(sin_value)  # Output: 0.7071067811865476
-```
-
-### 6. `sys` Module
-
-This module provides access to some variables used or maintained by the interpreter and to functions that interact strongly with the interpreter.
-
-#### Example 1: Accessing Command-Line Arguments
-```python
-import sys
-
-# List of command-line arguments (sys.argv)
-print(sys.argv)  # Output: ['script_name', 'arg1', 'arg2', ...]
-```
-
-### 7. `os` Module
-
-This module provides a portable way of using operating system dependent functionality.
-
-#### Example 1: Listing Files in a Directory
-```python
-import os
-
-# List all files and directories in the current working directory
-files_and_dirs = os.listdir('.')
-print(files_and_dirs)  # Output: ['file1.txt', 'file2.txt', ...]
-```
-
-#### Example 2: Changing Current Working Directory
-```python
-import os
-
-os.chdir('/path/to/new/directory')
-current_directory = os.getcwd()
-print(current_directory)  # Output: /path/to/new/directory
+# Iterating over the members of the enumeration
+for color in Color:
+    print(color)
 ```
 
 These examples cover a range of functionalities available in the `collections`, `datetime`, `itertools`, `math`, `sys`, and `os` modules, demonstrating how to use them effectively in Python.
@@ -1542,6 +1654,19 @@ These examples cover a range of functionalities available in the `collections`, 
 # datetime - Basic date and time types
 
 Here are comprehensive and well-documented code examples for the Python standard library module `datetime`, focusing on its basic date and time types.
+
+## Table of Contents
+
+1. [Importing the datetime Module](#1-importing-the-datetime-module)
+2. [Creating a Current Date and Time](#2-creating-a-current-date-and-time)
+3. [Formatting Dates and Times](#3-formatting-dates-and-times)
+4. [Creating a Specific Date](#4-creating-a-specific-date)
+5. [Adding and Subtracting Time](#5-adding-and-subtracting-time)
+6. [Parsing Strings into Dates](#6-parsing-strings-into-dates)
+7. [Working with Time Zones](#7-working-with-time-zones)
+8. [Comparing Dates and Times](#8-comparing-dates-and-times)
+9. [Working with Time Periods](#9-working-with-time-periods)
+10. [Creating Time Objects](#10-creating-time-objects)
 
 ### 1. Importing the `datetime` Module
 
@@ -1674,6 +1799,14 @@ These examples cover the basic functionalities of the `datetime` module in Pytho
 The `enum` module in Python provides a way to define a set of symbolic names bound to unique values. This is particularly useful for creating clear, readable code that avoids magic numbers and makes it easier to maintain.
 
 Below are some comprehensive examples demonstrating various functionalities of the `enum` module:
+
+## Table of Contents
+
+1. [Basic usage of Enum](#example-1-basic-usage-of-enum-with-auto-incremental-values)
+2. [Using auto-incremental values](#example-2-using-auto-incremental-values-with-a-starting-point)
+3. [Using automatic enumeration values with a custom step](#example-3-using-automatic-enumeration-values-with-a-custom-step)
+4. [Using flags to combine multiple enum members](#example-4-using-flags-to-combine-multiple-enum-members)
+5. [Using auto-incremental values with a custom step and starting point](#example-5-using-auto-incremental-values-with-a-custom-step-and-starting-point)
 
 ```python
 # Importing the enum module
@@ -1861,6 +1994,12 @@ if __name__ == "__main__":
 
 These examples provide a basic understanding of how to use the `graphlib` module for various graph operations. You can further explore the documentation and additional methods available in the module for more advanced use cases.
 
+## Table of Contents
+
+1. [Creating and manipulating a DirectedGraph](#example-1-creating-and-manipulating-a-directedgraph)
+2. [Topological Sorting](#example-2-topological-sorting)
+3. [Finding Strongly Connected Components](#example-3-finding-strongly-connected-components)
+
 
 ## heapq - Heap queue algorithm.md
 
@@ -1869,6 +2008,14 @@ These examples provide a basic understanding of how to use the `graphlib` module
 The `heapq` module in Python provides an implementation of the heap queue algorithm, also known as the priority queue algorithm. This module is optimized for speed and space efficiency, making it suitable for applications where you need to maintain a collection of elements with priorities.
 
 Below are comprehensive examples demonstrating various functionalities of the `heapq` module:
+
+## Table of Contents
+
+1. [Creating a Min-Heap](#1-creating-a-min-heap)
+2. [Creating a Max-Heap](#2-creating-a-max-heap)
+3. [Finding the N Smallest Elements](#3-finding-the-n-smallest-elements)
+4. [Priority Queue with Time-Sorted Elements](#4-priority-queue-with-time-sorted-elements)
+5. [Finding the k Closest Points to a Given Point](#5-finding-the-k-closest-points-to-a-given-point)
 
 ### 1. Creating a Min-Heap
 
@@ -1995,6 +2142,14 @@ The `heapq` module provides a efficient and flexible way to manage heaps in Pyth
 # pprint - Data pretty printer
 
 Below are comprehensive code examples for using the `pprint` module in Python, along with detailed explanations of each example.
+
+## Table of Contents
+
+1. [Basic Usage](#example-1-basic-usage)
+2. [Customizing Output](#example-2-customizing-output)
+3. [Handling Large Data Structures](#example-3-handling-large-data-structures)
+4. [Using PrettyPrinter for Files](#example-4-using-prettyprinter-for-files)
+5. [Pretty Printing JSON-like Structures](#example-5-pretty-printing-json-like-structures)
 
 ### Example 1: Basic Usage
 
@@ -2152,6 +2307,14 @@ The `reprlib` module provides a function called `repr()` that is similar to Pyth
 
 Here are some examples demonstrating how to use the `reprlib` module:
 
+## Table of Contents
+
+1. [Abbreviating Large Strings](#1-abbreviating-large-strings)
+2. [Abbreviating Lists with Many Elements](#2-abbreviating-lists-with-many-elements)
+3. [Abbreviating Sets with Many Elements](#3-abbreviating-sets-with-many-elements)
+4. [Abbreviating Dictionaries with Many Key-Value Pairs](#4-abbreviating-dictionaries-with-many-key-value-pairs)
+5. [Using reprlib.repr() in Custom Classes](#5-using-reprlibrepr-in-custom-classes)
+
 1. **Abbreviating Large Strings**:
    When working with strings that are too long to display in a single line, `reprlib.repr()` can return an abbreviated version by truncating the string and adding ellipses (`...`) at the end.
 
@@ -2222,6 +2385,18 @@ These examples demonstrate how `reprlib.repr()` can help manage and display the 
 # struct - Interpret bytes as packed binary data
 
 The `struct` module in Python provides support for interpreting strings of bytes as packed binary data. It allows you to convert between binary data and native Python data types such as integers, floating-point numbers, and characters. Here are some comprehensive examples demonstrating various functionalities of the `struct` module:
+
+## Table of Contents
+
+1. [Packing Binary Data](#example-1-packing-binary-data)
+2. [Unpacking Binary Data](#example-2-unpacking-binary-data)
+3. [Packing and Unpacking with Different Endianness](#example-3-packing-and-unpacking-with-different-endianness)
+4. [Using `struct.calcsize` to Determine the Size of a Format String](#example-4-using-structcalcsize-to-determine-the-size-of-a-format-string)
+5. [Handling Variable-Length Packed Data](#example-5-handling-variable-length-packed-data)
+6. [Handling Special Characters and Strings](#example-6-handling-special-characters-and-strings)
+7. [Handling Non-ASCII Characters](#example-7-handling-non-ascii-characters)
+8. [Handling Variable-Length Strings](#example-8-handling-variable-length-strings)
+9. [Handling Variable-Length Packed Data with a Fixed Length Prefix](#example-9-handling-variable-length-packed-data-with-a-fixed-length-prefix)
 
 ### Example 1: Packing Binary Data
 
@@ -2384,6 +2559,17 @@ These examples cover various scenarios involving the `struct` module, from basic
 The `types` module in Python provides a way to create new types dynamically using the `types.ModuleType`, `types.FunctionType`, `types.BuiltinFunctionType`, and other classes. This is useful for extending the language or creating custom data structures with specific behaviors.
 
 Below are comprehensive code examples for various functionalities provided by the `types` module:
+
+## Table of Contents
+
+1. [Creating a Custom Module](#1-creating-a-custom-module)
+2. [Creating a Custom Function](#2-creating-a-custom-function)
+3. [Creating a Custom Builtin Function](#3-creating-a-custom-builtin-function)
+4. [Creating a Custom Class](#4-creating-a-custom-class)
+5. [Creating a Custom Exception](#5-creating-a-custom-exception)
+6. [Creating a Custom Method Type](#6-creating-a-custom-method-type)
+7. [Creating a Custom Type with Slots](#7-creating-a-custom-type-with-slots)
+8. [Creating a Custom Type with New](#8-creating-a-custom-type-with-new)
 
 ### 1. Creating a Custom Module
 
@@ -2568,6 +2754,19 @@ These examples demonstrate how to use various classes and functions in the `type
 # weakref - Weak references
 
 Below is a comprehensive set of code examples demonstrating various functionalities provided by the `weakref` module in Python 3.12. Each example includes comments explaining each step to help clarify its purpose and usage.
+
+## Table of Contents
+
+1. [Creating a Weak Reference to an Object](#example-1-creating-a-weak-reference-to-an-object)
+2. [Using a Weak Reference as a Dictionary Key](#example-2-using-a-weak-reference-as-a-dictionary-key)
+3. [Handling Reference Cycles](#example-3-handling-reference-cycles)
+4. [Using `proxy` to create a proxy object](#example-4-using-proxy-to-create-a-proxy-object)
+5. [Using `proxy` to create a context manager](#example-5-using-proxy-to-create-a-context-manager)
+6. [Using `proxy` to manage weak references](#example-6-using-proxy-to-manage-weak-references)
+7. [Using `proxy` to manage weak references with custom methods](#example-7-using-proxy-to-manage-weak-references-with-custom-methods)
+8. [Using `proxy` to manage weak references with custom attributes](#example-8-using-proxy-to-manage-weak-references-with-custom-attributes)
+9. [Using `proxy` to manage weak references with custom functions](#example-9-using-proxy-to-manage-weak-references-with-custom-functions)
+10. [Using `proxy` to manage weak references with custom methods and attributes](#example-10-using-proxy-to-manage-weak-references-with-custom-methods-and-attributes)
 
 ```python
 import weakref
@@ -2797,6 +2996,16 @@ The `zoneinfo` module in Python is part of the standard library and provides cla
 
 Here are comprehensive examples demonstrating various functionalities of the `zoneinfo` module:
 
+## Table of Contents
+
+1. [Getting Time Zone Information](#example-1-getting-time-zone-information)
+2. [Iterating Over Time Zones](#example-2-iterating-over-time-zones)
+3. [Handling Time Zone Differences](#example-3-handling-time-zone-differences)
+4. [Using Zone Info Objects](#example-4-using-zone-info-objects)
+5. [Handling Time Zones in a Web Application](#example-5-handling-time-zones-in-a-web-application)
+6. [Using Zone Info in a Command Line Tool](#example-6-using-zone-info-in-a-command-line-tool)
+7. [Handling Time Zones with `pytz` for Compatibility](#example-7-handling-time-zones-with-pytz-for-compatibility)
+
 ### Example 1: Getting Time Zone Information
 
 ```python
@@ -2967,6 +3176,14 @@ The `_thread` module in Python is a low-level interface to threading that provid
 
 Below are comprehensive code examples for various functionalities provided by the `_thread` module:
 
+## Table of Contents
+
+1. [Creating and Starting a Thread](#example-1-creating-and-starting-a-thread)
+2. [Using Thread Locks](#example-2-using-thread-locks)
+3. [Using Thread Events](#example-3-using-thread-events)
+4. [Using Thread Barrier](#example-4-using-thread-barrier)
+5. [Using Thread Local Data](#example-5-using-thread-local-data)
+
 ### Example 1: Creating and Starting a Thread
 
 ```python
@@ -3129,6 +3346,14 @@ These examples cover various aspects of using the `_thread` module, including cr
 # concurrent.futures - Launching parallel tasks
 
 Below are comprehensive code examples for the `concurrent.futures` module, which provides a high-level interface for asynchronously executing callables. The examples include various ways to use the module to launch parallel tasks.
+
+## Table of Contents
+
+1. [Using ThreadPoolExecutor](#1-using-threadpoolexecutor)
+2. [Using ProcessPoolExecutor](#2-using-processpoolexecutor)
+3. [Using ThreadPoolExecutor for I/O-bound Tasks](#3-using-threadpoolexecutor-for-i-o-bound-tasks)
+4. [Using ProcessPoolExecutor for CPU-bound Tasks](#4-using-processpoolexecutor-for-cpu-bound-tasks)
+5. [Using ThreadPoolExecutor and Future Objects](#5-using-threadpoolexecutor-and-future-objects)
 
 ### 1. Using ThreadPoolExecutor
 
@@ -3310,6 +3535,10 @@ These examples demonstrate how to use `concurrent.futures` for launching paralle
 
 The `contextvars` module is a part of Python's standard library that provides support for managing contextual variables, which can be used to store data that needs to flow across multiple function calls or processes without explicitly passing it as an argument. This is particularly useful in multi-threaded applications where thread-local storage might not work.
 
+## Table of Contents
+
+1. [Creating and Using Context Variables](#creating-and-using-context-variables)
+
 Here are some comprehensive examples demonstrating various functionalities provided by the `contextvars` module:
 
 ```python
@@ -3395,6 +3624,15 @@ These examples cover the basic usage of the `contextvars` module in managing con
 # multiprocessing - Process-based parallelism
 
 Below are comprehensive examples of how to use various functionalities provided by the `multiprocessing` module in Python, along with detailed comments explaining each step.
+
+## Table of Contents
+
+1. [Basic Multiprocessing](#1-basic-multiprocessing)
+2. [Using Process Class](#2-using-process-class)
+3. [Sharing Data Between Processes](#3-sharing-data-between-processes)
+4. [Handling Exceptions in Processes](#4-handling-exceptions-in-processes)
+5. [Using Queue for Inter-Process Communication](#5-using-queue-for-inter-process-communication)
+6. [Using Lock for Synchronization](#6-using-lock-for-synchronization)
 
 ### 1. Basic Multiprocessing
 
@@ -3563,6 +3801,15 @@ These examples cover a range of functionalities provided by the `multiprocessing
 # multiprocessing.shared_memory - Shared memory for direct access across processes
 
 The `multiprocessing.shared_memory` module provides a way to create shared memory objects that can be accessed by multiple processes directly. This is useful for sharing large amounts of data between processes without having to copy it. Below are comprehensive examples of how to use this module, including creating and accessing shared memory objects in Python 3.12.
+
+## Table of Contents
+
+1. [Creating a Shared Memory Object](#example-1-creating-a-shared-memory-object)
+2. [Creating a Shared Memory Object for an Integer](#example-2-creating-a-shared-memory-object-for-an-integer)
+3. [Creating a Shared Memory Object for a Float](#example-3-creating-a-shared-memory-object-for-a-float)
+4. [Creating a Shared Memory Object for a List](#example-4-creating-a-shared-memory-object-for-a-list)
+5. [Creating and Accessing Shared Memory Objects Across Multiple Processes](#example-5-creating-and-accessing-shared-memory-objects-across-multiple-processes)
+6. [Creating and Accessing Shared Memory Objects with Initial Data](#example-6-creating-and-accessing-shared-memory-objects-with-initial-data)
 
 ### Example 1: Creating a Shared Memory Object
 
@@ -3746,6 +3993,15 @@ These examples cover various scenarios of using `multiprocessing.shared_memory` 
 # queue - A synchronized queue class
 
 The `queue` module provides a set of synchronization primitives that can be used to implement concurrent data structures such as queues, stacks, and priority queues. Here are comprehensive and well-documented code examples for each functionality in the `queue` module:
+
+## Table of Contents
+
+1. [Basic Queue Example](#1-basic-queue-example)
+2. [Priority Queue Example](#2-priority-queue-example)
+3. [LIFO Queue Example](#3-lifo-queue-example)
+4. [Double-Ended Queue Example](#4-double-ended-queue-example)
+5. [Custom Queue Example](#5-custom-queue-example)
+6. [Queue with Priority](#6-queue-with-priority)
 
 ### 1. Basic Queue Example
 
@@ -3948,6 +4204,10 @@ These examples cover various aspects of using Python's `queue` module, including
 
 The `sched` module in Python is a simple event scheduler that allows you to schedule and run functions at specific times or intervals. Below are comprehensive examples of how to use the `sched` module, including comments explaining each step:
 
+## Table of Contents
+
+1. [Basic Event Scheduling](#basic-event-scheduling)
+
 ```python
 import sched
 import time
@@ -3995,6 +4255,19 @@ These examples provide a basic understanding of how to use the `sched` module to
 # subprocess - Subprocess management
 
 The `subprocess` module in Python provides a way to spawn new processes, connect to their input/output/error pipes, and obtain their return codes. Below are comprehensive examples demonstrating various functionalities of the `subprocess` module. These examples are designed to be clear, concise, and suitable for inclusion in official documentation.
+
+## Table of Contents
+
+1. [Running an External Command](#example-1-running-an-external-command)
+2. [Running a Command in a Separate Process](#example-2-running-a-command-in-a-separate-process)
+3. [Handling Subprocess Input](#example-3-handling-subprocess-input)
+4. [Running Commands with Environment Variables](#example-4-running-commands-with-environment-variables)
+5. [Running Commands in Parallel](#example-5-running-commands-in-parallel)
+6. [Using `check_output()` for Simple Operations](#example-6-using-check_output-for-simple-operations)
+7. [Using `run()` with Timeout](#example-7-using-run-with-timeout)
+8. [Using `run()` with Custom Signal Handling](#example-8-using-run-with-custom-signal-handling)
+9. [Using `run()` with Background Execution](#example-9-using-run-with-background-execution)
+10. [Using `run()` with Multiple Arguments](#example-10-using-run-with-multiple-arguments)
 
 ### Example 1: Running an External Command
 
@@ -4263,6 +4536,14 @@ These examples cover various aspects of the `subprocess` module, including runni
 
 Below are comprehensive and well-documented code examples for various functionalities of the `threading` module in Python. Each example is designed to be clear, concise, and follows best practices suitable for inclusion in official documentation.
 
+## Table of Contents
+
+1. [Creating and Starting Threads](#1-creating-and-starting-threads)
+2. [Synchronizing Threads with Locks](#2-synchronizing-threads-with-locks)
+3. [Using Condition Variables](#3-using-condition-variables)
+4. [Using Semaphore](#4-using-semaphore)
+5. [Using Event Objects](#5-using-event-objects)
+
 ### 1. Creating and Starting Threads
 
 ```python
@@ -4470,6 +4751,17 @@ These examples cover various aspects of using threads in Python, including threa
 ## hashlib - Secure hashes and message digests.md
 
 # hashlib - Secure hashes and message digests
+## Table of Contents
+
+1. [Example 1: Creating a Hash Object](#example-1-creating-a-hash-object)
+2. [Example 2: Creating Multiple Hash Objects](#example-2-creating-multiple-hash-objects)
+3. [Example 3: Using Hash Objects in a Context Manager](#example-3-using-hash-objects-in-a-context-manager)
+4. [Example 4: Using Hash Objects with Input Streams](#example-4-using-hash-objects-with-input-streams)
+5. [Example 5: Using Hash Objects with Binary Files](#example-5-using-hash-objects-with-binary-files)
+6. [Example 6: Using Hash Objects with Custom Algorithms](#example-6-using-hash-objects-with-custom-algorithms)
+7. [Example 7: Using Hash Objects with Different Data Types](#example-7-using-hash-objects-with-different-data-types)
+
+
 
 The `hashlib` module in Python provides access to secure hash and message digest algorithms. It is part of the Python Standard Library, making it a fundamental tool for cryptographic operations. Below are comprehensive examples demonstrating various functionalities provided by the `hashlib` module.
 
@@ -4634,6 +4926,15 @@ These examples cover various aspects of using the `hashlib` module, including cr
 ## hmac - Keyed-Hashing for Message Authentication.md
 
 # hmac - Keyed-Hashing for Message Authentication
+## Table of Contents
+
+1. [Example 1: Creating an HMAC Using SHA-256](#example-1-creating-an-hmac-using-sha-256)
+2. [Example 2: Creating an HMAC Using SHA-1](#example-2-creating-an-hmac-using-sha-1)
+3. [Example 3: Verifying an HMAC](#example-3-verifying-an-hmac)
+4. [Example 4: Using `hmac.compare_digest` for Safe Comparison](#example-4-using-hmaccompare_digest-for-safe-comparison)
+5. [Example 5: Creating an HMAC with Additional Data](#example-5-creating-an-hmac-with-additional-data)
+
+
 
 The `hmac` module in Python provides a way to create message authentication codes (MACs) using cryptographic hash functions such as SHA-1, SHA-256, etc. A MAC is a fixed-size binary value that verifies the integrity of a message and ensures it hasn't been tampered with during transmission or storage.
 
@@ -4744,6 +5045,18 @@ These examples demonstrate how to use the `hmac` module to create, calculate, ve
 ## secrets - Generate secure random numbers for managing secrets.md
 
 # secrets - Generate secure random numbers for managing secrets
+## Table of Contents
+
+1. [1. Generating a Secure Random Integer](#1-generating-a-secure-random-integer)
+2. [2. Generating a Secure Random Float](#2-generating-a-secure-random-float)
+3. [3. Generating a Secure Random Bytes](#3-generating-a-secure-random-bytes)
+4. [4. Generating a Secure Random Token](#4-generating-a-secure-random-token)
+5. [5. Generating a Secure Random UUID](#5-generating-a-secure-random-uuid)
+6. [6. Generating a Secure Random Hexadecimal String](#6-generating-a-secure-random-hexadecimal-string)
+7. [7. Generating a Secure Random Alphanumeric String](#7-generating-a-secure-random-alphanumeric-string)
+8. [Explanation](#explanation)
+
+
 
 Below are comprehensive and well-documented code examples for various functionalities of the `secrets` module, which is used to generate cryptographically strong random numbers suitable for managing data such as passwords, account authentication, tokens, and related secrets.
 
@@ -4872,6 +5185,17 @@ These examples demonstrate how to use various functionalities of the `secrets` m
 ## code - Interpreter base classes.md
 
 # code - Interpreter base classes
+## Table of Contents
+
+1. [1. Creating a Code Object](#1-creating-a-code-object)
+2. [2. Executing Code Objects](#2-executing-code-objects)
+3. [3. Creating a Compiled Code Object](#3-creating-a-compiled-code-object)
+4. [4. Creating a Code Object with Line Numbers](#4-creating-a-code-object-with-line-numbers)
+5. [5. Creating a Code Object with Constants](#5-creating-a-code-object-with-constants)
+6. [6. Creating a Code Object with Variables](#6-creating-a-code-object-with-variables)
+7. [Conclusion](#conclusion)
+
+
 
 The `code` module in Python is a low-level interface to the interactive interpreter's bytecode execution environment. This module provides a way to create, manipulate, and execute code objects, which are used by the Python interpreter itself.
 
@@ -5038,6 +5362,16 @@ This documentation should be suitable for inclusion in official Python documenta
 ## codeop - Compile Python code.md
 
 # codeop - Compile Python code
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Additional Examples:](#additional-examples)
+3. [Example 2: Compiling and Executing Multiple Statements](#example-2-compiling-and-executing-multiple-statements)
+4. [Example 3: Using `compile()` Function](#example-3-using-compile-function)
+5. [Example 4: Compiling and Executing Code with Specific Mode](#example-4-compiling-and-executing-code-with-specific-mode)
+6. [Explanation:](#explanation)
+
+
 
 The `codeop` module in Python is used to compile Python source code into bytecode, which can then be executed by the CPython interpreter. This can be useful for various purposes such as parsing and transforming code or optimizing it before execution.
 
@@ -5140,6 +5474,17 @@ These examples demonstrate various ways to use the `codeop` module for compiling
 ## bz2 - Support for bzip2 compression.md
 
 # bz2 - Support for bzip2 compression
+## Table of Contents
+
+1. [1. Compressing a String](#1-compressing-a-string)
+2. [2. Decompressing a Byte String](#2-decompressing-a-byte-string)
+3. [3. Writing Compressed Data to a File](#3-writing-compressed-data-to-a-file)
+4. [4. Reading Compressed Data from a File](#4-reading-compressed-data-from-a-file)
+5. [5. Handling Compressed Data in a Streaming Context](#5-handling-compressed-data-in-a-streaming-context)
+6. [6. Using `bz2.BZ2File` for File Operations](#6-using-bz2bz2file-for-file-operations)
+7. [7. Handling Large Files Efficiently](#7-handling-large-files-efficiently)
+
+
 
 Here are comprehensive code examples for the `bz2` module in Python, which provides support for bzip2 compression:
 
@@ -5383,6 +5728,18 @@ These examples cover various aspects of using the `bz2` module, including basic 
 ## gzip - Support for gzip files.md
 
 # gzip - Support for gzip files
+## Table of Contents
+
+1. [Writing Gzip Files](#writing-gzip-files)
+2. [Reading Gzip Files](#reading-gzip-files)
+3. [Compressing Data](#compressing-data)
+4. [Decompressing Data](#decompressing-data)
+5. [Handling Errors](#handling-errors)
+6. [Additional Examples](#additional-examples)
+7. [Writing and Reading Multiple Files](#writing-and-reading-multiple-files)
+8. [Compressing and Decompressing Multiple Files](#compressing-and-decompressing-multiple-files)
+
+
 
 The `gzip` module provides support for reading from and writing to .gz (gzip) compressed files. Below are comprehensive examples of how to use this module, including functions for both reading and writing files.
 
@@ -5551,6 +5908,16 @@ These examples cover the basic functionalities of the `gzip` module, including r
 ## lzma - Compression using the LZMA algorithm.md
 
 # lzma - Compression using the LZMA algorithm
+## Table of Contents
+
+1. [Example 1: Compressing Data Using LZMA](#example-1-compressing-data-using-lzma)
+2. [Example 2: Decompressing Data Using LZMA](#example-2-decompressing-data-using-lzma)
+3. [Example 3: Using Compression Levels](#example-3-using-compression-levels)
+4. [Example 4: Using File Compression](#example-4-using-file-compression)
+5. [Example 5: Using File Decompression](#example-5-using-file-decompression)
+6. [Example 6: Using File Compression in a Context Manager](#example-6-using-file-compression-in-a-context-manager)
+
+
 
 The `lzma` module in Python provides support for compressing and decompressing files using the LZMA compression algorithm, which is a variant of the DEFLATE algorithm with extra features such as checksums and better compression ratios.
 
@@ -5715,6 +6082,20 @@ These examples cover various aspects of using the `lzma` module, including compr
 ## tarfile - Read and write tar archive files.md
 
 # tarfile - Read and write tar archive files
+## Table of Contents
+
+1. [1. Creating a Tar Archive](#1-creating-a-tar-archive)
+2. [2. Extracting a Tar Archive](#2-extracting-a-tar-archive)
+3. [3. Writing to a Tar Archive with Specific Compression](#3-writing-to-a-tar-archive-with-specific-compression)
+4. [4. Extracting from a Tar Archive with Specific Compression](#4-extracting-from-a-tar-archive-with-specific-compression)
+5. [5. Adding Files or Directories Recursively](#5-adding-files-or-directories-recursively)
+6. [6. Extracting Files or Directories with Specific Options](#6-extracting-files-or-directories-with-specific-options)
+7. [7. Checking Tar Archive Integrity](#7-checking-tar-archive-integrity)
+8. [8. Writing to a Tar Archive with Custom File Mode](#8-writing-to-a-tar-archive-with-custom-file-mode)
+9. [9. Extracting Files with Specific Permissions](#9-extracting-files-with-specific-permissions)
+10. [10. Writing to a Tar Archive with Custom File Date](#10-writing-to-a-tar-archive-with-custom-file-date)
+
+
 
 The `tarfile` module in Python is used to read and write tar archives, which are a common format for archiving multiple files into a single file container. Below are comprehensive examples demonstrating various functionalities of this module:
 
@@ -5887,6 +6268,17 @@ These examples cover various aspects of using the `tarfile` module, including cr
 ## zipfile - Work with ZIP archives.md
 
 # zipfile - Work with ZIP archives
+## Table of Contents
+
+1. [1. Creating and Writing to a Zip File](#1-creating-and-writing-to-a-zip-file)
+2. [2. Reading from a Zip File](#2-reading-from-a-zip-file)
+3. [3. Adding Files Directly from a Directory](#3-adding-files-directly-from-a-directory)
+4. [4. Extracting Specific Files](#4-extracting-specific-files)
+5. [5. Listing All Files in a Zip File](#5-listing-all-files-in-a-zip-file)
+6. [6. Checking if a File Exists in a Zip](#6-checking-if-a-file-exists-in-a-zip)
+7. [7. Handling Zip Files with Passwords](#7-handling-zip-files-with-passwords)
+
+
 
 Certainly! Below are comprehensive examples demonstrating various functionalities of the `zipfile` module in Python, along with explanations for each step:
 
@@ -6037,6 +6429,15 @@ These examples cover a range of functionalities available in the `zipfile` modul
 ## zlib - Compression compatible with gzip.md
 
 # zlib - Compression compatible with gzip
+## Table of Contents
+
+1. [1. Compressing Data](#1-compressing-data)
+2. [2. Decompressing Compressed Data](#2-decompressing-compressed-data)
+3. [3. Getting Compression and Decompression Statistics](#3-getting-compression-and-decompression-statistics)
+4. [4. Handling Compressed Files with `zlib.decompressobj`](#4-handling-compressed-files-with-zlibdecompressobj)
+5. [5. Using `zlib.compressobj` with Different Compression Levels](#5-using-zlibcompressobj-with-different-compression-levels)
+
+
 
 Certainly! Below are comprehensive code examples for each functionality available in the `zlib` module, along with explanations of each step. These examples are designed to be clear, concise, and suitable for inclusion in official documentation.
 
@@ -6200,6 +6601,20 @@ These examples cover the basic functionalities of the `zlib` module, including c
 ## copyreg - Register pickle support functions.md
 
 # copyreg - Register pickle support functions
+## Table of Contents
+
+1. [1. Registering Custom Pickling Functionality](#1-registering-custom-pickling-functionality)
+2. [Example: Registering a Callable Object](#example-registering-a-callable-object)
+3. [2. Registering Custom Object Types](#2-registering-custom-object-types)
+4. [Example: Registering a Class](#example-registering-a-class)
+5. [3. Registering a Class With Multiple Initialization Arguments](#3-registering-a-class-with-multiple-initialization-arguments)
+6. [Example: Handling Multiple Initialization Parameters](#example-handling-multiple-initialization-parameters)
+7. [4. Registering Custom Objects with Additional Context](#4-registering-custom-objects-with-additional-context)
+8. [Example: Handling Additional Data](#example-handling-additional-data)
+9. [5. Registering Custom Objects with Multiple Initialization Methods](#5-registering-custom-objects-with-multiple-initialization-methods)
+10. [Example: Handling Different Constructors](#example-handling-different-constructors)
+
+
 
 The `copyreg` module in Python's standard library is used to register custom pickling support, allowing you to define how objects of specific types are serialized and deserialized using the `pickle` module. This can be particularly useful when working with complex data structures or custom classes.
 
@@ -6381,6 +6796,20 @@ The `copyreg` module provides powerful tools for customizing the pickling proces
 ## dbm - Interfaces to Unix databases.md
 
 # dbm - Interfaces to Unix “databases”
+## Table of Contents
+
+1. [1. Basic Usage with 'gdbm'](#1-basic-usage-with-gdbm)
+2. [2. Usage with 'ndbm' (Non-Distributed DBM)](#2-usage-with-ndbm-non-distributed-dbm)
+3. [3. Usage with 'gdbm' for String Values](#3-usage-with-gdbm-for-string-values)
+4. [4. Usage with 'gdbm' for Binary Data](#4-usage-with-gdbm-for-binary-data)
+5. [5. Usage with 'gdbm' for Multiple Keys](#5-usage-with-gdbm-for-multiple-keys)
+6. [6. Usage with 'gdbm' for Conditional Storage](#6-usage-with-gdbm-for-conditional-storage)
+7. [7. Usage with 'gdbm' for Error Handling](#7-usage-with-gdbm-for-error-handling)
+8. [8. Usage with 'gdbm' for Database Closure](#8-usage-with-gdbm-for-database-closure)
+9. [9. Usage with 'gdbm' for Database Transaction Management](#9-usage-with-gdbm-for-database-transaction-management)
+10. [10. Usage with 'gdbm' for Database Cleanup](#10-usage-with-gdbm-for-database-cleanup)
+
+
 
 The `dbm` module in Python provides a simple interface to Unix databases (like DBM, NDBM, GDBM, and BSD DB). While these are low-level interfaces, they offer a basic way to manage key-value pairs. Below are comprehensive examples demonstrating various functionalities of the `dbm` module:
 
@@ -6632,6 +7061,16 @@ These examples cover various aspects of using the `dbm` module, from basic opera
 ## marshal - Internal Python object serialization.md
 
 # marshal - Internal Python object serialization
+## Table of Contents
+
+1. [marshal.dump(obj, file)](#marshaldumpobj-file)
+2. [marshal.loads(byte_stream)](#marshalloadsbyte_stream)
+3. [marshal.dumps(obj, proto=0, write_bytearray=False)](#marshaldumpsobj-proto0-write_bytearrayfalse)
+4. [Example of Using marshal for Network Serialization](#example-of-using-marshal-for-network-serialization)
+5. [Example of Receiving and Deserializing an Object from a Network](#example-of-receiving-and-deserializing-an-object-from-a-network)
+6. [Conclusion](#conclusion)
+
+
 
 The `marshal` module is an internal component of Python's standard library designed to serialize (convert objects into a byte stream) and deserialize (convert byte streams back into Python objects). This is useful for saving memory when dealing with complex data structures or when transferring objects over network protocols.
 
@@ -6776,6 +7215,20 @@ The `marshal` module provides a simple yet efficient way to serialize and deseri
 ## pickle - Python object serialization.md
 
 # pickle - Python object serialization
+## Table of Contents
+
+1. [1. Serializing Objects](#1-serializing-objects)
+2. [Example: Serializing a List](#example-serializing-a-list)
+3. [Example: Serializing a Custom Class](#example-serializing-a-custom-class)
+4. [2. Deserializing Objects](#2-deserializing-objects)
+5. [Example: Deserializing a List](#example-deserializing-a-list)
+6. [Example: Deserializing a Custom Class](#example-deserializing-a-custom-class)
+7. [3. Handling Special Characters](#3-handling-special-characters)
+8. [Example: Serializing a String with Special Characters](#example-serializing-a-string-with-special-characters)
+9. [Example: Deserializing a String with Special Characters](#example-deserializing-a-string-with-special-characters)
+10. [4. Handling Lists with Numpy Arrays](#4-handling-lists-with-numpy-arrays)
+
+
 
 The `pickle` module in Python is used for serializing and deserializing (or pickling and unpickling) objects. This is useful for saving and restoring complex data structures, such as nested dictionaries or lists, to disk or between sessions. Below are comprehensive examples of how to use the `pickle` module for serialization and deserialization.
 
@@ -7060,6 +7513,20 @@ The `pickle` module is a powerful tool for serializing and deserializing Python 
 ## shelve - Python object persistence.md
 
 # shelve - Python object persistence
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Handling Different Data Types](#2-handling-different-data-types)
+3. [3. Using a Custom Serialization Format](#3-using-a-custom-serialization-format)
+4. [4. Deleting Items from a Shelf](#4-deleting-items-from-a-shelf)
+5. [5. Iterating Over a Shelf](#5-iterating-over-a-shelf)
+6. [6. Closing a Shelf Explicitly](#6-closing-a-shelf-explicitly)
+7. [7. Using a Shelve File as a Dictionary](#7-using-a-shelve-file-as-a-dictionary)
+8. [8. Handling Exceptions During Shelf Operations](#8-handling-exceptions-during-shelf-operations)
+9. [9. Using a Shelve File in a Multithreaded Environment](#9-using-a-shelve-file-in-a-multithreaded-environment)
+10. [10. Using a Shelve File with Multiple Databases](#10-using-a-shelve-file-with-multiple-databases)
+
+
 
 The `shelve` module in Python provides a dictionary-like interface to persistent data storage, allowing you to store complex objects without worrying about serialization and deserialization.
 
@@ -7505,6 +7972,18 @@ finally:
 ## bdb - Debugger framework.md
 
 # bdb - Debugger framework
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Customizing the Debugger](#2-customizing-the-debugger)
+3. [3. Debugging Interactive Input](#3-debugging-interactive-input)
+4. [4. Using `bdb.set_trace()` in an Interactive Session](#4-using-bdbset_trace-in-an-interactive-session)
+5. [5. Debugging Nested Functions](#5-debugging-nested-functions)
+6. [6. Customizing Output](#6-customizing-output)
+7. [7. Debugging with a Custom Breakpoint](#7-debugging-with-a-custom-breakpoint)
+8. [8. Debugging with Logging](#8-debugging-with-logging)
+
+
 
 The `bdb` module in Python is a debugging framework that allows you to debug programs interactively at the source code level. Below are comprehensive examples of how to use each of the main functions and classes provided by this module. These examples cover basic usage, common debugging scenarios, and best practices for integrating bdb into your applications.
 
@@ -7713,6 +8192,20 @@ These examples demonstrate various aspects of using the `bdb` module, from basic
 ## faulthandler - Dump the Python traceback.md
 
 # faulthandler - Dump the Python traceback
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Customizing Core Dump Generation](#2-customizing-core-dump-generation)
+3. [3. Disabling Core Dump Generation](#3-disabling-core-dump-generation)
+4. [4. Listing Enabled Core Dump Filenames](#4-listing-enabled-core-dump-filenames)
+5. [5. Setting Custom Dump Directory](#5-setting-custom-dump-directory)
+6. [6. Listing All Supported Formats](#6-listing-all-supported-formats)
+7. [7. Setting Custom Format](#7-setting-custom-format)
+8. [8. Listing All Threads](#8-listing-all-threads)
+9. [9. Dumping Traceback for a Specific Thread](#9-dumping-traceback-for-a-specific-thread)
+10. [10. Printing a Stack Trace](#10-printing-a-stack-trace)
+
+
 
 The `faulthandler` module in Python is used to enable a core dump of the Python interpreter on segmentation faults, errors, or other unhandled exceptions. This can be particularly useful for debugging and recovering from crashes. Below are some comprehensive code examples that demonstrate various functionalities of the `faulthandler` module.
 
@@ -7854,6 +8347,14 @@ These examples cover various aspects of using the `faulthandler` module, from en
 ## pdb - The Python Debugger.md
 
 # pdb - The Python Debugger
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Debugging Commands:](#debugging-commands)
+3. [Full Example with Debugging:](#full-example-with-debugging)
+4. [Explanation:](#explanation)
+
+
 
 Below is a comprehensive set of code examples for the `pdb` module, which provides an interactive command-line interface to interact with running Python programs. Each example includes comments explaining each step.
 
@@ -7950,6 +8451,20 @@ By following these examples and using the provided debugging commands, you can e
 ## timeit - Measure execution time of small code snippets.md
 
 # timeit - Measure execution time of small code snippets
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [Explanation:](#explanation)
+3. [2. Measuring Multiple Statements](#2-measuring-multiple-statements)
+4. [Explanation:](#explanation)
+5. [3. Measuring Time for a Function](#3-measuring-time-for-a-function)
+6. [Explanation:](#explanation)
+7. [4. Using Timeit.Timer for Detailed Control](#4-using-timeittimer-for-detailed-control)
+8. [Explanation:](#explanation)
+9. [5. Measuring Time for Multiple Statements with Timer](#5-measuring-time-for-multiple-statements-with-timer)
+10. [Explanation:](#explanation)
+
+
 
 The `timeit` module in Python is a simple timing interface that helps measure short durations by running a given statement multiple times. It's particularly useful for benchmarking and profiling Python code. Below are comprehensive and well-documented examples demonstrating various functionalities of the `timeit` module.
 
@@ -8092,6 +8607,14 @@ This code is designed to be clear, concise, and suitable for inclusion in offici
 ## trace - Trace or track Python statement execution.md
 
 # trace - Trace or track Python statement execution
+## Table of Contents
+
+1. [Example 1: Basic Tracing with `trace.tracemalloc`](#example-1-basic-tracing-with-tracetracemalloc)
+2. [Example 2: Tracing Execution with `trace.Trace`](#example-2-tracing-execution-with-tracetrace)
+3. [Example 3: Tracing with Custom Filters](#example-3-tracing-with-custom-filters)
+4. [Example 4: Tracing with Custom Output](#example-4-tracing-with-custom-output)
+
+
 
 The `trace` module is a part of the Python Standard Library that provides a way to trace the execution of Python programs. It allows you to instrument your program to log each statement as it executes, which can be useful for debugging and profiling.
 
@@ -8230,6 +8753,18 @@ These examples demonstrate various ways to use the `trace` module for tracing Py
 ## tracemalloc - Trace memory allocations.md
 
 # tracemalloc - Trace memory allocations
+## Table of Contents
+
+1. [1. Enabling Tracing](#1-enabling-tracing)
+2. [2. Capturing Memory Snapshot](#2-capturing-memory-snapshot)
+3. [3. Analyzing Memory Snapshot](#3-analyzing-memory-snapshot)
+4. [4. Analyzing Top Memory Usage](#4-analyzing-top-memory-usage)
+5. [5. Analyzing Memory Usage Over Time](#5-analyzing-memory-usage-over-time)
+6. [6. Writing Results to File](#6-writing-results-to-file)
+7. [7. Resetting Tracing](#7-resetting-tracing)
+8. [8. Using with Context Manager](#8-using-with-context-manager)
+
+
 
 The `tracemalloc` module is a built-in tool that provides support for tracing memory allocation events. It can help identify memory leaks and optimize memory usage by analyzing how memory is allocated and deallocated over time.
 
@@ -8389,6 +8924,20 @@ These examples demonstrate various functionalities of the `tracemalloc` module, 
 ## 2to3 - Automated Python 2 to 3 code translation.md
 
 # 2to3 - Automated Python 2 to 3 code translation
+## Table of Contents
+
+1. [Example 1: Basic Conversion with a Script](#example-1-basic-conversion-with-a-script)
+2. [Description:](#description)
+3. [Explanation:](#explanation)
+4. [Example 2: Using Fixers Manually](#example-2-using-fixers-manually)
+5. [Description:](#description)
+6. [Explanation:](#explanation)
+7. [Example 3: Running 2to3 on Multiple Files](#example-3-running-2to3-on-multiple-files)
+8. [Description:](#description)
+9. [Explanation:](#explanation)
+10. [Example 4: Using 2to3 as a Command-line Tool](#example-4-using-2to3-as-a-command-line-tool)
+
+
 
 The `2to3` module is used for automatically converting Python 2 code to Python 3 code. It provides tools and utilities to help developers transition their codebases from Python 2 to Python 3, ensuring compatibility and reducing the need for manual modifications. Below are comprehensive examples demonstrating various functionalities of the `2to3` module.
 
@@ -8496,6 +9045,18 @@ These examples cover various aspects of using the `2to3` module, from basic scri
 ## doctest - Test interactive Python examples.md
 
 # doctest - Test interactive Python examples
+## Table of Contents
+
+1. [Example 1: Basic Usage](#example-1-basic-usage)
+2. [Example 2: Testing Functions with More Complex Arguments](#example-2-testing-functions-with-more-complex-arguments)
+3. [Example 3: Testing Functions with Lists and Tuples](#example-3-testing-functions-with-lists-and-tuples)
+4. [Example 4: Testing Functions with String Manipulation](#example-4-testing-functions-with-string-manipulation)
+5. [Example 5: Testing Functions with Conditional Logic](#example-5-testing-functions-with-conditional-logic)
+6. [Example 6: Testing Functions with Class Methods](#example-6-testing-functions-with-class-methods)
+7. [Example 7: Testing Functions with External Modules](#example-7-testing-functions-with-external-modules)
+8. [Example 8: Testing Functions with Assertions](#example-8-testing-functions-with-assertions)
+
+
 
 The `doctest` module in Python is a testing framework that provides tools to run and verify tests written as docstrings in Python modules, classes, functions, and methods. It is particularly useful for verifying that the examples provided in docstrings are correct and up-to-date.
 
@@ -8667,6 +9228,18 @@ These examples cover various scenarios and functionalities of the `doctest` modu
 ## pydoc - Documentation generator and online help system.md
 
 # pydoc - Documentation generator and online help system
+## Table of Contents
+
+1. [Example 1: Generating Documentation for a Specific Module](#example-1-generating-documentation-for-a-specific-module)
+2. [Example 2: Using Interactive Help](#example-2-using-interactive-help)
+3. [Example 3: Generating HTML Documentation to a File](#example-3-generating-html-documentation-to-a-file)
+4. [Example 4: Generating HTML Documentation for Multiple Modules](#example-4-generating-html-documentation-for-multiple-modules)
+5. [Example 5: Generating HTML Documentation with a Custom Template](#example-5-generating-html-documentation-with-a-custom-template)
+6. [Example 6: Generating Text Documentation](#example-6-generating-text-documentation)
+7. [Example 7: Using `pydoc` with a Script](#example-7-using-pydoc-with-a-script)
+8. [Example 8: Generating Command-Line Help](#example-8-generating-command-line-help)
+
+
 
 The `pydoc` module in Python is a tool that can generate HTML documentation from Python modules, classes, functions, methods, exceptions, keywords, and built-in types. It provides an interactive way to access this documentation and can also be used programmatically.
 
@@ -8779,6 +9352,15 @@ These examples cover various aspects of using the `pydoc` module to generate and
 ## test - Regression tests package for Python.md
 
 # test - Regression tests package for Python
+## Table of Contents
+
+1. [Example 1: Writing a Simple Unit Test](#example-1-writing-a-simple-unit-test)
+2. [Example 2: Writing a Test for a Custom Function](#example-2-writing-a-test-for-a-custom-function)
+3. [Example 3: Writing Integration Tests](#example-3-writing-integration-tests)
+4. [Example 4: Writing System Tests](#example-4-writing-system-tests)
+5. [Example 5: Writing a Test Using `unittest.mock`](#example-5-writing-a-test-using-unittestmock)
+
+
 
 The `test` module in Python is a comprehensive testing framework that provides tools for writing unit, integration, and system tests. It includes various classes and functions to help you organize your tests and run them efficiently. Below are some examples of how to use the `test` module to write and run tests.
 
@@ -8945,6 +9527,16 @@ These examples demonstrate basic usage of the `test` module in Python, including
 ## test.support - Utilities for the Python test suite.md
 
 # test.support - Utilities for the Python test suite
+## Table of Contents
+
+1. [1. **Running Tests with a Specific Python Version**](#1-running-tests-with-a-specific-python-version)
+2. [2. **Generating Test Data for Specific Cases**](#2-generating-test-data-for-specific-cases)
+3. [3. **Running Tests with Different Execution Modes**](#3-running-tests-with-different-execution-modes)
+4. [4. **Running Tests with Custom Test Runner**](#4-running-tests-with-custom-test-runner)
+5. [5. **Running Tests with Specific Test Output Formats**](#5-running-tests-with-specific-test-output-formats)
+6. [6. **Running Tests with Specific Test Suite Configuration**](#6-running-tests-with-specific-test-suite-configuration)
+
+
 
 The `test.support` module is part of Python's standard library, designed to support testing by providing utility functions that are commonly needed across different tests. Below are comprehensive examples demonstrating various functionalities provided by this module.
 
@@ -9097,6 +9689,20 @@ These examples demonstrate how to use various functionalities provided by `test.
 ## test.support.script_helper - Utilities for the Python test suite.md
 
 # test.support.script_helper - Utilities for the Python test suite
+## Table of Contents
+
+1. [Example 1: Using `script_runner`](#example-1-using-script_runner)
+2. [Example 2: Using `run_command`](#example-2-using-run_command)
+3. [Example 3: Using `check_call`](#example-3-using-check_call)
+4. [Example 4: Using `check_output`](#example-4-using-check_output)
+5. [Example 5: Using `run_python`](#example-5-using-run_python)
+6. [Example 6: Using `check_call_and_capture_output`](#example-6-using-check_call_and_capture_output)
+7. [Example 7: Using `check_output_and_capture_output`](#example-7-using-check_output_and_capture_output)
+8. [Example 8: Using `run_python_file`](#example-8-using-run_python_file)
+9. [Example 9: Using `run_subprocess`](#example-9-using-run_subprocess)
+10. [Example 10: Using `check_call_and_capture_output_with_env`](#example-10-using-check_call_and_capture_output_with_env)
+
+
 
 The `test.support.script_helper` module is part of Python's standard library, designed to provide utility functions that are useful for testing purposes within the Python framework. This module is particularly useful for scripts and modules that need to run tests without relying on the full environment of a running interpreter.
 
@@ -9866,6 +10472,18 @@ These examples demonstrate various ways to handle command execution in Python, i
 ## typing - Support for type hints.md
 
 # typing - Support for type hints
+## Table of Contents
+
+1. [1. Type Annotations](#1-type-annotations)
+2. [2. Type Aliases](#2-type-aliases)
+3. [3. Optional Values](#3-optional-values)
+4. [4. Generic Types](#4-generic-types)
+5. [5. Callable Types](#5-callable-types)
+6. [6. Container Types](#6-container-types)
+7. [7. Union Types](#7-union-types)
+8. [8. Type Literals](#8-type-literals)
+
+
 
 The `typing` module is a powerful addition to Python that provides a way to add static type checking to your code using type hints, which are annotations that describe the expected types of variables and function arguments. Here are comprehensive and well-documented examples for various functionalities within the `typing` module:
 
@@ -10058,6 +10676,17 @@ These examples cover a wide range of functionalities provided by the `typing` mo
 ## unittest - Unit testing framework.md
 
 # unittest - Unit testing framework
+## Table of Contents
+
+1. [Example 1: Basic Test Case](#example-1-basic-test-case)
+2. [Example 2: Test Case with Setup and Teardown](#example-2-test-case-with-setup-and-teardown)
+3. [Example 3: Test Case with Assertions](#example-3-test-case-with-assertions)
+4. [Example 4: Test Case with Assertions for Exceptions](#example-4-test-case-with-assertions-for-exceptions)
+5. [Example 5: Test Case with Parameterized Tests](#example-5-test-case-with-parameterized-tests)
+6. [Example 6: Test Case with Test Suite](#example-6-test-case-with-test-suite)
+7. [Example 7: Test Case with Test Loader](#example-7-test-case-with-test-loader)
+
+
 
 The `unittest` module is a powerful tool for writing unit tests in Python. It provides a flexible framework that allows you to create test cases, define assertions, and run tests programmatically. Below are comprehensive examples covering various functionalities of the `unittest` module.
 
@@ -10238,6 +10867,16 @@ These examples cover a range of functionalities within the `unittest` module, fr
 ## unittest.mock - getting started.md
 
 # unittest.mock - getting started
+## Table of Contents
+
+1. [Example 1: Creating a Simple Mock Object](#example-1-creating-a-simple-mock-object)
+2. [Example 2: Mocking a Class Method](#example-2-mocking-a-class-method)
+3. [Example 3: Mocking a Static Method](#example-3-mocking-a-static-method)
+4. [Example 4: Mocking a Module Function](#example-4-mocking-a-module-function)
+5. [Example 5: Mocking an External Library Function](#example-5-mocking-an-external-library-function)
+6. [Example 6: Using `patch` Decorator](#example-6-using-patch-decorator)
+
+
 
 The `unittest.mock` module is a powerful tool used for creating mock objects in Python, which are essential for testing purposes. These mocks allow you to simulate the behavior of real objects without executing them, making your tests more isolated and predictable.
 
@@ -10445,6 +11084,18 @@ Each example includes detailed comments to explain the purpose of each step and 
 ## unittest.mock - mock object library.md
 
 # unittest.mock - mock object library
+## Table of Contents
+
+1. [Example 1: Basic Usage](#example-1-basic-usage)
+2. [Example 2: Mocking Functions](#example-2-mocking-functions)
+3. [Example 3: Mocking Classes](#example-3-mocking-classes)
+4. [Example 4: Mocking with Arguments](#example-4-mocking-with-arguments)
+5. [Example 5: Mocking with Side Effects](#example-5-mocking-with-side-effects)
+6. [Example 6: Mocking with Return Values](#example-6-mocking-with-return-values)
+7. [Example 7: Mocking with Return Value Count](#example-7-mocking-with-return-value-count)
+8. [Example 8: Mocking with Side Effect and Return Value Count](#example-8-mocking-with-side-effect-and-return-value-count)
+
+
 
 The `unittest.mock` module is a powerful tool for creating test doubles in Python, allowing you to isolate parts of your code that interact with external systems or dependencies. This module provides several useful functions and classes to help you simulate various scenarios in your tests.
 
@@ -10716,6 +11367,20 @@ These examples demonstrate various ways to use the `unittest.mock` module to cre
 ## filecmp - File and Directory Comparisons.md
 
 # filecmp - File and Directory Comparisons
+## Table of Contents
+
+1. [1. `cmp`](#1-cmp)
+2. [2. `cmpfiles`](#2-cmpfiles)
+3. [3. `dircmp`](#3-dircmp)
+4. [4. `filecmp.dircmpobj`](#4-filecmpdircmpobj)
+5. [5. `subprocess.run`](#5-subprocessrun)
+6. [6. `filecmp.cmpfiles() with patterns`](#6-filecmpcmpfiles-with-patterns)
+7. [7. `filecmp.cmp() with custom comparison logic`](#7-filecmpcmp-with-custom-comparison-logic)
+8. [8. `filecmp.cmp() with binary comparison`](#8-filecmpcmp-with-binary-comparison)
+9. [9. `filecmp.dircmp()` with ignore patterns](#9-filecmpdircmp-with-ignore-patterns)
+10. [10. `filecmp.cmp() with shallow comparison`](#10-filecmpcmp-with-shallow-comparison)
+
+
 
 The `filecmp` module in Python provides utilities to compare files or directories for equality, modification times, and more. Below are comprehensive examples of how to use each function and class in the `filecmp` module.
 
@@ -10875,6 +11540,15 @@ These examples demonstrate various ways to use the `filecmp` module in Python fo
 ## fileinput - Iterate over lines from multiple input streams.md
 
 # fileinput - Iterate over lines from multiple input streams
+## Table of Contents
+
+1. [Example 1: Iterating Over Multiple Files](#example-1-iterating-over-multiple-files)
+2. [Example 2: Skipping Blank Lines](#example-2-skipping-blank-lines)
+3. [Example 3: Processing Lines Based on Position](#example-3-processing-lines-based-on-position)
+4. [Example 4: Using `inplace` Mode](#example-4-using-inplace-mode)
+5. [Example 5: Handling Unicode Input](#example-5-handling-unicode-input)
+
+
 
 The `fileinput` module is a part of Python's standard library that provides an easy way to read from multiple files or standard input. It allows you to process each line from each of these inputs in sequence, handling various options such as skipping blank lines and processing only certain lines based on their position.
 
@@ -10987,6 +11661,20 @@ These examples cover various aspects of using the `fileinput` module, including 
 ## fnmatch - Unix filename pattern matching.md
 
 # fnmatch - Unix filename pattern matching
+## Table of Contents
+
+1. [Example 1: Basic Pattern Matching](#example-1-basic-pattern-matching)
+2. [Explanation:](#explanation)
+3. [Example 2: Case Insensitive Matching](#example-2-case-insensitive-matching)
+4. [Explanation:](#explanation)
+5. [Example 3: Using Wildcards in Patterns](#example-3-using-wildcards-in-patterns)
+6. [Explanation:](#explanation)
+7. [Example 4: Matching Multiple Patterns](#example-4-matching-multiple-patterns)
+8. [Explanation:](#explanation)
+9. [Example 5: Using Regular Expressions for More Complex Patterns](#example-5-using-regular-expressions-for-more-complex-patterns)
+10. [Explanation:](#explanation)
+
+
 
 The `fnmatch` module is used to perform shell-style pattern matching on filenames, which is particularly useful for applications that need to handle file paths and patterns according to common Unix/Linux conventions. Below are comprehensive code examples demonstrating various functionalities of the `fnmatch` module.
 
@@ -11158,6 +11846,11 @@ The `fnmatch` module provides flexible and powerful tools for matching filenames
 ## glob - Unix style pathname pattern expansion.md
 
 # glob - Unix style pathname pattern expansion
+## Table of Contents
+
+1. [Explanation of Examples:](#explanation-of-examples)
+
+
 
 The `glob` module in Python provides a function called `glob()` that is used to expand Unix-style pathname patterns into a list of matching file names. This can be very useful for finding files based on specific naming conventions or patterns.
 
@@ -11247,6 +11940,18 @@ These examples cover a wide range of use cases for the `glob` module, demonstrat
 ## linecache - Random access to text lines.md
 
 # linecache - Random access to text lines
+## Table of Contents
+
+1. [Example 1: Retrieve a line from a file](#example-1-retrieve-a-line-from-a-file)
+2. [Example 2: Retrieve all lines from a file and store them in a list](#example-2-retrieve-all-lines-from-a-file-and-store-them-in-a-list)
+3. [Example 3: Store the contents of a file in memory and retrieve a specific line](#example-3-store-the-contents-of-a-file-in-memory-and-retrieve-a-specific-line)
+4. [Example 4: Clear the cache to free up memory](#example-4-clear-the-cache-to-free-up-memory)
+5. [Example 5: Retrieve lines from multiple files and process them](#example-5-retrieve-lines-from-multiple-files-and-process-them)
+6. [Example 6: Handle errors gracefully using try-except blocks](#example-6-handle-errors-gracefully-using-try-except-blocks)
+7. [Example 7: Store and retrieve lines in a context manager](#example-7-store-and-retrieve-lines-in-a-context-manager)
+8. [Example 8: Use `linecache` with a list to store lines and process them](#example-8-use-linecache-with-a-list-to-store-lines-and-process-them)
+
+
 
 The `linecache` module provides a way to access lines of files, even if the file is not open or has been changed since it was last accessed. This can be particularly useful when you need to process large files without reading them entirely into memory.
 
@@ -11433,6 +12138,11 @@ These examples cover various use cases of the `linecache` module, from basic ret
 ## os.path - Common pathname manipulations.md
 
 # os.path - Common pathname manipulations
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `os.path` module in Python provides a portable way of using operating system dependent functionality related to files and directories. Below are comprehensive examples demonstrating various functionalities of the `os.path` module, along with explanations for each example:
 
@@ -11602,6 +12312,11 @@ Each example includes error handling for cases where the paths might not exist, 
 ## pathlib - Object-oriented filesystem paths.md
 
 # pathlib - Object-oriented filesystem paths
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below are comprehensive examples of how to use each functionality provided by the `pathlib` module in Python 3.12. Each example is well-documented with comments explaining each step.
 
@@ -11704,6 +12419,20 @@ These examples cover a wide range of functionalities provided by the `pathlib` m
 ## shutil - High-level file operations.md
 
 # shutil - High-level file operations
+## Table of Contents
+
+1. [1. Copying Files and Directories](#1-copying-files-and-directories)
+2. [2. Moving Files and Directories](#2-moving-files-and-directories)
+3. [3. Deleting Files and Directories](#3-deleting-files-and-directories)
+4. [4. Copying Files with Permissions](#4-copying-files-with-permissions)
+5. [5. Archiving Files](#5-archiving-files)
+6. [6. Compressing Files](#6-compressing-files)
+7. [7. Listing Files in a Directory](#7-listing-files-in-a-directory)
+8. [8. Getting File Information](#8-getting-file-information)
+9. [9. Reading and Writing Files](#9-reading-and-writing-files)
+10. [10. Making and Removing Directories](#10-making-and-removing-directories)
+
+
 
 Certainly! Below are comprehensive code examples for various functionalities in the `shutil` module, which provides a high-level interface for common file operations in Python.
 
@@ -11969,6 +12698,18 @@ These examples should provide a good starting point for using the `shutil` modul
 ## stat - Interpreting stat() results.md
 
 # stat - Interpreting stat() results
+## Table of Contents
+
+1. [Example 1: Basic Usage of `stat()`](#example-1-basic-usage-of-stat)
+2. [Example 2: Using `os.path.getmtime()` for Modification Time](#example-2-using-ospathgetmtime-for-modification-time)
+3. [Example 3: Extracting Permissions and Flags](#example-3-extracting-permissions-and-flags)
+4. [Example 4: Handling File Attributes with `os.lstat()` and `os.fstat()`](#example-4-handling-file-attributes-with-oslstat-and-osfstat)
+5. [Example 5: Checking File Types](#example-5-checking-file-types)
+6. [Example 6: Accessing Extended Attributes with `os.listxattr()`](#example-6-accessing-extended-attributes-with-oslistxattr)
+7. [Example 7: Using `os.access()` to Check Permissions](#example-7-using-osaccess-to-check-permissions)
+8. [Example 8: Retrieving Filesystem Information with `os.statvfs()`](#example-8-retrieving-filesystem-information-with-osstatvfs)
+
+
 
 The `stat` module in Python provides a portable way of using operating system-dependent functionality like reading or writing to the file system, and it includes functions that return information about files and directories. This module is particularly useful for understanding file properties such as permissions, last modification times, and more.
 
@@ -12111,6 +12852,18 @@ These examples demonstrate how to use the `stat` module in Python to retrieve an
 ## tempfile - Generate temporary files and directories.md
 
 # tempfile - Generate temporary files and directories
+## Table of Contents
+
+1. [1. Creating Temporary Files](#1-creating-temporary-files)
+2. [2. Creating Temporary Files with Specific Modes](#2-creating-temporary-files-with-specific-modes)
+3. [3. Creating Temporary Files with Specific File Types](#3-creating-temporary-files-with-specific-file-types)
+4. [4. Creating Temporary Directories](#4-creating-temporary-directories)
+5. [5. Creating Temporary Directories with Specific Directory Types](#5-creating-temporary-directories-with-specific-directory-types)
+6. [6. Creating Temporary Directories with Specific Suffixes](#6-creating-temporary-directories-with-specific-suffixes)
+7. [7. Creating Temporary Files Using a NamedTemporaryFile Object](#7-creating-temporary-files-using-a-namedtemporaryfile-object)
+8. [8. Creating Temporary Files with Specific Directory and Suffix](#8-creating-temporary-files-with-specific-directory-and-suffix)
+
+
 
 The `tempfile` module in Python provides a set of functions to create temporary files and directories, which are useful for testing, configuration files, or any other scenarios where you need to manage small files that do not persist beyond the current session. Below are comprehensive code examples demonstrating various functionalities of the `tempfile` module:
 
@@ -12251,6 +13004,19 @@ These examples cover various aspects of using the `tempfile` module, from basic 
 ## configparser - Configuration file parser.md
 
 # configparser - Configuration file parser
+## Table of Contents
+
+1. [1. Reading an INI File](#1-reading-an-ini-file)
+2. [2. Writing to an INI File](#2-writing-to-an-ini-file)
+3. [3. Handling Default Values](#3-handling-default-values)
+4. [4. Using Interpolation](#4-using-interpolation)
+5. [5. Handling Lists](#5-handling-lists)
+6. [6. Handling Sections](#6-handling-sections)
+7. [7. Handling Comments](#7-handling-comments)
+8. [8. Handling Multiple Values in a Section](#8-handling-multiple-values-in-a-section)
+9. [9. Handling Sections with Duplicate Keys](#9-handling-sections-with-duplicate-keys)
+
+
 
 The `configparser` module in Python is used to read and write configuration files in a format similar to the Windows INI files but with more features. Below are comprehensive and well-documented examples of how to use various functionalities provided by this module.
 
@@ -12469,6 +13235,18 @@ These examples cover various aspects of using the `configparser` module, includi
 ## csv - CSV File Reading and Writing.md
 
 # csv - CSV File Reading and Writing
+## Table of Contents
+
+1. [Example 1: Writing a CSV file](#example-1-writing-a-csv-file)
+2. [Explanation:](#explanation)
+3. [Example 2: Reading a CSV file](#example-2-reading-a-csv-file)
+4. [Explanation:](#explanation)
+5. [Example 3: Writing a CSV file with DictWriter](#example-3-writing-a-csv-file-with-dictwriter)
+6. [Explanation:](#explanation)
+7. [Example 4: Reading a CSV file with DictReader](#example-4-reading-a-csv-file-with-dictreader)
+8. [Explanation:](#explanation)
+
+
 
 Below are comprehensive examples of how to read from and write to CSV files using the `csv` module in Python 3.12. Each example includes detailed comments explaining each step.
 
@@ -12624,6 +13402,11 @@ These examples cover basic operations for reading from and writing to CSV files 
 ## netrc - netrc file processing.md
 
 # netrc - netrc file processing
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `netrc` module in Python provides an interface to read and write `.netrc` files, which are commonly used by applications that require network access, such as FTP clients, email clients, and web browsers. This module allows you to manage credentials securely across different network services.
 
@@ -12770,6 +13553,18 @@ These examples provide a comprehensive overview of how to use the `netrc` module
 ## plistlib - Generate and parse Apple .plist files.md
 
 # plistlib - Generate and parse Apple .plist files
+## Table of Contents
+
+1. [Example 1: Writing a Simple Plist](#example-1-writing-a-simple-plist)
+2. [Example 2: Parsing a Plist](#example-2-parsing-a-plist)
+3. [Example 3: Writing a Plist with DateTime Objects](#example-3-writing-a-plist-with-datetime-objects)
+4. [Example 4: Parsing a Plist with DateTime Objects](#example-4-parsing-a-plist-with-datetime-objects)
+5. [Example 5: Writing a Plist with Nested Lists](#example-5-writing-a-plist-with-nested-lists)
+6. [Example 6: Parsing a Plist with Nested Lists](#example-6-parsing-a-plist-with-nested-lists)
+7. [Example 7: Writing a Plist with Custom Objects](#example-7-writing-a-plist-with-custom-objects)
+8. [Example 8: Parsing a Plist with Custom Objects](#example-8-parsing-a-plist-with-custom-objects)
+
+
 
 The `plistlib` module in Python is used to read from and write to Apple Property List (`.plist`) files, which are a common data storage format used by macOS. Below are comprehensive code examples that demonstrate how to use the `plistlib` module to generate and parse `.plist` files.
 
@@ -12962,6 +13757,13 @@ These examples cover various aspects of using `plistlib`, from basic dictionary 
 ## tomllib - Parse TOML files.md
 
 # tomllib - Parse TOML files
+## Table of Contents
+
+1. [Explanation of Examples](#explanation-of-examples)
+2. [Example TOML File (`example.toml`)](#example-toml-file-exampletoml)
+3. [Usage in Documentation](#usage-in-documentation)
+
+
 
 Below are comprehensive examples of using the `tomllib` module from the Python standard library to parse TOML files. Each example is well-documented with comments explaining each step.
 
@@ -13413,6 +14215,18 @@ These examples cover a wide range of functionalities provided by the `itertools`
 ## operator - Standard operators as functions.md
 
 # operator - Standard operators as functions
+## Table of Contents
+
+1. [1. Arithmetic Operations](#1-arithmetic-operations)
+2. [2. Comparison Operations](#2-comparison-operations)
+3. [3. Logical Operations](#3-logical-operations)
+4. [4. Identity and Membership Operations](#4-identity-and-membership-operations)
+5. [5. Function and Method Calls](#5-function-and-method-calls)
+6. [6. Attribute Access and Item Retrieval](#6-attribute-access-and-item-retrieval)
+7. [7. Callable Objects](#7-callable-objects)
+8. [8. Operator Lookup](#8-operator-lookup)
+
+
 
 The `operator` module in Python provides a convenient way to access operators as functions, which can be very useful for performing arithmetic operations, comparisons, and other operations in a more functional style. Below are comprehensive code examples for each functionality provided by the `operator` module.
 
@@ -13597,6 +14411,20 @@ These examples demonstrate the various functionalities provided by the `operator
 ## argparse - Parser for command-line options, arguments and subcommands.md
 
 # argparse - Parser for command-line options, arguments and subcommands
+## Table of Contents
+
+1. [Example 1: Basic Argument Parsing](#example-1-basic-argument-parsing)
+2. [Example 2: Argument Parsing with Subcommands](#example-2-argument-parsing-with-subcommands)
+3. [Example 3: Argument Parsing with Options](#example-3-argument-parsing-with-options)
+4. [Example 4: Argument Parsing with Custom Help Messages](#example-4-argument-parsing-with-custom-help-messages)
+5. [Example 5: Argument Parsing with Default Values](#example-5-argument-parsing-with-default-values)
+6. [Example 6: Argument Parsing with Required Arguments](#example-6-argument-parsing-with-required-arguments)
+7. [Example 7: Argument Parsing with Error Handling](#example-7-argument-parsing-with-error-handling)
+8. [Example 8: Argument Parsing with Descriptive Help Output](#example-8-argument-parsing-with-descriptive-help-output)
+9. [Example 9: Argument Parsing with Subparsers and Aliases](#example-9-argument-parsing-with-subparsers-and-aliases)
+10. [Example 10: Argument Parsing with Custom Type Conversion](#example-10-argument-parsing-with-custom-type-conversion)
+
+
 
 The `argparse` module in Python is a powerful tool for parsing command-line arguments and providing usage information to users. It allows you to create user-friendly interfaces that are easy to use and understand, while also enabling robust error handling and help output.
 
@@ -14019,6 +14847,18 @@ elif args.main_command == 'cmd2':
 ## ctypes - A foreign function library for Python.md
 
 # ctypes - A foreign function library for Python
+## Table of Contents
+
+1. [Example 1: Loading a Shared Library](#example-1-loading-a-shared-library)
+2. [Example 2: Passing Arguments and Returning Results](#example-2-passing-arguments-and-returning-results)
+3. [Example 3: Structures and Pointers](#example-3-structures-and-pointers)
+4. [Example 4: Callback Functions](#example-4-callback-functions)
+5. [Example 5: Using Enumerations](#example-5-using-enumerations)
+6. [Example 6: Dynamic Library Path](#example-6-dynamic-library-path)
+7. [Example 7: Loading a Shared Library with Multiple Symbols](#example-7-loading-a-shared-library-with-multiple-symbols)
+8. [Example 8: Passing Structures to Functions](#example-8-passing-structures-to-functions)
+
+
 
 The `ctypes` module in Python provides C compatible data types, and allows calling functions in DLLs or shared libraries. This is useful for interfacing with native libraries and interacting with hardware.
 
@@ -14211,6 +15051,15 @@ These examples demonstrate various ways to use the `ctypes` module for interfaci
 ## curses - Terminal handling for character-cell displays.md
 
 # curses - Terminal handling for character-cell displays
+## Table of Contents
+
+1. [Example 1: Basic Terminal Screen Manipulation](#example-1-basic-terminal-screen-manipulation)
+2. [Example 2: Handling Keyboard Input](#example-2-handling-keyboard-input)
+3. [Example 3: Color Support](#example-3-color-support)
+4. [Example 4: Handling Mouse Events](#example-4-handling-mouse-events)
+5. [Example 5: Creating a Simple Menu](#example-5-creating-a-simple-menu)
+
+
 
 The `curses` module in Python provides a way to write text-based user interfaces in a terminal. It allows you to create interactive programs that can respond to keyboard input, provide color support, and handle mouse events.
 
@@ -14417,6 +15266,16 @@ These examples demonstrate basic usage of the `curses` module, covering terminal
 ## curses.ascii - Utilities for ASCII characters.md
 
 # curses.ascii - Utilities for ASCII characters
+## Table of Contents
+
+1. [Example 1: Character Classification](#example-1-character-classification)
+2. [Example 2: Character Conversion](#example-2-character-conversion)
+3. [Example 3: Character Arithmetic](#example-3-character-arithmetic)
+4. [Example 4: Character Equality and Comparison](#example-4-character-equality-and-comparison)
+5. [Example 5: Character Properties](#example-5-character-properties)
+6. [Summary](#summary)
+
+
 
 The `curses.ascii` module provides a set of functions that handle ASCII character operations in a way similar to those found in the C library. This is useful for applications that require text processing and need to interact with ASCII-only data.
 
@@ -14564,6 +15423,16 @@ These examples demonstrate how to use the `curses.ascii` module for various char
 ## curses.panel - A panel stack extension for curses.md
 
 # curses.panel - A panel stack extension for curses
+## Table of Contents
+
+1. [Example 1: Creating and Displaying Multiple Panels](#example-1-creating-and-displaying-multiple-panels)
+2. [Example 2: Moving a Panel](#example-2-moving-a-panel)
+3. [Example 3: Hiding and Showing Panels](#example-3-hiding-and-showing-panels)
+4. [Example 4: Deleting a Panel](#example-4-deleting-a-panel)
+5. [Example 5: Getting and Setting Panel Attributes](#example-5-getting-and-setting-panel-attributes)
+6. [Explanation](#explanation)
+
+
 
 The `curses.panel` module provides a set of functions to create, manipulate, and manage panels within a curses window. Panels are useful for organizing multiple windows on the screen and allowing them to be stacked on top of each other with z-order management. Below are comprehensive code examples demonstrating various functionalities provided by the `curses.panel` module.
 
@@ -14749,6 +15618,16 @@ These examples cover the basic functionalities of managing panels in a curses ap
 ## curses.textpad - Text input widget for curses programs.md
 
 # curses.textpad - Text input widget for curses programs
+## Table of Contents
+
+1. [1. Creating a Simple Text Input Widget](#1-creating-a-simple-text-input-widget)
+2. [Explanation:](#explanation)
+3. [2. Adding Multiple Lines to the Text Input Widget](#2-adding-multiple-lines-to-the-text-input-widget)
+4. [Explanation:](#explanation)
+5. [3. Handling Key Events](#3-handling-key-events)
+6. [Explanation:](#explanation)
+
+
 
 The `curses` module in Python is a powerful library for creating text-based user interfaces, which can be used to build console applications that offer interactive functionality. The `textpad` sub-module provides several classes and functions to create text input widgets that are useful in such applications.
 
@@ -14912,6 +15791,20 @@ These examples demonstrate various functionalities of the `curses.textpad` modul
 ## errno - Standard errno system symbols.md
 
 # errno - Standard errno system symbols
+## Table of Contents
+
+1. [1. Accessing Error Numbers](#1-accessing-error-numbers)
+2. [2. Handling Errors in I/O Operations](#2-handling-errors-in-io-operations)
+3. [3. Error Codes for File Operations](#3-error-codes-for-file-operations)
+4. [4. Error Codes for General I/O Errors](#4-error-codes-for-general-io-errors)
+5. [5. Error Codes for Permissions Issues](#5-error-codes-for-permissions-issues)
+6. [6. Error Codes for Connection Issues](#6-error-codes-for-connection-issues)
+7. [7. Error Codes for Timeout Issues](#7-error-codes-for-timeout-issues)
+8. [8. Error Codes for Invalid Argument Issues](#8-error-codes-for-invalid-argument-issues)
+9. [9. Error Codes for File System Full Issues](#9-error-codes-for-file-system-full-issues)
+10. [10. Error Codes for Path Not Found Issues](#10-error-codes-for-path-not-found-issues)
+
+
 
 Certainly! Below is a comprehensive set of code examples demonstrating various functionalities provided by the `errno` module in Python's standard library. These examples are designed to be clear, concise, and suitable for inclusion in official documentation.
 
@@ -15134,6 +16027,11 @@ These examples demonstrate various ways to use the `errno` module to handle erro
 ## getpass - Portable password input.md
 
 # getpass - Portable password input
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `getpass` module in the Python standard library provides a way to prompt for passwords securely without echoing them on the screen. This is particularly useful for applications that need to handle user credentials, such as web servers or command-line interfaces.
 
@@ -15275,6 +16173,20 @@ if __name__ == "__main__":
 ## io - Core tools for working with streams.md
 
 # io - Core tools for working with streams
+## Table of Contents
+
+1. [1. Basic File Handling](#1-basic-file-handling)
+2. [Reading from a File](#reading-from-a-file)
+3. [2. Writing to a File](#2-writing-to-a-file)
+4. [Writing Text to a File](#writing-text-to-a-file)
+5. [Writing Binary Data to a File](#writing-binary-data-to-a-file)
+6. [3. Appending to a File](#3-appending-to-a-file)
+7. [Appending Text to a File](#appending-text-to-a-file)
+8. [Appending Binary Data to a File](#appending-binary-data-to-a-file)
+9. [4. Text Stream Handling](#4-text-stream-handling)
+10. [Reading Lines from a File](#reading-lines-from-a-file)
+
+
 
 The `io` module in Python is a core module that provides support for file-like objects, including handling different types of streams such as binary files and text files. Below are comprehensive and well-documented code examples for various functionalities within the `io` module.
 
@@ -15525,6 +16437,18 @@ These examples cover various aspects of file handling, including reading and wri
 ## logging - Logging facility for Python.md
 
 # logging - Logging facility for Python
+## Table of Contents
+
+1. [Example 1: Basic Configuration](#example-1-basic-configuration)
+2. [Example 2: Logging to Files](#example-2-logging-to-files)
+3. [Example 3: Logging with Custom Handlers](#example-3-logging-with-custom-handlers)
+4. [Example 4: Logging with Formatters](#example-4-logging-with-formatters)
+5. [Example 5: Logging with Rotating Files](#example-5-logging-with-rotating-files)
+6. [Example 6: Logging with Timestamps](#example-6-logging-with-timestamps)
+7. [Example 7: Logging with Levels and Filters](#example-7-logging-with-levels-and-filters)
+8. [Example 8: Logging with Handlers and Filters](#example-8-logging-with-handlers-and-filters)
+
+
 
 The `logging` module in Python provides a flexible framework for emitting log messages from Python programs. It supports formatting, coloring, and redirection of output to various destinations. Below are comprehensive code examples that demonstrate various functionalities of the `logging` module.
 
@@ -15801,6 +16725,16 @@ These examples cover various aspects of the `logging` module, including basic co
 ## logging.config - Logging configuration.md
 
 # logging.config - Logging configuration
+## Table of Contents
+
+1. [1. Basic Configuration using a Dictionary](#1-basic-configuration-using-a-dictionary)
+2. [Explanation:](#explanation)
+3. [2. Configuration using a JSON File](#2-configuration-using-a-json-file)
+4. [Explanation:](#explanation)
+5. [3. Using a Configuration Module](#3-using-a-configuration-module)
+6. [Explanation:](#explanation)
+
+
 
 Below are comprehensive code examples for the `logging.config` module in Python's standard library, along with detailed explanations of each example.
 
@@ -15942,6 +16876,20 @@ These examples demonstrate how to configure logging using different methods, inc
 ## logging.handlers - Logging handlers.md
 
 # logging.handlers - Logging handlers
+## Table of Contents
+
+1. [1. RotatingFileHandler](#1-rotatingfilehandler)
+2. [2. TimedRotatingFileHandler](#2-timedrotatingfilehandler)
+3. [3. SocketHandler](#3-sockethandler)
+4. [4. HTTPServerHandler](#4-httpserverhandler)
+5. [5. QueueHandler and QueueListener](#5-queuehandler-and-queuelistener)
+6. [6. SysLogHandler](#6-sysloghandler)
+7. [7. SMTPHandler](#7-smtphandler)
+8. [8. NullHandler](#8-nullhandler)
+9. [9. MemoryHandler](#9-memoryhandler)
+10. [10. WatchedFileHandler](#10-watchedfilehandler)
+
+
 
 The `logging.handlers` module in Python provides various handler classes that can be used to send log records to different destinations, such as files, network sockets, or remote servers. Below are comprehensive code examples for each handler class provided by this module. These examples demonstrate how to configure and use these handlers effectively.
 
@@ -16234,6 +17182,20 @@ These examples demonstrate various logging handlers and their use cases. You can
 ## os - Miscellaneous operating system interfaces.md
 
 # os - Miscellaneous operating system interfaces
+## Table of Contents
+
+1. [1. Accessing Environment Variables](#1-accessing-environment-variables)
+2. [2. Changing the Current Working Directory](#2-changing-the-current-working-directory)
+3. [3. Listing Directory Contents](#3-listing-directory-contents)
+4. [4. Creating a New Directory](#4-creating-a-new-directory)
+5. [5. Removing a Directory](#5-removing-a-directory)
+6. [6. Executing a Command](#6-executing-a-command)
+7. [7. Getting Current Working Directory](#7-getting-current-working-directory)
+8. [8. Checking if a File or Directory Exists](#8-checking-if-a-file-or-directory-exists)
+9. [9. Getting File or Directory Information](#9-getting-file-or-directory-information)
+10. [10. Making a Directory with Permissions](#10-making-a-directory-with-permissions)
+
+
 
 The `os` module in Python provides a portable way of using operating system dependent functionality, such as reading or writing to the filesystem, executing programs, and accessing environment variables. Below are comprehensive examples demonstrating various functionalities of the `os` module.
 
@@ -16460,6 +17422,11 @@ These examples demonstrate various functionalities of the `os` module, covering 
 ## platform - Access to underlying platform s identifying data.md
 
 # platform - Access to underlying platform’s identifying data
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below is a comprehensive set of code examples for the `platform` module in Python, including comments explaining each step.
 
@@ -16591,6 +17558,11 @@ These examples provide a comprehensive overview of how to use the `platform` mod
 ## time - Time access and conversions.md
 
 # time - Time access and conversions
+## Table of Contents
+
+1. [Key Points:](#key-points)
+
+
 
 The `time` module in Python provides a portable way of using operating system-dependent functionality such as time access, conversion of time to human-readable formats, and delay execution.
 
@@ -16690,6 +17662,20 @@ These examples cover a broad range of functionalities provided by the `time` mod
 ## tkinter - Python interface to Tcl Tk.md
 
 # tkinter - Python interface to Tcl/Tk
+## Table of Contents
+
+1. [Installation](#installation)
+2. [Example 1: Basic Window Application](#example-1-basic-window-application)
+3. [Example 2: Button with Callback Function](#example-2-button-with-callback-function)
+4. [Example 3: Label and Entry Widgets](#example-3-label-and-entry-widgets)
+5. [Example 4: Listbox and Scrollbar](#example-4-listbox-and-scrollbar)
+6. [Example 5: Combobox](#example-5-combobox)
+7. [Example 6: Radiobuttons](#example-6-radiobuttons)
+8. [Example 7: Menubar](#example-7-menubar)
+9. [Example 8: Canvas Widget](#example-8-canvas-widget)
+10. [Example 9: Text Widget](#example-9-text-widget)
+
+
 
 The `tkinter` module is a standard Python library that provides a high-level, cross-platform GUI toolkit. It allows developers to create graphical user interfaces (GUIs) in Python applications. Below are comprehensive and well-documented code examples for various functionalities of the `tkinter` module.
 
@@ -18572,6 +19558,16 @@ These examples demonstrate a variety of tkinter widgets and their functionalitie
 ## tkinter.scrolledtext - Scrolled Text Widget.md
 
 # tkinter.scrolledtext - Scrolled Text Widget
+## Table of Contents
+
+1. [Example 1: Basic Scrolled Text Widget](#example-1-basic-scrolled-text-widget)
+2. [Example 2: Customizing Scrollbar Appearance](#example-2-customizing-scrollbar-appearance)
+3. [Example 3: Handling Text Events](#example-3-handling-text-events)
+4. [Example 4: Configuring Text Formatting](#example-4-configuring-text-formatting)
+5. [Example 5: Customizing Text Colors](#example-5-customizing-text-colors)
+6. [Example 6: Handling Text Selection](#example-6-handling-text-selection)
+
+
 
 The `scrolledtext` module in Python's standard library provides a `ScrolledText` widget, which is similar to the `Text` widget but with added support for scrolling. This widget is particularly useful when you need a text entry area that can handle large amounts of text and provide easy navigation through it.
 
@@ -18808,6 +19804,19 @@ These examples cover various functionalities of the `scrolledtext` module, inclu
 ## tkinter.tix - Extension widgets for Tk.md
 
 # tkinter.tix - Extension widgets for Tk
+## Table of Contents
+
+1. [1. Progress Bar](#1-progress-bar)
+2. [2. Dialog Boxes](#2-dialog-boxes)
+3. [Example: Message Box](#example-message-box)
+4. [Example: Entry Dialog](#example-entry-dialog)
+5. [3. Listbox](#3-listbox)
+6. [4. Treeview](#4-treeview)
+7. [5. Scrolled Text Area](#5-scrolled-text-area)
+8. [6. Dialog Box with Entry](#6-dialog-box-with-entry)
+9. [7. Option Menu](#7-option-menu)
+
+
 
 The `tkinter.tix` module provides extension widgets that are not part of the core Tkinter toolkit but add functionality like dialog boxes, progress bars, and more. Below are comprehensive and well-documented code examples for each feature in the `tkinter.tix` module.
 
@@ -19063,6 +20072,20 @@ These examples demonstrate various functionalities provided by the `tkinter.tix`
 ## tkinter.ttk - Tk themed widgets.md
 
 # tkinter.ttk - Tk themed widgets
+## Table of Contents
+
+1. [1. Creating a Basic Toplevel Window](#1-creating-a-basic-toplevel-window)
+2. [2. Adding Buttons](#2-adding-buttons)
+3. [3. Creating Entry Widgets](#3-creating-entry-widgets)
+4. [4. Using Checkbuttons](#4-using-checkbuttons)
+5. [5. Using Radiobuttons](#5-using-radiobuttons)
+6. [6. Using Comboboxes](#6-using-comboboxes)
+7. [7. Using Progress Bars](#7-using-progress-bars)
+8. [8. Using Scrolled Text Widgets](#8-using-scrolled-text-widgets)
+9. [9. Using Combobox with Multiple Selection](#9-using-combobox-with-multiple-selection)
+10. [10. Using Menus](#10-using-menus)
+
+
 
 The `ttk` (Themed Tk) module in the Python standard library provides a collection of high-level themed widgets that are designed to look and feel like those found in modern desktop applications. These widgets are based on the ttk toolkit, which is included with many window managers such as GTK+ and Qt. Below are comprehensive examples for each functionality available in the `ttk` module.
 
@@ -19360,6 +20383,18 @@ These examples demonstrate various functionalities of the `ttk` module, includin
 ## importlib - The implementation of import.md
 
 # importlib - The implementation of import
+## Table of Contents
+
+1. [1. Dynamically Importing a Module](#1-dynamically-importing-a-module)
+2. [2. Importing a Module with Aliasing](#2-importing-a-module-with-aliasing)
+3. [3. Importing a Module Using `importlib.util.module_from_spec`](#3-importing-a-module-using-importlibutilmodule_from_spec)
+4. [4. Dynamically Importing a Submodule](#4-dynamically-importing-a-submodule)
+5. [5. Importing Packages](#5-importing-packages)
+6. [6. Handling Module Errors](#6-handling-module-errors)
+7. [7. Importing Specific Attributes from a Package](#7-importing-specific-attributes-from-a-package)
+8. [8. Using `importlib.reload` to Reload a Module](#8-using-importlibreload-to-reload-a-module)
+
+
 
 The `importlib` module in Python provides a framework for dynamically importing modules and packages. It is particularly useful when you need to load modules at runtime or when dealing with dynamic imports based on configuration or user input.
 
@@ -19515,6 +20550,20 @@ These examples cover a range of common use cases for the `importlib` module, dem
 ## importlib.abc - Abstract base classes related to import.md
 
 # importlib.abc - Abstract base classes related to import
+## Table of Contents
+
+1. [1. Importing Modules](#1-importing-modules)
+2. [Example: Implementing a Simple Importer](#example-implementing-a-simple-importer)
+3. [Explanation:](#explanation)
+4. [2. Loading Modules](#2-loading-modules)
+5. [Example: Using `importlib.util.spec_from_file_location`](#example-using-importlibutilspec_from_file_location)
+6. [Explanation:](#explanation)
+7. [3. Importing Packages](#3-importing-packages)
+8. [Example: Using `importlib.util.spec_from_loader`](#example-using-importlibutilspec_from_loader)
+9. [Explanation:](#explanation)
+10. [Additional Resources](#additional-resources)
+
+
 
 The `importlib.abc` module in Python provides an abstract base class interface for importing packages. This allows you to create custom importers and manage package metadata. Below are comprehensive code examples for each functionality provided by the `importlib.abc` module:
 
@@ -19751,6 +20800,19 @@ These examples cover basic operations such as listing installed packages, access
 ## importlib.resources - Resource reading using importers.md
 
 # importlib.resources - Resource reading using importers
+## Table of Contents
+
+1. [Example 1: Accessing a Text File](#example-1-accessing-a-text-file)
+2. [Example 2: Accessing a Binary File](#example-2-accessing-a-binary-file)
+3. [Example 3: Accessing a Directory Containing Resources](#example-3-accessing-a-directory-containing-resources)
+4. [Example 4: Accessing a Resource Using a Context Manager](#example-4-accessing-a-resource-using-a-context-manager)
+5. [Example 5: Accessing a Resource Using `files` Method](#example-5-accessing-a-resource-using-files-method)
+6. [Example 6: Accessing a Resource Using `open` Method](#example-6-accessing-a-resource-using-open-method)
+7. [Example 7: Accessing a Resource Using `as_file` Method](#example-7-accessing-a-resource-using-as_file-method)
+8. [Example 8: Accessing a Resource Using `exists` Method](#example-8-accessing-a-resource-using-exists-method)
+9. [Example 9: Accessing a Resource Using `in_directory` Method](#example-9-accessing-a-resource-using-in_directory-method)
+
+
 
 The `importlib.resources` module provides a robust interface for accessing resources within a package or other importable resource. This module is particularly useful for managing resources like configuration files, data files, and other non-code artifacts that are included in Python packages.
 
@@ -19907,6 +20969,19 @@ These examples demonstrate various ways to access and manage resources using the
 ## importlib.util - Utility code for importers.md
 
 # importlib.util - Utility code for importers
+## Table of Contents
+
+1. [1. Creating a Module Spec](#1-creating-a-module-spec)
+2. [2. Specifying Attributes to Resolve](#2-specifying-attributes-to-resolve)
+3. [3. Specifying a Custom Loader](#3-specifying-a-custom-loader)
+4. [4. Specifying Initialization Globals](#4-specifying-initialization-globals)
+5. [5. Specifying a Custom Module Class](#5-specifying-a-custom-module-class)
+6. [6. Loading a Module from Source](#6-loading-a-module-from-source)
+7. [7. Loading a Module from a ZIP File](#7-loading-a-module-from-a-zip-file)
+8. [8. Loading a Module from a Remote URL](#8-loading-a-module-from-a-remote-url)
+9. [9. Specifying Initialization Path](#9-specifying-initialization-path)
+
+
 
 The `importlib.util` module is part of the Python Standard Library, providing utilities to manage imports dynamically. Below are comprehensive code examples for various functionalities within this module:
 
@@ -20122,6 +21197,20 @@ These examples demonstrate various ways to use `importlib.util` for dynamic modu
 ## modulefinder - Find modules used by a script.md
 
 # modulefinder - Find modules used by a script
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [Example: Finding Modules Used by a Script](#example-finding-modules-used-by-a-script)
+3. [Explanation:](#explanation)
+4. [2. Analyzing Modules with ModuleFinder](#2-analyzing-modules-with-modulefinder)
+5. [Example: Using ModuleFinder for Detailed Analysis](#example-using-modulefinder-for-detailed-analysis)
+6. [Explanation:](#explanation)
+7. [3. Customizing ModuleFinder](#3-customizing-modulefinder)
+8. [Example: Filtering Modules by Type](#example-filtering-modules-by-type)
+9. [Explanation:](#explanation)
+10. [4. Handling Large Scripts](#4-handling-large-scripts)
+
+
 
 The `modulefinder` module is part of Python's standard library, which provides tools to analyze and manage Python package installations. It allows you to find and analyze the imports in a Python script or module. Below are comprehensive code examples for various functionalities provided by the `modulefinder` module.
 
@@ -20277,6 +21366,15 @@ These examples demonstrate various functionalities of the `modulefinder` module,
 ## pkgutil - Package extension utility.md
 
 # pkgutil - Package extension utility
+## Table of Contents
+
+1. [Example 1: Find All Modules in a Package](#example-1-find-all-modules-in-a-package)
+2. [Example 2: Access a Module Dynamically](#example-2-access-a-module-dynamically)
+3. [Example 3: List Entry Points](#example-3-list-entry-points)
+4. [Example 4: Find All Subpackages](#example-4-find-all-subpackages)
+5. [Example 5: Find a Resource in a Package](#example-5-find-a-resource-in-a-package)
+
+
 
 **pkgutil Module Examples**
 
@@ -20407,6 +21505,16 @@ These examples demonstrate various functionalities of the `pkgutil` module, incl
 ## runpy - Locate and run Python modules without importing them first.md
 
 # runpy - Locate and run Python modules without importing them first
+## Table of Contents
+
+1. [Example 1: Running a standalone Python script](#example-1-running-a-standalone-python-script)
+2. [Example 2: Running a module with command-line arguments](#example-2-running-a-module-with-command-line-arguments)
+3. [Example 3: Running a module with custom sys.argv](#example-3-running-a-module-with-custom-sysargv)
+4. [Example 4: Running a script in a different working directory](#example-4-running-a-script-in-a-different-working-directory)
+5. [Example 5: Running a module with custom environment variables](#example-5-running-a-module-with-custom-environment-variables)
+6. [Example 6: Running a module with custom import paths](#example-6-running-a-module-with-custom-import-paths)
+
+
 
 The `runpy` module in Python provides functions to locate and execute Python scripts or modules, similar to how you would use the `python -m` command from the command line. This is particularly useful for running standalone scripts that are not imported as modules into other programs.
 
@@ -20546,6 +21654,16 @@ These examples demonstrate various ways to use the `runpy` module to execute Pyt
 ## zipimport - Import modules from Zip archives.md
 
 # zipimport - Import modules from Zip archives
+## Table of Contents
+
+1. [Example 1: Importing a Module from a Zip Archive](#example-1-importing-a-module-from-a-zip-archive)
+2. [Example 2: Using Zipimporter Directly](#example-2-using-zipimporter-directly)
+3. [Example 3: Importing All Modules in a ZIP Archive](#example-3-importing-all-modules-in-a-zip-archive)
+4. [Example 4: Handling ZipFile Errors](#example-4-handling-zipfile-errors)
+5. [Example 5: Using `zipimport` with `pkg_resources`](#example-5-using-zipimport-with-pkg_resources)
+6. [Notes:](#notes)
+
+
 
 The `zipimport` module in Python allows you to import modules from a ZIP archive, which can be useful for distributing libraries as standalone ZIP files or for using pre-compiled shared objects. Here are comprehensive examples demonstrating various functionalities of the `zipimport` module.
 
@@ -20687,6 +21805,20 @@ These examples demonstrate how to use the `zipimport` module to dynamically impo
 ## gettext - Multilingual internationalization services.md
 
 # gettext - Multilingual internationalization services
+## Table of Contents
+
+1. [Example 1: Basic Usage](#example-1-basic-usage)
+2. [Example 2: Internationalizing Strings in a Script](#example-2-internationalizing-strings-in-a-script)
+3. [Example 3: Loading and Using Translations from Multiple Files](#example-3-loading-and-using-translations-from-multiple-files)
+4. [Example 4: Internationalizing Error Messages](#example-4-internationalizing-error-messages)
+5. [Example 5: Localization of Application Menus](#example-5-localization-of-application-menus)
+6. [Example 6: Customizing Message Formats](#example-6-customizing-message-formats)
+7. [Example 7: Using Plural Forms](#example-7-using-plural-forms)
+8. [Example 8: Using Message IDs](#example-8-using-message-ids)
+9. [Example 9: Using Message Contexts](#example-9-using-message-contexts)
+10. [Example 10: Handling Plural Forms with Message IDs and Contexts](#example-10-handling-plural-forms-with-message-ids-and-contexts)
+
+
 
 The `gettext` module is a powerful tool in Python for handling multilingual applications, allowing you to translate your application into different languages without needing to change the core logic of your program. Below are comprehensive examples demonstrating various functionalities of the `gettext` module:
 
@@ -20966,6 +22098,11 @@ The `gettext` module provides a flexible framework for internationalizing Python
 ## locale - Internationalization services.md
 
 # locale - Internationalization services
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below are comprehensive code examples for the `locale` module in Python, covering various functionalities related to internationalization. Each example is accompanied by comments explaining each step.
 
@@ -21061,6 +22198,15 @@ These examples cover a range of functionalities provided by the `locale` module,
 ## base64 - Base16, Base32, Base64, Base85 Data Encodings.md
 
 # base64 - Base16, Base32, Base64, Base85 Data Encodings
+## Table of Contents
+
+1. [Base16 Encoding](#base16-encoding)
+2. [Base32 Encoding](#base32-encoding)
+3. [Base64 Encoding](#base64-encoding)
+4. [Base85 Encoding](#base85-encoding)
+5. [Handling Large Data](#handling-large-data)
+
+
 
 The `base64` module in Python provides functions to encode and decode data using various encoding standards such as Base16, Base32, Base64, and Base85. Below are comprehensive examples of how to use these functionalities.
 
@@ -21191,6 +22337,20 @@ These examples demonstrate how to use the `base64` module to encode strings and 
 ## binascii - Convert between binary and ASCII.md
 
 # binascii - Convert between binary and ASCII
+## Table of Contents
+
+1. [Example 1: Hexadecimal Encoding](#example-1-hexadecimal-encoding)
+2. [Example 2: Hexadecimal Decoding](#example-2-hexadecimal-decoding)
+3. [Example 3: Octal Encoding](#example-3-octal-encoding)
+4. [Example 4: Base64 Encoding](#example-4-base64-encoding)
+5. [Example 5: Base64 Decoding](#example-5-base64-decoding)
+6. [Example 6: Binary to String Conversion](#example-6-binary-to-string-conversion)
+7. [Example 7: String to Binary Conversion](#example-7-string-to-binary-conversion)
+8. [Example 8: Hexadecimal to String Conversion](#example-8-hexadecimal-to-string-conversion)
+9. [Example 9: String to Hexadecimal Conversion](#example-9-string-to-hexadecimal-conversion)
+10. [Example 10: Base64 to String Conversion](#example-10-base64-to-string-conversion)
+
+
 
 The `binascii` module in Python provides functions to convert between various binary formats, including hexadecimal, octal, and base64 encoding/decoding. Below are comprehensive code examples demonstrating each functionality of the `binascii` module.
 
@@ -21500,6 +22660,17 @@ These examples cover a wide range of functionalities provided by the `binascii` 
 ## email - An email and MIME handling package.md
 
 # email - An email and MIME handling package
+## Table of Contents
+
+1. [Example 1: Creating an Email Message](#example-1-creating-an-email-message)
+2. [Example 2: Parsing an Email Message](#example-2-parsing-an-email-message)
+3. [Example 3: Sending an Email using SMTP](#example-3-sending-an-email-using-smtp)
+4. [Example 4: Attaching Files to Email](#example-4-attaching-files-to-email)
+5. [Example 5: Handling Email Attachments](#example-5-handling-email-attachments)
+6. [Example 6: Filtering Emails from a Mailbox](#example-6-filtering-emails-from-a-mailbox)
+7. [Example 7: Handling Email Addresses](#example-7-handling-email-addresses)
+
+
 
 The `email` module in Python provides a comprehensive set of tools for parsing, creating, modifying, and sending email messages. Below are several examples that demonstrate how to use this module for different tasks.
 
@@ -21738,6 +22909,11 @@ These examples cover various aspects of handling emails using the `email` module
 ## json - JSON encoder and decoder.md
 
 # json - JSON encoder and decoder
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below are comprehensive code examples for various functionalities of the `json` module in Python, along with detailed comments explaining each step.
 
@@ -21866,6 +23042,19 @@ These examples cover various aspects of the `json` module, providing a comprehen
 ## mailbox - Manipulate mailboxes in various formats.md
 
 # mailbox - Manipulate mailboxes in various formats
+## Table of Contents
+
+1. [Example 1: Reading an mbox mailbox](#example-1-reading-an-mbox-mailbox)
+2. [Example 2: Writing to an mbox mailbox](#example-2-writing-to-an-mbox-mailbox)
+3. [Example 3: Reading from a Maildir mailbox](#example-3-reading-from-a-maildir-mailbox)
+4. [Example 4: Writing to a Maildir mailbox](#example-4-writing-to-a-maildir-mailbox)
+5. [Example 5: Reading from an IMAP4 mailbox](#example-5-reading-from-an-imap4-mailbox)
+6. [Example 6: Writing to an IMAP4 mailbox](#example-6-writing-to-an-imap4-mailbox)
+7. [Example 7: Reading from a POP3 mailbox](#example-7-reading-from-a-pop3-mailbox)
+8. [Example 8: Writing to a POP3 mailbox](#example-8-writing-to-a-pop3-mailbox)
+9. [Explanation](#explanation)
+
+
 
 The `mailbox` module in Python provides a consistent interface to access mailboxes in several popular formats, including mbox, Maildir, IMAP4, and POP3. Below are comprehensive examples demonstrating how to use this module for different operations.
 
@@ -22049,6 +23238,11 @@ These examples demonstrate how to use the `mailbox` module to interact with diff
 ## mimetypes - Map filenames to MIME types.md
 
 # mimetypes - Map filenames to MIME types
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Here is a comprehensive set of code examples for using the `mimetypes` module in Python, including comments that explain each step:
 
@@ -22128,6 +23322,13 @@ These examples demonstrate how to use the `mimetypes` module for basic tasks suc
 ## quopri - Encode and decode MIME quoted-printable data.md
 
 # quopri - Encode and decode MIME quoted-printable data
+## Table of Contents
+
+1. [Encoding QP Data](#encoding-qp-data)
+2. [Decoding QP Data](#decoding-qp-data)
+3. [Key Points](#key-points)
+
+
 
 The `quopri` module in Python is used to encode and decode MIME quoted-printable (QP) encoded strings, which are often used in email headers. Below are comprehensive examples demonstrating how to use this module for encoding and decoding QP data.
 
@@ -22198,6 +23399,20 @@ These examples provide a basic understanding of how to use the `quopri` module f
 ## ftplib - FTP protocol client.md
 
 # ftplib - FTP protocol client
+## Table of Contents
+
+1. [Example 1: Connecting to an FTP Server](#example-1-connecting-to-an-ftp-server)
+2. [Example 2: Uploading a File](#example-2-uploading-a-file)
+3. [Example 3: Downloading a File](#example-3-downloading-a-file)
+4. [Example 4: Changing Directory](#example-4-changing-directory)
+5. [Example 5: Listing Files in a Directory](#example-5-listing-files-in-a-directory)
+6. [Example 6: Handling FTP Errors](#example-6-handling-ftp-errors)
+7. [Example 7: Storing Large Files](#example-7-storing-large-files)
+8. [Example 8: Renaming or Moving Files](#example-8-renaming-or-moving-files)
+9. [Example 9: Deleting Files](#example-9-deleting-files)
+10. [Example 10: Changing Permissions](#example-10-changing-permissions)
+
+
 
 The `ftplib` module provides a way to interact with an FTP (File Transfer Protocol) server using Python. Below are comprehensive examples demonstrating various functionalities of this module, including connecting to an FTP server, uploading and downloading files, changing directories, handling basic commands, and closing the connection.
 
@@ -22535,6 +23750,17 @@ These examples cover a range of operations and error handling for FTP using Pyth
 ## http - HTTP modules.md
 
 # http - HTTP modules
+## Table of Contents
+
+1. [1. Using the `requests` library](#1-using-the-requests-library)
+2. [2. Making GET Requests](#2-making-get-requests)
+3. [3. Making POST Requests](#3-making-post-requests)
+4. [4. Handling Cookies](#4-handling-cookies)
+5. [5. Handling Redirects](#5-handling-redirects)
+6. [6. Handling HTTP Exceptions](#6-handling-http-exceptions)
+7. [7. Making Requests with Timeout](#7-making-requests-with-timeout)
+
+
 
 The `http` module is part of the Python Standard Library and provides a simple interface to make HTTP requests. Below are comprehensive code examples for various functionalities within the `http` module, along with explanations for each example.
 
@@ -22732,6 +23958,19 @@ These examples demonstrate different aspects of making HTTP requests using Pytho
 ## http.client - HTTP protocol client.md
 
 # http.client - HTTP protocol client
+## Table of Contents
+
+1. [1. Basic GET Request](#1-basic-get-request)
+2. [2. Handling Headers and Query Parameters](#2-handling-headers-and-query-parameters)
+3. [3. POST Request with Form Data](#3-post-request-with-form-data)
+4. [4. Using HTTP/1.1 Connection Pooling](#4-using-http11-connection-pooling)
+5. [5. Handling Redirects](#5-handling-redirects)
+6. [6. Handling Exceptions](#6-handling-exceptions)
+7. [7. Using SSL/TLS](#7-using-ssltls)
+8. [8. Handling Large Responses](#8-handling-large-responses)
+9. [9. Handling Keep-Alive Connections](#9-handling-keep-alive-connections)
+
+
 
 The `http.client` module is part of the Python standard library and provides a simple HTTP/1.1 client interface for making requests to web servers. Below are comprehensive examples for various functionalities provided by this module:
 
@@ -22967,6 +24206,17 @@ These examples cover a range of functionalities available in the `http.client` m
 ## http.cookiejar - Cookie handling for HTTP clients.md
 
 # http.cookiejar - Cookie handling for HTTP clients
+## Table of Contents
+
+1. [1. Basic Cookie Management](#1-basic-cookie-management)
+2. [2. Parsing HTTP Responses for Cookies](#2-parsing-http-responses-for-cookies)
+3. [3. Sending Cookies with HTTP Requests](#3-sending-cookies-with-http-requests)
+4. [4. Handling Cookie Expiry](#4-handling-cookie-expiry)
+5. [5. Handling Cookie Domain Scope](#5-handling-cookie-domain-scope)
+6. [6. Handling Cookie Persistence](#6-handling-cookie-persistence)
+7. [7. Handling Secure Cookies](#7-handling-secure-cookies)
+
+
 
 The `http.cookiejar` module is part of Python's standard library and provides a way to handle cookies in HTTP requests. Cookies are used by websites to store user data, such as session IDs or preferences, between visits. This module allows you to manage cookie storage, parsing responses, and sending cookies with HTTP requests.
 
@@ -23186,6 +24436,20 @@ These examples cover the basic functionalities of the `http.cookiejar` module, i
 ## http.cookies - HTTP state management.md
 
 # http.cookies - HTTP state management
+## Table of Contents
+
+1. [Example 1: Creating a Simple Cookie](#example-1-creating-a-simple-cookie)
+2. [Example 2: Parsing a Cookie String](#example-2-parsing-a-cookie-string)
+3. [Example 3: Setting Multiple Cookies](#example-3-setting-multiple-cookies)
+4. [Example 4: Handling Cookie Expiry](#example-4-handling-cookie-expiry)
+5. [Example 5: Setting Cookies with Secure and HttpOnly Flags](#example-5-setting-cookies-with-secure-and-httponly-flags)
+6. [Example 6: Encoding and Decoding Cookies](#example-6-encoding-and-decoding-cookies)
+7. [Example 7: Using Cookies in HTTP Responses](#example-7-using-cookies-in-http-responses)
+8. [Example 8: Using Cookies in HTTP Requests](#example-8-using-cookies-in-http-requests)
+9. [Example 9: Handling SameSite Attribute](#example-9-handling-samesite-attribute)
+10. [Example 10: Setting Cookies in a Web Server Response](#example-10-setting-cookies-in-a-web-server-response)
+
+
 
 The `http.cookies` module in Python provides a way to handle cookies sent by a client's browser, which are used for maintaining user sessions or storing data across multiple requests. Below are comprehensive and well-documented code examples for various functionalities of the `http.cookies` module.
 
@@ -23374,6 +24638,17 @@ These examples cover various aspects of using the `http.cookies` module, includi
 ## http.server - HTTP servers.md
 
 # http.server - HTTP servers
+## Table of Contents
+
+1. [Example 1: Simple HTTP Server](#example-1-simple-http-server)
+2. [Example 2: Handling GET Requests](#example-2-handling-get-requests)
+3. [Example 3: Handling POST Requests](#example-3-handling-post-requests)
+4. [Example 4: Serving Static Files](#example-4-serving-static-files)
+5. [Example 5: Using HTTPS](#example-5-using-https)
+6. [Example 6: Using the `http.server` module with a custom handler](#example-6-using-the-httpserver-module-with-a-custom-handler)
+7. [Example 7: Using `http.server` with a multi-threaded server](#example-7-using-httpserver-with-a-multi-threaded-server)
+
+
 
 Below is a comprehensive set of code examples demonstrating various functionalities provided by the `http.server` module in Python 3.12. These examples cover creating simple HTTP servers, handling GET and POST requests, serving static files, and more.
 
@@ -23610,6 +24885,18 @@ These examples provide a comprehensive overview of the functionalities available
 ## imaplib - IMAP4 protocol client.md
 
 # imaplib - IMAP4 protocol client
+## Table of Contents
+
+1. [1. Connecting to an IMAP Server](#1-connecting-to-an-imap-server)
+2. [2. Listing Mailboxes (Inboxes)](#2-listing-mailboxes-inboxes)
+3. [3. Searching for Emails](#3-searching-for-emails)
+4. [4. Retrieving Emails](#4-retrieving-emails)
+5. [5. Storing Emails (Outbox)](#5-storing-emails-outbox)
+6. [6. Deleting Emails](#6-deleting-emails)
+7. [7. Expunging Deleted Emails](#7-expunging-deleted-emails)
+8. [8. Disconnecting from the Server](#8-disconnecting-from-the-server)
+
+
 
 The `imaplib` module in Python provides an interface to the IMAP4 protocol, which is used for retrieving and managing email messages on a mail server. Below are comprehensive code examples demonstrating various functionalities of the `imaplib` module.
 
@@ -23853,6 +25140,20 @@ These examples provide a comprehensive overview of how to use various functional
 ## ipaddress - IPv4 IPv6 manipulation library.md
 
 # ipaddress - IPv4/IPv6 manipulation library
+## Table of Contents
+
+1. [1. Creating an IPv4 Address](#1-creating-an-ipv4-address)
+2. [2. Creating an IPv4 Network](#2-creating-an-ipv4-network)
+3. [3. Checking if an IP is in a Network](#3-checking-if-an-ip-is-in-a-network)
+4. [4. Iterating Over an IPv4 Network](#4-iterating-over-an-ipv4-network)
+5. [5. Creating an IPv6 Address](#5-creating-an-ipv6-address)
+6. [6. Creating an IPv6 Network](#6-creating-an-ipv6-network)
+7. [7. Checking if an IPv6 is in a Network](#7-checking-if-an-ipv6-is-in-a-network)
+8. [8. Iterating Over an IPv6 Network](#8-iterating-over-an-ipv6-network)
+9. [9. Working with CIDR Notation](#9-working-with-cidr-notation)
+10. [10. Comparing IP Addresses and Networks](#10-comparing-ip-addresses-and-networks)
+
+
 
 The `ipaddress` module in Python provides a way to manipulate IPv4 and IPv6 addresses and networks efficiently. Below are comprehensive and well-documented examples covering various functionalities of this module:
 
@@ -24065,6 +25366,16 @@ These examples cover the basic functionalities of the `ipaddress` module, includ
 ## nntplib - NNTP protocol client.md
 
 # nntplib - NNTP protocol client
+## Table of Contents
+
+1. [Example 1: Connecting to an NNTP Server](#example-1-connecting-to-an-nntp-server)
+2. [Example 2: Listing All Groups](#example-2-listing-all-groups)
+3. [Example 3: Listing Headers of an Article](#example-3-listing-headers-of-an-article)
+4. [Example 4: Retrieving an Article](#example-4-retrieving-an-article)
+5. [Example 5: Closing the Connection](#example-5-closing-the-connection)
+6. [Additional Best Practices and Considerations](#additional-best-practices-and-considerations)
+
+
 
 The `nntplib` module in Python provides a straightforward interface to interact with News Transfer Protocol (NNTP) servers, which are used for retrieving news articles and other Internet newsgroups. Below are comprehensive examples of how to use the `nntplib` module for common operations such as connecting to an NNTP server, retrieving list of groups, listing headers, downloading articles, and closing the connection.
 
@@ -24149,6 +25460,17 @@ These examples provide a basic framework for interacting with NNTP servers in Py
 ## poplib - POP3 protocol client.md
 
 # poplib - POP3 protocol client
+## Table of Contents
+
+1. [Example 1: Retrieving Messages](#example-1-retrieving-messages)
+2. [Example 2: Deleting Messages](#example-2-deleting-messages)
+3. [Example 3: Retrieving Email Headers](#example-3-retrieving-email-headers)
+4. [Example 4: Handling Multiple Messages](#example-4-handling-multiple-messages)
+5. [Example 5: Handling Large Emails](#example-5-handling-large-emails)
+6. [Example 6: Error Handling and Logging](#example-6-error-handling-and-logging)
+7. [Example 7: Using TLS with Authentication](#example-7-using-tls-with-authentication)
+
+
 
 The `poplib` module in Python provides a convenient interface to access email messages using the Post Office Protocol (POP3). Below are comprehensive examples demonstrating various functionalities of the `poplib` module. These examples cover basic usage, error handling, and advanced features like retrieving specific email headers.
 
@@ -24410,6 +25732,18 @@ These examples demonstrate basic usage of the `poplib` module, including retriev
 ## smtplib - SMTP protocol client.md
 
 # smtplib - SMTP protocol client
+## Table of Contents
+
+1. [Example 1: Sending a Simple Email Using `smtplib`](#example-1-sending-a-simple-email-using-smtplib)
+2. [Explanation:](#explanation)
+3. [Example 2: Sending an HTML Email Using `smtplib`](#example-2-sending-an-html-email-using-smtplib)
+4. [Explanation:](#explanation)
+5. [Example 3: Sending an Email with Attachments Using `smtplib`](#example-3-sending-an-email-with-attachments-using-smtplib)
+6. [Explanation:](#explanation)
+7. [Example 4: Sending Email with SMTP Authentication via Gmail](#example-4-sending-email-with-smtp-authentication-via-gmail)
+8. [Explanation:](#explanation)
+
+
 
 Below are comprehensive code examples for using the `smtplib` module in Python, covering various functionalities such as sending simple emails, handling exceptions, and configuring SMTP servers with authentication.
 
@@ -24654,6 +25988,20 @@ These examples cover basic functionality for sending emails using `smtplib`, inc
 ## urllib - URL handling modules.md
 
 # urllib - URL handling modules
+## Table of Contents
+
+1. [1. **urllib.request Module**](#1-urllibrequest-module)
+2. [Example 1: Using `urlopen` to Retrieve a Web Page](#example-1-using-urlopen-to-retrieve-a-web-page)
+3. [Example 2: Handling Redirects with `urlopen`](#example-2-handling-redirects-with-urlopen)
+4. [2. **urllib.parse Module**](#2-urllibparse-module)
+5. [Example 3: Parsing a URL](#example-3-parsing-a-url)
+6. [Example 4: Encoding Query Parameters](#example-4-encoding-query-parameters)
+7. [3. **urllib.error Module**](#3-urlliberror-module)
+8. [Example 5: Handling URLError and HTTPError](#example-5-handling-urlerror-and-httperror)
+9. [4. **urllib.robotparser Module**](#4-urllibrobotparser-module)
+10. [Example 6: Parsing `robots.txt`](#example-6-parsing-robotstxt)
+
+
 
 The `urllib` module in Python provides a variety of functions to handle URLs. Below are comprehensive, well-documented code examples covering various functionalities within this module.
 
@@ -25135,6 +26483,20 @@ These examples demonstrate various ways to parse URLs using the `urllib.parse` m
 ## urllib.request - Extensible library for opening URLs.md
 
 # urllib.request - Extensible library for opening URLs
+## Table of Contents
+
+1. [1. Opening a URL](#1-opening-a-url)
+2. [2. Handling Cookies](#2-handling-cookies)
+3. [3. Making a POST Request](#3-making-a-post-request)
+4. [4. Using a Timeout](#4-using-a-timeout)
+5. [5. Handling Redirects](#5-handling-redirects)
+6. [6. Using a User-Agent](#6-using-a-user-agent)
+7. [7. Handling HTTP Errors](#7-handling-http-errors)
+8. [8. Writing to a Local File](#8-writing-to-a-local-file)
+9. [9. Using Proxy](#9-using-proxy)
+10. [10. Using HTTPS](#10-using-https)
+
+
 
 The `urllib.request` module in Python provides a robust set of tools for making HTTP requests and handling various protocols, including file:// and http/https. Below are comprehensive code examples that demonstrate common use cases for this module, including how to open URLs, handle responses, manage cookies, and make POST requests.
 
@@ -25309,6 +26671,12 @@ These examples cover various aspects of using `urllib.request`, providing a comp
 ## urllib.response - Response classes used by urllib.md
 
 # urllib.response - Response classes used by urllib
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Additional Features:](#additional-features)
+
+
 
 The `urllib` module in Python is a comprehensive set of modules that provide tools for interacting with URLs. The `response` submodule contains several response classes used by the `urllib` modules to handle HTTP responses. These classes are part of the `http.client` module, which provides an interface to HTTP clients.
 
@@ -25420,6 +26788,15 @@ These examples demonstrate the basic functionalities of using the `Response` cla
 ## urllib.robotparser - Parser for robots.txt.md
 
 # urllib.robotparser - Parser for robots.txt
+## Table of Contents
+
+1. [1. Checking Robots.txt for Disallowed Paths](#1-checking-robotstxt-for-disallowed-paths)
+2. [2. Handling Different User Agents](#2-handling-different-user-agents)
+3. [3. Monitoring Changes to Robots.txt](#3-monitoring-changes-to-robotstxt)
+4. [4. Parsing Robots.txt for Disallowed Paths with a List of URLs](#4-parsing-robotstxt-for-disallowed-paths-with-a-list-of-urls)
+5. [5. Handling Custom Paths in Robots.txt](#5-handling-custom-paths-in-robotstxt)
+
+
 
 The `urllib.robotparser` module is part of Python's standard library, and it provides tools to parse a `robots.txt` file, which specifies rules about which web pages search engines should or should not index. Below are comprehensive code examples that demonstrate various functionalities provided by the `urllib.robotparser` module.
 
@@ -25581,6 +26958,20 @@ These examples demonstrate how to use the `urllib.robotparser` module to parse a
 ## webbrowser - Convenient web-browser controller.md
 
 # webbrowser - Convenient web-browser controller
+## Table of Contents
+
+1. [1. Opening a URL](#1-opening-a-url)
+2. [Explanation:](#explanation)
+3. [2. Opening a URL using a specific browser](#2-opening-a-url-using-a-specific-browser)
+4. [Explanation:](#explanation)
+5. [3. Opening a URL in a new tab of an existing window](#3-opening-a-url-in-a-new-tab-of-an-existing-window)
+6. [Explanation:](#explanation)
+7. [4. Opening a URL in a new window](#4-opening-a-url-in-a-new-window)
+8. [Explanation:](#explanation)
+9. [5. Searching for a query using a search engine](#5-searching-for-a-query-using-a-search-engine)
+10. [Explanation:](#explanation)
+
+
 
 The `webbrowser` module in Python is a convenient interface to allow you to control web browsers from within your applications. It provides a way to open URLs, search engines, and other web-based services without requiring users to manually interact with their web browsers. Below are comprehensive examples for each functionality provided by the `webbrowser` module:
 
@@ -25713,6 +27104,14 @@ These examples cover various functionalities provided by the `webbrowser` module
 ## wsgiref - WSGI Utilities and Reference Implementation.md
 
 # wsgiref - WSGI Utilities and Reference Implementation
+## Table of Contents
+
+1. [1. Simple WSGI Application](#1-simple-wsgi-application)
+2. [2. Debugging WSGI Applications](#2-debugging-wsgi-applications)
+3. [3. Parsing WSGI Environment](#3-parsing-wsgi-environment)
+4. [4. Example of an Application using Request Parsing](#4-example-of-an-application-using-request-parsing)
+
+
 
 The `wsgiref` module in Python provides utilities and a reference implementation of the Web Server Gateway Interface (WSGI), which is a specification that defines how web servers can communicate with web applications. This module is particularly useful for developers who want to understand or implement WSGI-compliant frameworks.
 
@@ -25849,6 +27248,17 @@ These examples cover basic functionalities of the `wsgiref` module, demonstratin
 ## xmlrpc - XMLRPC server and client modules.md
 
 # xmlrpc - XMLRPC server and client modules
+## Table of Contents
+
+1. [1. Creating an XML-RPC Server](#1-creating-an-xml-rpc-server)
+2. [2. Handling XML-RPC Requests](#2-handling-xml-rpc-requests)
+3. [3. Using an XML-RPC Client](#3-using-an-xml-rpc-client)
+4. [4. Customizing XML-RPC Server Behavior](#4-customizing-xml-rpc-server-behavior)
+5. [5. Using `jsonrpc` Module for JSON-RPC Server and Client](#5-using-jsonrpc-module-for-json-rpc-server-and-client)
+6. [Server Example with `jsonrpc`:](#server-example-with-jsonrpc)
+7. [Client Example with `jsonrpc`:](#client-example-with-jsonrpc)
+
+
 
 The `xmlrpc` module in Python is a part of the Standard Library and provides support for making XML-RPC requests and responses. Below are comprehensive code examples that demonstrate various functionalities within this module, including creating an XML-RPC server, handling XML-RPC requests, and using an XML-RPC client to communicate with an XML-RPC server.
 
@@ -26019,6 +27429,20 @@ These examples cover basic and advanced functionalities of the `xmlrpc` module. 
 ## xmlrpc.client - XMLRPC client access.md
 
 # xmlrpc.client - XMLRPC client access
+## Table of Contents
+
+1. [Example 1: Simple XML-RPC Client](#example-1-simple-xml-rpc-client)
+2. [Example 2: Working with Methods with Arguments](#example-2-working-with-methods-with-arguments)
+3. [Example 3: Using XML-RPC with HTTPS](#example-3-using-xml-rpc-with-https)
+4. [Example 4: Handling Server Responses](#example-4-handling-server-responses)
+5. [Example 5: Using XML-RPC Client with Authentication](#example-5-using-xml-rpc-client-with-authentication)
+6. [Example 6: Using Custom Headers](#example-6-using-custom-headers)
+7. [Example 7: Using Callbacks](#example-7-using-callbacks)
+8. [Example 8: Using Binary Data](#example-8-using-binary-data)
+9. [Example 9: Using Threads](#example-9-using-threads)
+10. [Example 10: Handling Large Data](#example-10-handling-large-data)
+
+
 
 The `xmlrpc.client` module in Python provides a convenient way to interact with XML-RPC servers. Below are comprehensive examples demonstrating various functionalities of this module:
 
@@ -26195,6 +27619,14 @@ These examples cover various scenarios and functionalities provided by the `xmlr
 ## xmlrpc.server - Basic XMLRPC servers.md
 
 # xmlrpc.server - Basic XMLRPC servers
+## Table of Contents
+
+1. [Example 1: Creating an HTTP Basic Server](#example-1-creating-an-http-basic-server)
+2. [Explanation:](#explanation)
+3. [Example 2: Creating a SimpleXMLRPC Server](#example-2-creating-a-simplexmlrpc-server)
+4. [Explanation:](#explanation)
+
+
 
 The `xmlrpc.server` module is part of Python's standard library, providing a simple way to create basic XML-RPC servers. Below are comprehensive examples demonstrating various functionalities within this module, including creating both HTTP and SimpleXMLRPC servers.
 
@@ -26281,6 +27713,11 @@ These examples provide a basic framework for creating XML-RPC servers using Pyth
 ## msvcrt - Useful routines from the MS VC++ runtime.md
 
 # msvcrt - Useful routines from the MS VC++ runtime
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `msvcrt` module is a part of the Python Standard Library that provides access to some low-level functions similar to those found in Microsoft's Visual C++ runtime. This module is primarily used for applications that need to interact directly with the operating system, particularly when dealing with console input and output.
 
@@ -26437,6 +27874,18 @@ These examples provide a comprehensive overview of how to use each function in t
 ## winreg - Windows registry access.md
 
 # winreg - Windows registry access
+## Table of Contents
+
+1. [Example 1: Create a New Key in the Current User's Local Machine](#example-1-create-a-new-key-in-the-current-users-local-machine)
+2. [Example 2: Read a Value from a Key](#example-2-read-a-value-from-a-key)
+3. [Example 3: Delete a Value from a Key](#example-3-delete-a-value-from-a-key)
+4. [Example 4: Modify an Existing Value in a Key](#example-4-modify-an-existing-value-in-a-key)
+5. [Example 5: Create a New Subkey and Set Multiple Values](#example-5-create-a-new-subkey-and-set-multiple-values)
+6. [Example 6: Read Values from a Subkey](#example-6-read-values-from-a-subkey)
+7. [Example 7: Delete a Subkey and All Its Values](#example-7-delete-a-subkey-and-all-its-values)
+8. [Example 8: Enumerate All Subkeys](#example-8-enumerate-all-subkeys)
+
+
 
 The `winreg` module is part of the Python Standard Library and provides a convenient way to interact with the Windows Registry. This module allows you to read, write, modify, and delete registry keys and values. Below are some comprehensive code examples for various functionalities of the `winreg` module:
 
@@ -26647,6 +28096,16 @@ These examples demonstrate various operations you can perform with the `winreg` 
 ## winsound - Sound-playing interface for Windows.md
 
 # winsound - Sound-playing interface for Windows
+## Table of Contents
+
+1. [Example 1: Play a Simple Sound File](#example-1-play-a-simple-sound-file)
+2. [Example 2: Play a Sound Using a WAV File](#example-2-play-a-sound-using-a-wav-file)
+3. [Example 3: Stop a Playing Sound](#example-3-stop-a-playing-sound)
+4. [Example 4: Play Multiple Sounds Simultaneously](#example-4-play-multiple-sounds-simultaneously)
+5. [Example 5: Handle Errors Gracefully](#example-5-handle-errors-gracefully)
+6. [Explanation of Each Example](#explanation-of-each-example)
+
+
 
 The `winsound` module is part of the Windows Sound API (WinMM), which provides an interface to play various types of audio files on Windows systems. It's not a standard library module, but rather a part of the Windows SDK and can be accessed via Python through the `ctypes` library.
 
@@ -26812,6 +28271,11 @@ These examples provide a basic framework for using the `winsound` module to play
 ## formatter - Generic output formatting.md
 
 # formatter - Generic output formatting
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `formatter` module in Python is not a part of the standard library itself, but rather a part of the `locale` module, which provides locale-aware functions and classes. This module does not include any generic output formatting functionality. Instead, it is used for handling locale-specific information and number formatting.
 
@@ -26876,6 +28340,16 @@ This example provides a basic framework for using the `locale` module to handle 
 ## aifc - Read and write AIFF and AIFC files.md
 
 # aifc - Read and write AIFF and AIFC files
+## Table of Contents
+
+1. [Example 1: Writing an AIFF Audio File](#example-1-writing-an-aiff-audio-file)
+2. [Example 2: Reading an AIFF Audio File](#example-2-reading-an-aiff-audio-file)
+3. [Example 3: Writing an AIFF-C Audio File](#example-3-writing-an-aiff-c-audio-file)
+4. [Example 4: Reading an AIFF-C Audio File](#example-4-reading-an-aiff-c-audio-file)
+5. [Example 5: Handling Different Sample Widths](#example-5-handling-different-sample-widths)
+6. [Example 6: Handling Different Compression Types](#example-6-handling-different-compression-types)
+
+
 
 The `aifc` module in Python is used to read and write AIFF (Audio Interchange File Format) and AIFC (AIFF-C, which stands for Audio Interchange File Format with Compression) audio files. These formats are commonly used for digital music files and are widely supported across various platforms.
 
@@ -27105,6 +28579,16 @@ These examples demonstrate how to use the `aifc` module to create and read AIFF 
 ## audioop - Manipulate raw audio data.md
 
 # audioop - Manipulate raw audio data
+## Table of Contents
+
+1. [Example 1: Reading Audio Data from a File](#example-1-reading-audio-data-from-a-file)
+2. [Example 2: Converting Audio Data to Different Formats](#example-2-converting-audio-data-to-different-formats)
+3. [Example 3: Calculating the RMS (Root Mean Square) of Audio Data](#example-3-calculating-the-rms-root-mean-square-of-audio-data)
+4. [Example 4: Applying a Volume Adjustment to Audio Data](#example-4-applying-a-volume-adjustment-to-audio-data)
+5. [Example 5: Writing Audio Data to a File](#example-5-writing-audio-data-to-a-file)
+6. [Explanation](#explanation)
+
+
 
 The `audioop` module in Python provides functions to manipulate raw audio data, such as converting between different sample formats and performing various operations on audio samples. Below are comprehensive examples of how to use these functions, along with explanations for each step.
 
@@ -27239,6 +28723,13 @@ These examples demonstrate how to manipulate audio data using the `audioop` modu
 ## chunk - Read IFF chunked data.md
 
 # chunk - Read IFF chunked data
+## Table of Contents
+
+1. [Example 1: Reading IFF Audio File (using a fictional `chunk` module)](#example-1-reading-iff-audio-file-using-a-fictional-chunk-module)
+2. [Example 2: Extracting IFF Image File (using a fictional `chunk` module)](#example-2-extracting-iff-image-file-using-a-fictional-chunk-module)
+3. [Notes:](#notes)
+
+
 
 The `chunk` module is not a standard library module in Python. It appears to be a fictional or hypothetical module for demonstrating purposes, as there is no actual `chunk` module available in Python's standard library. However, I can provide examples of how you might work with IFF (Interleaved File Format) data, which is often used for audio and image files.
 
@@ -27540,6 +29031,20 @@ This Python script defines functions to convert between various color representa
 ## imghdr - Determine the type of an image.md
 
 # imghdr - Determine the type of an image
+## Table of Contents
+
+1. [1. `identify(filename)`](#1-identifyfilename)
+2. [2. `what(buf)`](#2-whatbuf)
+3. [3. `isgif(buf)`](#3-isgifbuf)
+4. [4. `ispng(buf)`](#4-ispngbuf)
+5. [5. `issvg(buf)`](#5-issvgbuf)
+6. [6. `istiff(buf)`](#6-istiffbuf)
+7. [7. `iswebp(buf)`](#7-iswebpbuf)
+8. [8. `isspc(buf)`](#8-isspcbuf)
+9. [9. `iseps(buf)`](#9-isepsbuf)
+10. [10. `isppm(buf)`](#10-isppmbuf)
+
+
 
 The `imghdr` module in Python is used to identify the format of image files by checking their first few bytes. This can be particularly useful when dealing with images where you need to programmatically determine the file type without relying on file extensions.
 
@@ -27771,6 +29276,11 @@ These examples demonstrate how to use each function in the `imghdr` module to de
 ## ossaudiodev - Access to OSS-compatible audio devices.md
 
 # ossaudiodev - Access to OSS-compatible audio devices
+## Table of Contents
+
+1. [Key Points:](#key-points)
+
+
 
 The `ossaudiodev` module in Python provides low-level access to OSS (Open Sound System) compatible audio devices. OSS is a Unix-like sound system that has been used on many Linux distributions, as well as other systems like FreeBSD and Solaris.
 
@@ -27924,6 +29434,11 @@ These examples provide a comprehensive introduction to using the `ossaudiodev` m
 ## sndhdr - Determine type of sound file.md
 
 # sndhdr - Determine type of sound file
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `sndhdr` module in Python is used to determine the type of a sound file based on its header information. It provides functions to read and parse the headers of various audio formats and return their corresponding names.
 
@@ -27980,6 +29495,11 @@ This code is suitable for inclusion in official documentation as it provides a s
 ## sunau - Read and write Sun AU files.md
 
 # sunau - Read and write Sun AU files
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below is a comprehensive set of code examples for the `sunau` module, which allows reading and writing Sun AU (Audio AUdio) files in Python. Each example includes comments to explain each step.
 
@@ -28057,6 +29577,14 @@ This code provides a basic framework for working with Sun AU files, including re
 ## wave - Read and write WAV files.md
 
 # wave - Read and write WAV files
+## Table of Contents
+
+1. [Example 1: Reading and Writing Basic WAV Files](#example-1-reading-and-writing-basic-wav-files)
+2. [Example 2: Reading and Writing Stereo WAV Files](#example-2-reading-and-writing-stereo-wav-files)
+3. [Example 3: Reading and Writing Files in Different Sample Formats](#example-3-reading-and-writing-files-in-different-sample-formats)
+4. [Example 4: Handling Compression in WAV Files](#example-4-handling-compression-in-wav-files)
+
+
 
 The `wave` module in Python provides a way to read from and write WAV files, which are a widely used format for storing audio data. Below are comprehensive examples demonstrating how to use various functionalities of the `wave` module. These examples include reading and writing basic audio files, handling stereo files, using different sample formats, and dealing with compression.
 
@@ -28219,6 +29747,20 @@ These examples demonstrate basic operations for reading and writing WAV files us
 ## asyncio - Asynchronous I O.md
 
 # asyncio - Asynchronous I/O
+## Table of Contents
+
+1. [Example 1: Basic Asynchronous Function with a Delay](#example-1-basic-asynchronous-function-with-a-delay)
+2. [Example 2: Using Asyncio Tasks](#example-2-using-asyncio-tasks)
+3. [Example 3: Handling Exceptions in Asynchronous Functions](#example-3-handling-exceptions-in-asynchronous-functions)
+4. [Example 4: Using Event Loops](#example-4-using-event-loops)
+5. [Example 5: Asynchronous I/O with `asyncio.open_file`](#example-5-asynchronous-io-with-asyncioopen_file)
+6. [Example 6: Asynchronous I/O with `aiohttp` for Web Requests](#example-6-asynchronous-io-with-aiohttp-for-web-requests)
+7. [Example 7: Asynchronous I/O with `asyncpg` for Database Operations](#example-7-asynchronous-io-with-asyncpg-for-database-operations)
+8. [Example 8: Asynchronous I/O with `psycopg2` for Database Operations](#example-8-asynchronous-io-with-psycopg2-for-database-operations)
+9. [Example 9: Asynchronous I/O with `gevent` for Non-blocking HTTP Requests](#example-9-asynchronous-io-with-gevent-for-non-blocking-http-requests)
+10. [Example 10: Asynchronous I/O with `gevent` for Non-blocking Database Operations](#example-10-asynchronous-io-with-gevent-for-non-blocking-database-operations)
+
+
 
 Below are comprehensive and well-documented code examples for various functionalities provided by the `asyncio` module in Python 3.12. Each example is designed to be clear, concise, and follows best practices for inclusion in official documentation.
 
@@ -28513,6 +30055,15 @@ These examples cover a range of asynchronous I/O functionalities available in Py
 ## mmap - Memory-mapped file support.md
 
 # mmap - Memory-mapped file support
+## Table of Contents
+
+1. [Example 1: Basic Memory Mapping](#example-1-basic-memory-mapping)
+2. [Example 2: Synchronization with File](#example-2-synchronization-with-file)
+3. [Example 3: Writing and Reading Large Files](#example-3-writing-and-reading-large-files)
+4. [Example 4: Memory-Mapping Multiple Regions](#example-4-memory-mapping-multiple-regions)
+5. [Example 5: Using Memory-Mapped Files with Multiple Processes](#example-5-using-memory-mapped-files-with-multiple-processes)
+
+
 
 The `mmap` module in Python allows you to memory-map files, which means that it creates a view of a file as if it were an array of bytes in memory. This can be useful for working with large files efficiently without loading the entire file into memory at once.
 
@@ -28673,6 +30224,20 @@ These examples demonstrate how to use the `mmap` module for various operations s
 ## select - Waiting for I O completion.md
 
 # select - Waiting for I/O completion
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [Example: Monitoring Multiple Sockets for Read Operations](#example-monitoring-multiple-sockets-for-read-operations)
+3. [2. Handling Write Operations](#2-handling-write-operations)
+4. [Example: Monitoring Multiple Sockets for Write Operations](#example-monitoring-multiple-sockets-for-write-operations)
+5. [3. Monitoring Multiple File Descriptors](#3-monitoring-multiple-file-descriptors)
+6. [Example: Using `select` with Files and Sockets](#example-using-select-with-files-and-sockets)
+7. [4. Monitoring Multiple File Descriptors with Non-blocking I/O](#4-monitoring-multiple-file-descriptors-with-non-blocking-io)
+8. [Example: Using `select` with Pipes and Sockets in Non-blocking Mode](#example-using-select-with-pipes-and-sockets-in-non-blocking-mode)
+9. [5. Using `select` with Timeout](#5-using-select-with-timeout)
+10. [Example: Monitoring Sockets with a Timeout](#example-monitoring-sockets-with-a-timeout)
+
+
 
 The `select` module in Python is used to monitor multiple file descriptors (like sockets, pipes, etc.) for read or write operations, allowing an application to wait until one or more of them are ready for I/O. This is particularly useful in network programming where you need to handle multiple connections simultaneously.
 
@@ -28892,6 +30457,16 @@ The `select` module is a powerful tool for I/O multiplexing in Python. It allows
 ## selectors - High-level I O multiplexing.md
 
 # selectors - High-level I/O multiplexing
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Using `EventLoop` and `Selector`](#2-using-eventloop-and-selector)
+3. [3. Handling Multiple Sockets and Events](#3-handling-multiple-sockets-and-events)
+4. [4. Using `Selector` with Non-Blocking Sockets](#4-using-selector-with-non-blocking-sockets)
+5. [5. Using `Selector` with Timed Events](#5-using-selector-with-timed-events)
+6. [6. Using `Selector` with Priority Queues](#6-using-selector-with-priority-queues)
+
+
 
 Below is a comprehensive set of code examples demonstrating various functionalities of the `selectors` module in Python 3.12, along with comments explaining each step.
 
@@ -29232,6 +30807,15 @@ These examples demonstrate various use cases for the `selectors` module in Pytho
 ## signal - Set handlers for asynchronous events.md
 
 # signal - Set handlers for asynchronous events
+## Table of Contents
+
+1. [Example 1: Handling SIGINT (Ctrl+C)](#example-1-handling-sigint-ctrlc)
+2. [Example 2: Handling SIGHUP](#example-2-handling-sighup)
+3. [Example 3: Sending Signals to a Process](#example-3-sending-signals-to-a-process)
+4. [Example 4: Handling Signals in a Multi-Threaded Application](#example-4-handling-signals-in-a-multi-threaded-application)
+5. [Example 5: Handling Signals with a Custom Signal Class](#example-5-handling-signals-with-a-custom-signal-class)
+
+
 
 The `signal` module in Python provides a way to handle signals raised by the operating system, such as SIGINT (CTRL+C) or SIGHUP (hangup). These signals can be used to interrupt running processes, request termination, or perform cleanup actions before exiting.
 
@@ -29384,6 +30968,18 @@ These examples demonstrate various ways to handle signals in Python using the `s
 ## socket - Low-level networking interface.md
 
 # socket - Low-level networking interface
+## Table of Contents
+
+1. [1. Creating a TCP Socket](#1-creating-a-tcp-socket)
+2. [Explanation:](#explanation)
+3. [2. Creating a UDP Socket](#2-creating-a-udp-socket)
+4. [Explanation:](#explanation)
+5. [3. Connecting to a Remote Server](#3-connecting-to-a-remote-server)
+6. [Explanation:](#explanation)
+7. [4. Using Sockets with Multithreading](#4-using-sockets-with-multithreading)
+8. [Explanation:](#explanation)
+
+
 
 The `socket` module in Python provides a low-level interface for network communication. It allows you to create sockets and use them to connect to other servers, send and receive data over various protocols such as TCP and UDP. Below are comprehensive code examples demonstrating various functionalities of the `socket` module.
 
@@ -29568,6 +31164,18 @@ These examples cover basic functionalities of the `socket` module, including cre
 ## ssl - TLS SSL wrapper for socket objects.md
 
 # ssl - TLS/SSL wrapper for socket objects
+## Table of Contents
+
+1. [1. Creating an SSL Context](#1-creating-an-ssl-context)
+2. [2. Server-Side SSL Configuration](#2-server-side-ssl-configuration)
+3. [3. Client-Side Verification of Server Certificate](#3-client-side-verification-of-server-certificate)
+4. [4. Using a Custom Certificate Store](#4-using-a-custom-certificate-store)
+5. [5. Handling SSL Errors](#5-handling-ssl-errors)
+6. [6. Using a Specific SSL Protocol](#6-using-a-specific-ssl-protocol)
+7. [7. Server-Side Handling of Client Authentication](#7-server-side-handling-of-client-authentication)
+8. [8. Using SSL/TLS with SOCKS Proxy](#8-using-ssltls-with-socks-proxy)
+
+
 
 The `ssl` module in Python provides a way to create secure network connections using SSL/TLS protocols. It allows you to wrap existing socket objects with an encrypted layer, making it suitable for applications that require secure communication.
 
@@ -29746,6 +31354,11 @@ These examples cover a range of use cases for the `ssl` module, from basic serve
 ## cmath - Mathematical functions for complex numbers.md
 
 # cmath - Mathematical functions for complex numbers
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below is a comprehensive set of example code snippets demonstrating various functionalities available in the `cmath` module, which provides mathematical functions for complex numbers in Python 3.12.
 
@@ -29870,6 +31483,20 @@ These examples cover a range of operations and properties available in the `cmat
 ## decimal - Decimal fixed-point and floating-point arithmetic.md
 
 # decimal - Decimal fixed-point and floating-point arithmetic
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Precision and Rounding](#2-precision-and-rounding)
+3. [3. Rounding Modes](#3-rounding-modes)
+4. [4. Arithmetic Operations](#4-arithmetic-operations)
+5. [5. Comparisons](#5-comparisons)
+6. [6. Formatting](#6-formatting)
+7. [7. Conversions](#7-conversions)
+8. [8. Context Management](#8-context-management)
+9. [9. Arithmetic with Strings and Integers](#9-arithmetic-with-strings-and-integers)
+10. [10. Special Values](#10-special-values)
+
+
 
 The `decimal` module in Python provides support for fast correctly-rounded decimal floating point arithmetic. It offers classes for manipulating numbers with arbitrary precision, which is useful for financial calculations where accuracy to many decimal places is critical.
 
@@ -30028,6 +31655,11 @@ These examples cover the basic functionalities of the `decimal` module in Python
 ## fractions - Rational numbers.md
 
 # fractions - Rational numbers
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `fractions` module in Python provides support for rational number arithmetic. Here are comprehensive and well-documented code examples that cover various functionalities within this module:
 
@@ -30187,6 +31819,20 @@ These examples provide a comprehensive overview of how to use the `fractions` mo
 ## math - Mathematical functions.md
 
 # math - Mathematical functions
+## Table of Contents
+
+1. [1. **Trigonometric Functions**](#1-trigonometric-functions)
+2. [2. **Logarithmic Functions**](#2-logarithmic-functions)
+3. [3. **Exponential and Power Functions**](#3-exponential-and-power-functions)
+4. [4. **Square Root and Floor/Ceiling Functions**](#4-square-root-and-floorceiling-functions)
+5. [5. **Constants**](#5-constants)
+6. [6. **Rounding Functions**](#6-rounding-functions)
+7. [7. **Factorial and Gamma Function**](#7-factorial-and-gamma-function)
+8. [8. **Modular Arithmetic Functions**](#8-modular-arithmetic-functions)
+9. [9. **Hyperbolic Functions**](#9-hyperbolic-functions)
+10. [10. **Error Functions and Complementary Error Function**](#10-error-functions-and-complementary-error-function)
+
+
 
 The `math` module is a fundamental part of Python's standard library, providing a wide range of mathematical functions and constants. Below are comprehensive code examples for each functionality within the `math` module. These examples are designed to be clear, concise, and suitable for inclusion in official documentation.
 
@@ -30672,6 +32318,20 @@ This implementation provides basic complex number operations such as addition, m
 ## random - Generate pseudo-random numbers.md
 
 # random - Generate Pseudo-Random Numbers
+## Table of Contents
+
+1. [1. Basic Random Number Generation](#1-basic-random-number-generation)
+2. [2. Random Floating-Point Numbers](#2-random-floating-point-numbers)
+3. [3. Random Choice from a List](#3-random-choice-from-a-list)
+4. [4. Random Selection with Replacement](#4-random-selection-with-replacement)
+5. [5. Random Shuffle a List](#5-random-shuffle-a-list)
+6. [6. Random Seed for Reproducibility](#6-random-seed-for-reproducibility)
+7. [7. Random Normal Distribution](#7-random-normal-distribution)
+8. [8. Random Binomial Distribution](#8-random-binomial-distribution)
+9. [9. Random Exponential Distribution](#9-random-exponential-distribution)
+10. [10. Random Choices with Weights](#10-random-choices-with-weights)
+
+
 
 The `random` module in Python provides various functions to generate pseudo-random numbers, which are useful for simulations, cryptography, and more. Below are comprehensive examples of how to use this module to generate different types of random numbers.
 
@@ -30836,6 +32496,20 @@ The `random` module in Python provides a wide range of functions to generate var
 ## statistics - Mathematical statistics functions.md
 
 # statistics - Mathematical statistics functions
+## Table of Contents
+
+1. [1. Calculating Mean](#1-calculating-mean)
+2. [2. Calculating Median](#2-calculating-median)
+3. [3. Calculating Mode](#3-calculating-mode)
+4. [4. Calculating Standard Deviation](#4-calculating-standard-deviation)
+5. [5. Calculating Variance](#5-calculating-variance)
+6. [6. Calculating Quartiles](#6-calculating-quartiles)
+7. [7. Handling Large Data Sets](#7-handling-large-data-sets)
+8. [8. Handling Missing Values](#8-handling-missing-values)
+9. [9. Handling Negative Numbers](#9-handling-negative-numbers)
+10. [10. Handling Outliers](#10-handling-outliers)
+
+
 
 The `statistics` module in Python provides a collection of mathematical statistical functions. Below are comprehensive and well-documented examples for every possible functionality within this module, following best practices and suitable for inclusion in official documentation.
 
@@ -31016,6 +32690,16 @@ These examples cover various aspects of statistical calculations using the `stat
 ## cmd - Support for line-oriented command interpreters.md
 
 # cmd - Support for line-oriented command interpreters
+## Table of Contents
+
+1. [Example 1: Basic Command Interpreter](#example-1-basic-command-interpreter)
+2. [Example 2: Command with Arguments](#example-2-command-with-arguments)
+3. [Example 3: Command with Flags](#example-3-command-with-flags)
+4. [Example 4: Command History](#example-4-command-history)
+5. [Example 5: Subclassing `Cmd` for Custom Commands](#example-5-subclassing-cmd-for-custom-commands)
+6. [Example 6: Using `cmd.Cmd` in a Web Application](#example-6-using-cmdcmd-in-a-web-application)
+
+
 
 The `cmd` module in Python provides a framework for writing line-oriented command interpreters, allowing you to create simple text-based interfaces for interacting with commands and processes.
 
@@ -31153,6 +32837,20 @@ These examples can be expanded with more complex features such as error handling
 ## shlex - Simple lexical analysis.md
 
 # shlex - Simple lexical analysis
+## Table of Contents
+
+1. [1. Basic Tokenization](#1-basic-tokenization)
+2. [2. Handling Quoted Strings](#2-handling-quoted-strings)
+3. [3. Escaping Characters](#3-escaping-characters)
+4. [4. Ignoring Comments](#4-ignoring-comments)
+5. [5. Handling Special Characters](#5-handling-special-characters)
+6. [6. Quoting Special Characters](#6-quoting-special-characters)
+7. [7. Handling Multiple Whitespace](#7-handling-multiple-whitespace)
+8. [8. Handling Non-Latin Characters](#8-handling-non-latin-characters)
+9. [9. Using `shlex` in a Script](#9-using-shlex-in-a-script)
+10. [10. Using `shlex` for Parsing Shell Commands](#10-using-shlex-for-parsing-shell-commands)
+
+
 
 The `shlex` module in Python provides a robust interface for parsing simple command-like strings into tokens, handling quoted strings, escaped characters, and other special cases that are common in shell scripts. Below are comprehensive examples of how to use each functionality provided by the `shlex` module.
 
@@ -31333,6 +33031,19 @@ These examples demonstrate various use cases for the `shlex` module, covering ba
 ## turtle - Turtle graphics.md
 
 # turtle - Turtle graphics
+## Table of Contents
+
+1. [Basic Usage Example](#basic-usage-example)
+2. [Drawing Shapes Example](#drawing-shapes-example)
+3. [Drawing a Circle Example](#drawing-a-circle-example)
+4. [Customizing Turtle Appearance Example](#customizing-turtle-appearance-example)
+5. [Using Pen Up and Down Commands Example](#using-pen-up-and-down-commands-example)
+6. [Drawing Multiple Shapes Example](#drawing-multiple-shapes-example)
+7. [Using Functions Example](#using-functions-example)
+8. [Using Event Handling Example](#using-event-handling-example)
+9. [Using Screen Properties Example](#using-screen-properties-example)
+
+
 
 The `turtle` module is a versatile tool in Python that provides a simple way to create visual graphics using turtles, which are animated line segments on the screen. Here are comprehensive and well-documented code examples for various functionalities of the `turtle` module:
 
@@ -31577,6 +33288,15 @@ These examples cover a range of functionalities available in the `turtle` module
 ## ast - Abstract Syntax Trees.md
 
 # ast - Abstract Syntax Trees
+## Table of Contents
+
+1. [1. Parsing Source Code](#1-parsing-source-code)
+2. [2. Walking the AST](#2-walking-the-ast)
+3. [3. Modifying the AST](#3-modifying-the-ast)
+4. [4. Evaluating an AST](#4-evaluating-an-ast)
+5. [5. Extracting Information from an AST](#5-extracting-information-from-an-ast)
+
+
 
 The `ast` module in Python is used to parse Python source code into an abstract syntax tree (AST). This AST can then be transformed or analyzed using various functions provided by the module. Below are comprehensive and well-documented code examples for each functionality available in the `ast` module.
 
@@ -31716,6 +33436,18 @@ These examples demonstrate various ways to use the `ast` module for parsing, ana
 ## compileall - Byte-compile Python libraries.md
 
 # compileall - Byte-compile Python libraries
+## Table of Contents
+
+1. [Example 1: Byte-Compile All Modules in a Directory](#example-1-byte-compile-all-modules-in-a-directory)
+2. [Explanation:](#explanation)
+3. [Example 2: Byte-Compile Only Modified Modules](#example-2-byte-compile-only-modified-modules)
+4. [Explanation:](#explanation)
+5. [Example 3: Compile All Modules in a Directory and Output Errors to a File](#example-3-compile-all-modules-in-a-directory-and-output-errors-to-a-file)
+6. [Explanation:](#explanation)
+7. [Example 4: Compile All Modules in a Directory with Optimization](#example-4-compile-all-modules-in-a-directory-with-optimization)
+8. [Explanation:](#explanation)
+
+
 
 The `compileall` module in Python is used to byte-compile all modules within a specified directory, which can help improve the performance of your Python application by compiling source files into bytecode during execution. Below are comprehensive code examples for using the `compileall` module.
 
@@ -31827,6 +33559,20 @@ These examples provide a comprehensive overview of using the `compileall` module
 ## dis - Disassembler for Python bytecode.md
 
 # dis - Disassembler for Python bytecode
+## Table of Contents
+
+1. [1. Basic Disassembly](#1-basic-disassembly)
+2. [2. Disassembling a Built-in Function](#2-disassembling-a-built-in-function)
+3. [3. Iterating Over Instructions](#3-iterating-over-instructions)
+4. [4. Disassembling a Module](#4-disassembling-a-module)
+5. [5. Disassembling a Class Method](#5-disassembling-a-class-method)
+6. [6. Disassembling a Module with Decorators](#6-disassembling-a-module-with-decorators)
+7. [7. Disassembling a Generator Function](#7-disassembling-a-generator-function)
+8. [8. Disassembling a List Comprehension](#8-disassembling-a-list-comprehension)
+9. [9. Disassembling a Nested Function](#9-disassembling-a-nested-function)
+10. [10. Disassembling a Function with Keyword Arguments](#10-disassembling-a-function-with-keyword-arguments)
+
+
 
 The `dis` module is a part of the Python standard library that provides a way to examine Python bytecode. It can help you understand how Python programs are executed and debug them. Below are several comprehensive examples demonstrating various functionalities of the `dis` module.
 
@@ -32017,6 +33763,18 @@ These examples cover a range of functionalities within the `dis` module, from ba
 ## keyword - Testing for Python keywords.md
 
 # keyword - Testing for Python keywords
+## Table of Contents
+
+1. [Example 1: Basic Usage](#example-1-basic-usage)
+2. [Example 2: Using `all()` with `keyword.iskeyword()`](#example-2-using-all-with-keywordiskeyword)
+3. [Example 3: Handling Non-String Inputs](#example-3-handling-non-string-inputs)
+4. [Example 4: Testing Keywords in Specific Contexts](#example-4-testing-keywords-in-specific-contexts)
+5. [Example 5: Using `list()` to Get All Keywords](#example-5-using-list-to-get-all-keywords)
+6. [Example 6: Using `in` Operator to Check if a String is a Keyword](#example-6-using-in-operator-to-check-if-a-string-is-a-keyword)
+7. [Example 7: Testing Keywords in Different Programming Styles](#example-7-testing-keywords-in-different-programming-styles)
+8. [Example 8: Testing Keywords in Different Module Contexts](#example-8-testing-keywords-in-different-module-contexts)
+
+
 
 The `keyword` module in Python is used to test if a given string is a reserved word in the language. It provides a function called `iskeyword()` that returns `True` if the string is a keyword and `False` otherwise.
 
@@ -32164,6 +33922,13 @@ These examples demonstrate various use cases of the `keyword` module, including 
 ## parser - Access Python parse trees.md
 
 # parser - Access Python parse trees
+## Table of Contents
+
+1. [Notes:](#notes)
+2. [Example for Parsing HTML with `html.parser`:](#example-for-parsing-html-with-htmlparser)
+3. [Example for Parsing XML with `xml.etree.ElementTree`:](#example-for-parsing-xml-with-xmletreeelementtree)
+
+
 
 The `parser` module in Python is not a standard module, but it can be used to parse text files using regular expressions or simple parsing techniques. However, if you are referring to parsing HTML or XML documents, there are more suitable modules like `html.parser` and `xml.etree.ElementTree`.
 
@@ -32274,6 +34039,15 @@ These examples demonstrate how to parse simple text patterns and XML documents u
 ## pickletools - Tools for pickle developers.md
 
 # pickletools - Tools for pickle developers
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Example 2: Extracting Source Code from a Pickled Object](#example-2-extracting-source-code-from-a-pickled-object)
+3. [Explanation:](#explanation)
+4. [Example 3: Generating Python Source Code for a Pickled Object](#example-3-generating-python-source-code-for-a-pickled-object)
+5. [Explanation:](#explanation)
+
+
 
 The `pickletools` module in Python provides tools for examining and debugging pickled data, which is used to serialize and deserialize objects. Below are comprehensive code examples for each functionality provided by `pickletools`, including comments explaining each step.
 
@@ -32384,6 +34158,15 @@ These examples demonstrate how to use `pickletools` for various purposes, from i
 ## py_compile - Compile Python source files.md
 
 # py_compile - Compile Python source files
+## Table of Contents
+
+1. [Example 1: Compile a Single Source File](#example-1-compile-a-single-source-file)
+2. [Example 2: Compile Multiple Source Files in a Directory](#example-2-compile-multiple-source-files-in-a-directory)
+3. [Example 3: Compile a Source File with Specific Options](#example-3-compile-a-source-file-with-specific-options)
+4. [Example 4: Check if a File is Already Compiled](#example-4-check-if-a-file-is-already-compiled)
+5. [Example 5: Compile a Source File with Specific Mode](#example-5-compile-a-source-file-with-specific-mode)
+
+
 
 The `py_compile` module in Python's standard library provides a simple way to compile Python source files into bytecode using the built-in compiler. This is useful for distributing Python programs, as it allows you to distribute only the compiled bytecode instead of the source code. Below are several examples demonstrating various functionalities of the `py_compile` module.
 
@@ -32491,6 +34274,11 @@ These examples cover basic use cases for the `py_compile` module, including comp
 ## pyclbr - Python class browser support.md
 
 # pyclbr - Python class browser support
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `pyclbr` module is a built-in Python module that provides a simple way to browse the directory of classes, functions, and methods defined by the Python compiler. It can be used to extract information about modules and objects within those modules.
 
@@ -32565,6 +34353,16 @@ These examples demonstrate how to use `pyclbr` to extract and display informatio
 ## symtable - Access to the compiler s symbol tables.md
 
 # symtable - Access to the compiler’s symbol tables
+## Table of Contents
+
+1. [Example 1: Parsing Source Code](#example-1-parsing-source-code)
+2. [Example 2: Extracting Function Names](#example-2-extracting-function-names)
+3. [Example 3: Inspecting Node Attributes](#example-3-inspecting-node-attributes)
+4. [Example 4: Extracting Variable Names](#example-4-extracting-variable-names)
+5. [Example 5: Inspecting Node Types](#example-5-inspecting-node-types)
+6. [Example 6: Extracting Comments](#example-6-extracting-comments)
+
+
 
 The `symtable` module in Python is designed to provide access to the symbol tables generated by the Python parser. These symbol tables are useful for introspection and can be used to understand the structure of a program's code at compile time. However, it's important to note that the `symtable` module is deprecated as of Python 3.8 and may not be supported in future versions. For most modern use cases, you should consider using other libraries or techniques for introspection.
 
@@ -32730,6 +34528,17 @@ These examples demonstrate how to parse and inspect Python source code using the
 ## tabnanny - Detection of ambiguous indentation.md
 
 # tabnanny - Detection of ambiguous indentation
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Custom Indentation Check](#2-custom-indentation-check)
+3. [3. Checking Multiple Files](#3-checking-multiple-files)
+4. [4. Skipping Lines](#4-skipping-lines)
+5. [5. Handling Output](#5-handling-output)
+6. [6. Using `tabnanny` as a Command-Line Tool](#6-using-tabnanny-as-a-command-line-tool)
+7. [7. Customizing the Output Format](#7-customizing-the-output-format)
+
+
 
 The `tabnanny` module is used to detect and report on ambiguous indentation in Python scripts. Ambiguous indentation can lead to errors or unexpected behavior, so it's important to ensure consistent indentation in your code. Below are comprehensive examples demonstrating various functionalities of the `tabnanny` module.
 
@@ -32885,6 +34694,11 @@ These examples cover various scenarios for using `tabnanny` to detect and report
 ## token - Constants used with Python parse trees.md
 
 # token - Constants used with Python parse trees
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `token` module in Python provides constants that are used to identify different types of tokens in a Python source code. These constants are part of the Abstract Syntax Tree (AST) and are used by tools like PEP 8 checkers, linters, and static code analysis tools to analyze Python code.
 
@@ -32930,6 +34744,18 @@ These examples demonstrate how to use the `token` module to process and analyze 
 ## tokenize - Tokenizer for Python source.md
 
 # tokenize - Tokenizer for Python source
+## Table of Contents
+
+1. [Example 1: Basic Tokenization](#example-1-basic-tokenization)
+2. [Explanation:](#explanation)
+3. [Example 2: Handling Errors in Tokenization](#example-2-handling-errors-in-tokenization)
+4. [Explanation:](#explanation)
+5. [Example 3: Extracting Tokens with Specific Names](#example-3-extracting-tokens-with-specific-names)
+6. [Explanation:](#explanation)
+7. [Example 4: Tokenizing from a File](#example-4-tokenizing-from-a-file)
+8. [Explanation:](#explanation)
+
+
 
 The `tokenize` module in Python is used to break a Python source file into tokens, which are the smallest units of Python syntax. Below are comprehensive examples demonstrating various functionalities provided by the `tokenize` module.
 
@@ -33051,6 +34877,15 @@ These examples demonstrate how to use the `tokenize` module effectively for vari
 ## __future__ - Future statement definitions.md
 
 # __future__ - Future statement definitions
+## Table of Contents
+
+1. [1. Using Generators with Expressions](#1-using-generators-with-expressions)
+2. [2. Unpacking Star Expressions](#2-unpacking-star-expressions)
+3. [3. Division Behavior](#3-division-behavior)
+4. [4. Print Function Syntax](#4-print-function-syntax)
+5. [5. Float Division with `//`](#5-float-division-with)
+
+
 
 The `__future__` module in Python provides a way to specify features that are still experimental or may change in future versions of the language. These features can be enabled by using "future" statements at the top of your script or module. This module is part of Python's standard library, so it doesn't need to be installed separately.
 
@@ -33137,6 +34972,16 @@ These examples demonstrate how to use `__future__` statements to leverage new fe
 ## __main__ - Top-level script environment.md
 
 # __main__ - Top-level script environment
+## Table of Contents
+
+1. [Example 1: Printing a Message](#example-1-printing-a-message)
+2. [Example 2: Defining a Function with Command-Line Arguments](#example-2-defining-a-function-with-command-line-arguments)
+3. [Example 3: Handling Exceptions](#example-3-handling-exceptions)
+4. [Example 4: Using a Main Function](#example-4-using-a-main-function)
+5. [Example 5: Using `if __name__ == "__main__":` for Test Execution](#example-5-using-if-__name__-__main__-for-test-execution)
+6. [Explanation:](#explanation)
+
+
 
 The `__main__` module is a special module in Python that serves as the entry point for standalone scripts or when a script is executed from the command line. It allows you to define functions, classes, and variables that are not accessible by other modules.
 
@@ -33306,6 +35151,20 @@ These examples cover various aspects of using the `__main__` module effectively,
 ## abc - Abstract Base Classes.md
 
 # abc - Abstract Base Classes
+## Table of Contents
+
+1. [1. Defining an Abstract Base Class](#1-defining-an-abstract-base-class)
+2. [2. Subclassing and Implementing Abstract Methods](#2-subclassing-and-implementing-abstract-methods)
+3. [3. Abstract Properties](#3-abstract-properties)
+4. [4. Using ABCs with `register` to Customize Base Class](#4-using-abcs-with-register-to-customize-base-class)
+5. [5. Using `abstractmethod` on Class Methods and Static Methods](#5-using-abstractmethod-on-class-methods-and-static-methods)
+6. [6. Using `abc` with Inheritance and Multiple Abstract Methods](#6-using-abc-with-inheritance-and-multiple-abstract-methods)
+7. [7. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass](#7-using-abc-with-inheritance-and-multiple-abstract-methods-in-a-subclass)
+8. [8. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass with Class Attributes](#8-using-abc-with-inheritance-and-multiple-abstract-methods-in-a-subclass-with-class-attributes)
+9. [9. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass with Class Attributes and Properties](#9-using-abc-with-inheritance-and-multiple-abstract-methods-in-a-subclass-with-class-attributes-and-properties)
+10. [10. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass with Class Attributes and Properties](#10-using-abc-with-inheritance-and-multiple-abstract-methods-in-a-subclass-with-class-attributes-and-properties)
+
+
 
 The `abc` (Abstract Base Class) module in Python provides a way to define abstract base classes, which are classes that cannot be instantiated directly but serve as a blueprint for subclasses. This module includes the `ABC` class and decorators such as `abstractmethod` and `abstractproperty`. Below are comprehensive code examples demonstrating various functionalities of this module.
 
@@ -33597,6 +35456,18 @@ These examples demonstrate various aspects of using the `abc` module in Python, 
 ## atexit - Exit handlers.md
 
 # atexit - Exit handlers
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Multiple Handlers](#2-multiple-handlers)
+3. [3. Handling Exceptions](#3-handling-exceptions)
+4. [4. Cleanup on Module Exit](#4-cleanup-on-module-exit)
+5. [5. Using `atexit` with Subprocesses](#5-using-atexit-with-subprocesses)
+6. [6. Using `atexit` with Signals](#6-using-atexit-with-signals)
+7. [7. Using `atexit` with Threads](#7-using-atexit-with-threads)
+8. [8. Using `atexit` with Resource Management](#8-using-atexit-with-resource-management)
+
+
 
 The `atexit` module in Python provides a way to register functions that will be called when normal program termination occurs, typically upon exit. This is useful for cleanup tasks such as closing files or releasing resources.
 
@@ -33809,6 +35680,20 @@ These examples demonstrate various use cases for the `atexit` module, including 
 ## builtins - Built-in objects.md
 
 # builtins - Built-in objects
+## Table of Contents
+
+1. [1. Accessing Built-in Functions](#1-accessing-built-in-functions)
+2. [2. Accessing Built-in Types](#2-accessing-built-in-types)
+3. [3. Accessing Built-in Exceptions](#3-accessing-built-in-exceptions)
+4. [4. Accessing Built-in Constants](#4-accessing-built-in-constants)
+5. [5. Accessing Built-in Modules](#5-accessing-built-in-modules)
+6. [6. Accessing Built-in Classes](#6-accessing-built-in-classes)
+7. [7. Accessing Built-in Methods](#7-accessing-built-in-methods)
+8. [8. Accessing Built-in Modules and Functions](#8-accessing-built-in-modules-and-functions)
+9. [9. Accessing Built-in Constants and Functions](#9-accessing-built-in-constants-and-functions)
+10. [10. Accessing Built-in Operators](#10-accessing-built-in-operators)
+
+
 
 The `builtins` module in Python is a special module that contains all the built-in names available in every interactive session and in all modules. It provides access to the most commonly used functions, types, and exceptions.
 
@@ -33989,6 +35874,14 @@ These examples demonstrate various aspects of using the `builtins` module, inclu
 ## code - Interpreter base classes.md
 
 # code - Interpreter base classes
+## Table of Contents
+
+1. [Example 1: Creating a Custom Code Object](#example-1-creating-a-custom-code-object)
+2. [Example 2: Executing a Custom Code Object](#example-2-executing-a-custom-code-object)
+3. [Example 3: Creating and Executing Code Objects from Strings](#example-3-creating-and-executing-code-objects-from-strings)
+4. [Explanation](#explanation)
+
+
 
 The `code` module is part of Python's standard library and provides a way to define and execute code objects, which can be useful for implementing dynamic language interpreters or other features that require executing arbitrary code. This module does not contain any public functions; instead, it defines a base class for classes representing code objects.
 
@@ -34106,6 +35999,17 @@ These examples demonstrate how you can use the `code` module to define and execu
 ## codeop - Compile Python code.md
 
 # codeop - Compile Python code
+## Table of Contents
+
+1. [Example 1: Basic Compilation and Execution](#example-1-basic-compilation-and-execution)
+2. [Example 2: Compiling Source Code with Specific Mode](#example-2-compiling-source-code-with-specific-mode)
+3. [Example 3: Compiling Source Code into Bytecode Without Executing](#example-3-compiling-source-code-into-bytecode-without-executing)
+4. [Example 4: Handling Syntax Errors Gracefully](#example-4-handling-syntax-errors-gracefully)
+5. [Example 5: Compiling and Executing Dynamically](#example-5-compiling-and-executing-dynamically)
+6. [Example 6: Using `compile_command` with Specific Mode and Flags](#example-6-using-compile_command-with-specific-mode-and-flags)
+7. [Example 7: Using `compile_command` with Input File](#example-7-using-compile_command-with-input-file)
+
+
 
 The `codeop` module in Python provides tools to compile Python source code into bytecode. It's particularly useful for situations where you need to dynamically execute or modify Python code at runtime, such as in interactive shells, interpreters, or during the execution of custom scripts.
 
@@ -34265,6 +36169,20 @@ These examples cover a range of use cases for the `codeop` module, including bas
 ## contextlib - Utilities for with-statement contexts.md
 
 # contextlib - Utilities for with-statement contexts
+## Table of Contents
+
+1. [1. Context Managers](#1-context-managers)
+2. [Example 1: Using `with` Statement with `open()`](#example-1-using-with-statement-with-open)
+3. [Explanation:](#explanation)
+4. [2. `contextlib.nested()`](#2-contextlibnested)
+5. [Example 2: Using `nested()` with `open()` and `sqlite3.connect()`](#example-2-using-nested-with-open-and-sqlite3connect)
+6. [Explanation:](#explanation)
+7. [3. `contextlib.ExitStack`](#3-contextlibexitstack)
+8. [Example 3: Using `ExitStack` with `open()` and closing them in reverse order](#example-3-using-exitstack-with-open-and-closing-them-in-reverse-order)
+9. [Explanation:](#explanation)
+10. [4. `contextlib.suppress()`](#4-contextlibsuppress)
+
+
 
 The `contextlib` module in Python provides utilities for managing resources, especially those that need to be set up before a block of code is executed and cleaned up afterward. It offers several classes and functions designed to simplify common tasks like handling temporary files, database connections, and more. Below are comprehensive examples of how to use each of the main classes and functions in the `contextlib` module.
 
@@ -34509,6 +36427,20 @@ These examples demonstrate how to use various features provided by the `contextl
 ## dataclasses - Data Classes.md
 
 # dataclasses - Data Classes
+## Table of Contents
+
+1. [Installation](#installation)
+2. [Example 1: Basic Usage](#example-1-basic-usage)
+3. [Example 2: Multiple Default Values](#example-2-multiple-default-values)
+4. [Example 3: Immutable Attributes](#example-3-immutable-attributes)
+5. [Example 4: Custom Initialization](#example-4-custom-initialization)
+6. [Example 5: Auto-Generated Special Methods](#example-5-auto-generated-special-methods)
+7. [Example 6: Optional Attributes](#example-6-optional-attributes)
+8. [Example 7: Recursive Data Classes](#example-7-recursive-data-classes)
+9. [Example 8: Custom Class Methods](#example-8-custom-class-methods)
+10. [Example 9: Custom Class Variables](#example-9-custom-class-variables)
+
+
 
 Data classes in Python provide a convenient way to create classes with default values, immutable attributes, and automatically generated special methods like `__init__`, `__repr__`, `__eq__`, etc. They are particularly useful for creating classes that represent complex data structures.
 
@@ -34821,6 +36753,11 @@ These examples demonstrate various use cases and features of Python's `dataclass
 ## gc - Garbage Collector interface.md
 
 # gc - Garbage Collector interface
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `gc` module in Python is used to control garbage collection runtime behavior. It provides a way to enable or disable automatic garbage collection, tune the collector's parameters, and collect garbage manually.
 
@@ -34896,6 +36833,11 @@ These examples demonstrate how to manage and monitor garbage collection in a Pyt
 ## inspect - Inspect live objects.md
 
 # inspect - Inspect live objects
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `inspect` module in Python provides several functions to access information about live objects such as modules, classes, methods, and frames. Below are comprehensive examples demonstrating various functionalities of the `inspect` module:
 
@@ -34990,6 +36932,20 @@ These examples cover various aspects of inspecting live objects in Python, provi
 ## site - Site-specific configuration hook.md
 
 # site - Site-specific configuration hook
+## Table of Contents
+
+1. [1. `site.addsitedir(path)`](#1-siteaddsitedirpath)
+2. [2. `site.getsitepackages()`](#2-sitegetsitepackages)
+3. [3. `site.getusersitepackages()`](#3-sitegetusersitepackages)
+4. [4. `site.getsitecustomize()`](#4-sitegetsitecustomize)
+5. [5. `site.removesitedir(path)`](#5-siteremovesitedirpath)
+6. [6. `site.setusersitepackages(True | False)`](#6-sitesetusersitepackagestrue-false)
+7. [7. `site.clearsitepackages()`](#7-siteclearsitepackages)
+8. [8. `site.addsitedir(path, setpath=True)`](#8-siteaddsitedirpath-setpathtrue)
+9. [9. `site.removesitedir(path, unsetsitepackages=False)`](#9-siteremovesitedirpath-unsetsitepackagesfalse)
+10. [10. `site.addsitedir(path, setpath=True)`](#10-siteaddsitedirpath-setpathtrue)
+
+
 
 The `site` module in Python is used to customize the behavior of Python's import system, especially when it comes to loading modules from a directory outside the standard installation path. This can be useful for various purposes, such as extending the Python environment with additional libraries or modules.
 
@@ -35162,6 +37118,20 @@ These code examples demonstrate various functionalities of the `site` module, in
 ## sys - System-specific parameters and functions.md
 
 # sys - System-specific parameters and functions
+## Table of Contents
+
+1. [1. `sys.version`](#1-sysversion)
+2. [2. `sys.executable`](#2-sysexecutable)
+3. [3. `sys.platform`](#3-sysplatform)
+4. [4. `sys.modules`](#4-sysmodules)
+5. [5. `sys.maxsize`](#5-sysmaxsize)
+6. [6. `sys.argv`](#6-sysargv)
+7. [7. `sys.path`](#7-syspath)
+8. [8. `sys.stdin`, `sys.stdout`, and `sys.stderr`](#8-sysstdin-sysstdout-and-sysstderr)
+9. [9. `sys.exit([status])`](#9-sysexitstatus)
+10. [10. `sys.getsizeof(obj[, default])`](#10-sysgetsizeofobj-default)
+
+
 
 The `sys` module in Python provides access to some variables used or maintained by the interpreter and to functions that interact strongly with the interpreter. Below are comprehensive and well-documented code examples for each functionality provided by the `sys` module.
 
@@ -35356,6 +37326,11 @@ These examples cover a wide range of functionalities provided by the `sys` modul
 ## sysconfig - Provide access to Python s configuration information.md
 
 # sysconfig - Provide access to Python’s configuration information
+## Table of Contents
+
+1. [Explanation of the Code Examples:](#explanation-of-the-code-examples)
+
+
 
 The `sysconfig` module in Python provides access to Python's configuration settings, including paths to various directories such as the site-packages directory, the interpreter executable, and more. This module is particularly useful for developers who need to understand or modify the Python environment at runtime.
 
@@ -35487,6 +37462,11 @@ These examples cover various aspects of interacting with Python's configuration 
 ## traceback - Print or retrieve a stack traceback.md
 
 # traceback - Print or retrieve a stack traceback
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below are comprehensive code examples that demonstrate various functionalities of the `traceback` module in Python, along with clear explanations and comments:
 
@@ -35594,6 +37574,17 @@ Each example includes comments that explain the purpose and functionality of eac
 ## warnings - Warning control.md
 
 # warnings - Warning control
+## Table of Contents
+
+1. [1. Simple Warning Example](#1-simple-warning-example)
+2. [2. Filtering Warnings](#2-filtering-warnings)
+3. [3. Suppressing Warnings](#3-suppressing-warnings)
+4. [4. Custom Warning Filters](#4-custom-warning-filters)
+5. [5. Disabling Warnings](#5-disabling-warnings)
+6. [6. Enabling Warnings](#6-enabling-warnings)
+7. [7. Capturing Warnings](#7-capturing-warnings)
+
+
 
 The `warnings` module in Python provides a flexible way to handle warning messages generated by the interpreter or libraries you use. It allows you to filter out unwanted warnings, issue warnings with custom categories and filters, and even enable or disable specific warning categories globally.
 
@@ -35764,6 +37755,20 @@ These examples cover the basic functionalities of the `warnings` module, includi
 ## distutils - Building and installing Python packages.md
 
 # distutils - Building and installing Python packages
+## Table of Contents
+
+1. [Example 1: Creating a Simple Package with Distutils](#example-1-creating-a-simple-package-with-distutils)
+2. [Step 1: Create a Directory for Your Package](#step-1-create-a-directory-for-your-package)
+3. [Step 2: Initialize the Package](#step-2-initialize-the-package)
+4. [Step 3: Create Your Modules](#step-3-create-your-modules)
+5. [Step 4: Create a Setup Script](#step-4-create-a-setup-script)
+6. [Step 5: Build the Package](#step-5-build-the-package)
+7. [Step 6: Install the Package](#step-6-install-the-package)
+8. [Example 2: Building and Installing Using `setuptools` (Recommended)](#example-2-building-and-installing-using-setuptools-recommended)
+9. [Step 1: Install `setuptools`](#step-1-install-setuptools)
+10. [Step 2: Use `setup.py` with `setuptools`](#step-2-use-setuppy-with-setuptools)
+
+
 
 The `distutils` module is an older package that is now considered deprecated. It is used to build and install Python packages, but it has been largely replaced by newer tools such as `setuptools` and `wheel`. However, I will provide code examples for using the original `distutils` to illustrate how you might have built and installed a simple Python package in earlier versions of Python.
 
@@ -35873,6 +37878,13 @@ These examples demonstrate how to create and install a simple Python package usi
 ## ensurepip - Bootstrapping the pip installer.md
 
 # ensurepip - Bootstrapping the pip installer
+## Table of Contents
+
+1. [Usage](#usage)
+2. [Detailed Example](#detailed-example)
+3. [Notes](#notes)
+
+
 
 **ensurepip Module Documentation**
 
@@ -35946,6 +37958,18 @@ This example demonstrates how to use the `ensurepip` module to bootstrap the pip
 ## venv - Creation of virtual environments.md
 
 # venv - Creation of virtual environments
+## Table of Contents
+
+1. [Example 1: Creating a Virtual Environment Manually](#example-1-creating-a-virtual-environment-manually)
+2. [Example 2: Activating a Virtual Environment (on Windows)](#example-2-activating-a-virtual-environment-on-windows)
+3. [Example 3: Activating a Virtual Environment (on macOS/Linux)](#example-3-activating-a-virtual-environment-on-macoslinux)
+4. [Example 4: Creating a Virtual Environment Automatically with `create` Method](#example-4-creating-a-virtual-environment-automatically-with-create-method)
+5. [Example 5: Deactivating a Virtual Environment](#example-5-deactivating-a-virtual-environment)
+6. [Example 6: Using `pip` within a Virtual Environment](#example-6-using-pip-within-a-virtual-environment)
+7. [Example 7: Listing Installed Packages](#example-7-listing-installed-packages)
+8. [Example 8: Checking Python Version in a Virtual Environment](#example-8-checking-python-version-in-a-virtual-environment)
+
+
 
 Creating a virtual environment in Python using `venv` is a straightforward process that allows you to manage dependencies for different projects independently without affecting each other. Below are comprehensive examples of how to use the `venv` module, including comments explaining each step.
 
@@ -36075,6 +38099,16 @@ These examples demonstrate how to create, activate, and manage a virtual environ
 ## zipapp - Manage executable Python zip archives.md
 
 # zipapp - Manage executable Python zip archives
+## Table of Contents
+
+1. [Example 1: Creating an Executable from a Script](#example-1-creating-an-executable-from-a-script)
+2. [Example 2: Executing an Executable](#example-2-executing-an-executable)
+3. [Example 3: Installing the Executable as a Command-Line Tool](#example-3-installing-the-executable-as-a-command-line-tool)
+4. [Example 4: Running a Script with Specific Python Interpreter](#example-4-running-a-script-with-specific-python-interpreter)
+5. [Example 5: Managing Dependencies](#example-5-managing-dependencies)
+6. [Example 6: Using `zipapp.run_script`](#example-6-using-zipapprun_script)
+
+
 
 The `zipapp` module in Python is used to create standalone executables from Python applications by embedding the interpreter into a ZIP archive. This allows you to distribute your application without requiring a separate Python installation, which can be useful for distributing small projects or for creating installable packages.
 
@@ -36220,6 +38254,20 @@ These examples provide a comprehensive overview of how you can use the `zipapp` 
 ## html - HyperText Markup Language support.md
 
 # html - HyperText Markup Language support
+## Table of Contents
+
+1. [Example 1: Parsing an HTML Document](#example-1-parsing-an-html-document)
+2. [Example 2: Rendering HTML as a String](#example-2-rendering-html-as-a-string)
+3. [Example 3: Rendering HTML to a File](#example-3-rendering-html-to-a-file)
+4. [Example 4: Creating an HTML Page from Python](#example-4-creating-an-html-page-from-python)
+5. [Example 5: Modifying an HTML Document](#example-5-modifying-an-html-document)
+6. [Example 6: Escaping Special Characters](#example-6-escaping-special-characters)
+7. [Example 7: Encoding HTML Entities](#example-7-encoding-html-entities)
+8. [Example 8: Parsing HTML from a String](#example-8-parsing-html-from-a-string)
+9. [Example 9: Rendering HTML with Custom Styling](#example-9-rendering-html-with-custom-styling)
+10. [Example 10: Handling HTML Entities in a String](#example-10-handling-html-entities-in-a-string)
+
+
 
 The `html` module in Python provides tools to parse HTML documents and render them as formatted text, including basic formatting features like bold, italic, lists, links, and images. Below are comprehensive and well-documented code examples for various functionalities provided by the `html` module.
 
@@ -36428,6 +38476,16 @@ These examples cover various aspects of working with HTML in Python using the `h
 ## html.entities - Definitions of HTML general entities.md
 
 # html.entities - Definitions of HTML general entities
+## Table of Contents
+
+1. [Example 1: Reading Entity Definitions](#example-1-reading-entity-definitions)
+2. [Example 2: Writing Entity Definitions to a File](#example-2-writing-entity-definitions-to-a-file)
+3. [Example 3: Converting Between Numeric and Named Entities](#example-3-converting-between-numeric-and-named-entities)
+4. [Example 4: Using Entities in HTML Strings](#example-4-using-entities-in-html-strings)
+5. [Example 5: Handling Non-ASCII Characters](#example-5-handling-non-ascii-characters)
+6. [Example 6: Using Entities with HTML Libraries](#example-6-using-entities-with-html-libraries)
+
+
 
 The `html.entities` module provides a comprehensive dictionary mapping HTML numeric character references to their corresponding characters. These entities are used in HTML documents to represent special characters that cannot be directly included due to formatting issues or restrictions. Below are several examples demonstrating how to use the `html.entities` module, including reading from and writing to entity files, converting between numeric and named entities, and using them in HTML strings.
 
@@ -36556,6 +38614,16 @@ These examples cover a variety of scenarios involving the `html.entities` module
 ## html.parser - Simple HTML and XHTML parser.md
 
 # html.parser - Simple HTML and XHTML parser
+## Table of Contents
+
+1. [Example 1: Basic Parsing with `HTMLParser`](#example-1-basic-parsing-with-htmlparser)
+2. [Explanation:](#explanation)
+3. [Example 2: Extracting Links with `BeautifulSoup`](#example-2-extracting-links-with-beautifulsoup)
+4. [Explanation:](#explanation)
+5. [Example 3: Parsing Attributes](#example-3-parsing-attributes)
+6. [Explanation:](#explanation)
+
+
 
 Certainly! Below are comprehensive and well-documented examples for using the `html.parser` module in Python, which is part of the standard library. This module provides a simple way to parse HTML and XHTML documents.
 
@@ -36681,6 +38749,18 @@ These examples demonstrate how to use different parsing techniques with `html.pa
 ## imp - Access the import internals.md
 
 # imp - Access the import internals
+## Table of Contents
+
+1. [Example 1: Using `imp.load_module()` (Legacy Functionality)](#example-1-using-impload_module-legacy-functionality)
+2. [Example 2: Using `imp.find_module()` (Legacy Functionality)](#example-2-using-impfind_module-legacy-functionality)
+3. [Example 3: Using `imp.load_compiled()` (Legacy Functionality)](#example-3-using-impload_compiled-legacy-functionality)
+4. [Example 4: Using `imp.get_suffixes()` (Legacy Functionality)](#example-4-using-impget_suffixes-legacy-functionality)
+5. [Example 5: Using `imp.is_frozen()` (Legacy Functionality)](#example-5-using-impis_frozen-legacy-functionality)
+6. [Example 6: Using `imp.get_magic()` (Legacy Functionality)](#example-6-using-impget_magic-legacy-functionality)
+7. [Example 7: Using `imp.get_code()` (Legacy Functionality)](#example-7-using-impget_code-legacy-functionality)
+8. [Example 8: Using `imp.get_info()` (Legacy Functionality)](#example-8-using-impget_info-legacy-functionality)
+
+
 
 The `imp` module is a legacy module used to load modules dynamically, but it has been largely replaced by the `importlib` module, which provides a more modern and flexible interface for importing modules. However, if you need to interact with or understand how `imp` works, here are some basic examples:
 
@@ -36823,6 +38903,12 @@ These examples provide a basic understanding of how to use `imp` for loading and
 ## optparse - Parser for command line options.md
 
 # optparse - Parser for command line options
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Usage:](#usage)
+
+
 
 The `optparse` module is a simple way to handle command-line options in Python, similar to how `getopt` works in C. It provides a flexible framework for parsing command-line options and arguments.
 
@@ -36915,6 +39001,15 @@ This will execute the script with the specified options.
 ## difflib - Helpers for computing deltas.md
 
 # difflib - Helpers for computing deltas
+
+## Table of Contents
+
+1. [Basic Sequence Comparison](#example-1-basic-sequence-comparison)
+2. [Context Format Differences](#example-2-context-format-differences)
+3. [Html Format Differences](#example-3-html-format-differences)
+4. [SequenceMatcher - Comparing Similarity](#example-4-sequencematcher---comparing-similarity)
+5. [Find Matches in Two Sequences](#example-5-find-matches-in-two-sequences)
+6. [Get Close Matches Using SequenceMatcher](#example-6-get-close-matches-using-sequencematcher)
 
 Below is a comprehensive set of code examples demonstrating various functionalities provided by the `difflib` module, which is part of Python's standard library and helps in comparing sequences to find differences. Each example includes detailed comments explaining what the code does.
 
@@ -37010,6 +39105,15 @@ These examples should cover most common use cases where you need to compare sequ
 # re - Regular expression operations
 
 Below are comprehensive code examples covering various functionalities provided by the `re` (regular expressions) module in Python 3.12. These examples include detailed comments explaining each step.
+
+## Table of Contents
+
+1. [Basic pattern matching using search()](#example-1-basic-pattern-matching-using-search)
+2. [Finding all matches using findall()](#example-2-finding-all-matches-using-findall)
+3. [Substituting strings using sub()](#example-3-substituting-strings-using-sub)
+4. [Compilation and usage of regular expressions using compile()](#example-4-compilation-and-usage-of-regular-expressions-using-compile)
+5. [Using patterns with flags using match()](#example-5-using-patterns-with-flags-using-match)
+6. [Matching patterns with lookaheads and lookbehinds](#example-6-matching-patterns-with-lookaheads-and-lookbehinds)
 
 ```python
 import re
@@ -37154,6 +39258,18 @@ This code provides a comprehensive set of examples to demonstrate various functi
 ## readline - GNU readline interface.md
 
 # readline - GNU readline interface
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Customizing the Prompt](#2-customizing-the-prompt)
+3. [3. Adding History Management](#3-adding-history-management)
+4. [4. Using Completion Functions](#4-using-completion-functions)
+5. [5. Prompting with Multiple Choices](#5-prompting-with-multiple-choices)
+6. [6. Using Pre Input Hooks](#6-using-pre-input-hooks)
+7. [7. Using History Manipulation Functions](#7-using-history-manipulation-functions)
+8. [8. Using Readline Options](#8-using-readline-options)
+
+
 
 The `readline` module in Python provides a convenient way to handle command line editing, history management, and completion features using GNU Readline.
 
@@ -37304,6 +39420,16 @@ These examples cover a range of functionalities available in the `readline` modu
 ## rlcompleter - Completion function for GNU readline.md
 
 # rlcompleter - Completion function for GNU readline
+## Table of Contents
+
+1. [1. Basic Completion](#1-basic-completion)
+2. [2. Custom Completion Function](#2-custom-completion-function)
+3. [3. Completion for Custom Objects](#3-completion-for-custom-objects)
+4. [4. Using `readline.parse_and_bind` for Advanced Bindings](#4-using-readlineparse_and_bind-for-advanced-bindings)
+5. [5. Completion for Specific Modules or Libraries](#5-completion-for-specific-modules-or-libraries)
+6. [6. Using `readline.set_completer_delims` to Customize Delimiters](#6-using-readlineset_completer_delims-to-customize-delimiters)
+
+
 
 The `rlcompleter` module in Python provides a way to enable completion features for interactive shell sessions using the GNU Readline library. This can be particularly useful for enhancing productivity by providing auto-completion as you type commands or variable names.
 
@@ -37534,6 +39660,19 @@ These examples demonstrate how to use the `rlcompleter` module to enhance the in
 ## stringprep - Internet String Preparation.md
 
 # stringprep - Internet String Preparation
+## Table of Contents
+
+1. [1. Normalization](#1-normalization)
+2. [2. Check Character Properties](#2-check-character-properties)
+3. [3. Determine Character Type](#3-determine-character-type)
+4. [4. Process Unicode Tables](#4-process-unicode-tables)
+5. [5. Generate Table Files](#5-generate-table-files)
+6. [6. Validate Strings](#6-validate-strings)
+7. [7. Example of Using `stringprep` in Practice](#7-example-of-using-stringprep-in-practice)
+8. [8. Generating a Table for Validation](#8-generating-a-table-for-validation)
+9. [Conclusion](#conclusion)
+
+
 
 The `stringprep` module is used for processing Unicode strings to prepare them for internationalization, especially for use in network protocols such as SMTP, LDAP, and IMAP4. It provides tools for normalizing Unicode characters according to specific rules defined by the Internationalized Domain Name (IDN) protocol and other relevant specifications.
 
@@ -37689,6 +39828,14 @@ The `stringprep` module provides a robust set of tools for normalizing and valid
 
 # textwrap - Text wrapping and filling
 
+## Table of Contents
+
+1. [Basic Text Wrapping](#1-basic-text-wrapping)
+2. [Filling Text](#2-filling-text)
+3. [Indentation](#3-indentation)
+4. [Dedenting Text](#4-dedenting-text)
+5. [Processing Unicode Characters](#5-processing-unicode-characters)
+
 Below is a comprehensive set of code examples that demonstrate various functionalities provided by the `textwrap` module in Python's standard library. The `textwrap` module provides utilities to format text in a variety of ways, such as filling and wrapping text.
 
 ```python
@@ -37831,6 +39978,15 @@ These examples provide a comprehensive overview of the functionalities available
 
 Below are comprehensive and well-documented code examples for the `unicodedata` module in Python, which provides access to a comprehensive database of Unicode characters.
 
+## Table of Contents
+
+1. [Retrieve Character Name](#example-1-retrieve-character-name)
+2. [Check Character Properties](#example-2-check-character-properties)
+3. [Normalize Text](#example-3-normalize-text)
+4. [Extract Combining Characters](#example-4-extract-combining-characters)
+5. [Convert Character to Emoji Sequence](#example-5-convert-character-to-emoji-sequence)
+6. [Check Character Bidirectional Properties](#example-6-check-character-bidirectional-properties)
+
 ### Example 1: Retrieve Character Name
 This example demonstrates how to retrieve the name of a character using its Unicode code point.
 
@@ -37961,6 +40117,11 @@ These examples cover a range of functionalities provided by the `unicodedata` mo
 ## crypt - Function to check Unix passwords.md
 
 # crypt - Function to check Unix passwords
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `crypt` module in Python is used to provide an interface to Unix-style password hashing functions, which are commonly found in systems like Linux. This module includes a function called `checkpw()` that can be used to verify whether a given password matches the hashed form of a stored password.
 
@@ -38026,6 +40187,18 @@ This example is suitable for use in applications where password verification is 
 ## fcntl - The fcntl and ioctl system calls.md
 
 # fcntl - The fcntl and ioctl system calls
+## Table of Contents
+
+1. [1. Locking a File](#1-locking-a-file)
+2. [2. Non-blocking I/O](#2-non-blocking-io)
+3. [3. Changing File Descriptor Properties](#3-changing-file-descriptor-properties)
+4. [4. Using ioctl for Device Control](#4-using-ioctl-for-device-control)
+5. [5. Setting File Descriptor Options](#5-setting-file-descriptor-options)
+6. [6. Getting File Descriptor Attributes](#6-getting-file-descriptor-attributes)
+7. [7. Getting File Descriptor Information](#7-getting-file-descriptor-information)
+8. [8. Getting File Descriptor Lock Information](#8-getting-file-descriptor-lock-information)
+
+
 
 The `fcntl` module in Python provides a way to manipulate file descriptor properties using the `fcntl` system call, which is part of the POSIX API. This module allows you to perform operations on file descriptors such as locking, non-blocking I/O, and more.
 
@@ -38209,6 +40382,11 @@ These examples demonstrate various uses of the `fcntl` module to manipulate file
 ## grp - The group database.md
 
 # grp - The group database
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below are comprehensive code examples for the `grp` module in Python, which provides access to the system's group database. Each example is well-documented and follows best practices.
 
@@ -38407,6 +40585,12 @@ These examples demonstrate how to interact with the `grp` module effectively, co
 ## nis - Interface to Sun s NIS (Yellow Pages).md
 
 # nis - Interface to Sun’s NIS (Yellow Pages)
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Notes:](#notes)
+
+
 
 The `nis` module is an interface to Sun Microsystems' Yellow Pages (NIS) services, which were used to manage network information systems in Unix-like operating systems. While Python's support for NIS has been limited and deprecated in recent versions of the standard library due to its complexity and lack of modern alternatives like LDAP or Active Directory, I can still provide a basic example of how you might use the `nis` module if you need to interact with an NIS server.
 
@@ -38462,6 +40646,16 @@ This example provides a basic framework for interacting with NIS services. Depen
 ## pipes - Interface to shell pipelines.md
 
 # pipes - Interface to shell pipelines
+## Table of Contents
+
+1. [Example 1: Basic Pipelines](#example-1-basic-pipelines)
+2. [Example 2: Multiple Commands in a Pipeline](#example-2-multiple-commands-in-a-pipeline)
+3. [Example 3: Redirecting Standard Input](#example-3-redirecting-standard-input)
+4. [Example 4: Handling Errors](#example-4-handling-errors)
+5. [Example 5: Using `subprocess.run()`](#example-5-using-subprocessrun)
+6. [Example 6: Using `subprocess.Popen()` with Multiple Arguments](#example-6-using-subprocesspopen-with-multiple-arguments)
+
+
 
 Below are comprehensive code examples for the `pipes` module in Python 3.12, along with explanations of each example:
 
@@ -38600,6 +40794,18 @@ These examples cover basic and advanced uses of the `pipes` module, demonstratin
 ## posix - The most common POSIX system calls.md
 
 # posix - The most common POSIX system calls
+## Table of Contents
+
+1. [Conceptual Examples](#conceptual-examples)
+2. [Example 1: Accessing POSIX Environment Variables](#example-1-accessing-posix-environment-variables)
+3. [Example 2: Changing the Current Working Directory](#example-2-changing-the-current-working-directory)
+4. [Example 3: Executing System Commands](#example-3-executing-system-commands)
+5. [Example 4: Managing File Descriptors](#example-4-managing-file-descriptors)
+6. [Example 5: Using `subprocess` for More Complex Command Execution](#example-5-using-subprocess-for-more-complex-command-execution)
+7. [Example 6: Using `os.path` for File Path Manipulation](#example-6-using-ospath-for-file-path-manipulation)
+8. [Conclusion](#conclusion)
+
+
 
 The `posix` module in Python is not a built-in module like many others in the standard library, but rather a collection of functions that provide access to system calls on Unix-like operating systems. However, it's important to note that direct interaction with POSIX system calls using this module is generally discouraged due to compatibility issues and lack of support for more recent versions of POSIX standards.
 
@@ -38733,6 +40939,15 @@ While the `posix` module in Python provides access to some basic POSIX system ca
 ## pty - Pseudo-terminal utilities.md
 
 # pty - Pseudo-terminal utilities
+## Table of Contents
+
+1. [Example 1: Simple Pseudoterminal Creation and Usage](#example-1-simple-pseudoterminal-creation-and-usage)
+2. [Example 2: Using `pty.spawn` for Simple Process Execution](#example-2-using-ptyspawn-for-simple-process-execution)
+3. [Example 3: Reading Output from a Pseudoterminal](#example-3-reading-output-from-a-pseudoterminal)
+4. [Example 4: Handling Input with `pty.master_read` and `pty.master_write`](#example-4-handling-input-with-ptymaster_read-and-ptymaster_write)
+5. [Example 5: Using `pty.fork` for a Child Process with Pseudo-terminal](#example-5-using-ptyfork-for-a-child-process-with-pseudo-terminal)
+
+
 
 The `pty` module in Python provides a way to create pseudoterminal (pseudo-TTY) devices, which are used to simulate a terminal environment in applications that need console input/output. This is particularly useful for creating interactive programs or services that require real-time access to the user's console.
 
@@ -38968,6 +41183,20 @@ These examples cover various aspects of using the `pty` module, from simple term
 ## pwd - The password database.md
 
 # pwd - The password database
+## Table of Contents
+
+1. [1. Getting a Password Database Entry by Username](#1-getting-a-password-database-entry-by-username)
+2. [2. Getting a Password Database Entry by UID](#2-getting-a-password-database-entry-by-uid)
+3. [3. Listing All Users](#3-listing-all-users)
+4. [4. Retrieving Group Information for a User](#4-retrieving-group-information-for-a-user)
+5. [5. Listing All Groups](#5-listing-all-groups)
+6. [6. Retrieving User Information Using `os` Module](#6-retrieving-user-information-using-os-module)
+7. [7. Changing the Shell of a User](#7-changing-the-shell-of-a-user)
+8. [8. Retrieving User and Group Information Using `getpass` Module](#8-retrieving-user-and-group-information-using-getpass-module)
+9. [9. Listing All Users and Their Groups](#9-listing-all-users-and-their-groups)
+10. [10. Changing the Password of a User](#10-changing-the-password-of-a-user)
+
+
 
 The `pwd` module in Python provides an interface to the system's password database, which contains user account information such as usernames, passwords, home directories, and shell programs.
 
@@ -39188,6 +41417,17 @@ These examples cover a range of functionalities available in the `pwd` module, p
 ## resource - Resource usage information.md
 
 # resource - Resource usage information
+## Table of Contents
+
+1. [Example 1: Monitoring Memory Usage](#example-1-monitoring-memory-usage)
+2. [Example 2: Setting CPU Time Limits](#example-2-setting-cpu-time-limits)
+3. [Example 3: Monitoring File Descriptor Limits](#example-3-monitoring-file-descriptor-limits)
+4. [Example 4: Monitoring Memory Limits](#example-4-monitoring-memory-limits)
+5. [Example 5: Monitoring CPU Usage](#example-5-monitoring-cpu-usage)
+6. [Example 6: Monitoring Maximum File Descriptor Usage](#example-6-monitoring-maximum-file-descriptor-usage)
+7. [Example 7: Monitoring Maximum Stack Size](#example-7-monitoring-maximum-stack-size)
+
+
 
 The `resource` module in Python provides a portable interface to system resources. It allows you to monitor and control various aspects of program execution, such as memory limits, CPU time, open file descriptors, etc.
 
@@ -39371,6 +41611,14 @@ These examples cover various aspects of resource usage management in Python, dem
 ## spwd - The shadow password database.md
 
 # spwd - The shadow password database
+## Table of Contents
+
+1. [Example 1: Retrieve a Shadow Password Entry](#example-1-retrieve-a-shadow-password-entry)
+2. [Example 2: Modify a Shadow Password Entry](#example-2-modify-a-shadow-password-entry)
+3. [Example 3: List All Shadow Password Entries](#example-3-list-all-shadow-password-entries)
+4. [Note:](#note)
+
+
 
 The `spwd` module in the Python standard library provides access to the Unix-style shadow password database, which is used to store encrypted passwords for user accounts. This module allows you to manage and query shadow password entries without accessing the underlying system's files directly.
 
@@ -39517,6 +41765,18 @@ These examples provide a basic framework for interacting with the shadow passwor
 ## syslog - Unix syslog library routines.md
 
 # syslog - Unix syslog library routines
+## Table of Contents
+
+1. [1. Opening a syslog connection](#1-opening-a-syslog-connection)
+2. [2. Writing to a file](#2-writing-to-a-file)
+3. [3. Writing to a remote server](#3-writing-to-a-remote-server)
+4. [4. Setting log format](#4-setting-log-format)
+5. [5. Handling multiple facilities and priorities](#5-handling-multiple-facilities-and-priorities)
+6. [6. Using syslog messages with custom identifiers](#6-using-syslog-messages-with-custom-identifiers)
+7. [7. Handling log messages with timestamps](#7-handling-log-messages-with-timestamps)
+8. [8. Handling log messages with different priorities](#8-handling-log-messages-with-different-priorities)
+
+
 
 The `syslog` module provides access to the system logging capabilities on Unix-like systems. This module allows you to send log messages to various destinations such as the system logger, files, or remote servers.
 
@@ -39711,6 +41971,16 @@ These examples demonstrate various functionalities of the `syslog` module, inclu
 ## termios - POSIX style tty control.md
 
 # termios - POSIX style tty control
+## Table of Contents
+
+1. [Example 1: Setting Terminal Modes](#example-1-setting-terminal-modes)
+2. [Example 2: Changing Line Discipline](#example-2-changing-line-discipline)
+3. [Example 3: Reading and Writing Terminal Input](#example-3-reading-and-writing-terminal-input)
+4. [Example 4: Querying Terminal Attributes](#example-4-querying-terminal-attributes)
+5. [Example 5: Setting Special Character Sets](#example-5-setting-special-character-sets)
+6. [Example 6: Changing Input Modes](#example-6-changing-input-modes)
+
+
 
 The `termios` module in Python provides a way to manipulate terminal-related information, such as input modes, output modes, line discipline settings, and more. This module allows you to interact directly with terminal devices using the POSIX interface.
 
@@ -39957,6 +42227,20 @@ These examples cover a range of functionalities in the `termios` module, from se
 ## tty - Terminal control functions.md
 
 # tty - Terminal control functions
+## Table of Contents
+
+1. [1. `tty.iflag`](#1-ttyiflag)
+2. [2. `tty.oflag`](#2-ttyoflag)
+3. [3. `tty.cflag`](#3-ttycflag)
+4. [4. `tty.lflag`](#4-ttylflag)
+5. [5. `tty.isatty`](#5-ttyisatty)
+6. [6. `tty.getattr`](#6-ttygetattr)
+7. [7. `tty.setattr`](#7-ttysetattr)
+8. [8. `tty.cbreak`](#8-ttycbreak)
+9. [9. `tty.raw`](#9-ttyraw)
+10. [10. `tty.setraw`](#10-ttysetraw)
+
+
 
 The `tty` module in Python provides a way to interact with terminal devices, allowing you to configure the input/output modes of a terminal. Here are comprehensive and well-documented examples of how to use each function available in this module:
 
@@ -40274,6 +42558,18 @@ These examples demonstrate various functionalities of the `tty` module, includin
 ## xml.dom - The Document Object Model API.md
 
 # xml.dom - The Document Object Model API
+## Table of Contents
+
+1. [1. Creating an XML Document](#1-creating-an-xml-document)
+2. [2. Parsing an XML String](#2-parsing-an-xml-string)
+3. [3. Creating an XML Element and Attribute](#3-creating-an-xml-element-and-attribute)
+4. [4. Iterating Over Elements and Attributes](#4-iterating-over-elements-and-attributes)
+5. [5. Writing XML to a File](#5-writing-xml-to-a-file)
+6. [6. Handling Namespaces](#6-handling-namespaces)
+7. [7. Creating a DOM Element from Scratch](#7-creating-a-dom-element-from-scratch)
+8. [8. Copying and Modifying Nodes](#8-copying-and-modifying-nodes)
+
+
 
 The `xml.dom` module is part of Python's standard library and provides a convenient way to work with XML documents using the DOM (Document Object Model) approach. This module allows you to create, manipulate, and parse XML data in a structured object-oriented manner.
 
@@ -40502,6 +42798,18 @@ These examples demonstrate various functionalities available in the `xml.dom` mo
 ## xml.dom.minidom - Minimal DOM implementation.md
 
 # xml.dom.minidom - Minimal DOM implementation
+## Table of Contents
+
+1. [1. Parsing an XML Document](#1-parsing-an-xml-document)
+2. [2. Creating a New XML Document](#2-creating-a-new-xml-document)
+3. [3. Modifying an Existing XML Document](#3-modifying-an-existing-xml-document)
+4. [4. Writing to a File](#4-writing-to-a-file)
+5. [5. Searching for Elements](#5-searching-for-elements)
+6. [6. Handling Namespaces](#6-handling-namespaces)
+7. [7. Traversing the DOM Tree](#7-traversing-the-dom-tree)
+8. [8. Using XPath for Querying](#8-using-xpath-for-querying)
+
+
 
 Certainly! Below is a comprehensive list of code examples demonstrating various functionalities of the `xml.dom.minidom` module, which provides a simple and efficient API for parsing XML documents and creating new ones. Each example includes comments to explain each step.
 
@@ -40666,6 +42974,16 @@ These examples cover a range of functionalities provided by the `xml.dom.minidom
 ## xml.dom.pulldom - Support for building partial DOM trees.md
 
 # xml.dom.pulldom - Support for building partial DOM trees
+## Table of Contents
+
+1. [Example 1: Basic Usage of pulldom](#example-1-basic-usage-of-pulldom)
+2. [Example 2: Parsing Multiple Nodes](#example-2-parsing-multiple-nodes)
+3. [Example 3: Using a Callback Function](#example-3-using-a-callback-function)
+4. [Example 4: Parsing with Namespaces](#example-4-parsing-with-namespaces)
+5. [Example 5: Parsing and Accessing Attributes](#example-5-parsing-and-accessing-attributes)
+6. [Example 6: Parsing with Namespaces and Attributes](#example-6-parsing-with-namespaces-and-attributes)
+
+
 
 The `xml.dom.pulldom` module in Python provides a way to parse XML documents without creating a full DOM tree in memory. This is particularly useful when dealing with large XML files or when you only need to access specific parts of the document. Below are comprehensive examples demonstrating various functionalities of the `xml.dom.pulldom` module.
 
@@ -40817,6 +43135,18 @@ These examples demonstrate various ways to use the `xml.dom.pulldom` module to p
 ## xml.etree.ElementTree - The ElementTree XML API.md
 
 # xml.etree.ElementTree - The ElementTree XML API
+## Table of Contents
+
+1. [1. Creating an Element Tree](#1-creating-an-element-tree)
+2. [2. Parsing an XML File](#2-parsing-an-xml-file)
+3. [3. Creating an Element and Adding Attributes](#3-creating-an-element-and-adding-attributes)
+4. [4. Adding Elements and Text to Existing Elements](#4-adding-elements-and-text-to-existing-elements)
+5. [5. Iterating Over Elements with Specific Tags](#5-iterating-over-elements-with-specific-tags)
+6. [6. Removing Elements and Text](#6-removing-elements-and-text)
+7. [7. Searching for Elements Using XPath](#7-searching-for-elements-using-xpath)
+8. [8. Writing Elements to a String](#8-writing-elements-to-a-string)
+
+
 
 The `xml.etree.ElementTree` is a lightweight and efficient library in Python used for parsing and creating XML data. Below are comprehensive and well-documented code examples covering various functionalities of the `ElementTree` module:
 
@@ -40980,6 +43310,16 @@ These examples demonstrate various aspects of working with XML using `ElementTre
 ## xml.parsers.expat - Fast XML parsing using Expat.md
 
 # xml.parsers.expat - Fast XML parsing using Expat
+## Table of Contents
+
+1. [Example 1: Basic Parsing with Callbacks](#example-1-basic-parsing-with-callbacks)
+2. [Example 2: Parsing XML from a File](#example-2-parsing-xml-from-a-file)
+3. [Example 3: Parsing with Attributes and Namespaces](#example-3-parsing-with-attributes-and-namespaces)
+4. [Example 4: Error Handling](#example-4-error-handling)
+5. [Example 5: Parsing with Entity References](#example-5-parsing-with-entity-references)
+6. [Example 6: Parsing with Encoding](#example-6-parsing-with-encoding)
+
+
 
 Below are comprehensive code examples for various functionalities of the `xml.parsers.expat` module, which is a fast and simple parser for XML documents in Python.
 
@@ -41261,6 +43601,16 @@ These examples cover various aspects of using the `xml.parsers.expat` module, in
 ## xml.sax - Support for SAX2 parsers.md
 
 # xml.sax - Support for SAX2 parsers
+## Table of Contents
+
+1. [Example 1: Basic Parsing](#example-1-basic-parsing)
+2. [Example 2: Parsing with Namespaces](#example-2-parsing-with-namespaces)
+3. [Example 3: Using SAX to Validate XML](#example-3-using-sax-to-validate-xml)
+4. [Example 4: Using SAX for XPath Queries](#example-4-using-sax-for-xpath-queries)
+5. [Example 5: Using SAX for Namespace Processing](#example-5-using-sax-for-namespace-processing)
+6. [Explanation](#explanation)
+
+
 
 The `xml.sax` module is part of Python's standard library and provides a simple API for parsing XML data using the Simple API for XML (SAX) parser. The SAX parser is an event-driven XML parser that reads XML content in chunks, allowing you to process elements as they are encountered rather than waiting for the entire document to be parsed.
 
@@ -41465,6 +43815,15 @@ These examples demonstrate how to use various features of the `xml.sax` module t
 ## xml.sax.handler - Base classes for SAX handlers.md
 
 # xml.sax.handler - Base classes for SAX handlers
+## Table of Contents
+
+1. [Example 1: Implementing a Basic SAX Handler](#example-1-implementing-a-basic-sax-handler)
+2. [Example 2: Handling Namespace Events](#example-2-handling-namespace-events)
+3. [Example 3: Implementing an ErrorHandler](#example-3-implementing-an-errorhandler)
+4. [Example 4: Handling XML Processing Instructions](#example-4-handling-xml-processing-instructions)
+5. [Example 5: Using NamespaceResolver](#example-5-using-namespaceresolver)
+
+
 
 The `xml.sax.handler` module is part of the Python Standard Library's XML parsing capabilities, providing a foundation for writing event-driven parsers using the Simple API for XML (SAX). This module includes several base classes and interfaces that allow you to define custom behavior when parsing an XML document. Below are comprehensive code examples demonstrating various functionalities in this module.
 
@@ -41630,6 +43989,18 @@ These examples demonstrate how to implement various handlers using the `xml.sax.
 ## xml.sax.saxutils - SAX Utilities.md
 
 # xml.sax.saxutils - SAX Utilities
+## Table of Contents
+
+1. [1. **Escape Characters in XML**](#1-escape-characters-in-xml)
+2. [2. **Unescape Characters in XML**](#2-unescape-characters-in-xml)
+3. [3. **Entity Encoding**](#3-entity-encoding)
+4. [4. **HTML Character Entities**](#4-html-character-entities)
+5. [5. **XML Character Reference Entities**](#5-xml-character-reference-entities)
+6. [6. **XML Namespace Mapping**](#6-xml-namespace-mapping)
+7. [7. **XML Character Reference Replacement**](#7-xml-character-reference-replacement)
+8. [8. **XML Character Reference Replacement with XML Namespace**](#8-xml-character-reference-replacement-with-xml-namespace)
+
+
 
 Below are comprehensive code examples for using the `xml.sax.saxutils` module from Python's standard library, which provides utilities for XML parsing and string manipulation.
 
@@ -41772,6 +44143,16 @@ These examples demonstrate various functionalities of the `xml.sax.saxutils` mod
 ## xml.sax.xmlreader - Interface for XML parsers.md
 
 # xml.sax.xmlreader - Interface for XML parsers
+## Table of Contents
+
+1. [1. Using the `XMLReader` Interface](#1-using-the-xmlreader-interface)
+2. [2. Customizing Content Handling](#2-customizing-content-handling)
+3. [3. Handling Namespaces](#3-handling-namespaces)
+4. [4. Handling Entity References](#4-handling-entity-references)
+5. [5. Using the `xml.sax.expatreader` Module](#5-using-the-xmlsaxexpatreader-module)
+6. [6. Handling Validation](#6-handling-validation)
+
+
 
 The `xml.sax.xmlreader` module provides an interface for parsing XML documents using SAX (Simple API for XML). It allows you to read and process XML data in a more memory-efficient manner by processing only parts of the document as needed. Below are comprehensive examples demonstrating various functionalities provided by this module.
 

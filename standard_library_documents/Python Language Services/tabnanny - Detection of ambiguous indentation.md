@@ -1,4 +1,15 @@
 # tabnanny - Detection of ambiguous indentation
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Custom Indentation Check](#2-custom-indentation-check)
+3. [3. Checking Multiple Files](#3-checking-multiple-files)
+4. [4. Skipping Lines](#4-skipping-lines)
+5. [5. Handling Output](#5-handling-output)
+6. [6. Using `tabnanny` as a Command-Line Tool](#6-using-tabnanny-as-a-command-line-tool)
+7. [7. Customizing the Output Format](#7-customizing-the-output-format)
+
+
 
 The `tabnanny` module is used to detect and report on ambiguous indentation in Python scripts. Ambiguous indentation can lead to errors or unexpected behavior, so it's important to ensure consistent indentation in your code. Below are comprehensive examples demonstrating various functionalities of the `tabnanny` module.
 

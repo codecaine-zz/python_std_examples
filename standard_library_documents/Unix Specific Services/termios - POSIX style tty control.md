@@ -1,4 +1,14 @@
 # termios - POSIX style tty control
+## Table of Contents
+
+1. [Example 1: Setting Terminal Modes](#example-1-setting-terminal-modes)
+2. [Example 2: Changing Line Discipline](#example-2-changing-line-discipline)
+3. [Example 3: Reading and Writing Terminal Input](#example-3-reading-and-writing-terminal-input)
+4. [Example 4: Querying Terminal Attributes](#example-4-querying-terminal-attributes)
+5. [Example 5: Setting Special Character Sets](#example-5-setting-special-character-sets)
+6. [Example 6: Changing Input Modes](#example-6-changing-input-modes)
+
+
 
 The `termios` module in Python provides a way to manipulate terminal-related information, such as input modes, output modes, line discipline settings, and more. This module allows you to interact directly with terminal devices using the POSIX interface.
 

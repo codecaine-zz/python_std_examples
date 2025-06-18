@@ -1,4 +1,13 @@
 # py_compile - Compile Python source files
+## Table of Contents
+
+1. [Example 1: Compile a Single Source File](#example-1-compile-a-single-source-file)
+2. [Example 2: Compile Multiple Source Files in a Directory](#example-2-compile-multiple-source-files-in-a-directory)
+3. [Example 3: Compile a Source File with Specific Options](#example-3-compile-a-source-file-with-specific-options)
+4. [Example 4: Check if a File is Already Compiled](#example-4-check-if-a-file-is-already-compiled)
+5. [Example 5: Compile a Source File with Specific Mode](#example-5-compile-a-source-file-with-specific-mode)
+
+
 
 The `py_compile` module in Python's standard library provides a simple way to compile Python source files into bytecode using the built-in compiler. This is useful for distributing Python programs, as it allows you to distribute only the compiled bytecode instead of the source code. Below are several examples demonstrating various functionalities of the `py_compile` module.
 

@@ -1,4 +1,16 @@
 # plistlib - Generate and parse Apple .plist files
+## Table of Contents
+
+1. [Example 1: Writing a Simple Plist](#example-1-writing-a-simple-plist)
+2. [Example 2: Parsing a Plist](#example-2-parsing-a-plist)
+3. [Example 3: Writing a Plist with DateTime Objects](#example-3-writing-a-plist-with-datetime-objects)
+4. [Example 4: Parsing a Plist with DateTime Objects](#example-4-parsing-a-plist-with-datetime-objects)
+5. [Example 5: Writing a Plist with Nested Lists](#example-5-writing-a-plist-with-nested-lists)
+6. [Example 6: Parsing a Plist with Nested Lists](#example-6-parsing-a-plist-with-nested-lists)
+7. [Example 7: Writing a Plist with Custom Objects](#example-7-writing-a-plist-with-custom-objects)
+8. [Example 8: Parsing a Plist with Custom Objects](#example-8-parsing-a-plist-with-custom-objects)
+
+
 
 The `plistlib` module in Python is used to read from and write to Apple Property List (`.plist`) files, which are a common data storage format used by macOS. Below are comprehensive code examples that demonstrate how to use the `plistlib` module to generate and parse `.plist` files.
 

@@ -1,4 +1,18 @@
 # faulthandler - Dump the Python traceback
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Customizing Core Dump Generation](#2-customizing-core-dump-generation)
+3. [3. Disabling Core Dump Generation](#3-disabling-core-dump-generation)
+4. [4. Listing Enabled Core Dump Filenames](#4-listing-enabled-core-dump-filenames)
+5. [5. Setting Custom Dump Directory](#5-setting-custom-dump-directory)
+6. [6. Listing All Supported Formats](#6-listing-all-supported-formats)
+7. [7. Setting Custom Format](#7-setting-custom-format)
+8. [8. Listing All Threads](#8-listing-all-threads)
+9. [9. Dumping Traceback for a Specific Thread](#9-dumping-traceback-for-a-specific-thread)
+10. [10. Printing a Stack Trace](#10-printing-a-stack-trace)
+
+
 
 The `faulthandler` module in Python is used to enable a core dump of the Python interpreter on segmentation faults, errors, or other unhandled exceptions. This can be particularly useful for debugging and recovering from crashes. Below are some comprehensive code examples that demonstrate various functionalities of the `faulthandler` module.
 

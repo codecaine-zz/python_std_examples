@@ -2,6 +2,10 @@
 
 The `contextvars` module is a part of Python's standard library that provides support for managing contextual variables, which can be used to store data that needs to flow across multiple function calls or processes without explicitly passing it as an argument. This is particularly useful in multi-threaded applications where thread-local storage might not work.
 
+## Table of Contents
+
+1. [Creating and Using Context Variables](#creating-and-using-context-variables)
+
 Here are some comprehensive examples demonstrating various functionalities provided by the `contextvars` module:
 
 ```python

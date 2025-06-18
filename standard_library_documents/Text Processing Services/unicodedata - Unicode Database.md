@@ -2,6 +2,15 @@
 
 Below are comprehensive and well-documented code examples for the `unicodedata` module in Python, which provides access to a comprehensive database of Unicode characters.
 
+## Table of Contents
+
+1. [Retrieve Character Name](#example-1-retrieve-character-name)
+2. [Check Character Properties](#example-2-check-character-properties)
+3. [Normalize Text](#example-3-normalize-text)
+4. [Extract Combining Characters](#example-4-extract-combining-characters)
+5. [Convert Character to Emoji Sequence](#example-5-convert-character-to-emoji-sequence)
+6. [Check Character Bidirectional Properties](#example-6-check-character-bidirectional-properties)
+
 ### Example 1: Retrieve Character Name
 This example demonstrates how to retrieve the name of a character using its Unicode code point.
 

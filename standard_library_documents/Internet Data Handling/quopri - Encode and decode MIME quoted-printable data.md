@@ -1,4 +1,11 @@
 # quopri - Encode and decode MIME quoted-printable data
+## Table of Contents
+
+1. [Encoding QP Data](#encoding-qp-data)
+2. [Decoding QP Data](#decoding-qp-data)
+3. [Key Points](#key-points)
+
+
 
 The `quopri` module in Python is used to encode and decode MIME quoted-printable (QP) encoded strings, which are often used in email headers. Below are comprehensive examples demonstrating how to use this module for encoding and decoding QP data.
 

@@ -1,4 +1,14 @@
 # lzma - Compression using the LZMA algorithm
+## Table of Contents
+
+1. [Example 1: Compressing Data Using LZMA](#example-1-compressing-data-using-lzma)
+2. [Example 2: Decompressing Data Using LZMA](#example-2-decompressing-data-using-lzma)
+3. [Example 3: Using Compression Levels](#example-3-using-compression-levels)
+4. [Example 4: Using File Compression](#example-4-using-file-compression)
+5. [Example 5: Using File Decompression](#example-5-using-file-decompression)
+6. [Example 6: Using File Compression in a Context Manager](#example-6-using-file-compression-in-a-context-manager)
+
+
 
 The `lzma` module in Python provides support for compressing and decompressing files using the LZMA compression algorithm, which is a variant of the DEFLATE algorithm with extra features such as checksums and better compression ratios.
 

@@ -1,4 +1,9 @@
 # ossaudiodev - Access to OSS-compatible audio devices
+## Table of Contents
+
+1. [Key Points:](#key-points)
+
+
 
 The `ossaudiodev` module in Python provides low-level access to OSS (Open Sound System) compatible audio devices. OSS is a Unix-like sound system that has been used on many Linux distributions, as well as other systems like FreeBSD and Solaris.
 

@@ -1,4 +1,18 @@
 # io - Core tools for working with streams
+## Table of Contents
+
+1. [1. Basic File Handling](#1-basic-file-handling)
+2. [Reading from a File](#reading-from-a-file)
+3. [2. Writing to a File](#2-writing-to-a-file)
+4. [Writing Text to a File](#writing-text-to-a-file)
+5. [Writing Binary Data to a File](#writing-binary-data-to-a-file)
+6. [3. Appending to a File](#3-appending-to-a-file)
+7. [Appending Text to a File](#appending-text-to-a-file)
+8. [Appending Binary Data to a File](#appending-binary-data-to-a-file)
+9. [4. Text Stream Handling](#4-text-stream-handling)
+10. [Reading Lines from a File](#reading-lines-from-a-file)
+
+
 
 The `io` module in Python is a core module that provides support for file-like objects, including handling different types of streams such as binary files and text files. Below are comprehensive and well-documented code examples for various functionalities within the `io` module.
 

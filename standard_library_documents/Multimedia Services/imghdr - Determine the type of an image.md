@@ -1,4 +1,18 @@
 # imghdr - Determine the type of an image
+## Table of Contents
+
+1. [1. `identify(filename)`](#1-identifyfilename)
+2. [2. `what(buf)`](#2-whatbuf)
+3. [3. `isgif(buf)`](#3-isgifbuf)
+4. [4. `ispng(buf)`](#4-ispngbuf)
+5. [5. `issvg(buf)`](#5-issvgbuf)
+6. [6. `istiff(buf)`](#6-istiffbuf)
+7. [7. `iswebp(buf)`](#7-iswebpbuf)
+8. [8. `isspc(buf)`](#8-isspcbuf)
+9. [9. `iseps(buf)`](#9-isepsbuf)
+10. [10. `isppm(buf)`](#10-isppmbuf)
+
+
 
 The `imghdr` module in Python is used to identify the format of image files by checking their first few bytes. This can be particularly useful when dealing with images where you need to programmatically determine the file type without relying on file extensions.
 

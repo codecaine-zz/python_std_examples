@@ -1,4 +1,14 @@
 # __main__ - Top-level script environment
+## Table of Contents
+
+1. [Example 1: Printing a Message](#example-1-printing-a-message)
+2. [Example 2: Defining a Function with Command-Line Arguments](#example-2-defining-a-function-with-command-line-arguments)
+3. [Example 3: Handling Exceptions](#example-3-handling-exceptions)
+4. [Example 4: Using a Main Function](#example-4-using-a-main-function)
+5. [Example 5: Using `if __name__ == "__main__":` for Test Execution](#example-5-using-if-__name__-__main__-for-test-execution)
+6. [Explanation:](#explanation)
+
+
 
 The `__main__` module is a special module in Python that serves as the entry point for standalone scripts or when a script is executed from the command line. It allows you to define functions, classes, and variables that are not accessible by other modules.
 

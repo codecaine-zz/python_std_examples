@@ -1,4 +1,9 @@
 # cmath - Mathematical functions for complex numbers
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below is a comprehensive set of example code snippets demonstrating various functionalities available in the `cmath` module, which provides mathematical functions for complex numbers in Python 3.12.
 

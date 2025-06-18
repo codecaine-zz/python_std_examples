@@ -1,4 +1,14 @@
 # zipapp - Manage executable Python zip archives
+## Table of Contents
+
+1. [Example 1: Creating an Executable from a Script](#example-1-creating-an-executable-from-a-script)
+2. [Example 2: Executing an Executable](#example-2-executing-an-executable)
+3. [Example 3: Installing the Executable as a Command-Line Tool](#example-3-installing-the-executable-as-a-command-line-tool)
+4. [Example 4: Running a Script with Specific Python Interpreter](#example-4-running-a-script-with-specific-python-interpreter)
+5. [Example 5: Managing Dependencies](#example-5-managing-dependencies)
+6. [Example 6: Using `zipapp.run_script`](#example-6-using-zipapprun_script)
+
+
 
 The `zipapp` module in Python is used to create standalone executables from Python applications by embedding the interpreter into a ZIP archive. This allows you to distribute your application without requiring a separate Python installation, which can be useful for distributing small projects or for creating installable packages.
 

@@ -1,4 +1,15 @@
 # hashlib - Secure hashes and message digests
+## Table of Contents
+
+1. [Example 1: Creating a Hash Object](#example-1-creating-a-hash-object)
+2. [Example 2: Creating Multiple Hash Objects](#example-2-creating-multiple-hash-objects)
+3. [Example 3: Using Hash Objects in a Context Manager](#example-3-using-hash-objects-in-a-context-manager)
+4. [Example 4: Using Hash Objects with Input Streams](#example-4-using-hash-objects-with-input-streams)
+5. [Example 5: Using Hash Objects with Binary Files](#example-5-using-hash-objects-with-binary-files)
+6. [Example 6: Using Hash Objects with Custom Algorithms](#example-6-using-hash-objects-with-custom-algorithms)
+7. [Example 7: Using Hash Objects with Different Data Types](#example-7-using-hash-objects-with-different-data-types)
+
+
 
 The `hashlib` module in Python provides access to secure hash and message digest algorithms. It is part of the Python Standard Library, making it a fundamental tool for cryptographic operations. Below are comprehensive examples demonstrating various functionalities provided by the `hashlib` module.
 

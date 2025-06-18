@@ -1,4 +1,16 @@
 # bdb - Debugger framework
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Customizing the Debugger](#2-customizing-the-debugger)
+3. [3. Debugging Interactive Input](#3-debugging-interactive-input)
+4. [4. Using `bdb.set_trace()` in an Interactive Session](#4-using-bdbset_trace-in-an-interactive-session)
+5. [5. Debugging Nested Functions](#5-debugging-nested-functions)
+6. [6. Customizing Output](#6-customizing-output)
+7. [7. Debugging with a Custom Breakpoint](#7-debugging-with-a-custom-breakpoint)
+8. [8. Debugging with Logging](#8-debugging-with-logging)
+
+
 
 The `bdb` module in Python is a debugging framework that allows you to debug programs interactively at the source code level. Below are comprehensive examples of how to use each of the main functions and classes provided by this module. These examples cover basic usage, common debugging scenarios, and best practices for integrating bdb into your applications.
 

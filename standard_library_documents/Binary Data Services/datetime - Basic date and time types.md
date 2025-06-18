@@ -2,6 +2,19 @@
 
 Here are comprehensive and well-documented code examples for the Python standard library module `datetime`, focusing on its basic date and time types.
 
+## Table of Contents
+
+1. [Importing the datetime Module](#1-importing-the-datetime-module)
+2. [Creating a Current Date and Time](#2-creating-a-current-date-and-time)
+3. [Formatting Dates and Times](#3-formatting-dates-and-times)
+4. [Creating a Specific Date](#4-creating-a-specific-date)
+5. [Adding and Subtracting Time](#5-adding-and-subtracting-time)
+6. [Parsing Strings into Dates](#6-parsing-strings-into-dates)
+7. [Working with Time Zones](#7-working-with-time-zones)
+8. [Comparing Dates and Times](#8-comparing-dates-and-times)
+9. [Working with Time Periods](#9-working-with-time-periods)
+10. [Creating Time Objects](#10-creating-time-objects)
+
 ### 1. Importing the `datetime` Module
 
 The first step is to import the `datetime` module, which provides classes for manipulating dates and times.

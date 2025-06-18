@@ -1,4 +1,18 @@
 # abc - Abstract Base Classes
+## Table of Contents
+
+1. [1. Defining an Abstract Base Class](#1-defining-an-abstract-base-class)
+2. [2. Subclassing and Implementing Abstract Methods](#2-subclassing-and-implementing-abstract-methods)
+3. [3. Abstract Properties](#3-abstract-properties)
+4. [4. Using ABCs with `register` to Customize Base Class](#4-using-abcs-with-register-to-customize-base-class)
+5. [5. Using `abstractmethod` on Class Methods and Static Methods](#5-using-abstractmethod-on-class-methods-and-static-methods)
+6. [6. Using `abc` with Inheritance and Multiple Abstract Methods](#6-using-abc-with-inheritance-and-multiple-abstract-methods)
+7. [7. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass](#7-using-abc-with-inheritance-and-multiple-abstract-methods-in-a-subclass)
+8. [8. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass with Class Attributes](#8-using-abc-with-inheritance-and-multiple-abstract-methods-in-a-subclass-with-class-attributes)
+9. [9. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass with Class Attributes and Properties](#9-using-abc-with-inheritance-and-multiple-abstract-methods-in-a-subclass-with-class-attributes-and-properties)
+10. [10. Using `abc` with Inheritance and Multiple Abstract Methods in a Subclass with Class Attributes and Properties](#10-using-abc-with-inheritance-and-multiple-abstract-methods-in-a-subclass-with-class-attributes-and-properties)
+
+
 
 The `abc` (Abstract Base Class) module in Python provides a way to define abstract base classes, which are classes that cannot be instantiated directly but serve as a blueprint for subclasses. This module includes the `ABC` class and decorators such as `abstractmethod` and `abstractproperty`. Below are comprehensive code examples demonstrating various functionalities of this module.
 

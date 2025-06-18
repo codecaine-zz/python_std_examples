@@ -1,4 +1,16 @@
 # syslog - Unix syslog library routines
+## Table of Contents
+
+1. [1. Opening a syslog connection](#1-opening-a-syslog-connection)
+2. [2. Writing to a file](#2-writing-to-a-file)
+3. [3. Writing to a remote server](#3-writing-to-a-remote-server)
+4. [4. Setting log format](#4-setting-log-format)
+5. [5. Handling multiple facilities and priorities](#5-handling-multiple-facilities-and-priorities)
+6. [6. Using syslog messages with custom identifiers](#6-using-syslog-messages-with-custom-identifiers)
+7. [7. Handling log messages with timestamps](#7-handling-log-messages-with-timestamps)
+8. [8. Handling log messages with different priorities](#8-handling-log-messages-with-different-priorities)
+
+
 
 The `syslog` module provides access to the system logging capabilities on Unix-like systems. This module allows you to send log messages to various destinations such as the system logger, files, or remote servers.
 

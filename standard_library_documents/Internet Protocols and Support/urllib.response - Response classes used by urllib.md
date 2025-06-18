@@ -1,4 +1,10 @@
 # urllib.response - Response classes used by urllib
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Additional Features:](#additional-features)
+
+
 
 The `urllib` module in Python is a comprehensive set of modules that provide tools for interacting with URLs. The `response` submodule contains several response classes used by the `urllib` modules to handle HTTP responses. These classes are part of the `http.client` module, which provides an interface to HTTP clients.
 

@@ -1,4 +1,11 @@
 # tomllib - Parse TOML files
+## Table of Contents
+
+1. [Explanation of Examples](#explanation-of-examples)
+2. [Example TOML File (`example.toml`)](#example-toml-file-exampletoml)
+3. [Usage in Documentation](#usage-in-documentation)
+
+
 
 Below are comprehensive examples of using the `tomllib` module from the Python standard library to parse TOML files. Each example is well-documented with comments explaining each step.
 

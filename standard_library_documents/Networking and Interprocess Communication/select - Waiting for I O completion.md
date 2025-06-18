@@ -1,4 +1,18 @@
 # select - Waiting for I/O completion
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [Example: Monitoring Multiple Sockets for Read Operations](#example-monitoring-multiple-sockets-for-read-operations)
+3. [2. Handling Write Operations](#2-handling-write-operations)
+4. [Example: Monitoring Multiple Sockets for Write Operations](#example-monitoring-multiple-sockets-for-write-operations)
+5. [3. Monitoring Multiple File Descriptors](#3-monitoring-multiple-file-descriptors)
+6. [Example: Using `select` with Files and Sockets](#example-using-select-with-files-and-sockets)
+7. [4. Monitoring Multiple File Descriptors with Non-blocking I/O](#4-monitoring-multiple-file-descriptors-with-non-blocking-io)
+8. [Example: Using `select` with Pipes and Sockets in Non-blocking Mode](#example-using-select-with-pipes-and-sockets-in-non-blocking-mode)
+9. [5. Using `select` with Timeout](#5-using-select-with-timeout)
+10. [Example: Monitoring Sockets with a Timeout](#example-monitoring-sockets-with-a-timeout)
+
+
 
 The `select` module in Python is used to monitor multiple file descriptors (like sockets, pipes, etc.) for read or write operations, allowing an application to wait until one or more of them are ready for I/O. This is particularly useful in network programming where you need to handle multiple connections simultaneously.
 

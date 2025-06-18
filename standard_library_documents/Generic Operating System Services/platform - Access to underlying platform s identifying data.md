@@ -1,4 +1,9 @@
 # platform - Access to underlying platform’s identifying data
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Below is a comprehensive set of code examples for the `platform` module in Python, including comments explaining each step.
 

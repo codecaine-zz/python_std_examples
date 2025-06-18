@@ -1,4 +1,18 @@
 # contextlib - Utilities for with-statement contexts
+## Table of Contents
+
+1. [1. Context Managers](#1-context-managers)
+2. [Example 1: Using `with` Statement with `open()`](#example-1-using-with-statement-with-open)
+3. [Explanation:](#explanation)
+4. [2. `contextlib.nested()`](#2-contextlibnested)
+5. [Example 2: Using `nested()` with `open()` and `sqlite3.connect()`](#example-2-using-nested-with-open-and-sqlite3connect)
+6. [Explanation:](#explanation)
+7. [3. `contextlib.ExitStack`](#3-contextlibexitstack)
+8. [Example 3: Using `ExitStack` with `open()` and closing them in reverse order](#example-3-using-exitstack-with-open-and-closing-them-in-reverse-order)
+9. [Explanation:](#explanation)
+10. [4. `contextlib.suppress()`](#4-contextlibsuppress)
+
+
 
 The `contextlib` module in Python provides utilities for managing resources, especially those that need to be set up before a block of code is executed and cleaned up afterward. It offers several classes and functions designed to simplify common tasks like handling temporary files, database connections, and more. Below are comprehensive examples of how to use each of the main classes and functions in the `contextlib` module.
 

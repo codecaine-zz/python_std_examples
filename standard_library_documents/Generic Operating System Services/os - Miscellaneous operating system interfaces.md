@@ -1,4 +1,18 @@
 # os - Miscellaneous operating system interfaces
+## Table of Contents
+
+1. [1. Accessing Environment Variables](#1-accessing-environment-variables)
+2. [2. Changing the Current Working Directory](#2-changing-the-current-working-directory)
+3. [3. Listing Directory Contents](#3-listing-directory-contents)
+4. [4. Creating a New Directory](#4-creating-a-new-directory)
+5. [5. Removing a Directory](#5-removing-a-directory)
+6. [6. Executing a Command](#6-executing-a-command)
+7. [7. Getting Current Working Directory](#7-getting-current-working-directory)
+8. [8. Checking if a File or Directory Exists](#8-checking-if-a-file-or-directory-exists)
+9. [9. Getting File or Directory Information](#9-getting-file-or-directory-information)
+10. [10. Making a Directory with Permissions](#10-making-a-directory-with-permissions)
+
+
 
 The `os` module in Python provides a portable way of using operating system dependent functionality, such as reading or writing to the filesystem, executing programs, and accessing environment variables. Below are comprehensive examples demonstrating various functionalities of the `os` module.
 

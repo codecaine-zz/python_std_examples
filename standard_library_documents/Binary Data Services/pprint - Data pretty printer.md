@@ -2,6 +2,14 @@
 
 Below are comprehensive code examples for using the `pprint` module in Python, along with detailed explanations of each example.
 
+## Table of Contents
+
+1. [Basic Usage](#example-1-basic-usage)
+2. [Customizing Output](#example-2-customizing-output)
+3. [Handling Large Data Structures](#example-3-handling-large-data-structures)
+4. [Using PrettyPrinter for Files](#example-4-using-prettyprinter-for-files)
+5. [Pretty Printing JSON-like Structures](#example-5-pretty-printing-json-like-structures)
+
 ### Example 1: Basic Usage
 
 ```python

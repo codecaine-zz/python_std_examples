@@ -1,4 +1,18 @@
 # shelve - Python object persistence
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Handling Different Data Types](#2-handling-different-data-types)
+3. [3. Using a Custom Serialization Format](#3-using-a-custom-serialization-format)
+4. [4. Deleting Items from a Shelf](#4-deleting-items-from-a-shelf)
+5. [5. Iterating Over a Shelf](#5-iterating-over-a-shelf)
+6. [6. Closing a Shelf Explicitly](#6-closing-a-shelf-explicitly)
+7. [7. Using a Shelve File as a Dictionary](#7-using-a-shelve-file-as-a-dictionary)
+8. [8. Handling Exceptions During Shelf Operations](#8-handling-exceptions-during-shelf-operations)
+9. [9. Using a Shelve File in a Multithreaded Environment](#9-using-a-shelve-file-in-a-multithreaded-environment)
+10. [10. Using a Shelve File with Multiple Databases](#10-using-a-shelve-file-with-multiple-databases)
+
+
 
 The `shelve` module in Python provides a dictionary-like interface to persistent data storage, allowing you to store complex objects without worrying about serialization and deserialization.
 

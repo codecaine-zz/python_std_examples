@@ -1,4 +1,12 @@
 # wsgiref - WSGI Utilities and Reference Implementation
+## Table of Contents
+
+1. [1. Simple WSGI Application](#1-simple-wsgi-application)
+2. [2. Debugging WSGI Applications](#2-debugging-wsgi-applications)
+3. [3. Parsing WSGI Environment](#3-parsing-wsgi-environment)
+4. [4. Example of an Application using Request Parsing](#4-example-of-an-application-using-request-parsing)
+
+
 
 The `wsgiref` module in Python provides utilities and a reference implementation of the Web Server Gateway Interface (WSGI), which is a specification that defines how web servers can communicate with web applications. This module is particularly useful for developers who want to understand or implement WSGI-compliant frameworks.
 

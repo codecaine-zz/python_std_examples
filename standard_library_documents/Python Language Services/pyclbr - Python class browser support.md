@@ -1,4 +1,9 @@
 # pyclbr - Python class browser support
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `pyclbr` module is a built-in Python module that provides a simple way to browse the directory of classes, functions, and methods defined by the Python compiler. It can be used to extract information about modules and objects within those modules.
 

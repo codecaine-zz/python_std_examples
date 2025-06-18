@@ -1,4 +1,15 @@
 # http.server - HTTP servers
+## Table of Contents
+
+1. [Example 1: Simple HTTP Server](#example-1-simple-http-server)
+2. [Example 2: Handling GET Requests](#example-2-handling-get-requests)
+3. [Example 3: Handling POST Requests](#example-3-handling-post-requests)
+4. [Example 4: Serving Static Files](#example-4-serving-static-files)
+5. [Example 5: Using HTTPS](#example-5-using-https)
+6. [Example 6: Using the `http.server` module with a custom handler](#example-6-using-the-httpserver-module-with-a-custom-handler)
+7. [Example 7: Using `http.server` with a multi-threaded server](#example-7-using-httpserver-with-a-multi-threaded-server)
+
+
 
 Below is a comprehensive set of code examples demonstrating various functionalities provided by the `http.server` module in Python 3.12. These examples cover creating simple HTTP servers, handling GET and POST requests, serving static files, and more.
 

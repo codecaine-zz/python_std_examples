@@ -1,4 +1,18 @@
 # math - Mathematical functions
+## Table of Contents
+
+1. [1. **Trigonometric Functions**](#1-trigonometric-functions)
+2. [2. **Logarithmic Functions**](#2-logarithmic-functions)
+3. [3. **Exponential and Power Functions**](#3-exponential-and-power-functions)
+4. [4. **Square Root and Floor/Ceiling Functions**](#4-square-root-and-floorceiling-functions)
+5. [5. **Constants**](#5-constants)
+6. [6. **Rounding Functions**](#6-rounding-functions)
+7. [7. **Factorial and Gamma Function**](#7-factorial-and-gamma-function)
+8. [8. **Modular Arithmetic Functions**](#8-modular-arithmetic-functions)
+9. [9. **Hyperbolic Functions**](#9-hyperbolic-functions)
+10. [10. **Error Functions and Complementary Error Function**](#10-error-functions-and-complementary-error-function)
+
+
 
 The `math` module is a fundamental part of Python's standard library, providing a wide range of mathematical functions and constants. Below are comprehensive code examples for each functionality within the `math` module. These examples are designed to be clear, concise, and suitable for inclusion in official documentation.
 

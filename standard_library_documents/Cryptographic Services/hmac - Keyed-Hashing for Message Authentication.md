@@ -1,4 +1,13 @@
 # hmac - Keyed-Hashing for Message Authentication
+## Table of Contents
+
+1. [Example 1: Creating an HMAC Using SHA-256](#example-1-creating-an-hmac-using-sha-256)
+2. [Example 2: Creating an HMAC Using SHA-1](#example-2-creating-an-hmac-using-sha-1)
+3. [Example 3: Verifying an HMAC](#example-3-verifying-an-hmac)
+4. [Example 4: Using `hmac.compare_digest` for Safe Comparison](#example-4-using-hmaccompare_digest-for-safe-comparison)
+5. [Example 5: Creating an HMAC with Additional Data](#example-5-creating-an-hmac-with-additional-data)
+
+
 
 The `hmac` module in Python provides a way to create message authentication codes (MACs) using cryptographic hash functions such as SHA-1, SHA-256, etc. A MAC is a fixed-size binary value that verifies the integrity of a message and ensures it hasn't been tampered with during transmission or storage.
 

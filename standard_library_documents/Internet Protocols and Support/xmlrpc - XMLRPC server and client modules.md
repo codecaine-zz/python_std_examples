@@ -1,4 +1,15 @@
 # xmlrpc - XMLRPC server and client modules
+## Table of Contents
+
+1. [1. Creating an XML-RPC Server](#1-creating-an-xml-rpc-server)
+2. [2. Handling XML-RPC Requests](#2-handling-xml-rpc-requests)
+3. [3. Using an XML-RPC Client](#3-using-an-xml-rpc-client)
+4. [4. Customizing XML-RPC Server Behavior](#4-customizing-xml-rpc-server-behavior)
+5. [5. Using `jsonrpc` Module for JSON-RPC Server and Client](#5-using-jsonrpc-module-for-json-rpc-server-and-client)
+6. [Server Example with `jsonrpc`:](#server-example-with-jsonrpc)
+7. [Client Example with `jsonrpc`:](#client-example-with-jsonrpc)
+
+
 
 The `xmlrpc` module in Python is a part of the Standard Library and provides support for making XML-RPC requests and responses. Below are comprehensive code examples that demonstrate various functionalities within this module, including creating an XML-RPC server, handling XML-RPC requests, and using an XML-RPC client to communicate with an XML-RPC server.
 

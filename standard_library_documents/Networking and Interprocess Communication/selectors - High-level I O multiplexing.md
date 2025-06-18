@@ -1,4 +1,14 @@
 # selectors - High-level I/O multiplexing
+## Table of Contents
+
+1. [1. Basic Usage](#1-basic-usage)
+2. [2. Using `EventLoop` and `Selector`](#2-using-eventloop-and-selector)
+3. [3. Handling Multiple Sockets and Events](#3-handling-multiple-sockets-and-events)
+4. [4. Using `Selector` with Non-Blocking Sockets](#4-using-selector-with-non-blocking-sockets)
+5. [5. Using `Selector` with Timed Events](#5-using-selector-with-timed-events)
+6. [6. Using `Selector` with Priority Queues](#6-using-selector-with-priority-queues)
+
+
 
 Below is a comprehensive set of code examples demonstrating various functionalities of the `selectors` module in Python 3.12, along with comments explaining each step.
 

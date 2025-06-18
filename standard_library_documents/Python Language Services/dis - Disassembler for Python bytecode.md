@@ -1,4 +1,18 @@
 # dis - Disassembler for Python bytecode
+## Table of Contents
+
+1. [1. Basic Disassembly](#1-basic-disassembly)
+2. [2. Disassembling a Built-in Function](#2-disassembling-a-built-in-function)
+3. [3. Iterating Over Instructions](#3-iterating-over-instructions)
+4. [4. Disassembling a Module](#4-disassembling-a-module)
+5. [5. Disassembling a Class Method](#5-disassembling-a-class-method)
+6. [6. Disassembling a Module with Decorators](#6-disassembling-a-module-with-decorators)
+7. [7. Disassembling a Generator Function](#7-disassembling-a-generator-function)
+8. [8. Disassembling a List Comprehension](#8-disassembling-a-list-comprehension)
+9. [9. Disassembling a Nested Function](#9-disassembling-a-nested-function)
+10. [10. Disassembling a Function with Keyword Arguments](#10-disassembling-a-function-with-keyword-arguments)
+
+
 
 The `dis` module is a part of the Python standard library that provides a way to examine Python bytecode. It can help you understand how Python programs are executed and debug them. Below are several comprehensive examples demonstrating various functionalities of the `dis` module.
 

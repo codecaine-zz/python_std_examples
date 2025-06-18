@@ -1,4 +1,17 @@
 # http.client - HTTP protocol client
+## Table of Contents
+
+1. [1. Basic GET Request](#1-basic-get-request)
+2. [2. Handling Headers and Query Parameters](#2-handling-headers-and-query-parameters)
+3. [3. POST Request with Form Data](#3-post-request-with-form-data)
+4. [4. Using HTTP/1.1 Connection Pooling](#4-using-http11-connection-pooling)
+5. [5. Handling Redirects](#5-handling-redirects)
+6. [6. Handling Exceptions](#6-handling-exceptions)
+7. [7. Using SSL/TLS](#7-using-ssltls)
+8. [8. Handling Large Responses](#8-handling-large-responses)
+9. [9. Handling Keep-Alive Connections](#9-handling-keep-alive-connections)
+
+
 
 The `http.client` module is part of the Python standard library and provides a simple HTTP/1.1 client interface for making requests to web servers. Below are comprehensive examples for various functionalities provided by this module:
 

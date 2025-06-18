@@ -1,4 +1,16 @@
 # doctest - Test interactive Python examples
+## Table of Contents
+
+1. [Example 1: Basic Usage](#example-1-basic-usage)
+2. [Example 2: Testing Functions with More Complex Arguments](#example-2-testing-functions-with-more-complex-arguments)
+3. [Example 3: Testing Functions with Lists and Tuples](#example-3-testing-functions-with-lists-and-tuples)
+4. [Example 4: Testing Functions with String Manipulation](#example-4-testing-functions-with-string-manipulation)
+5. [Example 5: Testing Functions with Conditional Logic](#example-5-testing-functions-with-conditional-logic)
+6. [Example 6: Testing Functions with Class Methods](#example-6-testing-functions-with-class-methods)
+7. [Example 7: Testing Functions with External Modules](#example-7-testing-functions-with-external-modules)
+8. [Example 8: Testing Functions with Assertions](#example-8-testing-functions-with-assertions)
+
+
 
 The `doctest` module in Python is a testing framework that provides tools to run and verify tests written as docstrings in Python modules, classes, functions, and methods. It is particularly useful for verifying that the examples provided in docstrings are correct and up-to-date.
 

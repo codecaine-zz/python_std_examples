@@ -1,4 +1,13 @@
 # urllib.robotparser - Parser for robots.txt
+## Table of Contents
+
+1. [1. Checking Robots.txt for Disallowed Paths](#1-checking-robotstxt-for-disallowed-paths)
+2. [2. Handling Different User Agents](#2-handling-different-user-agents)
+3. [3. Monitoring Changes to Robots.txt](#3-monitoring-changes-to-robotstxt)
+4. [4. Parsing Robots.txt for Disallowed Paths with a List of URLs](#4-parsing-robotstxt-for-disallowed-paths-with-a-list-of-urls)
+5. [5. Handling Custom Paths in Robots.txt](#5-handling-custom-paths-in-robotstxt)
+
+
 
 The `urllib.robotparser` module is part of Python's standard library, and it provides tools to parse a `robots.txt` file, which specifies rules about which web pages search engines should or should not index. Below are comprehensive code examples that demonstrate various functionalities provided by the `urllib.robotparser` module.
 

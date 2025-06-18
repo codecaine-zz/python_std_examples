@@ -1,4 +1,18 @@
 # 2to3 - Automated Python 2 to 3 code translation
+## Table of Contents
+
+1. [Example 1: Basic Conversion with a Script](#example-1-basic-conversion-with-a-script)
+2. [Description:](#description)
+3. [Explanation:](#explanation)
+4. [Example 2: Using Fixers Manually](#example-2-using-fixers-manually)
+5. [Description:](#description)
+6. [Explanation:](#explanation)
+7. [Example 3: Running 2to3 on Multiple Files](#example-3-running-2to3-on-multiple-files)
+8. [Description:](#description)
+9. [Explanation:](#explanation)
+10. [Example 4: Using 2to3 as a Command-line Tool](#example-4-using-2to3-as-a-command-line-tool)
+
+
 
 The `2to3` module is used for automatically converting Python 2 code to Python 3 code. It provides tools and utilities to help developers transition their codebases from Python 2 to Python 3, ensuring compatibility and reducing the need for manual modifications. Below are comprehensive examples demonstrating various functionalities of the `2to3` module.
 

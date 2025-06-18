@@ -1,4 +1,18 @@
 # urllib - URL handling modules
+## Table of Contents
+
+1. [1. **urllib.request Module**](#1-urllibrequest-module)
+2. [Example 1: Using `urlopen` to Retrieve a Web Page](#example-1-using-urlopen-to-retrieve-a-web-page)
+3. [Example 2: Handling Redirects with `urlopen`](#example-2-handling-redirects-with-urlopen)
+4. [2. **urllib.parse Module**](#2-urllibparse-module)
+5. [Example 3: Parsing a URL](#example-3-parsing-a-url)
+6. [Example 4: Encoding Query Parameters](#example-4-encoding-query-parameters)
+7. [3. **urllib.error Module**](#3-urlliberror-module)
+8. [Example 5: Handling URLError and HTTPError](#example-5-handling-urlerror-and-httperror)
+9. [4. **urllib.robotparser Module**](#4-urllibrobotparser-module)
+10. [Example 6: Parsing `robots.txt`](#example-6-parsing-robotstxt)
+
+
 
 The `urllib` module in Python provides a variety of functions to handle URLs. Below are comprehensive, well-documented code examples covering various functionalities within this module.
 

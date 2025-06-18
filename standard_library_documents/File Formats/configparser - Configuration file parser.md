@@ -1,4 +1,17 @@
 # configparser - Configuration file parser
+## Table of Contents
+
+1. [1. Reading an INI File](#1-reading-an-ini-file)
+2. [2. Writing to an INI File](#2-writing-to-an-ini-file)
+3. [3. Handling Default Values](#3-handling-default-values)
+4. [4. Using Interpolation](#4-using-interpolation)
+5. [5. Handling Lists](#5-handling-lists)
+6. [6. Handling Sections](#6-handling-sections)
+7. [7. Handling Comments](#7-handling-comments)
+8. [8. Handling Multiple Values in a Section](#8-handling-multiple-values-in-a-section)
+9. [9. Handling Sections with Duplicate Keys](#9-handling-sections-with-duplicate-keys)
+
+
 
 The `configparser` module in Python is used to read and write configuration files in a format similar to the Windows INI files but with more features. Below are comprehensive and well-documented examples of how to use various functionalities provided by this module.
 

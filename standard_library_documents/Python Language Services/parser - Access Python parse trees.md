@@ -1,4 +1,11 @@
 # parser - Access Python parse trees
+## Table of Contents
+
+1. [Notes:](#notes)
+2. [Example for Parsing HTML with `html.parser`:](#example-for-parsing-html-with-htmlparser)
+3. [Example for Parsing XML with `xml.etree.ElementTree`:](#example-for-parsing-xml-with-xmletreeelementtree)
+
+
 
 The `parser` module in Python is not a standard module, but it can be used to parse text files using regular expressions or simple parsing techniques. However, if you are referring to parsing HTML or XML documents, there are more suitable modules like `html.parser` and `xml.etree.ElementTree`.
 

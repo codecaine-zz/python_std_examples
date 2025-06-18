@@ -1,4 +1,15 @@
 # resource - Resource usage information
+## Table of Contents
+
+1. [Example 1: Monitoring Memory Usage](#example-1-monitoring-memory-usage)
+2. [Example 2: Setting CPU Time Limits](#example-2-setting-cpu-time-limits)
+3. [Example 3: Monitoring File Descriptor Limits](#example-3-monitoring-file-descriptor-limits)
+4. [Example 4: Monitoring Memory Limits](#example-4-monitoring-memory-limits)
+5. [Example 5: Monitoring CPU Usage](#example-5-monitoring-cpu-usage)
+6. [Example 6: Monitoring Maximum File Descriptor Usage](#example-6-monitoring-maximum-file-descriptor-usage)
+7. [Example 7: Monitoring Maximum Stack Size](#example-7-monitoring-maximum-stack-size)
+
+
 
 The `resource` module in Python provides a portable interface to system resources. It allows you to monitor and control various aspects of program execution, such as memory limits, CPU time, open file descriptors, etc.
 

@@ -1,4 +1,13 @@
 # signal - Set handlers for asynchronous events
+## Table of Contents
+
+1. [Example 1: Handling SIGINT (Ctrl+C)](#example-1-handling-sigint-ctrlc)
+2. [Example 2: Handling SIGHUP](#example-2-handling-sighup)
+3. [Example 3: Sending Signals to a Process](#example-3-sending-signals-to-a-process)
+4. [Example 4: Handling Signals in a Multi-Threaded Application](#example-4-handling-signals-in-a-multi-threaded-application)
+5. [Example 5: Handling Signals with a Custom Signal Class](#example-5-handling-signals-with-a-custom-signal-class)
+
+
 
 The `signal` module in Python provides a way to handle signals raised by the operating system, such as SIGINT (CTRL+C) or SIGHUP (hangup). These signals can be used to interrupt running processes, request termination, or perform cleanup actions before exiting.
 

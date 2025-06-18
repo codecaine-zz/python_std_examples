@@ -2,6 +2,14 @@
 
 Below are comprehensive and well-documented code examples for various functionalities of the `threading` module in Python. Each example is designed to be clear, concise, and follows best practices suitable for inclusion in official documentation.
 
+## Table of Contents
+
+1. [Creating and Starting Threads](#1-creating-and-starting-threads)
+2. [Synchronizing Threads with Locks](#2-synchronizing-threads-with-locks)
+3. [Using Condition Variables](#3-using-condition-variables)
+4. [Using Semaphore](#4-using-semaphore)
+5. [Using Event Objects](#5-using-event-objects)
+
 ### 1. Creating and Starting Threads
 
 ```python

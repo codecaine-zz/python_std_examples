@@ -2,6 +2,19 @@
 
 Below is a comprehensive set of code examples demonstrating various functionalities provided by the `weakref` module in Python 3.12. Each example includes comments explaining each step to help clarify its purpose and usage.
 
+## Table of Contents
+
+1. [Creating a Weak Reference to an Object](#example-1-creating-a-weak-reference-to-an-object)
+2. [Using a Weak Reference as a Dictionary Key](#example-2-using-a-weak-reference-as-a-dictionary-key)
+3. [Handling Reference Cycles](#example-3-handling-reference-cycles)
+4. [Using `proxy` to create a proxy object](#example-4-using-proxy-to-create-a-proxy-object)
+5. [Using `proxy` to create a context manager](#example-5-using-proxy-to-create-a-context-manager)
+6. [Using `proxy` to manage weak references](#example-6-using-proxy-to-manage-weak-references)
+7. [Using `proxy` to manage weak references with custom methods](#example-7-using-proxy-to-manage-weak-references-with-custom-methods)
+8. [Using `proxy` to manage weak references with custom attributes](#example-8-using-proxy-to-manage-weak-references-with-custom-attributes)
+9. [Using `proxy` to manage weak references with custom functions](#example-9-using-proxy-to-manage-weak-references-with-custom-functions)
+10. [Using `proxy` to manage weak references with custom methods and attributes](#example-10-using-proxy-to-manage-weak-references-with-custom-methods-and-attributes)
+
 ```python
 import weakref
 

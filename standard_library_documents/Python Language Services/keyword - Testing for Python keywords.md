@@ -1,4 +1,16 @@
 # keyword - Testing for Python keywords
+## Table of Contents
+
+1. [Example 1: Basic Usage](#example-1-basic-usage)
+2. [Example 2: Using `all()` with `keyword.iskeyword()`](#example-2-using-all-with-keywordiskeyword)
+3. [Example 3: Handling Non-String Inputs](#example-3-handling-non-string-inputs)
+4. [Example 4: Testing Keywords in Specific Contexts](#example-4-testing-keywords-in-specific-contexts)
+5. [Example 5: Using `list()` to Get All Keywords](#example-5-using-list-to-get-all-keywords)
+6. [Example 6: Using `in` Operator to Check if a String is a Keyword](#example-6-using-in-operator-to-check-if-a-string-is-a-keyword)
+7. [Example 7: Testing Keywords in Different Programming Styles](#example-7-testing-keywords-in-different-programming-styles)
+8. [Example 8: Testing Keywords in Different Module Contexts](#example-8-testing-keywords-in-different-module-contexts)
+
+
 
 The `keyword` module in Python is used to test if a given string is a reserved word in the language. It provides a function called `iskeyword()` that returns `True` if the string is a keyword and `False` otherwise.
 

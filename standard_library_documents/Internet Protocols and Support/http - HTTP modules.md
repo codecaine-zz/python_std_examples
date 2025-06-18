@@ -1,4 +1,15 @@
 # http - HTTP modules
+## Table of Contents
+
+1. [1. Using the `requests` library](#1-using-the-requests-library)
+2. [2. Making GET Requests](#2-making-get-requests)
+3. [3. Making POST Requests](#3-making-post-requests)
+4. [4. Handling Cookies](#4-handling-cookies)
+5. [5. Handling Redirects](#5-handling-redirects)
+6. [6. Handling HTTP Exceptions](#6-handling-http-exceptions)
+7. [7. Making Requests with Timeout](#7-making-requests-with-timeout)
+
+
 
 The `http` module is part of the Python Standard Library and provides a simple interface to make HTTP requests. Below are comprehensive code examples for various functionalities within the `http` module, along with explanations for each example.
 

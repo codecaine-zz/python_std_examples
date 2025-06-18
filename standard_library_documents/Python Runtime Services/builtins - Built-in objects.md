@@ -1,4 +1,18 @@
 # builtins - Built-in objects
+## Table of Contents
+
+1. [1. Accessing Built-in Functions](#1-accessing-built-in-functions)
+2. [2. Accessing Built-in Types](#2-accessing-built-in-types)
+3. [3. Accessing Built-in Exceptions](#3-accessing-built-in-exceptions)
+4. [4. Accessing Built-in Constants](#4-accessing-built-in-constants)
+5. [5. Accessing Built-in Modules](#5-accessing-built-in-modules)
+6. [6. Accessing Built-in Classes](#6-accessing-built-in-classes)
+7. [7. Accessing Built-in Methods](#7-accessing-built-in-methods)
+8. [8. Accessing Built-in Modules and Functions](#8-accessing-built-in-modules-and-functions)
+9. [9. Accessing Built-in Constants and Functions](#9-accessing-built-in-constants-and-functions)
+10. [10. Accessing Built-in Operators](#10-accessing-built-in-operators)
+
+
 
 The `builtins` module in Python is a special module that contains all the built-in names available in every interactive session and in all modules. It provides access to the most commonly used functions, types, and exceptions.
 

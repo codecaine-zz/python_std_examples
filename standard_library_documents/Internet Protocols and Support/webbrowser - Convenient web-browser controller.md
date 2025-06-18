@@ -1,4 +1,18 @@
 # webbrowser - Convenient web-browser controller
+## Table of Contents
+
+1. [1. Opening a URL](#1-opening-a-url)
+2. [Explanation:](#explanation)
+3. [2. Opening a URL using a specific browser](#2-opening-a-url-using-a-specific-browser)
+4. [Explanation:](#explanation)
+5. [3. Opening a URL in a new tab of an existing window](#3-opening-a-url-in-a-new-tab-of-an-existing-window)
+6. [Explanation:](#explanation)
+7. [4. Opening a URL in a new window](#4-opening-a-url-in-a-new-window)
+8. [Explanation:](#explanation)
+9. [5. Searching for a query using a search engine](#5-searching-for-a-query-using-a-search-engine)
+10. [Explanation:](#explanation)
+
+
 
 The `webbrowser` module in Python is a convenient interface to allow you to control web browsers from within your applications. It provides a way to open URLs, search engines, and other web-based services without requiring users to manually interact with their web browsers. Below are comprehensive examples for each functionality provided by the `webbrowser` module:
 

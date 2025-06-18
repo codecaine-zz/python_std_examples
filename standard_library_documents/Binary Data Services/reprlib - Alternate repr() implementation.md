@@ -4,6 +4,14 @@ The `reprlib` module provides a function called `repr()` that is similar to Pyth
 
 Here are some examples demonstrating how to use the `reprlib` module:
 
+## Table of Contents
+
+1. [Abbreviating Large Strings](#1-abbreviating-large-strings)
+2. [Abbreviating Lists with Many Elements](#2-abbreviating-lists-with-many-elements)
+3. [Abbreviating Sets with Many Elements](#3-abbreviating-sets-with-many-elements)
+4. [Abbreviating Dictionaries with Many Key-Value Pairs](#4-abbreviating-dictionaries-with-many-key-value-pairs)
+5. [Using reprlib.repr() in Custom Classes](#5-using-reprlibrepr-in-custom-classes)
+
 1. **Abbreviating Large Strings**:
    When working with strings that are too long to display in a single line, `reprlib.repr()` can return an abbreviated version by truncating the string and adding ellipses (`...`) at the end.
 

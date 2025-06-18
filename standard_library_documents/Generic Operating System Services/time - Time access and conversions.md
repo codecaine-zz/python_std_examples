@@ -1,4 +1,9 @@
 # time - Time access and conversions
+## Table of Contents
+
+1. [Key Points:](#key-points)
+
+
 
 The `time` module in Python provides a portable way of using operating system-dependent functionality such as time access, conversion of time to human-readable formats, and delay execution.
 

@@ -1,4 +1,15 @@
 # http.cookiejar - Cookie handling for HTTP clients
+## Table of Contents
+
+1. [1. Basic Cookie Management](#1-basic-cookie-management)
+2. [2. Parsing HTTP Responses for Cookies](#2-parsing-http-responses-for-cookies)
+3. [3. Sending Cookies with HTTP Requests](#3-sending-cookies-with-http-requests)
+4. [4. Handling Cookie Expiry](#4-handling-cookie-expiry)
+5. [5. Handling Cookie Domain Scope](#5-handling-cookie-domain-scope)
+6. [6. Handling Cookie Persistence](#6-handling-cookie-persistence)
+7. [7. Handling Secure Cookies](#7-handling-secure-cookies)
+
+
 
 The `http.cookiejar` module is part of Python's standard library and provides a way to handle cookies in HTTP requests. Cookies are used by websites to store user data, such as session IDs or preferences, between visits. This module allows you to manage cookie storage, parsing responses, and sending cookies with HTTP requests.
 

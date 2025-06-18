@@ -1,4 +1,14 @@
 # curses.panel - A panel stack extension for curses
+## Table of Contents
+
+1. [Example 1: Creating and Displaying Multiple Panels](#example-1-creating-and-displaying-multiple-panels)
+2. [Example 2: Moving a Panel](#example-2-moving-a-panel)
+3. [Example 3: Hiding and Showing Panels](#example-3-hiding-and-showing-panels)
+4. [Example 4: Deleting a Panel](#example-4-deleting-a-panel)
+5. [Example 5: Getting and Setting Panel Attributes](#example-5-getting-and-setting-panel-attributes)
+6. [Explanation](#explanation)
+
+
 
 The `curses.panel` module provides a set of functions to create, manipulate, and manage panels within a curses window. Panels are useful for organizing multiple windows on the screen and allowing them to be stacked on top of each other with z-order management. Below are comprehensive code examples demonstrating various functionalities provided by the `curses.panel` module.
 

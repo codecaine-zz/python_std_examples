@@ -1,4 +1,12 @@
 # xmlrpc.server - Basic XMLRPC servers
+## Table of Contents
+
+1. [Example 1: Creating an HTTP Basic Server](#example-1-creating-an-http-basic-server)
+2. [Explanation:](#explanation)
+3. [Example 2: Creating a SimpleXMLRPC Server](#example-2-creating-a-simplexmlrpc-server)
+4. [Explanation:](#explanation)
+
+
 
 The `xmlrpc.server` module is part of Python's standard library, providing a simple way to create basic XML-RPC servers. Below are comprehensive examples demonstrating various functionalities within this module, including creating both HTTP and SimpleXMLRPC servers.
 

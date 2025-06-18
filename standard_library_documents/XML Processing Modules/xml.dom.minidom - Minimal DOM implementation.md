@@ -1,4 +1,16 @@
 # xml.dom.minidom - Minimal DOM implementation
+## Table of Contents
+
+1. [1. Parsing an XML Document](#1-parsing-an-xml-document)
+2. [2. Creating a New XML Document](#2-creating-a-new-xml-document)
+3. [3. Modifying an Existing XML Document](#3-modifying-an-existing-xml-document)
+4. [4. Writing to a File](#4-writing-to-a-file)
+5. [5. Searching for Elements](#5-searching-for-elements)
+6. [6. Handling Namespaces](#6-handling-namespaces)
+7. [7. Traversing the DOM Tree](#7-traversing-the-dom-tree)
+8. [8. Using XPath for Querying](#8-using-xpath-for-querying)
+
+
 
 Certainly! Below is a comprehensive list of code examples demonstrating various functionalities of the `xml.dom.minidom` module, which provides a simple and efficient API for parsing XML documents and creating new ones. Each example includes comments to explain each step.
 

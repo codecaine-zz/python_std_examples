@@ -1,4 +1,16 @@
 # socket - Low-level networking interface
+## Table of Contents
+
+1. [1. Creating a TCP Socket](#1-creating-a-tcp-socket)
+2. [Explanation:](#explanation)
+3. [2. Creating a UDP Socket](#2-creating-a-udp-socket)
+4. [Explanation:](#explanation)
+5. [3. Connecting to a Remote Server](#3-connecting-to-a-remote-server)
+6. [Explanation:](#explanation)
+7. [4. Using Sockets with Multithreading](#4-using-sockets-with-multithreading)
+8. [Explanation:](#explanation)
+
+
 
 The `socket` module in Python provides a low-level interface for network communication. It allows you to create sockets and use them to connect to other servers, send and receive data over various protocols such as TCP and UDP. Below are comprehensive code examples demonstrating various functionalities of the `socket` module.
 

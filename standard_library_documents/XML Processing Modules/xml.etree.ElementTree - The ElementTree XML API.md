@@ -1,4 +1,16 @@
 # xml.etree.ElementTree - The ElementTree XML API
+## Table of Contents
+
+1. [1. Creating an Element Tree](#1-creating-an-element-tree)
+2. [2. Parsing an XML File](#2-parsing-an-xml-file)
+3. [3. Creating an Element and Adding Attributes](#3-creating-an-element-and-adding-attributes)
+4. [4. Adding Elements and Text to Existing Elements](#4-adding-elements-and-text-to-existing-elements)
+5. [5. Iterating Over Elements with Specific Tags](#5-iterating-over-elements-with-specific-tags)
+6. [6. Removing Elements and Text](#6-removing-elements-and-text)
+7. [7. Searching for Elements Using XPath](#7-searching-for-elements-using-xpath)
+8. [8. Writing Elements to a String](#8-writing-elements-to-a-string)
+
+
 
 The `xml.etree.ElementTree` is a lightweight and efficient library in Python used for parsing and creating XML data. Below are comprehensive and well-documented code examples covering various functionalities of the `ElementTree` module:
 

@@ -1,4 +1,10 @@
 # nis - Interface to Sun’s NIS (Yellow Pages)
+## Table of Contents
+
+1. [Explanation:](#explanation)
+2. [Notes:](#notes)
+
+
 
 The `nis` module is an interface to Sun Microsystems' Yellow Pages (NIS) services, which were used to manage network information systems in Unix-like operating systems. While Python's support for NIS has been limited and deprecated in recent versions of the standard library due to its complexity and lack of modern alternatives like LDAP or Active Directory, I can still provide a basic example of how you might use the `nis` module if you need to interact with an NIS server.
 

@@ -1,4 +1,18 @@
 # dataclasses - Data Classes
+## Table of Contents
+
+1. [Installation](#installation)
+2. [Example 1: Basic Usage](#example-1-basic-usage)
+3. [Example 2: Multiple Default Values](#example-2-multiple-default-values)
+4. [Example 3: Immutable Attributes](#example-3-immutable-attributes)
+5. [Example 4: Custom Initialization](#example-4-custom-initialization)
+6. [Example 5: Auto-Generated Special Methods](#example-5-auto-generated-special-methods)
+7. [Example 6: Optional Attributes](#example-6-optional-attributes)
+8. [Example 7: Recursive Data Classes](#example-7-recursive-data-classes)
+9. [Example 8: Custom Class Methods](#example-8-custom-class-methods)
+10. [Example 9: Custom Class Variables](#example-9-custom-class-variables)
+
+
 
 Data classes in Python provide a convenient way to create classes with default values, immutable attributes, and automatically generated special methods like `__init__`, `__repr__`, `__eq__`, etc. They are particularly useful for creating classes that represent complex data structures.
 

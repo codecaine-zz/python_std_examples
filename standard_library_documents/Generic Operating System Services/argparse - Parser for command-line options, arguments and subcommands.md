@@ -1,4 +1,18 @@
 # argparse - Parser for command-line options, arguments and subcommands
+## Table of Contents
+
+1. [Example 1: Basic Argument Parsing](#example-1-basic-argument-parsing)
+2. [Example 2: Argument Parsing with Subcommands](#example-2-argument-parsing-with-subcommands)
+3. [Example 3: Argument Parsing with Options](#example-3-argument-parsing-with-options)
+4. [Example 4: Argument Parsing with Custom Help Messages](#example-4-argument-parsing-with-custom-help-messages)
+5. [Example 5: Argument Parsing with Default Values](#example-5-argument-parsing-with-default-values)
+6. [Example 6: Argument Parsing with Required Arguments](#example-6-argument-parsing-with-required-arguments)
+7. [Example 7: Argument Parsing with Error Handling](#example-7-argument-parsing-with-error-handling)
+8. [Example 8: Argument Parsing with Descriptive Help Output](#example-8-argument-parsing-with-descriptive-help-output)
+9. [Example 9: Argument Parsing with Subparsers and Aliases](#example-9-argument-parsing-with-subparsers-and-aliases)
+10. [Example 10: Argument Parsing with Custom Type Conversion](#example-10-argument-parsing-with-custom-type-conversion)
+
+
 
 The `argparse` module in Python is a powerful tool for parsing command-line arguments and providing usage information to users. It allows you to create user-friendly interfaces that are easy to use and understand, while also enabling robust error handling and help output.
 

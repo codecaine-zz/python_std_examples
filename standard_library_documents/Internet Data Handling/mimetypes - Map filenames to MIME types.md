@@ -1,4 +1,9 @@
 # mimetypes - Map filenames to MIME types
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 Here is a comprehensive set of code examples for using the `mimetypes` module in Python, including comments that explain each step:
 

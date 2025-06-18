@@ -1,4 +1,18 @@
 # binascii - Convert between binary and ASCII
+## Table of Contents
+
+1. [Example 1: Hexadecimal Encoding](#example-1-hexadecimal-encoding)
+2. [Example 2: Hexadecimal Decoding](#example-2-hexadecimal-decoding)
+3. [Example 3: Octal Encoding](#example-3-octal-encoding)
+4. [Example 4: Base64 Encoding](#example-4-base64-encoding)
+5. [Example 5: Base64 Decoding](#example-5-base64-decoding)
+6. [Example 6: Binary to String Conversion](#example-6-binary-to-string-conversion)
+7. [Example 7: String to Binary Conversion](#example-7-string-to-binary-conversion)
+8. [Example 8: Hexadecimal to String Conversion](#example-8-hexadecimal-to-string-conversion)
+9. [Example 9: String to Hexadecimal Conversion](#example-9-string-to-hexadecimal-conversion)
+10. [Example 10: Base64 to String Conversion](#example-10-base64-to-string-conversion)
+
+
 
 The `binascii` module in Python provides functions to convert between various binary formats, including hexadecimal, octal, and base64 encoding/decoding. Below are comprehensive code examples demonstrating each functionality of the `binascii` module.
 

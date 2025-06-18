@@ -4,6 +4,16 @@ The `zoneinfo` module in Python is part of the standard library and provides cla
 
 Here are comprehensive examples demonstrating various functionalities of the `zoneinfo` module:
 
+## Table of Contents
+
+1. [Getting Time Zone Information](#example-1-getting-time-zone-information)
+2. [Iterating Over Time Zones](#example-2-iterating-over-time-zones)
+3. [Handling Time Zone Differences](#example-3-handling-time-zone-differences)
+4. [Using Zone Info Objects](#example-4-using-zone-info-objects)
+5. [Handling Time Zones in a Web Application](#example-5-handling-time-zones-in-a-web-application)
+6. [Using Zone Info in a Command Line Tool](#example-6-using-zone-info-in-a-command-line-tool)
+7. [Handling Time Zones with `pytz` for Compatibility](#example-7-handling-time-zones-with-pytz-for-compatibility)
+
 ### Example 1: Getting Time Zone Information
 
 ```python

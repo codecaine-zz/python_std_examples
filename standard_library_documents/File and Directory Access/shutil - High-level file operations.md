@@ -1,4 +1,18 @@
 # shutil - High-level file operations
+## Table of Contents
+
+1. [1. Copying Files and Directories](#1-copying-files-and-directories)
+2. [2. Moving Files and Directories](#2-moving-files-and-directories)
+3. [3. Deleting Files and Directories](#3-deleting-files-and-directories)
+4. [4. Copying Files with Permissions](#4-copying-files-with-permissions)
+5. [5. Archiving Files](#5-archiving-files)
+6. [6. Compressing Files](#6-compressing-files)
+7. [7. Listing Files in a Directory](#7-listing-files-in-a-directory)
+8. [8. Getting File Information](#8-getting-file-information)
+9. [9. Reading and Writing Files](#9-reading-and-writing-files)
+10. [10. Making and Removing Directories](#10-making-and-removing-directories)
+
+
 
 Certainly! Below are comprehensive code examples for various functionalities in the `shutil` module, which provides a high-level interface for common file operations in Python.
 

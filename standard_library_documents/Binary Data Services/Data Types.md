@@ -2,6 +2,18 @@
 
 The Python standard library includes several modules dedicated to handling different data types efficiently. Below are comprehensive code examples for some of these modules, focusing on their primary functionalities:
 
+## Table of Contents
+
+1. [collections Module](#1-collections-module)
+   - [Example 1: Using deque](#example-1-using-deque)
+   - [Example 2: Using Counter](#example-2-using-counter)
+   - [Example 3: Using defaultdict](#example-3-using-defaultdict)
+   - [Example 4: Using OrderedDict](#example-4-using-ordereddict)
+   - [Example 5: Using namedtuple](#example-5-using-namedtuple)
+2. [datetime Module](#2-datetime-module)
+3. [array Module](#3-array-module)
+4. [enum Module](#4-enum-module)
+
 ### 1. `collections` Module
 
 This module provides specialized container datatypes that differ from built-in containers like lists and dictionaries.
@@ -55,6 +67,58 @@ counter.subtract({'banana': 1})
 print(counter)  # Output: Counter({'banana': 2, 'apple': 2, 'orange': 1})
 ```
 
+#### Example 3: Using `defaultdict`
+A defaultdict is a dictionary that provides a default value for a nonexistent key.
+
+```python
+from collections import defaultdict
+
+# Creating a defaultdict with a default value of 0
+dd = defaultdict(int)
+
+# Incrementing the value for a key
+dd['apple'] += 1
+print(dd)  # Output: defaultdict(<class 'int'>, {'apple': 1})
+
+# Accessing a nonexistent key returns the default value
+print(dd['banana'])  # Output: 0
+```
+
+#### Example 4: Using `OrderedDict`
+An OrderedDict is a dictionary that remembers the order in which items were inserted.
+
+```python
+from collections import OrderedDict
+
+# Creating an OrderedDict
+od = OrderedDict()
+
+# Adding items to the OrderedDict
+od['apple'] = 1
+od['banana'] = 2
+od['cherry'] = 3
+
+# The items are ordered by the order of insertion
+print(od)  # Output: OrderedDict([('apple', 1), ('banana', 2), ('cherry', 3)])
+```
+
+#### Example 5: Using `namedtuple`
+A namedtuple is a tuple with named fields that you can access like attributes.
+
+```python
+from collections import namedtuple
+
+# Creating a namedtuple class
+Point = namedtuple('Point', ['x', 'y'])
+
+# Creating an instance of the namedtuple
+p = Point(10, 20)
+
+# Accessing fields by name
+print(p.x)  # Output: 10
+print(p.y)  # Output: 20
+```
+
 ### 2. `datetime` Module
 
 This module provides classes for manipulating dates and times.
@@ -89,114 +153,76 @@ local_datetime = aware_datetime.astimezone(timezone(timedelta(hours=5)))
 print(local_datetime)  # Output: datetime.datetime(YYYY, MM, DD, HH, MM, SS, tzinfo=LOCAL_TIMEZONE)
 ```
 
-### 3. `itertools` Module
+### 3. `array` Module
 
-This module provides various functions to create iterators for efficient looping.
+This module provides a way to create arrays in Python.
 
-#### Example 1: Using `count`
+#### Example 1: Creating an Array
 ```python
-from itertools import count
+from array import array
 
-# Creating an infinite counter
-counter = count(start=5)
+# Creating an array of integers
+arr = array('i', [1, 2, 3, 4, 5])
 
-# Generating the first five numbers in the sequence
-for _ in range(5):
-    print(next(counter))  # Output: 5, 6, 7, 8, 9
+# Accessing elements in the array
+print(arr[0])  # Output: 1
+print(arr[1])  # Output: 2
 ```
 
-#### Example 2: Using `cycle`
+#### Example 2: Array Operations
 ```python
-from itertools import cycle
+from array import array
 
-# Creating an infinite cycle iterator
-cycler = cycle(['A', 'B', 'C'])
+# Creating an array of integers
+arr = array('i', [1, 2, 3, 4, 5])
 
-# Generating the first ten elements in the sequence
-for _ in range(10):
-    print(next(cycler))  # Output: A, B, C, A, B, C, A, B, C, A
+# Appending an element to the array
+arr.append(6)
+
+# Inserting an element at a specific position
+arr.insert(0, 0)
+
+# Removing an element from the array
+arr.remove(3)
+
+# Popping the last element from the array
+last_element = arr.pop()
 ```
 
-### 4. `random` Module
+### 4. `enum` Module
 
-This module provides functions to generate random numbers and make random selections.
+This module provides support for enumerations, which are symbolic names for a set of values.
 
-#### Example 1: Generating a Random Float
+#### Example 1: Creating an Enumeration
 ```python
-import random
+from enum import Enum
 
-# Generating a random float between 0.0 and 1.0
-random_float = random.random()
-print(random_float)  # Output: 0.987654321 (approximately)
+# Creating an enumeration for colors
+class Color(Enum):
+    RED = 1
+    GREEN = 2
+    BLUE = 3
+
+# Accessing an enumeration member
+print(Color.RED)  # Output: Color.RED
+
+# Accessing the value of an enumeration member
+print(Color.RED.value)  # Output: 1
 ```
 
-#### Example 2: Choosing a Random Element from a List
+#### Example 2: Iterating Over an Enumeration
 ```python
-import random
+from enum import Enum
 
-fruits = ['apple', 'banana', 'cherry']
-random_fruit = random.choice(fruits)
-print(random_fruit)  # Output: apple or banana or cherry randomly selected
-```
+# Creating an enumeration for colors
+class Color(Enum):
+    RED = 1
+    GREEN = 2
+    BLUE = 3
 
-### 5. `math` Module
-
-This module provides mathematical functions.
-
-#### Example 1: Mathematical Constants
-```python
-import math
-
-# Accessing the value of pi
-pi_value = math.pi
-print(pi_value)  # Output: 3.141592653589793
-
-# Calculating the square root of a number
-sqrt_2 = math.sqrt(2)
-print(sqrt_2)  # Output: 1.4142135623730951
-```
-
-#### Example 2: Trigonometric Functions
-```python
-import math
-
-# Calculating the sine of an angle in radians
-sin_value = math.sin(math.pi / 4)
-print(sin_value)  # Output: 0.7071067811865476
-```
-
-### 6. `sys` Module
-
-This module provides access to some variables used or maintained by the interpreter and to functions that interact strongly with the interpreter.
-
-#### Example 1: Accessing Command-Line Arguments
-```python
-import sys
-
-# List of command-line arguments (sys.argv)
-print(sys.argv)  # Output: ['script_name', 'arg1', 'arg2', ...]
-```
-
-### 7. `os` Module
-
-This module provides a portable way of using operating system dependent functionality.
-
-#### Example 1: Listing Files in a Directory
-```python
-import os
-
-# List all files and directories in the current working directory
-files_and_dirs = os.listdir('.')
-print(files_and_dirs)  # Output: ['file1.txt', 'file2.txt', ...]
-```
-
-#### Example 2: Changing Current Working Directory
-```python
-import os
-
-os.chdir('/path/to/new/directory')
-current_directory = os.getcwd()
-print(current_directory)  # Output: /path/to/new/directory
+# Iterating over the members of the enumeration
+for color in Color:
+    print(color)
 ```
 
 These examples cover a range of functionalities available in the `collections`, `datetime`, `itertools`, `math`, `sys`, and `os` modules, demonstrating how to use them effectively in Python.

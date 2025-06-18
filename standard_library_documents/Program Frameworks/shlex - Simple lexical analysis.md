@@ -1,4 +1,18 @@
 # shlex - Simple lexical analysis
+## Table of Contents
+
+1. [1. Basic Tokenization](#1-basic-tokenization)
+2. [2. Handling Quoted Strings](#2-handling-quoted-strings)
+3. [3. Escaping Characters](#3-escaping-characters)
+4. [4. Ignoring Comments](#4-ignoring-comments)
+5. [5. Handling Special Characters](#5-handling-special-characters)
+6. [6. Quoting Special Characters](#6-quoting-special-characters)
+7. [7. Handling Multiple Whitespace](#7-handling-multiple-whitespace)
+8. [8. Handling Non-Latin Characters](#8-handling-non-latin-characters)
+9. [9. Using `shlex` in a Script](#9-using-shlex-in-a-script)
+10. [10. Using `shlex` for Parsing Shell Commands](#10-using-shlex-for-parsing-shell-commands)
+
+
 
 The `shlex` module in Python provides a robust interface for parsing simple command-like strings into tokens, handling quoted strings, escaped characters, and other special cases that are common in shell scripts. Below are comprehensive examples of how to use each functionality provided by the `shlex` module.
 

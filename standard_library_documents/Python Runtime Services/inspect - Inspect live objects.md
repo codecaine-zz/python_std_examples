@@ -1,4 +1,9 @@
 # inspect - Inspect live objects
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `inspect` module in Python provides several functions to access information about live objects such as modules, classes, methods, and frames. Below are comprehensive examples demonstrating various functionalities of the `inspect` module:
 

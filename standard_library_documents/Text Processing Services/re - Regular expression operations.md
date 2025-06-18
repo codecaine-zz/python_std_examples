@@ -2,6 +2,15 @@
 
 Below are comprehensive code examples covering various functionalities provided by the `re` (regular expressions) module in Python 3.12. These examples include detailed comments explaining each step.
 
+## Table of Contents
+
+1. [Basic pattern matching using search()](#example-1-basic-pattern-matching-using-search)
+2. [Finding all matches using findall()](#example-2-finding-all-matches-using-findall)
+3. [Substituting strings using sub()](#example-3-substituting-strings-using-sub)
+4. [Compilation and usage of regular expressions using compile()](#example-4-compilation-and-usage-of-regular-expressions-using-compile)
+5. [Using patterns with flags using match()](#example-5-using-patterns-with-flags-using-match)
+6. [Matching patterns with lookaheads and lookbehinds](#example-6-matching-patterns-with-lookaheads-and-lookbehinds)
+
 ```python
 import re
 

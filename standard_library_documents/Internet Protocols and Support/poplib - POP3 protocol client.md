@@ -1,4 +1,15 @@
 # poplib - POP3 protocol client
+## Table of Contents
+
+1. [Example 1: Retrieving Messages](#example-1-retrieving-messages)
+2. [Example 2: Deleting Messages](#example-2-deleting-messages)
+3. [Example 3: Retrieving Email Headers](#example-3-retrieving-email-headers)
+4. [Example 4: Handling Multiple Messages](#example-4-handling-multiple-messages)
+5. [Example 5: Handling Large Emails](#example-5-handling-large-emails)
+6. [Example 6: Error Handling and Logging](#example-6-error-handling-and-logging)
+7. [Example 7: Using TLS with Authentication](#example-7-using-tls-with-authentication)
+
+
 
 The `poplib` module in Python provides a convenient interface to access email messages using the Post Office Protocol (POP3). Below are comprehensive examples demonstrating various functionalities of the `poplib` module. These examples cover basic usage, error handling, and advanced features like retrieving specific email headers.
 

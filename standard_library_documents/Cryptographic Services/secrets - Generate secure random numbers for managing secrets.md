@@ -1,4 +1,16 @@
 # secrets - Generate secure random numbers for managing secrets
+## Table of Contents
+
+1. [1. Generating a Secure Random Integer](#1-generating-a-secure-random-integer)
+2. [2. Generating a Secure Random Float](#2-generating-a-secure-random-float)
+3. [3. Generating a Secure Random Bytes](#3-generating-a-secure-random-bytes)
+4. [4. Generating a Secure Random Token](#4-generating-a-secure-random-token)
+5. [5. Generating a Secure Random UUID](#5-generating-a-secure-random-uuid)
+6. [6. Generating a Secure Random Hexadecimal String](#6-generating-a-secure-random-hexadecimal-string)
+7. [7. Generating a Secure Random Alphanumeric String](#7-generating-a-secure-random-alphanumeric-string)
+8. [Explanation](#explanation)
+
+
 
 Below are comprehensive and well-documented code examples for various functionalities of the `secrets` module, which is used to generate cryptographically strong random numbers suitable for managing data such as passwords, account authentication, tokens, and related secrets.
 

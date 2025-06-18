@@ -112,3 +112,9 @@ if __name__ == "__main__":
    - This method is useful for analyzing the structure of a directed graph to identify groups of nodes where each node can reach every other node within that group.
 
 These examples provide a basic understanding of how to use the `graphlib` module for various graph operations. You can further explore the documentation and additional methods available in the module for more advanced use cases.
+
+## Table of Contents
+
+1. [Creating and manipulating a DirectedGraph](#example-1-creating-and-manipulating-a-directedgraph)
+2. [Topological Sorting](#example-2-topological-sorting)
+3. [Finding Strongly Connected Components](#example-3-finding-strongly-connected-components)

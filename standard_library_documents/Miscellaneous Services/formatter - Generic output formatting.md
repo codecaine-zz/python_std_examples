@@ -1,4 +1,9 @@
 # formatter - Generic output formatting
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `formatter` module in Python is not a part of the standard library itself, but rather a part of the `locale` module, which provides locale-aware functions and classes. This module does not include any generic output formatting functionality. Instead, it is used for handling locale-specific information and number formatting.
 

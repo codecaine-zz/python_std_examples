@@ -1,4 +1,14 @@
 # unittest.mock - getting started
+## Table of Contents
+
+1. [Example 1: Creating a Simple Mock Object](#example-1-creating-a-simple-mock-object)
+2. [Example 2: Mocking a Class Method](#example-2-mocking-a-class-method)
+3. [Example 3: Mocking a Static Method](#example-3-mocking-a-static-method)
+4. [Example 4: Mocking a Module Function](#example-4-mocking-a-module-function)
+5. [Example 5: Mocking an External Library Function](#example-5-mocking-an-external-library-function)
+6. [Example 6: Using `patch` Decorator](#example-6-using-patch-decorator)
+
+
 
 The `unittest.mock` module is a powerful tool used for creating mock objects in Python, which are essential for testing purposes. These mocks allow you to simulate the behavior of real objects without executing them, making your tests more isolated and predictable.
 

@@ -1,4 +1,16 @@
 # smtplib - SMTP protocol client
+## Table of Contents
+
+1. [Example 1: Sending a Simple Email Using `smtplib`](#example-1-sending-a-simple-email-using-smtplib)
+2. [Explanation:](#explanation)
+3. [Example 2: Sending an HTML Email Using `smtplib`](#example-2-sending-an-html-email-using-smtplib)
+4. [Explanation:](#explanation)
+5. [Example 3: Sending an Email with Attachments Using `smtplib`](#example-3-sending-an-email-with-attachments-using-smtplib)
+6. [Explanation:](#explanation)
+7. [Example 4: Sending Email with SMTP Authentication via Gmail](#example-4-sending-email-with-smtp-authentication-via-gmail)
+8. [Explanation:](#explanation)
+
+
 
 Below are comprehensive code examples for using the `smtplib` module in Python, covering various functionalities such as sending simple emails, handling exceptions, and configuring SMTP servers with authentication.
 

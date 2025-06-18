@@ -1,4 +1,16 @@
 # operator - Standard operators as functions
+## Table of Contents
+
+1. [1. Arithmetic Operations](#1-arithmetic-operations)
+2. [2. Comparison Operations](#2-comparison-operations)
+3. [3. Logical Operations](#3-logical-operations)
+4. [4. Identity and Membership Operations](#4-identity-and-membership-operations)
+5. [5. Function and Method Calls](#5-function-and-method-calls)
+6. [6. Attribute Access and Item Retrieval](#6-attribute-access-and-item-retrieval)
+7. [7. Callable Objects](#7-callable-objects)
+8. [8. Operator Lookup](#8-operator-lookup)
+
+
 
 The `operator` module in Python provides a convenient way to access operators as functions, which can be very useful for performing arithmetic operations, comparisons, and other operations in a more functional style. Below are comprehensive code examples for each functionality provided by the `operator` module.
 

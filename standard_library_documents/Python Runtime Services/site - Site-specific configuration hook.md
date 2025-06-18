@@ -1,4 +1,18 @@
 # site - Site-specific configuration hook
+## Table of Contents
+
+1. [1. `site.addsitedir(path)`](#1-siteaddsitedirpath)
+2. [2. `site.getsitepackages()`](#2-sitegetsitepackages)
+3. [3. `site.getusersitepackages()`](#3-sitegetusersitepackages)
+4. [4. `site.getsitecustomize()`](#4-sitegetsitecustomize)
+5. [5. `site.removesitedir(path)`](#5-siteremovesitedirpath)
+6. [6. `site.setusersitepackages(True | False)`](#6-sitesetusersitepackagestrue-false)
+7. [7. `site.clearsitepackages()`](#7-siteclearsitepackages)
+8. [8. `site.addsitedir(path, setpath=True)`](#8-siteaddsitedirpath-setpathtrue)
+9. [9. `site.removesitedir(path, unsetsitepackages=False)`](#9-siteremovesitedirpath-unsetsitepackagesfalse)
+10. [10. `site.addsitedir(path, setpath=True)`](#10-siteaddsitedirpath-setpathtrue)
+
+
 
 The `site` module in Python is used to customize the behavior of Python's import system, especially when it comes to loading modules from a directory outside the standard installation path. This can be useful for various purposes, such as extending the Python environment with additional libraries or modules.
 

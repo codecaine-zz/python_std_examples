@@ -1,4 +1,13 @@
 # pkgutil - Package extension utility
+## Table of Contents
+
+1. [Example 1: Find All Modules in a Package](#example-1-find-all-modules-in-a-package)
+2. [Example 2: Access a Module Dynamically](#example-2-access-a-module-dynamically)
+3. [Example 3: List Entry Points](#example-3-list-entry-points)
+4. [Example 4: Find All Subpackages](#example-4-find-all-subpackages)
+5. [Example 5: Find a Resource in a Package](#example-5-find-a-resource-in-a-package)
+
+
 
 **pkgutil Module Examples**
 

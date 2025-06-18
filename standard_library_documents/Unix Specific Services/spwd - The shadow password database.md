@@ -1,4 +1,12 @@
 # spwd - The shadow password database
+## Table of Contents
+
+1. [Example 1: Retrieve a Shadow Password Entry](#example-1-retrieve-a-shadow-password-entry)
+2. [Example 2: Modify a Shadow Password Entry](#example-2-modify-a-shadow-password-entry)
+3. [Example 3: List All Shadow Password Entries](#example-3-list-all-shadow-password-entries)
+4. [Note:](#note)
+
+
 
 The `spwd` module in the Python standard library provides access to the Unix-style shadow password database, which is used to store encrypted passwords for user accounts. This module allows you to manage and query shadow password entries without accessing the underlying system's files directly.
 

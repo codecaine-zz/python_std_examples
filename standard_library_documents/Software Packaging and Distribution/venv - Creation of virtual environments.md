@@ -1,4 +1,16 @@
 # venv - Creation of virtual environments
+## Table of Contents
+
+1. [Example 1: Creating a Virtual Environment Manually](#example-1-creating-a-virtual-environment-manually)
+2. [Example 2: Activating a Virtual Environment (on Windows)](#example-2-activating-a-virtual-environment-on-windows)
+3. [Example 3: Activating a Virtual Environment (on macOS/Linux)](#example-3-activating-a-virtual-environment-on-macoslinux)
+4. [Example 4: Creating a Virtual Environment Automatically with `create` Method](#example-4-creating-a-virtual-environment-automatically-with-create-method)
+5. [Example 5: Deactivating a Virtual Environment](#example-5-deactivating-a-virtual-environment)
+6. [Example 6: Using `pip` within a Virtual Environment](#example-6-using-pip-within-a-virtual-environment)
+7. [Example 7: Listing Installed Packages](#example-7-listing-installed-packages)
+8. [Example 8: Checking Python Version in a Virtual Environment](#example-8-checking-python-version-in-a-virtual-environment)
+
+
 
 Creating a virtual environment in Python using `venv` is a straightforward process that allows you to manage dependencies for different projects independently without affecting each other. Below are comprehensive examples of how to use the `venv` module, including comments explaining each step.
 

@@ -4,6 +4,14 @@ The `_thread` module in Python is a low-level interface to threading that provid
 
 Below are comprehensive code examples for various functionalities provided by the `_thread` module:
 
+## Table of Contents
+
+1. [Creating and Starting a Thread](#example-1-creating-and-starting-a-thread)
+2. [Using Thread Locks](#example-2-using-thread-locks)
+3. [Using Thread Events](#example-3-using-thread-events)
+4. [Using Thread Barrier](#example-4-using-thread-barrier)
+5. [Using Thread Local Data](#example-5-using-thread-local-data)
+
 ### Example 1: Creating and Starting a Thread
 
 ```python

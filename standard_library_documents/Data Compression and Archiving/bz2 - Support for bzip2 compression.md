@@ -1,4 +1,15 @@
 # bz2 - Support for bzip2 compression
+## Table of Contents
+
+1. [1. Compressing a String](#1-compressing-a-string)
+2. [2. Decompressing a Byte String](#2-decompressing-a-byte-string)
+3. [3. Writing Compressed Data to a File](#3-writing-compressed-data-to-a-file)
+4. [4. Reading Compressed Data from a File](#4-reading-compressed-data-from-a-file)
+5. [5. Handling Compressed Data in a Streaming Context](#5-handling-compressed-data-in-a-streaming-context)
+6. [6. Using `bz2.BZ2File` for File Operations](#6-using-bz2bz2file-for-file-operations)
+7. [7. Handling Large Files Efficiently](#7-handling-large-files-efficiently)
+
+
 
 Here are comprehensive code examples for the `bz2` module in Python, which provides support for bzip2 compression:
 

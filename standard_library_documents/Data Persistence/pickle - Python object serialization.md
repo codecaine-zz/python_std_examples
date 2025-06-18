@@ -1,4 +1,18 @@
 # pickle - Python object serialization
+## Table of Contents
+
+1. [1. Serializing Objects](#1-serializing-objects)
+2. [Example: Serializing a List](#example-serializing-a-list)
+3. [Example: Serializing a Custom Class](#example-serializing-a-custom-class)
+4. [2. Deserializing Objects](#2-deserializing-objects)
+5. [Example: Deserializing a List](#example-deserializing-a-list)
+6. [Example: Deserializing a Custom Class](#example-deserializing-a-custom-class)
+7. [3. Handling Special Characters](#3-handling-special-characters)
+8. [Example: Serializing a String with Special Characters](#example-serializing-a-string-with-special-characters)
+9. [Example: Deserializing a String with Special Characters](#example-deserializing-a-string-with-special-characters)
+10. [4. Handling Lists with Numpy Arrays](#4-handling-lists-with-numpy-arrays)
+
+
 
 The `pickle` module in Python is used for serializing and deserializing (or pickling and unpickling) objects. This is useful for saving and restoring complex data structures, such as nested dictionaries or lists, to disk or between sessions. Below are comprehensive examples of how to use the `pickle` module for serialization and deserialization.
 

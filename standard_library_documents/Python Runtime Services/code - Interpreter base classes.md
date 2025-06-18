@@ -1,4 +1,12 @@
 # code - Interpreter base classes
+## Table of Contents
+
+1. [Example 1: Creating a Custom Code Object](#example-1-creating-a-custom-code-object)
+2. [Example 2: Executing a Custom Code Object](#example-2-executing-a-custom-code-object)
+3. [Example 3: Creating and Executing Code Objects from Strings](#example-3-creating-and-executing-code-objects-from-strings)
+4. [Explanation](#explanation)
+
+
 
 The `code` module is part of Python's standard library and provides a way to define and execute code objects, which can be useful for implementing dynamic language interpreters or other features that require executing arbitrary code. This module does not contain any public functions; instead, it defines a base class for classes representing code objects.
 

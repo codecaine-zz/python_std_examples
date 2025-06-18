@@ -1,4 +1,9 @@
 # fractions - Rational numbers
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `fractions` module in Python provides support for rational number arithmetic. Here are comprehensive and well-documented code examples that cover various functionalities within this module:
 

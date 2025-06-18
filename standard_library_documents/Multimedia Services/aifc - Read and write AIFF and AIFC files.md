@@ -1,4 +1,14 @@
 # aifc - Read and write AIFF and AIFC files
+## Table of Contents
+
+1. [Example 1: Writing an AIFF Audio File](#example-1-writing-an-aiff-audio-file)
+2. [Example 2: Reading an AIFF Audio File](#example-2-reading-an-aiff-audio-file)
+3. [Example 3: Writing an AIFF-C Audio File](#example-3-writing-an-aiff-c-audio-file)
+4. [Example 4: Reading an AIFF-C Audio File](#example-4-reading-an-aiff-c-audio-file)
+5. [Example 5: Handling Different Sample Widths](#example-5-handling-different-sample-widths)
+6. [Example 6: Handling Different Compression Types](#example-6-handling-different-compression-types)
+
+
 
 The `aifc` module in Python is used to read and write AIFF (Audio Interchange File Format) and AIFC (AIFF-C, which stands for Audio Interchange File Format with Compression) audio files. These formats are commonly used for digital music files and are widely supported across various platforms.
 

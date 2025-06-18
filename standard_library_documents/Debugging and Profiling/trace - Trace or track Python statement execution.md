@@ -1,4 +1,12 @@
 # trace - Trace or track Python statement execution
+## Table of Contents
+
+1. [Example 1: Basic Tracing with `trace.tracemalloc`](#example-1-basic-tracing-with-tracetracemalloc)
+2. [Example 2: Tracing Execution with `trace.Trace`](#example-2-tracing-execution-with-tracetrace)
+3. [Example 3: Tracing with Custom Filters](#example-3-tracing-with-custom-filters)
+4. [Example 4: Tracing with Custom Output](#example-4-tracing-with-custom-output)
+
+
 
 The `trace` module is a part of the Python Standard Library that provides a way to trace the execution of Python programs. It allows you to instrument your program to log each statement as it executes, which can be useful for debugging and profiling.
 

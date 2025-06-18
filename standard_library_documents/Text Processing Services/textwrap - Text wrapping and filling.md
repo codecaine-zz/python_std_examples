@@ -1,5 +1,13 @@
 # textwrap - Text wrapping and filling
 
+## Table of Contents
+
+1. [Basic Text Wrapping](#1-basic-text-wrapping)
+2. [Filling Text](#2-filling-text)
+3. [Indentation](#3-indentation)
+4. [Dedenting Text](#4-dedenting-text)
+5. [Processing Unicode Characters](#5-processing-unicode-characters)
+
 Below is a comprehensive set of code examples that demonstrate various functionalities provided by the `textwrap` module in Python's standard library. The `textwrap` module provides utilities to format text in a variety of ways, such as filling and wrapping text.
 
 ```python

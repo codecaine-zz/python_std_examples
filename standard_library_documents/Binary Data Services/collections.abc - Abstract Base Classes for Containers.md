@@ -2,6 +2,21 @@
 
 Below are comprehensive examples of how to use the `collections.abc` module, which provides abstract base classes for various container types like sequences and mappings.
 
+## Table of Contents
+
+1. [Sequence ABC](#1-sequence-abc)
+   - [Example: Implementing a Custom Sequence](#example-implementing-a-custom-sequence)
+2. [Mapping ABC](#2-mapping-abc)
+   - [Example: Implementing a Custom Dictionary](#example-implementing-a-custom-dictionary)
+3. [Mutable Sequence ABC](#3-mutable-sequence-abc)
+   - [Example: Implementing a Custom Mutable List](#example-implementing-a-custom-mutable-list)
+4. [Mutable Mapping ABC](#4-mutable-mapping-abc)
+   - [Example: Implementing a Custom Mutable Dictionary](#example-implementing-a-custom-mutable-dictionary)
+5. [Set ABC](#5-set-abc)
+   - [Example: Implementing a Custom Set](#example-implementing-a-custom-set)
+6. [Deque ABC](#6-deque-abc)
+   - [Example: Implementing a Custom Double-Ended Queue](#example-implementing-a-custom-double-ended-queue)
+
 ### 1. Sequence ABC
 
 #### Example: Implementing a Custom Sequence

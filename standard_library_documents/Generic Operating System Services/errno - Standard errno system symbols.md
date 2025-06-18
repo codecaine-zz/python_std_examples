@@ -1,4 +1,18 @@
 # errno - Standard errno system symbols
+## Table of Contents
+
+1. [1. Accessing Error Numbers](#1-accessing-error-numbers)
+2. [2. Handling Errors in I/O Operations](#2-handling-errors-in-io-operations)
+3. [3. Error Codes for File Operations](#3-error-codes-for-file-operations)
+4. [4. Error Codes for General I/O Errors](#4-error-codes-for-general-io-errors)
+5. [5. Error Codes for Permissions Issues](#5-error-codes-for-permissions-issues)
+6. [6. Error Codes for Connection Issues](#6-error-codes-for-connection-issues)
+7. [7. Error Codes for Timeout Issues](#7-error-codes-for-timeout-issues)
+8. [8. Error Codes for Invalid Argument Issues](#8-error-codes-for-invalid-argument-issues)
+9. [9. Error Codes for File System Full Issues](#9-error-codes-for-file-system-full-issues)
+10. [10. Error Codes for Path Not Found Issues](#10-error-codes-for-path-not-found-issues)
+
+
 
 Certainly! Below is a comprehensive set of code examples demonstrating various functionalities provided by the `errno` module in Python's standard library. These examples are designed to be clear, concise, and suitable for inclusion in official documentation.
 

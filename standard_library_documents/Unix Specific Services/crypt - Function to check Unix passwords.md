@@ -1,4 +1,9 @@
 # crypt - Function to check Unix passwords
+## Table of Contents
+
+1. [Explanation:](#explanation)
+
+
 
 The `crypt` module in Python is used to provide an interface to Unix-style password hashing functions, which are commonly found in systems like Linux. This module includes a function called `checkpw()` that can be used to verify whether a given password matches the hashed form of a stored password.
 

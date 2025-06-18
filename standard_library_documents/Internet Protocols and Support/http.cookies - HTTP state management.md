@@ -1,4 +1,18 @@
 # http.cookies - HTTP state management
+## Table of Contents
+
+1. [Example 1: Creating a Simple Cookie](#example-1-creating-a-simple-cookie)
+2. [Example 2: Parsing a Cookie String](#example-2-parsing-a-cookie-string)
+3. [Example 3: Setting Multiple Cookies](#example-3-setting-multiple-cookies)
+4. [Example 4: Handling Cookie Expiry](#example-4-handling-cookie-expiry)
+5. [Example 5: Setting Cookies with Secure and HttpOnly Flags](#example-5-setting-cookies-with-secure-and-httponly-flags)
+6. [Example 6: Encoding and Decoding Cookies](#example-6-encoding-and-decoding-cookies)
+7. [Example 7: Using Cookies in HTTP Responses](#example-7-using-cookies-in-http-responses)
+8. [Example 8: Using Cookies in HTTP Requests](#example-8-using-cookies-in-http-requests)
+9. [Example 9: Handling SameSite Attribute](#example-9-handling-samesite-attribute)
+10. [Example 10: Setting Cookies in a Web Server Response](#example-10-setting-cookies-in-a-web-server-response)
+
+
 
 The `http.cookies` module in Python provides a way to handle cookies sent by a client's browser, which are used for maintaining user sessions or storing data across multiple requests. Below are comprehensive and well-documented code examples for various functionalities of the `http.cookies` module.
 

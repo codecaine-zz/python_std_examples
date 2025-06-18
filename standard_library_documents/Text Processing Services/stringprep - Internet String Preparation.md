@@ -1,4 +1,17 @@
 # stringprep - Internet String Preparation
+## Table of Contents
+
+1. [1. Normalization](#1-normalization)
+2. [2. Check Character Properties](#2-check-character-properties)
+3. [3. Determine Character Type](#3-determine-character-type)
+4. [4. Process Unicode Tables](#4-process-unicode-tables)
+5. [5. Generate Table Files](#5-generate-table-files)
+6. [6. Validate Strings](#6-validate-strings)
+7. [7. Example of Using `stringprep` in Practice](#7-example-of-using-stringprep-in-practice)
+8. [8. Generating a Table for Validation](#8-generating-a-table-for-validation)
+9. [Conclusion](#conclusion)
+
+
 
 The `stringprep` module is used for processing Unicode strings to prepare them for internationalization, especially for use in network protocols such as SMTP, LDAP, and IMAP4. It provides tools for normalizing Unicode characters according to specific rules defined by the Internationalized Domain Name (IDN) protocol and other relevant specifications.
 

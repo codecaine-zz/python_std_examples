@@ -1,4 +1,14 @@
 # rlcompleter - Completion function for GNU readline
+## Table of Contents
+
+1. [1. Basic Completion](#1-basic-completion)
+2. [2. Custom Completion Function](#2-custom-completion-function)
+3. [3. Completion for Custom Objects](#3-completion-for-custom-objects)
+4. [4. Using `readline.parse_and_bind` for Advanced Bindings](#4-using-readlineparse_and_bind-for-advanced-bindings)
+5. [5. Completion for Specific Modules or Libraries](#5-completion-for-specific-modules-or-libraries)
+6. [6. Using `readline.set_completer_delims` to Customize Delimiters](#6-using-readlineset_completer_delims-to-customize-delimiters)
+
+
 
 The `rlcompleter` module in Python provides a way to enable completion features for interactive shell sessions using the GNU Readline library. This can be particularly useful for enhancing productivity by providing auto-completion as you type commands or variable names.
 
