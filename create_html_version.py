@@ -9,6 +9,24 @@ import re
 import argparse  # for CLI arguments
 
 
+def create_valid_html_id(text):
+    """Create a valid HTML ID from any text string."""
+    # Remove/replace invalid characters and convert to lowercase
+    # Replace spaces, slashes, and other special chars with hyphens
+    valid_id = re.sub(r'[^a-zA-Z0-9_-]', '-', text)
+    # Remove multiple consecutive hyphens
+    valid_id = re.sub(r'-+', '-', valid_id)
+    # Remove leading/trailing hyphens
+    valid_id = valid_id.strip('-')
+    # Ensure it starts with a letter if it doesn't
+    if valid_id and not valid_id[0].isalpha():
+        valid_id = 'id-' + valid_id
+    # Ensure it's not empty
+    if not valid_id:
+        valid_id = 'id-empty'
+    return valid_id.lower()
+
+
 class EscapeHtml(Extension):
     def extendMarkdown(self, md):
         md.preprocessors.register(
@@ -337,29 +355,33 @@ def convert_markdown_to_html(markdown_files_by_category):
     for category in sorted_categories:
         files = markdown_files_by_category[category]
         safe_category = escape(category)
-        category_links += f"<li><a href='#{safe_category}'>{safe_category}</a></li>"
+        category_id = create_valid_html_id(category)
+        category_links += f"<li><a href='#{category_id}'>{safe_category}</a></li>"
 
     for category in sorted_categories:
         files = markdown_files_by_category[category]
         safe_category = escape(category)
+        category_id = create_valid_html_id(category)
         sorted_files = sorted(files, key=lambda s: s.lower())
-        content_sections += f"<h2 id='{safe_category}'>{safe_category}</h2><ul>"
+        content_sections += f"<h2 id='{category_id}'>{safe_category}</h2><ul>"
         for file in sorted_files:
             safe_file = escape(file)
+            file_id = create_valid_html_id(file)
             file_path = Path(file)
-            content_sections += f"<li><a href='#{safe_file}'>{escape(file_path.name)}</a></li>"
+            content_sections += f"<li><a href='#{file_id}'>{escape(file_path.name)}</a></li>"
         content_sections += "</ul>"
 
         for file in sorted_files:
             safe_file = escape(file)
+            file_id = create_valid_html_id(file)
             file_path = Path(file)
             with file_path.open('r') as f:
                 content = f.read()
             file_html_content = markdown.markdown(content, extensions=[
-                'fenced_code', 'codehilite', CopyButtonExtension()
+                'fenced_code', 'codehilite', 'toc', CopyButtonExtension()
             ])
             content_sections += f"""
-<h3 id='{safe_file}'>{escape(file_path.name)}</h3>
+<h3 id='{file_id}'>{escape(file_path.name)}</h3>
 <button onclick="history.back()">Back</button>
 {file_html_content}
 """
